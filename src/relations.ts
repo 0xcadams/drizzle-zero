@@ -465,7 +465,7 @@ const drizzleZeroConfig = <
 > => {
   let tables: any[] = [];
 
-  const tableColumnNames = new Set<string>();
+  const tableColumnNamesForSourceTable = new Map<string, Set<string>>();
 
   const assertRelationNameIsNotAColumnName = ({
     sourceTableName,
@@ -474,7 +474,10 @@ const drizzleZeroConfig = <
     sourceTableName: string;
     relationName: string;
   }) => {
-    if (tableColumnNames.has(relationName)) {
+    const tableColumnNames =
+      tableColumnNamesForSourceTable.get(sourceTableName);
+
+    if (tableColumnNames?.has(relationName)) {
       throw new Error(
         `drizzle-zero: Invalid relationship name for ${String(sourceTableName)}.${relationName}: there is already a table column with the name ${relationName} and this cannot be used as a relationship name`,
       );
@@ -512,9 +515,13 @@ const drizzleZeroConfig = <
 
       tables.push(tableSchema);
 
+      const tableColumnNames = new Set<string>();
+
       for (const columnName of Object.keys(tableSchema.schema.columns)) {
         tableColumnNames.add(columnName);
       }
+
+      tableColumnNamesForSourceTable.set(String(tableName), tableColumnNames);
     }
   }
 
