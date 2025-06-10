@@ -2,6 +2,7 @@ import {
   boolean,
   createSchema,
   json,
+  number,
   relationships,
   string,
   table,
@@ -181,6 +182,24 @@ describe("relationships", () => {
       import("./schemas/one-to-many-missing-one.zero"),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
       `[Error: drizzle-zero: No relationship found for: author (Many from users to posts). Did you forget to define an opposite One relation?]`,
+    );
+  });
+
+  test("relationships - relation-name-conflicts-column", async ({ expect }) => {
+    await expect(
+      import("./schemas/relation-name-conflicts-column.zero"),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `[Error: drizzle-zero: Invalid relationship name for users.posts: there is already a table column with the name posts and this cannot be used as a relationship name]`,
+    );
+  });
+
+  test("relationships - many-to-many-relation-name-conflicts-column", async ({
+    expect,
+  }) => {
+    await expect(
+      import("./schemas/many-to-many-relation-name-conflicts-column.zero"),
+    ).rejects.toThrowErrorMatchingInlineSnapshot(
+      `[Error: drizzle-zero: Invalid relationship name for users.groups: there is already a table column with the name groups and this cannot be used as a relationship name]`,
     );
   });
 
@@ -416,6 +435,7 @@ describe("relationships", () => {
         id: string(),
         name: string(),
         partner: boolean(),
+        createdAt: number().from("created_at"),
       })
       .primaryKey("id");
 

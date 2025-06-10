@@ -1,6 +1,6 @@
 {
   "name": "drizzle-zero",
-  "version": "0.10.5",
+  "version": "0.10.6",
   "description": "Generate Zero schemas from Drizzle ORM schemas",
   "type": "module",
   "scripts": {
@@ -71,16 +71,16 @@
     "@rocicorp/zero": "^0.20.2025052100",
     "@ts-morph/common": "^0.27.0",
     "@types/node": "^22.15.24",
-    "@vitest/coverage-v8": "3.1.4",
-    "@vitest/ui": "^3.1.4",
+    "@vitest/coverage-v8": "3.2.3",
+    "@vitest/ui": "^3.2.3",
     "drizzle-kit": "^0.31.1",
-    "drizzle-orm": "^0.44.0",
+    "drizzle-orm": "^0.44.2",
     "prettier": "^3.5.3",
     "tsup": "^8.5.0",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.1.4"
+    "vitest": "^3.2.3"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

@@ -217,21 +217,21 @@ describe("tables", () => {
       createdAt: customColumnType("created_at").notNull(),
     });
 
-    const result = createZeroTableBuilder("complex", testTable, {
+    const result = createZeroTableBuilder("custom_column_type", testTable, {
       id: true,
-      createdAt: string(),
+      createdAt: number().from("created_at"),
     });
 
-    const expected = table("complex")
+    const expected = table("custom_column_type")
       .from("users")
       .columns({
         id: string(),
-        createdAt: string(),
+        createdAt: number().from("created_at"),
       })
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
+    assertEqual(result, expected);
   });
 
   test("pg - partial column selection", () => {
