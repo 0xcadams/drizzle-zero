@@ -9,19 +9,19 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "drizzle-orm": "^0.44.0",
+    "drizzle-orm": "^0.44.2",
     "drizzle-zero": "workspace:*",
     "drizzle-zero-custom-types": "workspace:*"
   },
   "devDependencies": {
-    "@testcontainers/postgresql": "^11.0.0",
-    "@types/pg": "^8.15.2",
+    "@testcontainers/postgresql": "^11.0.3",
+    "@types/pg": "^8.15.4",
     "@types/ws": "^8.18.1",
-    "@vitest/browser": "^3.1.4",
+    "@vitest/browser": "^3.2.3",
     "drizzle-kit": "^0.31.1",
     "pg": "^8.16.0",
     "prettier": "^3.5.3",
-    "testcontainers": "^11.0.0",
+    "testcontainers": "^11.0.3",
     "ws": "^8.18.2"
   }
 }

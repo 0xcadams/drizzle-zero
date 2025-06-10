@@ -1,31 +1,33 @@
-import { ANYONE_CAN, definePermissions, number, type Schema } from "@rocicorp/zero";
+import { ANYONE_CAN, definePermissions, type Schema } from "@rocicorp/zero";
 import { drizzleZeroConfig } from "../../src";
-import * as oneToOne2 from "./one-to-one-2.schema";
+import * as manyToManyConflicts from "./many-to-many-relation-name-conflicts-column.schema";
 
-export const schema = drizzleZeroConfig(oneToOne2, {
+export const schema = drizzleZeroConfig(manyToManyConflicts, {
   tables: {
-    userTable: {
+    users: {
       id: true,
       name: true,
-      partner: true,
-      createdAt: number().from("created_at"),
+      groups: true, // This column will conflict with the many-to-many relationship name
     },
-    mediumTable: {
+    groups: {
       id: true,
       name: true,
     },
-    messageTable: {
-      id: true,
-      senderId: true,
-      mediumId: true,
-      body: true,
+    usersToGroups: {
+      userId: true,
+      groupId: true,
+    },
+  },
+  manyToMany: {
+    users: {
+      groups: ["usersToGroups", "groups"], // This will conflict with the 'groups' column
     },
   },
 });
 
 export const permissions = definePermissions<{}, Schema>(schema, () => {
   return {
-    mediumTable: {
+    users: {
       row: {
         select: ANYONE_CAN,
         insert: ANYONE_CAN,
@@ -36,7 +38,7 @@ export const permissions = definePermissions<{}, Schema>(schema, () => {
         delete: ANYONE_CAN,
       },
     },
-    messageTable: {
+    groups: {
       row: {
         select: ANYONE_CAN,
         insert: ANYONE_CAN,
@@ -47,7 +49,7 @@ export const permissions = definePermissions<{}, Schema>(schema, () => {
         delete: ANYONE_CAN,
       },
     },
-    userTable: {
+    usersToGroups: {
       row: {
         select: ANYONE_CAN,
         insert: ANYONE_CAN,
@@ -59,4 +61,4 @@ export const permissions = definePermissions<{}, Schema>(schema, () => {
       },
     },
   };
-});
+}); 

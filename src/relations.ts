@@ -465,6 +465,22 @@ const drizzleZeroConfig = <
 > => {
   let tables: any[] = [];
 
+  const tableColumnNames = new Set<string>();
+
+  const assertRelationNameIsNotAColumnName = ({
+    sourceTableName,
+    relationName,
+  }: {
+    sourceTableName: string;
+    relationName: string;
+  }) => {
+    if (tableColumnNames.has(relationName)) {
+      throw new Error(
+        `drizzle-zero: Invalid relationship name for ${String(sourceTableName)}.${relationName}: there is already a table column with the name ${relationName} and this cannot be used as a relationship name`,
+      );
+    }
+  };
+
   for (const [tableName, tableOrRelations] of typedEntries(schema)) {
     if (!tableOrRelations) {
       throw new Error(
@@ -495,6 +511,10 @@ const drizzleZeroConfig = <
       );
 
       tables.push(tableSchema);
+
+      for (const columnName of Object.keys(tableSchema.schema.columns)) {
+        tableColumnNames.add(columnName);
+      }
     }
   }
 
@@ -579,6 +599,11 @@ const drizzleZeroConfig = <
             continue;
           }
 
+          assertRelationNameIsNotAColumnName({
+            sourceTableName,
+            relationName,
+          });
+
           relationships[sourceTableName as keyof typeof relationships] = {
             ...(relationships?.[
               sourceTableName as keyof typeof relationships
@@ -640,6 +665,11 @@ const drizzleZeroConfig = <
             // skip if any of the tables are not defined in the schema config
             continue;
           }
+
+          assertRelationNameIsNotAColumnName({
+            sourceTableName,
+            relationName,
+          });
 
           relationships[sourceTableName as keyof typeof relationships] = {
             ...(relationships?.[
@@ -759,6 +789,11 @@ const drizzleZeroConfig = <
             `drizzle-zero: Duplicate relationship found for: ${relation.fieldName} (from ${String(tableName)} to ${relation.referencedTableName}).`,
           );
         }
+
+        assertRelationNameIsNotAColumnName({
+          sourceTableName: tableName,
+          relationName: relation.fieldName,
+        });
 
         relationships[tableName as keyof typeof relationships] = {
           ...(relationships?.[tableName as keyof typeof relationships] ?? {}),
