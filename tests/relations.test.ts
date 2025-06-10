@@ -193,7 +193,9 @@ describe("relationships", () => {
     );
   });
 
-  test("relationships - many-to-many-relation-name-conflicts-column", async ({ expect }) => {
+  test("relationships - many-to-many-relation-name-conflicts-column", async ({
+    expect,
+  }) => {
     await expect(
       import("./schemas/many-to-many-relation-name-conflicts-column.zero"),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
