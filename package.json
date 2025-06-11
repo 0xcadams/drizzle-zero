@@ -31,7 +31,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BriefHQ/drizzle-zero.git"
+    "url": "git+https://github.com/0xcadams/drizzle-zero.git"
   },
   "keywords": [
     "zero",
@@ -47,11 +47,11 @@
     "typescript",
     "ts"
   ],
-  "author": "BriefHQ",
+  "author": "0xcadams",
   "license": "Unlicense",
-  "homepage": "https://github.com/BriefHQ/drizzle-zero",
+  "homepage": "https://github.com/0xcadams/drizzle-zero",
   "bugs": {
-    "url": "https://github.com/BriefHQ/drizzle-zero/issues"
+    "url": "https://github.com/0xcadams/drizzle-zero/issues"
   },
   "peerDependencies": {
     "@rocicorp/zero": ">=0.13.2025013101",
