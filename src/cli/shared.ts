@@ -183,7 +183,7 @@ export async function getGeneratedSchema({
  * ## your linter and/or formatter to prevent it from being  ##
  * ## checked or modified.                                   ##
  * ##                                                        ##
- * ## SOURCE: https://github.com/BriefHQ/drizzle-zero        ##
+ * ## SOURCE: https://github.com/0xcadams/drizzle-zero        ##
  * ------------------------------------------------------------
  */
 
