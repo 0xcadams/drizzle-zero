@@ -3,7 +3,11 @@ import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import { pathToFileURL } from "node:url";
 import { Project } from "ts-morph";
-import { getConfigFromFile, getDefaultConfigFilePath } from "./config";
+import {
+  getConfigFromFile,
+  getDefaultConfigFilePath,
+  discoverAllTsConfigs,
+} from "./config";
 import { getDefaultConfig } from "./drizzle-kit";
 import { getGeneratedSchema } from "./shared";
 
@@ -74,10 +78,15 @@ async function main(opts: GeneratorOptions = {}) {
       "😶‍🌫️  drizzle-zero: Using all tables/columns from Drizzle schema",
     );
   }
+  const allTsConfigPaths = await discoverAllTsConfigs(resolvedTsConfigPath);
 
   const tsProject = new Project({
     tsConfigFilePath: resolvedTsConfigPath,
+    skipAddingFilesFromTsConfig: true,
   });
+  for (const tsConfigPath of allTsConfigPaths) {
+    tsProject.addSourceFilesFromTsConfig(tsConfigPath);
+  }
 
   const result = configFilePath
     ? await getConfigFromFile({
