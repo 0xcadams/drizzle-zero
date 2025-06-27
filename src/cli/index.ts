@@ -171,17 +171,11 @@ async function cli() {
       });
 
       if (command.output) {
-        await fs.writeFile(
-          path.resolve(process.cwd(), command.output),
-          zeroSchema,
-        );
-        console.log(
-          `✅ drizzle-zero: Zero schema written to ${command.output}`,
-        );
+        const outputPath = path.resolve(process.cwd(), command.output);
+        await fs.writeFile(outputPath, zeroSchema);
+        console.log(`✅ drizzle-zero: Zero schema written to ${outputPath}`);
       } else {
-        console.log("drizzle-zero: ", {
-          schema: zeroSchema,
-        });
+        console.log(zeroSchema);
       }
     });
 
