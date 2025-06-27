@@ -2,7 +2,7 @@ import type { Config } from "drizzle-kit";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as url from "node:url";
-import { Project } from "ts-morph";
+import type { Project } from "ts-morph";
 import { tsImport } from "tsx/esm/api";
 import { drizzleZeroConfig, type DrizzleToZeroSchema } from "../relations";
 

@@ -1,4 +1,9 @@
-import { ANYONE_CAN, definePermissions, number, type Schema } from "@rocicorp/zero";
+import {
+  ANYONE_CAN,
+  definePermissions,
+  number,
+  type Schema,
+} from "@rocicorp/zero";
 import { drizzleZeroConfig } from "../../src";
 import * as oneToOne2 from "./one-to-one-2.schema";
 
