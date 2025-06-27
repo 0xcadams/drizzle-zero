@@ -42,4 +42,4 @@ export const permissions = definePermissions<{}, Schema>(schema, () => {
       },
     },
   };
-}); 
+});

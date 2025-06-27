@@ -22,4 +22,4 @@ export const postsRelations = relations(posts, ({ one }) => ({
     fields: [posts.authorId],
     references: [users.id],
   }),
-})); 
+}));

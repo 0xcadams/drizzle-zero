@@ -87,7 +87,7 @@ export const seed = async () => {
     testExportedType: {
       nameType: "custom-inline-type",
     },
-    status: "COMPLETED"
+    status: "COMPLETED",
   });
   await db.insert(user).values({
     id: "2",
@@ -132,7 +132,7 @@ export const seed = async () => {
     testExportedType: {
       nameType: "custom-inline-type",
     },
-    status: "ASSIGNED"
+    status: "ASSIGNED",
   });
 
   await db.insert(message).values({

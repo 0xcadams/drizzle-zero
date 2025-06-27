@@ -42,4 +42,4 @@ export const usersToGroupsRelations = relations(usersToGroups, ({ one }) => ({
 
 export const groupsRelations = relations(groups, ({ many }) => ({
   usersToGroups: many(usersToGroups),
-})); 
+}));
