@@ -65,6 +65,7 @@
   },
   "dependencies": {
     "commander": "^14.0.0",
+    "jsonc-parser": "^3.3.1",
     "ts-morph": "^26.0.0"
   },
   "devDependencies": {
