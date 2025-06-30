@@ -57,6 +57,8 @@ export const getFullDrizzleSchemaFilePath = async ({
   drizzleKitConfigPath: string | undefined;
   drizzleSchemaPath: string | undefined;
 }) => {
+  const typeModuleErrorMessage = `. You may need to add \` "type": "module" \` to your package.json.`;
+
   if (drizzleSchemaPath) {
     const fullPath = path.resolve(process.cwd(), drizzleSchemaPath);
 
@@ -120,7 +122,7 @@ export const getFullDrizzleSchemaFilePath = async ({
       };
     } catch (error) {
       console.error(
-        `❌ drizzle-zero: could not find Drizzle Kit config file at ${drizzleKitConfigPath}`,
+        `❌ drizzle-zero: could not find Drizzle Kit config file at ${drizzleKitConfigPath}${typeModuleErrorMessage}`,
         error,
       );
       process.exit(1);

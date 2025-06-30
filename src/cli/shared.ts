@@ -166,9 +166,7 @@ export async function getGeneratedSchema({
 
   zeroSchemaGenerated.formatText();
 
-  const organizedFile = zeroSchemaGenerated.organizeImports();
-
-  const file = organizedFile.getText();
+  const file = zeroSchemaGenerated.getText();
 
   return `/* eslint-disable */
 /* tslint:disable */
