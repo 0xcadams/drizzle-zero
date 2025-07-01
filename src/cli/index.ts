@@ -3,13 +3,10 @@ import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import { pathToFileURL } from "node:url";
 import { Project } from "ts-morph";
-import {
-  getConfigFromFile,
-  getDefaultConfigFilePath,
-  discoverAllTsConfigs,
-} from "./config";
+import { getConfigFromFile, getDefaultConfigFilePath } from "./config";
 import { getDefaultConfig } from "./drizzle-kit";
 import { getGeneratedSchema } from "./shared";
+import { discoverAllTsConfigs } from "./tsconfig";
 
 const defaultConfigFile = "./drizzle-zero.config.ts";
 const defaultOutputFile = "./zero-schema.gen.ts";
@@ -103,6 +100,13 @@ async function main(opts: GeneratorOptions = {}) {
   if (!result?.zeroSchema) {
     console.error(
       "❌ drizzle-zero: No config found in the config file - did you export `default` or `schema`?",
+    );
+    process.exit(1);
+  }
+
+  if (Object.keys(result?.zeroSchema?.tables ?? {}).length === 0) {
+    console.error(
+      "❌ drizzle-zero: No tables found in the Zero schema - did you export tables and relations from the input Drizzle schema?",
     );
     process.exit(1);
   }
