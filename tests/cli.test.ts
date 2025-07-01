@@ -2,14 +2,12 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { Project } from "ts-morph";
 import * as path from "node:path";
 import * as fs from "node:fs/promises";
-import {
-  getZeroSchemaDefsFromConfig,
-  discoverAllTsConfigs,
-} from "../src/cli/config";
+import { getZeroSchemaDefsFromConfig } from "../src/cli/config";
 import * as oneToOneSchema from "./schemas/one-to-one.zero";
 import { getGeneratedSchema } from "../src/cli/shared";
 import type { DrizzleToZeroSchema } from "../src/relations";
 import { vi } from "vitest";
+import { discoverAllTsConfigs } from "../src/cli";
 
 describe("getGeneratedSchema", () => {
   let tsProject: Project;

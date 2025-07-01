@@ -16,6 +16,41 @@ import {
 } from "../src/relations";
 
 describe("relationships", () => {
+  test("relationships - no tables", async ({ expect }) => {
+    await expect(() =>
+      drizzleZeroConfig(
+        {},
+        {
+          tables: {
+            users: {
+              id: true,
+            },
+          },
+        },
+      ),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[Error: ❌ drizzle-zero: No tables found in the input - did you export tables and relations from the Drizzle schema passed to the \`drizzleZeroConfig\` function?]`,
+    );
+  });
+
+  test("relationships - importing a zero schema instead of a drizzle schema", async ({
+    expect,
+  }) => {
+    const { schema: zeroSchema } = await import("./schemas/one-to-many.zero");
+
+    await expect(() =>
+      drizzleZeroConfig(zeroSchema, {
+        tables: {
+          users: {
+            id: true,
+          },
+        },
+      }),
+    ).toThrowErrorMatchingInlineSnapshot(
+      `[Error: ❌ drizzle-zero: No tables found in the input - did you pass in a Zero schema to the \`drizzleZeroConfig\` function instead of a Drizzle schema?]`,
+    );
+  });
+
   test("relationships - many-to-many-incorrect-many", async ({ expect }) => {
     await expect(
       import("./schemas/many-to-many-incorrect-many.zero"),

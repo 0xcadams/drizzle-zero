@@ -527,7 +527,9 @@ const drizzleZeroConfig = <
 
   if (tables.length === 0) {
     throw new Error(
-      "❌ drizzle-zero: No tables found in the input - did you export tables and relations from the Drizzle schema passed to the `drizzleZeroConfig` function?",
+      schema["tables"]
+        ? "❌ drizzle-zero: No tables found in the input - did you pass in a Zero schema to the `drizzleZeroConfig` function instead of a Drizzle schema?"
+        : "❌ drizzle-zero: No tables found in the input - did you export tables and relations from the Drizzle schema passed to the `drizzleZeroConfig` function?",
     );
   }
 
