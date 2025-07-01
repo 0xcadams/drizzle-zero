@@ -206,7 +206,9 @@ async function main(opts: GeneratorOptions = {}) {
   }
 
   if (Object.keys(result?.zeroSchema?.tables ?? {}).length === 0) {
-    console.error("❌ drizzle-zero: No tables found in the output - was?");
+    console.error(
+      "❌ drizzle-zero: No tables found in the Zero schema - did you export tables and relations from the input Drizzle schema?",
+    );
     process.exit(1);
   }
 

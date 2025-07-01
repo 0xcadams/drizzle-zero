@@ -525,6 +525,12 @@ const drizzleZeroConfig = <
     }
   }
 
+  if (tables.length === 0) {
+    throw new Error(
+      "❌ drizzle-zero: No tables found in the input - did you export tables and relations from the Drizzle schema passed to the `drizzleZeroConfig` function?",
+    );
+  }
+
   let relationships = {} as Record<string, Record<string, Array<unknown>>>;
 
   // Map many-to-many relationships
