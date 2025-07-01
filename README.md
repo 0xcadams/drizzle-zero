@@ -147,6 +147,7 @@ include in the CLI output:
 
 ```ts
 import { drizzleZeroConfig } from "drizzle-zero";
+// directly glob import your original Drizzle schema w/ tables/relations
 import * as drizzleSchema from "./drizzle-schema";
 
 // Define your configuration file for the CLI
