@@ -7,6 +7,10 @@ import type {
 import type { PgTransaction } from "drizzle-orm/pg-core";
 import type { ExtractTablesWithRelations } from "drizzle-orm/relations";
 
+export type NodePgZeroTransaction<
+  TDatabase extends NodePgDatabase<Record<string, unknown>>,
+> = Parameters<Parameters<TDatabase["transaction"]>[0]>[0] & {};
+
 export class NodePgConnection<
   TDrizzle extends NodePgDatabase<Record<string, unknown>> & {
     $client: NodePgClient;
