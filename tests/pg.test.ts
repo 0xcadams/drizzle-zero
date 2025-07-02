@@ -63,13 +63,10 @@ describe("node-postgres", () => {
   });
 
   test("types", async () => {
-    const s = null as unknown as NodePgZeroTransaction<
-      typeof schema,
-      typeof db
-    >;
+    const s = null as unknown as NodePgZeroTransaction<typeof db>;
 
     const user = null as unknown as Awaited<
-      ReturnType<typeof s.dbTransaction.wrappedTransaction.query.user.findFirst>
+      ReturnType<typeof s.query.user.findFirst>
     >;
 
     expectTypeOf(user).toExtend<
@@ -213,13 +210,10 @@ describe("postgres-js", () => {
   });
 
   test("types", async () => {
-    const s = null as unknown as PostgresJsZeroTransaction<
-      typeof schema,
-      typeof db
-    >;
+    const s = null as unknown as PostgresJsZeroTransaction<typeof db>;
 
     const user = null as unknown as Awaited<
-      ReturnType<typeof s.dbTransaction.wrappedTransaction.query.user.findFirst>
+      ReturnType<typeof s.query.user.findFirst>
     >;
 
     expectTypeOf(user).toExtend<
