@@ -6,7 +6,7 @@ import { Pool } from "pg";
 import postgres from "postgres";
 import { Network, PullPolicy, StartedNetwork } from "testcontainers";
 
-const PG_PORT = process.env.PG_VERSION === "17" ? 5732 : 5632;
+const PG_PORT = 5832;
 
 export const pool = new Pool({
   host: "localhost",
