@@ -87,9 +87,6 @@ importers:
         specifier: workspace:*
         version: link:../custom-types
     devDependencies:
-      '@testcontainers/postgresql':
-        specifier: ^11.0.3
-        version: 11.0.3
       '@types/pg':
         specifier: ^8.15.4
         version: 8.15.4
@@ -108,9 +105,6 @@ importers:
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
-      testcontainers:
-        specifier: ^11.0.3
-        version: 11.0.3
       ws:
         specifier: ^8.18.3
         version: 8.18.3
