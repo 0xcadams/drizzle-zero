@@ -21,12 +21,18 @@ importers:
       '@rocicorp/zero':
         specifier: ^0.21.2025063000
         version: 0.21.2025063000(@opentelemetry/core@2.0.1(@opentelemetry/api@1.9.0))(typescript@5.8.3)
+      '@testcontainers/postgresql':
+        specifier: ^11.0.3
+        version: 11.0.3
       '@ts-morph/common':
         specifier: ^0.27.0
         version: 0.27.0
       '@types/node':
         specifier: ^24.0.8
         version: 24.0.8
+      '@types/pg':
+        specifier: ^8.15.4
+        version: 8.15.4
       '@vitest/coverage-v8':
         specifier: 3.2.4
         version: 3.2.4(@vitest/browser@3.2.4)(vitest@3.2.4)
@@ -39,9 +45,18 @@ importers:
       drizzle-orm:
         specifier: ^0.44.2
         version: 0.44.2(@opentelemetry/api@1.9.0)(@types/pg@8.15.4)(pg@8.16.3)(postgres@3.4.7)
+      pg:
+        specifier: ^8.16.3
+        version: 8.16.3
+      postgres:
+        specifier: ^3.4.7
+        version: 3.4.7
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
+      testcontainers:
+        specifier: ^11.0.3
+        version: 11.0.3
       tsup:
         specifier: ^8.5.0
         version: 8.5.0(postcss@8.5.6)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0)
@@ -5040,7 +5055,7 @@ snapshots:
 
   '@types/pg-pool@2.0.6':
     dependencies:
-      '@types/pg': 8.6.1
+      '@types/pg': 8.15.4
 
   '@types/pg@8.15.4':
     dependencies:
