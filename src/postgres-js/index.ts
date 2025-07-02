@@ -7,7 +7,7 @@ import type {
 import type { ExtractTablesWithRelations } from "drizzle-orm/relations";
 import type postgres from "postgres";
 
-export class DrizzleConnection<
+export class PostgresJsConnection<
   TDrizzle extends PostgresJsDatabase<Record<string, unknown>> & {
     $client: postgres.Sql<{}>;
   },
@@ -27,11 +27,11 @@ export class DrizzleConnection<
     this.#drizzle = drizzle;
   }
 
-  query(
-    sql: string,
-    params: postgres.ParameterOrJSON<never>[],
-  ): Promise<Row[]> {
-    return this.#drizzle.$client.unsafe(sql, params);
+  query(sql: string, params: unknown[]): Promise<Row[]> {
+    return this.#drizzle.$client.unsafe(
+      sql,
+      params as postgres.ParameterOrJSON<never>[],
+    );
   }
 
   transaction<T>(
@@ -39,7 +39,7 @@ export class DrizzleConnection<
   ): Promise<T> {
     return this.#drizzle.transaction((drizzleTx) =>
       fn(
-        new ZeroDrizzleTransaction<TDrizzle, TSchema, TTransaction>(
+        new ZeroPostgresJsTransaction<TDrizzle, TSchema, TTransaction>(
           drizzleTx as TTransaction,
         ),
       ),
@@ -47,7 +47,7 @@ export class DrizzleConnection<
   }
 }
 
-class ZeroDrizzleTransaction<
+class ZeroPostgresJsTransaction<
   TDrizzle extends PostgresJsDatabase<Record<string, unknown>> & {
     $client: postgres.Sql<{}>;
   },

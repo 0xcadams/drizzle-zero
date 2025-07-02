@@ -7,7 +7,7 @@ import type {
 import type { PgTransaction } from "drizzle-orm/pg-core";
 import type { ExtractTablesWithRelations } from "drizzle-orm/relations";
 
-export class DrizzleConnection<
+export class NodePgConnection<
   TDrizzle extends NodePgDatabase<Record<string, unknown>> & {
     $client: NodePgClient;
   },
@@ -36,7 +36,7 @@ export class DrizzleConnection<
   ): Promise<T> {
     return this.#drizzle.transaction((drizzleTx) =>
       fn(
-        new ZeroDrizzleTransaction<TDrizzle, TSchema, TTransaction>(
+        new ZeroNodePgTransaction<TDrizzle, TSchema, TTransaction>(
           drizzleTx as TTransaction,
         ),
       ),
@@ -44,7 +44,7 @@ export class DrizzleConnection<
   }
 }
 
-class ZeroDrizzleTransaction<
+class ZeroNodePgTransaction<
   TDrizzle extends NodePgDatabase<Record<string, unknown>> & {
     $client: NodePgClient;
   },
