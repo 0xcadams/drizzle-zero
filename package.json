@@ -20,21 +20,21 @@
   "types": "dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     },
     "./node-postgres": {
+      "types": "./dist/node-postgres/index.d.ts",
       "import": "./dist/node-postgres/index.js",
-      "require": "./dist/node-postgres/index.cjs",
-      "types": "./dist/node-postgres/index.d.ts"
+      "require": "./dist/node-postgres/index.cjs"
     },
     "./postgres-js": {
+      "types": "./dist/postgres-js/index.d.ts",
       "import": "./dist/postgres-js/index.js",
-      "require": "./dist/postgres-js/index.cjs",
-      "types": "./dist/postgres-js/index.d.ts"
+      "require": "./dist/postgres-js/index.cjs"
     },
-    "package.json": "./package.json"
+    "./package.json": "./package.json"
   },
   "files": [
     "dist/",
