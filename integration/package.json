@@ -14,14 +14,12 @@
     "drizzle-zero-custom-types": "workspace:*"
   },
   "devDependencies": {
-    "@testcontainers/postgresql": "^11.0.3",
     "@types/pg": "^8.15.4",
     "@types/ws": "^8.18.1",
     "@vitest/browser": "^3.2.4",
     "drizzle-kit": "^0.31.4",
     "pg": "^8.16.3",
     "prettier": "^3.6.2",
-    "testcontainers": "^11.0.3",
     "ws": "^8.18.3"
   }
 }
