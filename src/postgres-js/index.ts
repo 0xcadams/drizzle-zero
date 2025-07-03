@@ -7,9 +7,12 @@ import type {
 import type { ExtractTablesWithRelations } from "drizzle-orm/relations";
 import type postgres from "postgres";
 
-export type PostgresJsZeroTransaction<
-  TDatabase extends PostgresJsDatabase<Record<string, unknown>>,
-> = Parameters<Parameters<TDatabase["transaction"]>[0]>[0] & {};
+export type PostgresJsZeroTransaction<TSchema extends Record<string, unknown>> =
+  PgTransaction<
+    PostgresJsQueryResultHKT,
+    TSchema,
+    ExtractTablesWithRelations<TSchema>
+  >;
 
 export class PostgresJsConnection<
   TDrizzle extends PostgresJsDatabase<Record<string, unknown>> & {
@@ -18,11 +21,7 @@ export class PostgresJsConnection<
   TSchema extends TDrizzle extends PostgresJsDatabase<infer TSchema>
     ? TSchema
     : never,
-  TTransaction extends PgTransaction<
-    PostgresJsQueryResultHKT,
-    TSchema,
-    ExtractTablesWithRelations<TSchema>
-  >,
+  TTransaction extends PostgresJsZeroTransaction<TSchema>,
 > implements DBConnection<TTransaction>
 {
   readonly #drizzle: TDrizzle;
