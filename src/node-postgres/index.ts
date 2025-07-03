@@ -7,9 +7,12 @@ import type {
 import type { PgTransaction } from "drizzle-orm/pg-core";
 import type { ExtractTablesWithRelations } from "drizzle-orm/relations";
 
-export type NodePgZeroTransaction<
-  TDatabase extends NodePgDatabase<Record<string, unknown>>,
-> = Parameters<Parameters<TDatabase["transaction"]>[0]>[0] & {};
+export type NodePgZeroTransaction<TSchema extends Record<string, unknown>> =
+  PgTransaction<
+    NodePgQueryResultHKT,
+    TSchema,
+    ExtractTablesWithRelations<TSchema>
+  >;
 
 export class NodePgConnection<
   TDrizzle extends NodePgDatabase<Record<string, unknown>> & {
@@ -18,11 +21,7 @@ export class NodePgConnection<
   TSchema extends TDrizzle extends NodePgDatabase<infer TSchema>
     ? TSchema
     : never,
-  TTransaction extends PgTransaction<
-    NodePgQueryResultHKT,
-    TSchema,
-    ExtractTablesWithRelations<TSchema>
-  >,
+  TTransaction extends NodePgZeroTransaction<TSchema>,
 > implements DBConnection<TTransaction>
 {
   readonly #drizzle: TDrizzle;
