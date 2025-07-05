@@ -56,20 +56,22 @@ type TypeOverride<TCustomType> = {
  * @template TTable The Drizzle table type
  */
 export type ColumnsConfig<TTable extends Table> =
-  | false
-  | Flatten<{
-      /**
-       * The columns to include in the Zero schema.
-       * Set to true to use default mapping, or provide a TypeOverride for custom mapping.
-       */
-      readonly [KColumn in ColumnNames<TTable>]:
-        | boolean
-        | ColumnBuilder<
-            TypeOverride<
-              ZeroTypeToTypescriptType[DrizzleDataTypeToZeroType[Columns<TTable>[KColumn]["dataType"]]]
-            >
-          >;
-    }>;
+  | boolean
+  | Partial<
+      Flatten<{
+        /**
+         * The columns to include in the Zero schema.
+         * Set to true to use default mapping, or provide a TypeOverride for custom mapping.
+         */
+        readonly [KColumn in ColumnNames<TTable>]:
+          | boolean
+          | ColumnBuilder<
+              TypeOverride<
+                ZeroTypeToTypescriptType[DrizzleDataTypeToZeroType[Columns<TTable>[KColumn]["dataType"]]]
+              >
+            >;
+      }>
+    >;
 
 /**
  * Maps a Drizzle column type to its corresponding Zero type.
@@ -262,20 +264,39 @@ const createZeroTableBuilder = <
   const tableColumns = getTableColumns(table);
   const tableConfig = getTableConfigForDatabase(table);
 
-  const primaryKeysFromColumns: string[] = [];
+  const columnNameToStableKey = new Map<string, string>(
+    typedEntries(tableColumns).map(([key, column]) => [
+      column.name,
+      String(key),
+    ]),
+  );
+
+  const primaryKeys = new Set<string>();
+  for (const [key, column] of typedEntries(tableColumns)) {
+    if (column.primary) {
+      primaryKeys.add(String(key));
+    }
+  }
+
+  for (const pk of tableConfig.primaryKeys) {
+    for (const pkColumn of pk.columns) {
+      const key = columnNameToStableKey.get(pkColumn.name);
+      if (key) {
+        primaryKeys.add(String(key));
+      }
+    }
+  }
+
+  const isColumnBuilder = (value: unknown): value is ColumnBuilder<any> =>
+    typeof value === "object" && value !== null && "schema" in value;
 
   const columnsMapped = typedEntries(tableColumns).reduce(
     (acc, [key, column]) => {
-      const columnConfig = columns?.[key as keyof TColumnConfig];
-
-      if (columnConfig === false) {
-        debugLog(
-          debug,
-          `Skipping column ${String(key)} because columnConfig is false`,
-        );
-
-        return acc;
-      }
+      const columnConfig =
+        typeof columns === "object" && columns !== null
+          ? columns[key as keyof TColumnConfig]
+          : undefined;
+      const isColumnConfigOverride = isColumnBuilder(columnConfig);
 
       // From https://github.com/drizzle-team/drizzle-orm/blob/e5c63db0df0eaff5cae8321d97a77e5b47c5800d/drizzle-kit/src/serializer/utils.ts#L5
       const resolvedColumnName =
@@ -285,20 +306,29 @@ const createZeroTableBuilder = <
             ? toCamelCase(column.name)
             : toSnakeCase(column.name);
 
-      if (
-        typeof columnConfig !== "boolean" &&
-        typeof columnConfig !== "object" &&
-        typeof columnConfig !== "undefined"
-      ) {
-        throw new Error(
-          `drizzle-zero: Invalid column config for column ${resolvedColumnName} - expected boolean or ColumnBuilder but was ${typeof columnConfig}`,
-        );
+      if (typeof columns === "object" && columns !== null) {
+        if (
+          columnConfig !== undefined &&
+          typeof columnConfig !== "boolean" &&
+          !isColumnConfigOverride
+        ) {
+          throw new Error(
+            `drizzle-zero: Invalid column config for column ${resolvedColumnName} - expected boolean or ColumnBuilder but was ${typeof columnConfig}`,
+          );
+        }
+
+        if (
+          columnConfig !== true &&
+          !isColumnConfigOverride &&
+          !primaryKeys.has(String(key))
+        ) {
+          debugLog(
+            debug,
+            `Skipping non-primary column ${resolvedColumnName} because it was not explicitly included in the config.`,
+          );
+          return acc;
+        }
       }
-
-      const isColumnBuilder = (value: unknown): value is ColumnBuilder<any> =>
-        typeof value === "object" && value !== null && "schema" in value;
-
-      const isColumnConfigOverride = isColumnBuilder(columnConfig);
 
       const type =
         drizzleColumnTypeToZeroType[
@@ -325,10 +355,6 @@ const createZeroTableBuilder = <
           : isColumnConfigOverride
             ? columnConfig.schema.optional
             : false;
-
-      if (column.primary) {
-        primaryKeysFromColumns.push(String(key));
-      }
 
       if (columnConfig && typeof columnConfig !== "boolean") {
         return {
@@ -362,19 +388,7 @@ const createZeroTableBuilder = <
     {} as Record<string, any>,
   );
 
-  const primaryKeys = [
-    ...primaryKeysFromColumns,
-    ...tableConfig.primaryKeys.flatMap((k) =>
-      k.columns.map((c) =>
-        getDrizzleColumnKeyFromColumnName({
-          columnName: c.name,
-          table: c.table,
-        }),
-      ),
-    ),
-  ];
-
-  if (!primaryKeys.length) {
+  if (primaryKeys.size === 0) {
     throw new Error(
       `drizzle-zero: No primary keys found in table - ${actualTableName}. Did you forget to define a primary key?`,
     );

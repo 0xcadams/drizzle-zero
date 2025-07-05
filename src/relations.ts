@@ -278,7 +278,7 @@ type DrizzleToZeroSchema<
           ZeroTableBuilderSchema<
             K & string,
             TDrizzleSchema[K],
-            TColumnConfig[K],
+            NonNullable<TColumnConfig[K]>,
             TCasing
           >
         >
@@ -496,11 +496,17 @@ const drizzleZeroConfig = <
 
       const tableConfig = config?.tables?.[tableName as keyof TColumnConfig];
 
-      // skip tables that don't have a config
-      if (tableConfig === false) {
+      if (
+        config?.tables !== undefined &&
+        (tableConfig === false || tableConfig === undefined)
+      ) {
         debugLog(
           config?.debug,
-          `Skipping table ${String(tableName)} - no config provided`,
+          `Skipping table ${String(tableName)} - ${
+            tableConfig === false
+              ? "explicitly excluded"
+              : "not mentioned in config"
+          }`,
         );
         continue;
       }
