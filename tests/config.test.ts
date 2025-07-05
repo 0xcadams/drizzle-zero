@@ -64,12 +64,11 @@ describe("drizzleZeroConfig with explicit table and column configuration", () =>
   test("should handle explicit table and column configurations", () => {
     const schema = drizzleZeroConfig(drizzleSchema, {
       tables: {
-        users: {
-          name: true,
-          email: false,
-          // phone is not mentioned, should be excluded
+        users: true, // include all columns
+        usersToPosts: {
+          userId: false, // will be included anyway because it is part of the primary key
+          // role is not mentioned, should be excluded
         },
-        usersToPosts: true, // include all columns
         posts: false,
         // comments table is not mentioned, should be excluded
       },
@@ -88,11 +87,11 @@ describe("drizzleZeroConfig with explicit table and column configuration", () =>
     // `users` table should have `id` (pk) and `name`
     expect(
       new Set(Object.keys((schema.tables as any).users.columns)),
-    ).toStrictEqual(new Set(["id", "name"]));
+    ).toStrictEqual(new Set(["id", "name", "email", "phone"]));
 
     // `usersToPosts` table should have all its columns
     expect(
       new Set(Object.keys((schema.tables as any).usersToPosts.columns)),
-    ).toStrictEqual(new Set(["userId", "postId", "role"]));
+    ).toStrictEqual(new Set(["userId", "postId"]));
   });
 });

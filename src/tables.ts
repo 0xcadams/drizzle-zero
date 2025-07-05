@@ -264,7 +264,28 @@ const createZeroTableBuilder = <
   const tableColumns = getTableColumns(table);
   const tableConfig = getTableConfigForDatabase(table);
 
-  const primaryKeysFromColumns: string[] = [];
+  const columnNameToStableKey = new Map<string, string>(
+    typedEntries(tableColumns).map(([key, column]) => [
+      column.name,
+      String(key),
+    ]),
+  );
+
+  const primaryKeys = new Set<string>();
+  for (const [key, column] of typedEntries(tableColumns)) {
+    if (column.primary) {
+      primaryKeys.add(String(key));
+    }
+  }
+
+  for (const pk of tableConfig.primaryKeys) {
+    for (const pkColumn of pk.columns) {
+      const key = columnNameToStableKey.get(pkColumn.name);
+      if (key) {
+        primaryKeys.add(String(key));
+      }
+    }
+  }
 
   const isColumnBuilder = (value: unknown): value is ColumnBuilder<any> =>
     typeof value === "object" && value !== null && "schema" in value;
@@ -299,7 +320,7 @@ const createZeroTableBuilder = <
         if (
           columnConfig !== true &&
           !isColumnConfigOverride &&
-          !column.primary
+          !primaryKeys.has(String(key))
         ) {
           debugLog(
             debug,
@@ -335,10 +356,6 @@ const createZeroTableBuilder = <
             ? columnConfig.schema.optional
             : false;
 
-      if (column.primary) {
-        primaryKeysFromColumns.push(String(key));
-      }
-
       if (columnConfig && typeof columnConfig !== "boolean") {
         return {
           ...acc,
@@ -371,19 +388,7 @@ const createZeroTableBuilder = <
     {} as Record<string, any>,
   );
 
-  const primaryKeys = [
-    ...primaryKeysFromColumns,
-    ...tableConfig.primaryKeys.flatMap((k) =>
-      k.columns.map((c) =>
-        getDrizzleColumnKeyFromColumnName({
-          columnName: c.name,
-          table: c.table,
-        }),
-      ),
-    ),
-  ];
-
-  if (!primaryKeys.length) {
+  if (primaryKeys.size === 0) {
     throw new Error(
       `drizzle-zero: No primary keys found in table - ${actualTableName}. Did you forget to define a primary key?`,
     );
