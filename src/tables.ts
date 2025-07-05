@@ -56,20 +56,22 @@ type TypeOverride<TCustomType> = {
  * @template TTable The Drizzle table type
  */
 export type ColumnsConfig<TTable extends Table> =
-  | false
-  | Flatten<{
-      /**
-       * The columns to include in the Zero schema.
-       * Set to true to use default mapping, or provide a TypeOverride for custom mapping.
-       */
-      readonly [KColumn in ColumnNames<TTable>]:
-        | boolean
-        | ColumnBuilder<
-            TypeOverride<
-              ZeroTypeToTypescriptType[DrizzleDataTypeToZeroType[Columns<TTable>[KColumn]["dataType"]]]
-            >
-          >;
-    }>;
+  | boolean
+  | Partial<
+      Flatten<{
+        /**
+         * The columns to include in the Zero schema.
+         * Set to true to use default mapping, or provide a TypeOverride for custom mapping.
+         */
+        readonly [KColumn in ColumnNames<TTable>]:
+          | boolean
+          | ColumnBuilder<
+              TypeOverride<
+                ZeroTypeToTypescriptType[DrizzleDataTypeToZeroType[Columns<TTable>[KColumn]["dataType"]]]
+              >
+            >;
+      }>
+    >;
 
 /**
  * Maps a Drizzle column type to its corresponding Zero type.
@@ -264,18 +266,16 @@ const createZeroTableBuilder = <
 
   const primaryKeysFromColumns: string[] = [];
 
+  const isColumnBuilder = (value: unknown): value is ColumnBuilder<any> =>
+    typeof value === "object" && value !== null && "schema" in value;
+
   const columnsMapped = typedEntries(tableColumns).reduce(
     (acc, [key, column]) => {
-      const columnConfig = columns?.[key as keyof TColumnConfig];
-
-      if (columnConfig === false) {
-        debugLog(
-          debug,
-          `Skipping column ${String(key)} because columnConfig is false`,
-        );
-
-        return acc;
-      }
+      const columnConfig =
+        typeof columns === "object" && columns !== null
+          ? columns[key as keyof TColumnConfig]
+          : undefined;
+      const isColumnConfigOverride = isColumnBuilder(columnConfig);
 
       // From https://github.com/drizzle-team/drizzle-orm/blob/e5c63db0df0eaff5cae8321d97a77e5b47c5800d/drizzle-kit/src/serializer/utils.ts#L5
       const resolvedColumnName =
@@ -285,20 +285,29 @@ const createZeroTableBuilder = <
             ? toCamelCase(column.name)
             : toSnakeCase(column.name);
 
-      if (
-        typeof columnConfig !== "boolean" &&
-        typeof columnConfig !== "object" &&
-        typeof columnConfig !== "undefined"
-      ) {
-        throw new Error(
-          `drizzle-zero: Invalid column config for column ${resolvedColumnName} - expected boolean or ColumnBuilder but was ${typeof columnConfig}`,
-        );
+      if (typeof columns === "object" && columns !== null) {
+        if (
+          columnConfig !== undefined &&
+          typeof columnConfig !== "boolean" &&
+          !isColumnConfigOverride
+        ) {
+          throw new Error(
+            `drizzle-zero: Invalid column config for column ${resolvedColumnName} - expected boolean or ColumnBuilder but was ${typeof columnConfig}`,
+          );
+        }
+
+        if (
+          columnConfig !== true &&
+          !isColumnConfigOverride &&
+          !column.primary
+        ) {
+          debugLog(
+            debug,
+            `Skipping non-primary column ${resolvedColumnName} because it was not explicitly included in the config.`,
+          );
+          return acc;
+        }
       }
-
-      const isColumnBuilder = (value: unknown): value is ColumnBuilder<any> =>
-        typeof value === "object" && value !== null && "schema" in value;
-
-      const isColumnConfigOverride = isColumnBuilder(columnConfig);
 
       const type =
         drizzleColumnTypeToZeroType[
