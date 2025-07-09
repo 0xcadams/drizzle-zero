@@ -286,8 +286,8 @@ describe("types", () => {
       integerField: 23,
       bigintField: 24,
       bigintNumberField: 444,
-      numericField: 25.84,
-      decimalField: 26.33,
+      numericField: "25.84",
+      decimalField: "26.33",
       realField: 27.1,
       doublePrecisionField: 28.2,
       textField: "text2",
@@ -320,8 +320,8 @@ describe("types", () => {
     expect(result?.integerField).toStrictEqual(23);
     expect(result?.bigintField).toStrictEqual(24);
     expect(result?.bigintNumberField).toStrictEqual(444);
-    expect(result?.numericField).toStrictEqual(25.84);
-    expect(result?.decimalField).toStrictEqual(26.33);
+    expect(result?.numericField).toStrictEqual("25.84");
+    expect(result?.decimalField).toStrictEqual("26.33");
     expect(result?.realField).toStrictEqual(27.1);
     expect(result?.doublePrecisionField).toStrictEqual(28.2);
     expect(result?.textField).toStrictEqual("text2");
