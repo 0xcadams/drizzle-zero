@@ -592,8 +592,8 @@ describe("tables", () => {
         smallSerial: number().from("smallserial").optional(),
         regularSerial: number().from("regular_serial").optional(),
         bigSerial: number().from("bigserial").optional(),
-        numeric: number(),
-        decimal: number(),
+        numeric: string(),
+        decimal: string(),
         real: number(),
         doublePrecision: number().from("double_precision"),
         name: string(),
@@ -611,8 +611,8 @@ describe("tables", () => {
         optionalSmallint: number().optional().from("optional_smallint"),
         optionalInteger: number().optional().from("optional_integer"),
         optionalBigint: number().optional().from("optional_bigint"),
-        optionalNumeric: number().optional().from("optional_numeric"),
-        optionalDecimal: number().optional().from("optional_decimal"),
+        optionalNumeric: string().optional().from("optional_numeric"),
+        optionalDecimal: string().optional().from("optional_decimal"),
         optionalReal: number().optional().from("optional_real"),
         optionalDoublePrecision: number()
           .optional()
@@ -710,7 +710,7 @@ describe("tables", () => {
         orderId: string().from("order_id"),
         productId: string().from("product_id"),
         quantity: number(),
-        price: number(),
+        price: string(),
       })
       .primaryKey("orderId", "productId");
 

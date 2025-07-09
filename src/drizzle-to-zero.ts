@@ -50,7 +50,7 @@ export const drizzleColumnTypeToZeroType = {
   PgEnumColumn: "string",
   PgJsonb: "json",
   PgJson: "json",
-  PgNumeric: "number",
+  PgNumeric: "string",
   PgDateString: "number",
   PgTimestampString: "number",
 } as const satisfies Record<DrizzleColumnType, string>;
