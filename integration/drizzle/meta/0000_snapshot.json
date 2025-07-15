@@ -1,5 +1,5 @@
 {
-  "id": "81e34413-4954-4b23-a110-628dfe74737f",
+  "id": "34d17a8e-0f49-4f66-97fb-fb384c311e71",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -327,8 +327,12 @@
           "name": "friendship_requesting_id_user_id_fk",
           "tableFrom": "friendship",
           "tableTo": "user",
-          "columnsFrom": ["requesting_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "requesting_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -336,8 +340,12 @@
           "name": "friendship_accepting_id_user_id_fk",
           "tableFrom": "friendship",
           "tableTo": "user",
-          "columnsFrom": ["accepting_id"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "accepting_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -345,7 +353,10 @@
       "compositePrimaryKeys": {
         "friendship_requesting_id_accepting_id_pk": {
           "name": "friendship_requesting_id_accepting_id_pk",
-          "columns": ["requesting_id", "accepting_id"]
+          "columns": [
+            "requesting_id",
+            "accepting_id"
+          ]
         }
       },
       "uniqueConstraints": {},
@@ -439,6 +450,12 @@
           "type": "jsonb",
           "primaryKey": false,
           "notNull": true
+        },
+        "omitted_column": {
+          "name": "omitted_column",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
@@ -447,8 +464,12 @@
           "name": "message_senderId_user_id_fk",
           "tableFrom": "message",
           "tableTo": "user",
-          "columnsFrom": ["senderId"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "senderId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -456,12 +477,41 @@
           "name": "message_mediumId_medium_id_fk",
           "tableFrom": "message",
           "tableTo": "medium",
-          "columnsFrom": ["mediumId"],
-          "columnsTo": ["id"],
+          "columnsFrom": [
+            "mediumId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.omitted_table": {
+      "name": "omitted_table",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
@@ -554,7 +604,11 @@
     "public.status_type": {
       "name": "status_type",
       "schema": "public",
-      "values": ["active", "inactive", "pending"]
+      "values": [
+        "active",
+        "inactive",
+        "pending"
+      ]
     }
   },
   "schemas": {},

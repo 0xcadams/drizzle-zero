@@ -3,9 +3,9 @@ import { expect } from "vitest";
 
 export type ZeroSchema = Schema;
 
-export function expectTableSchemaDeepEqual<S extends TableSchema>(actual: S) {
+export function expectTableSchemaDeepEqual(actual: TableSchema) {
   return {
-    toEqual(expected: S) {
+    toEqual(expected: TableSchema) {
       expect({
         __testKey: "tableColumns",
         keys: Object.keys(actual.columns ?? {}),
@@ -90,9 +90,9 @@ export function expectRelationsSchemaDeepEqual<S extends RelationshipsSchema>(
   };
 }
 
-export function expectSchemaDeepEqual<S extends ZeroSchema>(actual: S) {
+export function expectSchemaDeepEqual(actual: ZeroSchema) {
   return {
-    toEqual(expected: S) {
+    toEqual(expected: ZeroSchema) {
       expect({
         __testKey: "tables",
         keys: Object.keys(actual.tables),

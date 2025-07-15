@@ -175,16 +175,11 @@ export type ZeroColumns<
   TColumnConfig extends ColumnsConfig<TTable>,
   TCasing extends ZeroTableCasing,
 > = {
-  [KColumn in keyof TColumnConfig as TColumnConfig[KColumn] extends
-    | true
-    | ColumnBuilder<any>
-    ? KColumn
-    : never]: KColumn extends ColumnNames<TTable>
+  [KColumn in ColumnNames<TTable> &
+    keyof TColumnConfig]: KColumn extends ColumnNames<TTable>
     ? TColumnConfig[KColumn] extends ColumnBuilder<any>
       ? TColumnConfig[KColumn]["schema"]
-      : TColumnConfig[KColumn] extends true
-        ? Flatten<ZeroColumnDefinition<TTable, KColumn, TCasing>>
-        : never
+      : ZeroColumnDefinition<TTable, KColumn, TCasing>
     : never;
 };
 

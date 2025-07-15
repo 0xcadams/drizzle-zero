@@ -95,6 +95,7 @@ export const message = pgTable("message", {
   mediumId: text("mediumId").references(() => medium.id),
   body: text("body").notNull(),
   metadata: jsonb("metadata").$type<{ key: string }>().notNull(),
+  omittedColumn: text("omitted_column"),
 });
 
 export const messageRelations = relations(message, ({ one }) => ({
@@ -191,3 +192,8 @@ export const filtersRelations = relations(filters, ({ one, many }) => ({
   }),
   children: many(filters),
 }));
+
+export const omittedTable = pgTable("omitted_table", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+});

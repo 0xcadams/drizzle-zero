@@ -201,7 +201,6 @@ describe("relationships", () => {
     expectSchemaDeepEqual(oneToOneMissingForeignKeyZeroSchema).toEqual(
       expected,
     );
-    assertEqual(oneToOneMissingForeignKeyZeroSchema, expected);
   });
 
   test("relationships - one-to-many-missing-named", async ({ expect }) => {
@@ -265,7 +264,6 @@ describe("relationships", () => {
     });
 
     expectSchemaDeepEqual(noRelationsZeroSchema).toEqual(expected);
-    assertEqual(noRelationsZeroSchema, expected);
   });
 
   test("relationships - one-to-one self-referential", async () => {
@@ -394,10 +392,6 @@ describe("relationships", () => {
     });
 
     expectSchemaDeepEqual(oneToOneSubsetZeroSchema).toEqual(expected);
-    assertEqual(
-      oneToOneSubsetZeroSchema["relationships"],
-      expected["relationships"],
-    );
   });
 
   test("relationships - one-to-one-foreign-key", async () => {
@@ -540,7 +534,6 @@ describe("relationships", () => {
     });
 
     expectSchemaDeepEqual(oneToOne2ZeroSchema).toEqual(expected);
-    assertEqual(oneToOne2ZeroSchema, expected);
   });
 
   test("relationships - one-to-many", async () => {
@@ -860,7 +853,6 @@ describe("relationships", () => {
     expectSchemaDeepEqual(manyToManySelfReferentialFkZeroSchema).toEqual(
       expected,
     );
-    // assertEqual(manyToManySelfReferentialFkZeroSchema, expected);
   });
 
   test("relationships - many-to-many-subset", async () => {
@@ -880,7 +872,6 @@ describe("relationships", () => {
     });
 
     expectSchemaDeepEqual(manyToManySubsetZeroSchema).toEqual(expected);
-    assertEqual(manyToManySubsetZeroSchema, expected);
   });
 
   test("relationships - many-to-many-subset-2", async () => {
@@ -929,7 +920,6 @@ describe("relationships", () => {
     });
 
     expectSchemaDeepEqual(manyToManySubset2ZeroSchema).toEqual(expected);
-    // assertEqual(manyToManySubset2ZeroSchema, expected);
   });
 
   test("relationships - many-to-many-self-referential", async () => {
@@ -978,7 +968,6 @@ describe("relationships", () => {
     expectSchemaDeepEqual(manyToManySelfReferentialZeroSchema).toEqual(
       expected,
     );
-    // assertEqual(manyToManySelfReferentialZeroSchema, expected);
   });
 
   test("relationships - many-to-many-extended-config", async () => {

@@ -70,7 +70,13 @@ CREATE TABLE "message" (
 	"senderId" text,
 	"mediumId" text,
 	"body" text NOT NULL,
-	"metadata" jsonb NOT NULL
+	"metadata" jsonb NOT NULL,
+	"omitted_column" text
+);
+--> statement-breakpoint
+CREATE TABLE "omitted_table" (
+	"id" text PRIMARY KEY NOT NULL,
+	"name" text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "user" (

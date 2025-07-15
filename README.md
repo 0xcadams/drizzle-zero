@@ -142,7 +142,7 @@ function PostList() {
 ### Customize with `drizzle-zero.config.ts`
 
 If you want to customize the tables/columns that are synced by Zero, you can optionally
-create a new config file at `drizzle-zero.config.ts` specifying the columns you want to
+create a new config file at `drizzle-zero.config.ts` specifying the tables and/or columns you want to
 include in the CLI output:
 
 ```ts
@@ -154,17 +154,16 @@ import * as drizzleSchema from "./drizzle-schema";
 export default drizzleZeroConfig(drizzleSchema, {
   // Specify which tables and columns to include in the Zero schema.
   // This allows for the "expand/migrate/contract" pattern recommended in the Zero docs.
-  // When a column is first added, it should be set to false, and then changed to true
-  // once the migration has been run.
 
-  // All tables/columns must be defined, but can be set to false to exclude them from the Zero schema.
+  // All tables/columns must be defined, but can be omitted or set to false to exclude them from the Zero schema.
   // Column names match your Drizzle schema definitions
   tables: {
     // this can be set to false
-    // e.g. user: false,
+    // e.g. users: false,
     users: {
       id: true,
       name: true,
+      // omit columns to exclude them
       email: true,
     },
     posts: {

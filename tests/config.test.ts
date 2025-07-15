@@ -85,13 +85,13 @@ describe("drizzleZeroConfig with explicit table and column configuration", () =>
     expect((schema.tables as any).comments).toBe(undefined);
 
     // `users` table should have `id` (pk) and `name`
-    expect(
-      new Set(Object.keys((schema.tables as any).users.columns)),
-    ).toStrictEqual(new Set(["id", "name", "email", "phone"]));
+    expect(new Set(Object.keys(schema.tables.users.columns))).toStrictEqual(
+      new Set(["id", "name", "email", "phone"]),
+    );
 
     // `usersToPosts` table should have all its columns
     expect(
-      new Set(Object.keys((schema.tables as any).usersToPosts.columns)),
+      new Set(Object.keys(schema.tables.usersToPosts.columns)),
     ).toStrictEqual(new Set(["userId", "postId"]));
   });
 });

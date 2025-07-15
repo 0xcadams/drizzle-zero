@@ -1,4 +1,3 @@
-import { ANYONE_CAN, definePermissions, type Schema } from "@rocicorp/zero";
 import { drizzleZeroConfig } from "../../src";
 import * as manyToManyConflicts from "./many-to-many-relation-name-conflicts-column.schema";
 
@@ -23,42 +22,4 @@ export const schema = drizzleZeroConfig(manyToManyConflicts, {
       groups: ["usersToGroups", "groups"], // This will conflict with the 'groups' column
     },
   },
-});
-
-export const permissions = definePermissions<{}, Schema>(schema, () => {
-  return {
-    users: {
-      row: {
-        select: ANYONE_CAN,
-        insert: ANYONE_CAN,
-        update: {
-          preMutation: ANYONE_CAN,
-          postMutation: ANYONE_CAN,
-        },
-        delete: ANYONE_CAN,
-      },
-    },
-    groups: {
-      row: {
-        select: ANYONE_CAN,
-        insert: ANYONE_CAN,
-        update: {
-          preMutation: ANYONE_CAN,
-          postMutation: ANYONE_CAN,
-        },
-        delete: ANYONE_CAN,
-      },
-    },
-    usersToGroups: {
-      row: {
-        select: ANYONE_CAN,
-        insert: ANYONE_CAN,
-        update: {
-          preMutation: ANYONE_CAN,
-          postMutation: ANYONE_CAN,
-        },
-        delete: ANYONE_CAN,
-      },
-    },
-  };
 });
