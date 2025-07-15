@@ -1,4 +1,3 @@
-import { ANYONE_CAN, definePermissions, type Schema } from "@rocicorp/zero";
 import { drizzleZeroConfig } from "../../src";
 import * as manyToManySelfReferentialFk from "./many-to-many-self-referential-fk.schema";
 
@@ -29,31 +28,4 @@ export const schema = drizzleZeroConfig(manyToManySelfReferentialFk, {
       ],
     },
   },
-});
-
-export const permissions = definePermissions<{}, Schema>(schema, () => {
-  return {
-    doc: {
-      row: {
-        select: ANYONE_CAN,
-        insert: ANYONE_CAN,
-        update: {
-          preMutation: ANYONE_CAN,
-          postMutation: ANYONE_CAN,
-        },
-        delete: ANYONE_CAN,
-      },
-    },
-    related: {
-      row: {
-        select: ANYONE_CAN,
-        insert: ANYONE_CAN,
-        update: {
-          preMutation: ANYONE_CAN,
-          postMutation: ANYONE_CAN,
-        },
-        delete: ANYONE_CAN,
-      },
-    },
-  };
 });

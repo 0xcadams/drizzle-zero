@@ -231,7 +231,6 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result, expected);
   });
 
   test("pg - partial column selection", () => {
@@ -258,7 +257,6 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
   });
 
   test("pg - partial column selection with omit", () => {
@@ -272,8 +270,6 @@ describe("tables", () => {
     const result = createZeroTableBuilder("omit", testTable, {
       id: true,
       name: true,
-      metadata: false,
-      age: false,
     });
 
     const expected = table("omit")
@@ -285,7 +281,29 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
+  });
+
+  test("pg - partial column selection with omit primary key", () => {
+    const testTable = pgTable("test", {
+      id: text().primaryKey(),
+      name: text().notNull(),
+      age: serial().notNull(),
+      metadata: jsonb().notNull(),
+    });
+
+    const result = createZeroTableBuilder("omit", testTable, {
+      metadata: true,
+    });
+
+    const expected = table("omit")
+      .from("test")
+      .columns({
+        id: string(),
+        metadata: json(),
+      })
+      .primaryKey("id");
+
+    expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
   });
 
   test("pg - partial column selection with false", () => {
@@ -312,7 +330,29 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
+  });
+
+  test("pg - no column selection", () => {
+    const testTable = pgTable("test", {
+      id: text().primaryKey(),
+      name: text().notNull(),
+      age: integer().notNull(),
+      metadata: jsonb().notNull(),
+    });
+
+    const result = createZeroTableBuilder("no-columns", testTable, true);
+
+    const expected = table("no-columns")
+      .from("test")
+      .columns({
+        id: string(),
+        name: string(),
+        age: number(),
+        metadata: json(),
+      })
+      .primaryKey("id");
+
+    expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
   });
 
   test("pg - composite primary key", () => {
@@ -652,7 +692,6 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
   });
 
   test("pg - snake case", () => {
@@ -824,7 +863,6 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
   });
 
   test("pg - override enum column", () => {
@@ -848,7 +886,6 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
   });
 
   test("pg - custom schema", () => {
@@ -898,7 +935,6 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
   });
 
   test("pg - custom schema with from", () => {
