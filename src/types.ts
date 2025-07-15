@@ -14,16 +14,18 @@ export type ColumnIndexKeys<TTable extends Table> = {
  * @template TDrizzleSchema - The complete Drizzle schema
  */
 export type TableColumnsConfig<TDrizzleSchema extends Record<string, unknown>> =
-  Flatten<{
-    /**
-     * The columns to include in the Zero schema.
-     */
-    readonly [K in keyof TDrizzleSchema as TDrizzleSchema[K] extends Table<any>
-      ? K
-      : never]: TDrizzleSchema[K] extends Table<any>
-      ? ColumnsConfig<TDrizzleSchema[K]>
-      : never;
-  }>;
+  Partial<
+    Flatten<{
+      /**
+       * The columns to include in the Zero schema.
+       */
+      readonly [K in keyof TDrizzleSchema as TDrizzleSchema[K] extends Table<any>
+        ? K
+        : never]: TDrizzleSchema[K] extends Table<any>
+        ? ColumnsConfig<TDrizzleSchema[K]>
+        : never;
+    }>
+  >;
 
 /**
  * A default config type which includes all tables in the Drizzle schema.
