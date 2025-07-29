@@ -1,5 +1,4 @@
 import { createSchema } from "@rocicorp/zero";
-import type { RelationshipsSchema } from "@rocicorp/zero/react";
 import {
   createTableRelationsHelpers,
   getTableName,
@@ -97,7 +96,6 @@ type ManyConfig<TDrizzleSchema extends Record<string, unknown>> = {
  */
 type DrizzleToZeroSchema<
   TDrizzleSchema extends { [K in string]: unknown },
-  TCasing extends ZeroTableCasing = undefined,
   TColumnConfig extends
     TableColumnsConfig<TDrizzleSchema> = DefaultTableColumnsConfig<TDrizzleSchema>,
 > = {
@@ -108,14 +106,11 @@ type DrizzleToZeroSchema<
       ? ZeroTableBuilderSchema<
           K & string,
           TDrizzleSchema[K],
-          TColumnConfig[K & keyof TColumnConfig],
-          TCasing
-        > & {_type:   TColumnConfig[K & keyof TColumnConfig]}
+          TColumnConfig[K & keyof TColumnConfig]
+        >
       : never;
   };
-  readonly relationships: {
-    readonly [table: string]: RelationshipsSchema;
-  };
+  readonly relationships: any;
 };
 
 /**
@@ -256,7 +251,7 @@ const drizzleZeroConfig = <
      */
     readonly debug?: boolean;
   },
-): Flatten<DrizzleToZeroSchema<TDrizzleSchema, TCasing, TColumnConfig>> => {
+): Flatten<DrizzleToZeroSchema<TDrizzleSchema, TColumnConfig>> => {
   let tables: any[] = [];
 
   const tableColumnNamesForSourceTable = new Map<string, Set<string>>();
@@ -642,11 +637,7 @@ const drizzleZeroConfig = <
       name: key,
       relationships: value,
     })),
-  } as any) as unknown as DrizzleToZeroSchema<
-    TDrizzleSchema,
-    TCasing,
-    TColumnConfig
-  >;
+  } as any) as unknown as DrizzleToZeroSchema<TDrizzleSchema, TColumnConfig>;
 
   debugLog(
     config?.debug,

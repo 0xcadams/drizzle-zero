@@ -70,7 +70,7 @@ export async function getGeneratedSchema({
     zeroSchemaGenerated.addTypeAlias({
       name: "ZeroSchema",
       isExported: false,
-      type: `DrizzleToZeroSchema<typeof drizzleSchema${result.drizzleCasing ? `, "${result.drizzleCasing}"` : ""}>`,
+      type: `DrizzleToZeroSchema<typeof drizzleSchema>`,
     });
 
     zeroSchemaSpecifier = "ZeroSchema";

@@ -19,12 +19,7 @@ import {
   drizzleDataTypeToZeroType,
   type ZeroTypeToTypescriptType,
 } from "./drizzle-to-zero";
-import type {
-  ColumnNames,
-  Columns,
-  FindPrimaryKeyFromTable,
-  HasCapital,
-} from "./types";
+import type { ColumnNames, Columns, FindPrimaryKeyFromTable } from "./types";
 import { debugLog, typedEntries } from "./util";
 
 export type { ColumnBuilder, ReadonlyJSONValue, TableBuilderWithColumns };
@@ -72,9 +67,6 @@ export type ColumnsConfig<TTable extends Table> =
 
 /**
  * Maps a Drizzle column type to its corresponding Zero type.
- * @template TTable The Drizzle table type
- * @template KColumn The column name
- * @template CD The column definition type
  */
 type ZeroMappedColumnType<
   TTable extends Table,
@@ -92,9 +84,6 @@ type ZeroMappedColumnType<
 /**
  * Maps a Drizzle column to its corresponding TypeScript type in Zero.
  * Handles special cases like enums and custom types.
- * @template TTable The Drizzle table type
- * @template KColumn The column name
- * @template CD The column definition type
  */
 type ZeroMappedCustomType<
   TTable extends Table,
@@ -118,49 +107,16 @@ type ZeroMappedCustomType<
 
 /**
  * Defines the structure of a column in the Zero schema.
- * @template TTable The Drizzle table type
- * @template KColumn The column name
- * @template CD The column definition type
  */
 type ZeroColumnDefinition<
   TTable extends Table,
   KColumn extends ColumnNames<TTable>,
-  TCasing extends ZeroTableCasing,
-  CD extends ColumnDefinition<TTable, KColumn>["_"] = ColumnDefinition<
-    TTable,
-    KColumn
-  >["_"],
-  BaseDefinition extends {
-    optional: false;
-    type: ZeroMappedColumnType<TTable, KColumn>;
-    customType: ZeroMappedCustomType<TTable, KColumn>;
-  } = {
-    optional: false;
-    type: ZeroMappedColumnType<TTable, KColumn>;
-    customType: ZeroMappedCustomType<TTable, KColumn>;
-  },
-  BaseOptional extends Omit<BaseDefinition, "optional"> & {
-    optional: true;
-  } = Omit<BaseDefinition, "optional"> & { optional: true },
-> = (CD extends {
-  hasDefault: true;
-  hasRuntimeDefault: false;
-}
-  ? BaseOptional
-  : CD extends { notNull: true }
-    ? BaseDefinition
-    : Omit<BaseDefinition, "optional"> & { optional: true }) &
-  (CD extends { name: KColumn }
-    ? TCasing extends "snake_case"
-      ? HasCapital<CD["name"]> extends true
-        ? { serverName: string }
-        : {}
-      : TCasing extends "camelCase"
-        ? HasCapital<CD["name"]> extends false
-          ? { serverName: string }
-          : {}
-        : {}
-    : { serverName: string });
+> = {
+  optional: boolean;
+  type: ZeroMappedColumnType<TTable, KColumn>;
+  customType: ZeroMappedCustomType<TTable, KColumn>;
+  serverName?: string;
+};
 
 /**
  * Maps the columns configuration to their Zero schema definitions.
@@ -168,13 +124,12 @@ type ZeroColumnDefinition<
 export type ZeroColumns<
   TTable extends Table,
   TColumnConfig extends ColumnsConfig<TTable> | undefined,
-  TCasing extends ZeroTableCasing,
 > = {
   [KColumn in ColumnNames<TTable>]: KColumn extends keyof TColumnConfig
     ? TColumnConfig[KColumn & keyof TColumnConfig] extends ColumnBuilder<any>
       ? TColumnConfig[KColumn & keyof TColumnConfig]["schema"]
-      : ZeroColumnDefinition<TTable, KColumn, TCasing>
-    : ZeroColumnDefinition<TTable, KColumn, TCasing>;
+      : ZeroColumnDefinition<TTable, KColumn>
+    : ZeroColumnDefinition<TTable, KColumn>;
 };
 
 /**
@@ -184,13 +139,12 @@ export type ZeroTableBuilderSchema<
   TTableName extends string,
   TTable extends Table,
   TColumnConfig extends ColumnsConfig<TTable> | undefined,
-  TCasing extends ZeroTableCasing,
 > = {
   name: TTableName;
   primaryKey: FindPrimaryKeyFromTable<TTable> extends [never]
     ? readonly [string, ...string[]]
     : readonly [string, ...string[]] & FindPrimaryKeyFromTable<TTable>;
-  columns: ZeroColumns<TTable, TColumnConfig, TCasing>;
+  columns: ZeroColumns<TTable, TColumnConfig>;
 }; // Zero does not support this properly yet: & (TTable['_']['name'] extends TTableName ? {} : { serverName: string });
 
 /**
@@ -200,9 +154,8 @@ type ZeroTableBuilder<
   TTableName extends string,
   TTable extends Table,
   TColumnConfig extends ColumnsConfig<TTable>,
-  TCasing extends ZeroTableCasing,
 > = TableBuilderWithColumns<
-  Readonly<ZeroTableBuilderSchema<TTableName, TTable, TColumnConfig, TCasing>>
+  Readonly<ZeroTableBuilderSchema<TTableName, TTable, TColumnConfig>>
 >;
 
 /**
@@ -242,7 +195,7 @@ const createZeroTableBuilder = <
    * The casing to use for the table name.
    */
   casing?: TCasing,
-): ZeroTableBuilder<TTableName, TTable, TColumnConfig, TCasing> => {
+): ZeroTableBuilder<TTableName, TTable, TColumnConfig> => {
   const actualTableName = getTableName(table);
   const tableColumns = getTableColumns(table);
   const tableConfig = getTableConfigForDatabase(table);
@@ -316,10 +269,10 @@ const createZeroTableBuilder = <
 
       const type =
         drizzleColumnTypeToZeroType[
-          column.columnType as keyof DrizzleColumnTypeToZeroType
+          column.columnType as keyof typeof drizzleColumnTypeToZeroType
         ] ??
         drizzleDataTypeToZeroType[
-          column.dataType as keyof DrizzleDataTypeToZeroType
+          column.dataType as keyof typeof drizzleDataTypeToZeroType
         ] ??
         null;
 
@@ -394,8 +347,7 @@ const createZeroTableBuilder = <
     .primaryKey(...primaryKeys) as ZeroTableBuilder<
     TTableName,
     TTable,
-    TColumnConfig,
-    TCasing
+    TColumnConfig
   >;
 };
 
