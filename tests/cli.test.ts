@@ -49,7 +49,7 @@ describe("getGeneratedSchema", () => {
               primaryKey: ["id"],
               columns: {
                 id: {
-                  type: "integer",
+                  type: "number",
                   optional: false,
                   customType: undefined,
                 },
@@ -389,7 +389,7 @@ describe("getGeneratedSchema", () => {
                 primaryKey: ["id"],
                 columns: {
                   id: {
-                    type: "integer",
+                    type: "number",
                     optional: false,
                     customType: undefined,
                   },
@@ -437,7 +437,7 @@ describe("getGeneratedSchema", () => {
               primaryKey: ["id"],
               columns: {
                 id: {
-                  type: "integer",
+                  type: "number",
                   optional: false,
                   customType: undefined,
                 },
