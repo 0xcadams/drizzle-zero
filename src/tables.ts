@@ -2,6 +2,7 @@ import {
   type ColumnBuilder,
   type ReadonlyJSONValue,
   type TableBuilderWithColumns,
+  type ValueType,
   boolean as zeroBoolean,
   enumeration as zeroEnumeration,
   json as zeroJson,
@@ -113,7 +114,7 @@ type ZeroColumnDefinition<
   KColumn extends ColumnNames<TTable>,
 > = {
   optional: boolean;
-  type: ZeroMappedColumnType<TTable, KColumn>;
+  type: ValueType;
   customType: ZeroMappedCustomType<TTable, KColumn>;
   serverName?: string;
 };
