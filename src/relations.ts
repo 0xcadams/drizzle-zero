@@ -1,4 +1,5 @@
 import { createSchema } from "@rocicorp/zero";
+import type { RelationshipsSchema } from "@rocicorp/zero/react";
 import {
   createTableRelationsHelpers,
   getTableName,
@@ -17,12 +18,8 @@ import {
 import type {
   ColumnIndexKeys,
   DefaultTableColumnsConfig,
-  FindRelationsForTable,
-  FindTableByKey,
   FindTableByName,
-  FindTableKeyByTableName,
   Flatten,
-  RelationsConfig,
   TableColumnsConfig,
 } from "./types";
 import { debugLog, typedEntries } from "./util";
@@ -47,124 +44,6 @@ type ZeroCustomType<
 }
   ? T & {}
   : unknown;
-
-/**
- * Extracts the table name from a configuration object or string.
- * @template TTableConfig - The configuration object or string
- */
-type ExtractTableConfigName<TTableConfig> = TTableConfig extends {
-  readonly destTable: string;
-}
-  ? TTableConfig["destTable"]
-  : TTableConfig extends string
-    ? TTableConfig
-    : never;
-
-/**
- * Represents the structure of a many-to-many relationship through a junction table.
- * @template TDrizzleSchema - The complete Drizzle schema
- * @template TColumnConfig - Configuration for the tables
- * @template TManyConfig - Configuration for many-to-many relationships
- * @template TTableName extends keyof TColumnConfig & keyof TManyConfig
- */
-type ManyToManyRelationship<
-  TDrizzleSchema extends { [K in string]: unknown },
-  TColumnConfig extends TableColumnsConfig<TDrizzleSchema>,
-  TManyConfig extends ManyConfig<TDrizzleSchema> | undefined,
-  TTableName extends keyof TColumnConfig & keyof TManyConfig,
-> = TManyConfig extends undefined
-  ? {}
-  : TTableName extends keyof TDrizzleSchema
-    ? TManyConfig[TTableName] extends ManyTableConfig<
-        TDrizzleSchema,
-        TTableName & string
-      >
-      ? {
-          [K in keyof TManyConfig[TTableName]]: [
-            {
-              readonly sourceField: string[];
-              readonly destField: ColumnIndexKeys<
-                FindTableByKey<
-                  TDrizzleSchema,
-                  ExtractTableConfigName<TManyConfig[TTableName][K][0]>
-                >
-              >[];
-              readonly destSchema: ExtractTableConfigName<
-                TManyConfig[TTableName][K][0]
-              >;
-              readonly cardinality: "many";
-            },
-            {
-              readonly sourceField: string[];
-              readonly destField: ColumnIndexKeys<
-                FindTableByKey<
-                  TDrizzleSchema,
-                  ExtractTableConfigName<TManyConfig[TTableName][K][1]>
-                >
-              >[];
-              readonly destSchema: ExtractTableConfigName<
-                TManyConfig[TTableName][K][1]
-              >;
-              readonly cardinality: "many";
-            },
-          ];
-        }
-      : {}
-    : {};
-
-/**
- * Gets the valid direct relation keys for a table that have corresponding table configurations.
- * @template TDrizzleSchema - The complete Drizzle schema
- * @template TColumnConfig - Configuration for the tables
- * @template TCurrentTableRelations - Relations defined for the current table
- */
-type ValidDirectRelationKeys<
-  TDrizzleSchema extends Record<string, unknown>,
-  TCurrentTableRelations extends Relations,
-> = keyof RelationsConfig<TCurrentTableRelations> &
-  {
-    [K in keyof RelationsConfig<TCurrentTableRelations>]: RelationsConfig<TCurrentTableRelations>[K]["referencedTable"] extends Table<any>
-      ? {
-          [SchemaKey in keyof TDrizzleSchema]: TDrizzleSchema[SchemaKey] extends RelationsConfig<TCurrentTableRelations>[K]["referencedTable"]
-            ? K
-            : never;
-        }[keyof TDrizzleSchema]
-      : never;
-  }[keyof RelationsConfig<TCurrentTableRelations>];
-
-/**
- * Represents a direct relationship between tables.
- * @template TDrizzleSchema - The complete Drizzle schema
- * @template TColumnConfig - Configuration for the tables
- * @template TManyConfig - Configuration for many-to-many relationships
- * @template TCurrentTable - The current table being processed
- * @template TCurrentTableRelations - Relations defined for the current table
- */
-type DirectRelationships<
-  TDrizzleSchema extends Record<string, unknown>,
-  TCurrentTableRelations extends Relations,
-> = [TCurrentTableRelations] extends [never]
-  ? {}
-  : {
-      [K in ValidDirectRelationKeys<TDrizzleSchema, TCurrentTableRelations>]: [
-        {
-          readonly sourceField: string[];
-          readonly destField: ColumnIndexKeys<
-            FindTableByName<
-              TDrizzleSchema,
-              RelationsConfig<TCurrentTableRelations>[K]["referencedTableName"]
-            >
-          >[];
-          readonly destSchema: FindTableKeyByTableName<
-            TDrizzleSchema,
-            RelationsConfig<TCurrentTableRelations>[K]["referencedTableName"]
-          >;
-          readonly cardinality: RelationsConfig<TCurrentTableRelations>[K] extends One
-            ? "one"
-            : "many";
-        },
-      ];
-    };
 
 /**
  * Configuration type for many-to-many relationships for a specific table.
@@ -214,86 +93,28 @@ type ManyConfig<TDrizzleSchema extends Record<string, unknown>> = {
 };
 
 /**
- * Represents all referenced Zero schemas for a table, including both direct and many-to-many relationships.
- */
-type ReferencedZeroSchemas<
-  TDrizzleSchema extends Record<string, unknown>,
-  TColumnConfig extends TableColumnsConfig<TDrizzleSchema>,
-  TManyConfig extends ManyConfig<TDrizzleSchema> | undefined,
-  TTableName extends keyof TColumnConfig & keyof TManyConfig,
-  TTable extends Table<any>,
-> = DirectRelationships<
-  TDrizzleSchema,
-  FindRelationsForTable<TDrizzleSchema, TTable>
-> &
-  ManyToManyRelationship<
-    TDrizzleSchema,
-    TColumnConfig,
-    TManyConfig,
-    TTableName
-  >;
-
-/**
  * The mapped Zero schema from a Drizzle schema with version and tables.
- *
- * @template TDrizzleSchema - The complete Drizzle schema
- * @template TCasing - The casing to use for the table name
- * @template TColumnConfig - Configuration for the tables
- * @template TManyConfig - Configuration for many-to-many relationships
  */
 type DrizzleToZeroSchema<
   TDrizzleSchema extends { [K in string]: unknown },
   TCasing extends ZeroTableCasing = undefined,
   TColumnConfig extends
     TableColumnsConfig<TDrizzleSchema> = DefaultTableColumnsConfig<TDrizzleSchema>,
-  TManyConfig extends ManyConfig<TDrizzleSchema> | undefined = undefined,
 > = {
   readonly tables: {
-    readonly [K in keyof TDrizzleSchema &
-      keyof TColumnConfig as TDrizzleSchema[K] extends Table<any>
+    readonly [K in keyof TDrizzleSchema as TDrizzleSchema[K] extends Table<any>
       ? K
       : never]: TDrizzleSchema[K] extends Table<any>
-      ? Flatten<
-          ZeroTableBuilderSchema<
-            K & string,
-            TDrizzleSchema[K],
-            NonNullable<TColumnConfig[K]>,
-            TCasing
-          >
-        >
+      ? ZeroTableBuilderSchema<
+          K & string,
+          TDrizzleSchema[K],
+          TColumnConfig[K & keyof TColumnConfig],
+          TCasing
+        > & {_type:   TColumnConfig[K & keyof TColumnConfig]}
       : never;
   };
   readonly relationships: {
-    readonly [K in keyof TDrizzleSchema &
-      keyof TColumnConfig as TDrizzleSchema[K] extends Table<any>
-      ? [
-          ReferencedZeroSchemas<
-            TDrizzleSchema,
-            TColumnConfig,
-            TManyConfig,
-            K & keyof TManyConfig & keyof TColumnConfig,
-            TDrizzleSchema[K]
-          >,
-        ] extends [never]
-        ? never
-        : keyof ReferencedZeroSchemas<
-              TDrizzleSchema,
-              TColumnConfig,
-              TManyConfig,
-              K & keyof TManyConfig & keyof TColumnConfig,
-              TDrizzleSchema[K]
-            > extends never
-          ? never
-          : K
-      : never]: TDrizzleSchema[K] extends Table<any>
-      ? ReferencedZeroSchemas<
-          TDrizzleSchema,
-          TColumnConfig,
-          TManyConfig,
-          K & keyof TManyConfig & keyof TColumnConfig,
-          TDrizzleSchema[K]
-        >
-      : never;
+    readonly [table: string]: RelationshipsSchema;
   };
 };
 
@@ -435,9 +256,7 @@ const drizzleZeroConfig = <
      */
     readonly debug?: boolean;
   },
-): Flatten<
-  DrizzleToZeroSchema<TDrizzleSchema, TCasing, TColumnConfig, TManyConfig>
-> => {
+): Flatten<DrizzleToZeroSchema<TDrizzleSchema, TCasing, TColumnConfig>> => {
   let tables: any[] = [];
 
   const tableColumnNamesForSourceTable = new Map<string, Set<string>>();
@@ -826,8 +645,7 @@ const drizzleZeroConfig = <
   } as any) as unknown as DrizzleToZeroSchema<
     TDrizzleSchema,
     TCasing,
-    TColumnConfig,
-    TManyConfig
+    TColumnConfig
   >;
 
   debugLog(

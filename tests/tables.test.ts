@@ -355,6 +355,29 @@ describe("tables", () => {
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
   });
 
+  test("pg - undefined column selection", () => {
+    const testTable = pgTable("test", {
+      id: text().primaryKey(),
+      name: text().notNull(),
+      age: integer().notNull(),
+      metadata: jsonb().notNull(),
+    });
+
+    const result = createZeroTableBuilder("no-columns", testTable);
+
+    const expected = table("no-columns")
+      .from("test")
+      .columns({
+        id: string(),
+        name: string(),
+        age: number(),
+        metadata: json(),
+      })
+      .primaryKey("id");
+
+    expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
+  });
+
   test("pg - composite primary key", () => {
     const testTable = pgTable(
       "composite_test",

@@ -23,7 +23,6 @@ import type {
   ColumnNames,
   Columns,
   FindPrimaryKeyFromTable,
-  Flatten,
   HasCapital,
 } from "./types";
 import { debugLog, typedEntries } from "./util";
@@ -57,21 +56,19 @@ type TypeOverride<TCustomType> = {
  */
 export type ColumnsConfig<TTable extends Table> =
   | boolean
-  | Partial<
-      Flatten<{
-        /**
-         * The columns to include in the Zero schema.
-         * Set to true to use default mapping, or provide a TypeOverride for custom mapping.
-         */
-        readonly [KColumn in ColumnNames<TTable>]:
-          | boolean
-          | ColumnBuilder<
-              TypeOverride<
-                ZeroTypeToTypescriptType[DrizzleDataTypeToZeroType[Columns<TTable>[KColumn]["dataType"]]]
-              >
-            >;
-      }>
-    >;
+  | Partial<{
+      /**
+       * The columns to include in the Zero schema.
+       * Set to true to use default mapping, or provide a TypeOverride for custom mapping.
+       */
+      readonly [KColumn in ColumnNames<TTable>]:
+        | boolean
+        | ColumnBuilder<
+            TypeOverride<
+              ZeroTypeToTypescriptType[DrizzleDataTypeToZeroType[Columns<TTable>[KColumn]["dataType"]]]
+            >
+          >;
+    }>;
 
 /**
  * Maps a Drizzle column type to its corresponding Zero type.
@@ -167,46 +164,37 @@ type ZeroColumnDefinition<
 
 /**
  * Maps the columns configuration to their Zero schema definitions.
- * @template TTable The Drizzle table type
- * @template TColumnConfig The columns configuration
  */
 export type ZeroColumns<
   TTable extends Table,
-  TColumnConfig extends ColumnsConfig<TTable>,
+  TColumnConfig extends ColumnsConfig<TTable> | undefined,
   TCasing extends ZeroTableCasing,
 > = {
-  [KColumn in ColumnNames<TTable> &
-    keyof TColumnConfig]: KColumn extends ColumnNames<TTable>
-    ? TColumnConfig[KColumn] extends ColumnBuilder<any>
-      ? TColumnConfig[KColumn]["schema"]
+  [KColumn in ColumnNames<TTable>]: KColumn extends keyof TColumnConfig
+    ? TColumnConfig[KColumn & keyof TColumnConfig] extends ColumnBuilder<any>
+      ? TColumnConfig[KColumn & keyof TColumnConfig]["schema"]
       : ZeroColumnDefinition<TTable, KColumn, TCasing>
-    : never;
+    : ZeroColumnDefinition<TTable, KColumn, TCasing>;
 };
 
 /**
  * Represents the underlying schema for a Zero table.
- * @template TTableName The name of the table
- * @template TTable The Drizzle table type
- * @template TColumnConfig The columns configuration
  */
 export type ZeroTableBuilderSchema<
   TTableName extends string,
   TTable extends Table,
-  TColumnConfig extends ColumnsConfig<TTable>,
+  TColumnConfig extends ColumnsConfig<TTable> | undefined,
   TCasing extends ZeroTableCasing,
 > = {
   name: TTableName;
   primaryKey: FindPrimaryKeyFromTable<TTable> extends [never]
     ? readonly [string, ...string[]]
     : readonly [string, ...string[]] & FindPrimaryKeyFromTable<TTable>;
-  columns: Flatten<ZeroColumns<TTable, TColumnConfig, TCasing>>;
+  columns: ZeroColumns<TTable, TColumnConfig, TCasing>;
 }; // Zero does not support this properly yet: & (TTable['_']['name'] extends TTableName ? {} : { serverName: string });
 
 /**
  * Represents the complete Zero schema for a Drizzle table.
- * @template TTableName The name of the table
- * @template TTable The Drizzle table type
- * @template TColumnConfig The columns configuration
  */
 type ZeroTableBuilder<
   TTableName extends string,
@@ -288,9 +276,10 @@ const createZeroTableBuilder = <
   const columnsMapped = typedEntries(tableColumns).reduce(
     (acc, [key, column]) => {
       const columnConfig =
-        typeof columns === "object" && columns !== null
-          ? columns[key as keyof TColumnConfig]
+        typeof columns === "object" && columns !== null && columns !== undefined
+          ? columns?.[key as keyof TColumnConfig]
           : undefined;
+
       const isColumnConfigOverride = isColumnBuilder(columnConfig);
 
       // From https://github.com/drizzle-team/drizzle-orm/blob/e5c63db0df0eaff5cae8321d97a77e5b47c5800d/drizzle-kit/src/serializer/utils.ts#L5
