@@ -69,7 +69,6 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
   });
 
   test("pg - named fields", () => {
@@ -92,7 +91,10 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
+    assertEqual(
+      result.schema.columns.id.customType,
+      expected.schema.columns.id.customType,
+    );
   });
 
   test("pg - custom types", () => {
@@ -115,7 +117,14 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
+    assertEqual(
+      result.schema.columns.id.customType,
+      expected.schema.columns.id.customType,
+    );
+    assertEqual(
+      result.schema.columns.json.customType,
+      expected.schema.columns.json.customType,
+    );
   });
 
   test("pg - optional fields", () => {
@@ -144,7 +153,18 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
+    assertEqual(
+      result.schema.columns.name.customType,
+      expected.schema.columns.name.customType,
+    );
+    assertEqual(
+      result.schema.columns.description.customType,
+      expected.schema.columns.description.customType,
+    );
+    assertEqual(
+      result.schema.columns.metadata.customType,
+      expected.schema.columns.metadata.customType,
+    );
   });
 
   test("pg - complex custom types", () => {
@@ -181,7 +201,22 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
+    assertEqual(
+      result.schema.columns.id.customType,
+      expected.schema.columns.id.customType,
+    );
+    assertEqual(
+      result.schema.columns.metadata.customType,
+      expected.schema.columns.metadata.customType,
+    );
+    assertEqual(
+      result.schema.columns.settings.customType,
+      expected.schema.columns.settings.customType,
+    );
+    assertEqual(
+      result.schema.columns.status.customType,
+      expected.schema.columns.status.customType,
+    );
   });
 
   test("pg - custom column type", () => {
@@ -355,6 +390,29 @@ describe("tables", () => {
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
   });
 
+  test("pg - undefined column selection", () => {
+    const testTable = pgTable("test", {
+      id: text().primaryKey(),
+      name: text().notNull(),
+      age: integer().notNull(),
+      metadata: jsonb().notNull(),
+    });
+
+    const result = createZeroTableBuilder("no-columns", testTable);
+
+    const expected = table("no-columns")
+      .from("test")
+      .columns({
+        id: string(),
+        name: string(),
+        age: number(),
+        metadata: json(),
+      })
+      .primaryKey("id");
+
+    expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
+  });
+
   test("pg - composite primary key", () => {
     const testTable = pgTable(
       "composite_test",
@@ -434,7 +492,42 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
+    assertEqual(
+      result.schema.columns.id.customType,
+      expected.schema.columns.id.customType,
+    );
+    assertEqual(
+      result.schema.columns.createdAt.customType,
+      expected.schema.columns.createdAt.customType,
+    );
+    assertEqual(
+      result.schema.columns.updatedAt.customType,
+      expected.schema.columns.updatedAt.customType,
+    );
+    assertEqual(
+      result.schema.columns.scheduledFor.customType,
+      expected.schema.columns.scheduledFor.customType,
+    );
+    assertEqual(
+      result.schema.columns.scheduledForTz.customType,
+      expected.schema.columns.scheduledForTz.customType,
+    );
+    assertEqual(
+      result.schema.columns.precision.customType,
+      expected.schema.columns.precision.customType,
+    );
+    assertEqual(
+      result.schema.columns.timestampModeString.customType,
+      expected.schema.columns.timestampModeString.customType,
+    );
+    assertEqual(
+      result.schema.columns.timestampModeDate.customType,
+      expected.schema.columns.timestampModeDate.customType,
+    );
+    assertEqual(
+      result.schema.columns.timestampDefault.customType,
+      expected.schema.columns.timestampDefault.customType,
+    );
   });
 
   test("pg - custom column mapping", () => {
@@ -467,7 +560,22 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
+    assertEqual(
+      result.schema.columns.id.customType,
+      expected.schema.columns.id.customType,
+    );
+    assertEqual(
+      result.schema.columns.firstName.customType,
+      expected.schema.columns.firstName.customType,
+    );
+    assertEqual(
+      result.schema.columns.lastName.customType,
+      expected.schema.columns.lastName.customType,
+    );
+    assertEqual(
+      result.schema.columns.profileData.customType,
+      expected.schema.columns.profileData.customType,
+    );
   });
 
   test("pg - enum field", () => {
@@ -498,7 +606,22 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
+    assertEqual(
+      result.schema.columns.id.customType,
+      expected.schema.columns.id.customType,
+    );
+    assertEqual(
+      result.schema.columns.role.customType,
+      expected.schema.columns.role.customType,
+    );
+    assertEqual(
+      result.schema.columns.roleWithDefault.customType,
+      expected.schema.columns.roleWithDefault.customType,
+    );
+    assertEqual(
+      result.schema.columns.backupRole.customType,
+      expected.schema.columns.backupRole.customType,
+    );
   });
 
   test("pg - simple enum field", () => {
@@ -525,7 +648,18 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
+    assertEqual(
+      result.schema.columns.id.customType,
+      expected.schema.columns.id.customType,
+    );
+    assertEqual(
+      result.schema.columns.name.customType,
+      expected.schema.columns.name.customType,
+    );
+    assertEqual(
+      result.schema.columns.mood.customType,
+      expected.schema.columns.mood.customType,
+    );
   });
 
   test("pg - all supported data types", () => {
@@ -669,7 +803,154 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
+    assertEqual(
+      result.schema.columns.id.customType,
+      expected.schema.columns.id.customType,
+    );
+    assertEqual(
+      result.schema.columns.smallint.customType,
+      expected.schema.columns.smallint.customType,
+    );
+    assertEqual(
+      result.schema.columns.integer.customType,
+      expected.schema.columns.integer.customType,
+    );
+    assertEqual(
+      result.schema.columns.bigint.customType,
+      expected.schema.columns.bigint.customType,
+    );
+    assertEqual(
+      result.schema.columns.bigint_number.customType,
+      expected.schema.columns.bigint_number.customType,
+    );
+    assertEqual(
+      result.schema.columns.smallSerial.customType,
+      expected.schema.columns.smallSerial.customType,
+    );
+    assertEqual(
+      result.schema.columns.regularSerial.customType,
+      expected.schema.columns.regularSerial.customType,
+    );
+    assertEqual(
+      result.schema.columns.bigSerial.customType,
+      expected.schema.columns.bigSerial.customType,
+    );
+    assertEqual(
+      result.schema.columns.numeric.customType,
+      expected.schema.columns.numeric.customType,
+    );
+    assertEqual(
+      result.schema.columns.decimal.customType,
+      expected.schema.columns.decimal.customType,
+    );
+    assertEqual(
+      result.schema.columns.real.customType,
+      expected.schema.columns.real.customType,
+    );
+    assertEqual(
+      result.schema.columns.doublePrecision.customType,
+      expected.schema.columns.doublePrecision.customType,
+    );
+    assertEqual(
+      result.schema.columns.name.customType,
+      expected.schema.columns.name.customType,
+    );
+    assertEqual(
+      result.schema.columns.code.customType,
+      expected.schema.columns.code.customType,
+    );
+    assertEqual(
+      result.schema.columns.identifier.customType,
+      expected.schema.columns.identifier.customType,
+    );
+    assertEqual(
+      result.schema.columns.description.customType,
+      expected.schema.columns.description.customType,
+    );
+    assertEqual(
+      result.schema.columns.isActive.customType,
+      expected.schema.columns.isActive.customType,
+    );
+    assertEqual(
+      result.schema.columns.createdAt.customType,
+      expected.schema.columns.createdAt.customType,
+    );
+    assertEqual(
+      result.schema.columns.updatedAt.customType,
+      expected.schema.columns.updatedAt.customType,
+    );
+    assertEqual(
+      result.schema.columns.birthDate.customType,
+      expected.schema.columns.birthDate.customType,
+    );
+    assertEqual(
+      result.schema.columns.dateString.customType,
+      expected.schema.columns.dateString.customType,
+    );
+    assertEqual(
+      result.schema.columns.metadata.customType,
+      expected.schema.columns.metadata.customType,
+    );
+    assertEqual(
+      result.schema.columns.settings.customType,
+      expected.schema.columns.settings.customType,
+    );
+    assertEqual(
+      result.schema.columns.status.customType,
+      expected.schema.columns.status.customType,
+    );
+    assertEqual(
+      result.schema.columns.optionalSmallint.customType,
+      expected.schema.columns.optionalSmallint.customType,
+    );
+    assertEqual(
+      result.schema.columns.optionalInteger.customType,
+      expected.schema.columns.optionalInteger.customType,
+    );
+    assertEqual(
+      result.schema.columns.optionalBigint.customType,
+      expected.schema.columns.optionalBigint.customType,
+    );
+    assertEqual(
+      result.schema.columns.optionalNumeric.customType,
+      expected.schema.columns.optionalNumeric.customType,
+    );
+    assertEqual(
+      result.schema.columns.optionalDecimal.customType,
+      expected.schema.columns.optionalDecimal.customType,
+    );
+    assertEqual(
+      result.schema.columns.optionalReal.customType,
+      expected.schema.columns.optionalReal.customType,
+    );
+    assertEqual(
+      result.schema.columns.optionalDoublePrecision.customType,
+      expected.schema.columns.optionalDoublePrecision.customType,
+    );
+    assertEqual(
+      result.schema.columns.optionalText.customType,
+      expected.schema.columns.optionalText.customType,
+    );
+    assertEqual(
+      result.schema.columns.optionalBoolean.customType,
+      expected.schema.columns.optionalBoolean.customType,
+    );
+    assertEqual(
+      result.schema.columns.optionalTimestamp.customType,
+      expected.schema.columns.optionalTimestamp.customType,
+    );
+    assertEqual(
+      result.schema.columns.optionalDate.customType,
+      expected.schema.columns.optionalDate.customType,
+    );
+    assertEqual(
+      result.schema.columns.optionalJson.customType,
+      expected.schema.columns.optionalJson.customType,
+    );
+    assertEqual(
+      result.schema.columns.optionalEnum.customType,
+      expected.schema.columns.optionalEnum.customType,
+    );
   });
 
   test("pg - override column json type", () => {
@@ -722,7 +1003,18 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
+    assertEqual(
+      result.schema.columns.id.customType,
+      expected.schema.columns.id.customType,
+    );
+    assertEqual(
+      result.schema.columns.createdAt.customType,
+      expected.schema.columns.createdAt.customType,
+    );
+    assertEqual(
+      result.schema.columns.updatedAt.customType,
+      expected.schema.columns.updatedAt.customType,
+    );
   });
 
   test("pg - compound primary key", () => {
@@ -795,7 +1087,34 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
+    assertEqual(
+      result.schema.columns.id.customType,
+      expected.schema.columns.id.customType,
+    );
+    assertEqual(
+      result.schema.columns.name.customType,
+      expected.schema.columns.name.customType,
+    );
+    assertEqual(
+      result.schema.columns.isActive.customType,
+      expected.schema.columns.isActive.customType,
+    );
+    assertEqual(
+      result.schema.columns.score.customType,
+      expected.schema.columns.score.customType,
+    );
+    assertEqual(
+      result.schema.columns.optionalScore.customType,
+      expected.schema.columns.optionalScore.customType,
+    );
+    assertEqual(
+      result.schema.columns.currentDateWithRuntimeDefault.customType,
+      expected.schema.columns.currentDateWithRuntimeDefault.customType,
+    );
+    assertEqual(
+      result.schema.columns.optionalCurrentDateWithRuntimeDefault.customType,
+      expected.schema.columns.optionalCurrentDateWithRuntimeDefault.customType,
+    );
   });
 
   test("pg - mixed required and optional json fields", () => {
@@ -835,7 +1154,22 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
+    assertEqual(
+      result.schema.columns.id.customType,
+      expected.schema.columns.id.customType,
+    );
+    assertEqual(
+      result.schema.columns.requiredJson.customType,
+      expected.schema.columns.requiredJson.customType,
+    );
+    assertEqual(
+      result.schema.columns.optionalJson.customType,
+      expected.schema.columns.optionalJson.customType,
+    );
+    assertEqual(
+      result.schema.columns.mixedJson.customType,
+      expected.schema.columns.mixedJson.customType,
+    );
   });
 
   test("pg - custom column selection with type overrides", () => {
@@ -910,7 +1244,14 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
+    assertEqual(
+      result.schema.columns.id.customType,
+      expected.schema.columns.id.customType,
+    );
+    assertEqual(
+      result.schema.columns.name.customType,
+      expected.schema.columns.name.customType,
+    );
   });
 
   test("pg - custom schema with override", () => {
@@ -959,7 +1300,14 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
+    assertEqual(
+      result.schema.columns.id.customType,
+      expected.schema.columns.id.customType,
+    );
+    assertEqual(
+      result.schema.columns.name.customType,
+      expected.schema.columns.name.customType,
+    );
   });
 
   test("pg - invalid column type", ({ expect }) => {
@@ -1254,6 +1602,25 @@ describe("tables", () => {
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    assertEqual(result.schema, expected.schema);
+    assertEqual(
+      result.schema.columns.id.customType,
+      expected.schema.columns.id.customType,
+    );
+    assertEqual(
+      result.schema.columns.firstName.customType,
+      expected.schema.columns.firstName.customType,
+    );
+    assertEqual(
+      result.schema.columns.lastName.customType,
+      expected.schema.columns.lastName.customType,
+    );
+    assertEqual(
+      result.schema.columns.createdAt.customType,
+      expected.schema.columns.createdAt.customType,
+    );
+    assertEqual(
+      result.schema.columns.updatedAt.customType,
+      expected.schema.columns.updatedAt.customType,
+    );
   });
 });

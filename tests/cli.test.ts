@@ -8,7 +8,6 @@ import {
 } from "../src/cli/config";
 import { getGeneratedSchema } from "../src/cli/shared";
 import type { DrizzleToZeroSchema } from "../src/relations";
-import * as oneToOneSchema from "./schemas/one-to-one.zero";
 
 describe("getGeneratedSchema", () => {
   let tsProject: Project;
@@ -43,7 +42,27 @@ describe("getGeneratedSchema", () => {
       tsProject,
       result: {
         type: "config",
-        zeroSchema: oneToOneSchema.schema,
+        zeroSchema: {
+          tables: {
+            users: {
+              name: "users",
+              primaryKey: ["id"],
+              columns: {
+                id: {
+                  type: "number",
+                  optional: false,
+                  customType: undefined,
+                },
+                name: {
+                  type: "string",
+                  optional: false,
+                  customType: undefined,
+                },
+              },
+            },
+          },
+          relationships: {},
+        },
         exportName: "schema",
         zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
       },
@@ -54,36 +73,11 @@ describe("getGeneratedSchema", () => {
     expect(generatedSchema).toContain("export const schema = {");
     expect(generatedSchema).toContain('"users": {');
 
-    // Check actual schema to ensure our expectations match reality
-    if (!generatedSchema.includes('"profileInfo": {')) {
-      // If profileInfo isn't in the schema, check what tables actually are in the test schema
-      console.log(
-        "Tables in schema:",
-        Object.keys(oneToOneSchema.schema.tables),
-      );
-      // Adjust test to match actual schema structure
-      const tables = Object.keys(oneToOneSchema.schema.tables);
-      expect(tables.length).toBeGreaterThan(0);
-      tables.forEach((table) => {
-        expect(generatedSchema).toContain(`"${table}": {`);
-      });
-    } else {
-      expect(generatedSchema).toContain('"profileInfo": {');
-    }
-
     expect(generatedSchema).toContain("export type Schema = typeof schema");
 
     // Check for fields from the one-to-one schema
     expect(generatedSchema).toContain('"id": {');
     expect(generatedSchema).toContain('"name": {');
-
-    // Similarly, check for these fields conditionally
-    if (generatedSchema.includes('"userId": {')) {
-      expect(generatedSchema).toContain('"userId": {');
-    }
-    if (generatedSchema.includes('"metadata": {')) {
-      expect(generatedSchema).toContain('"metadata": {');
-    }
 
     // Verify the auto-generated comment header
     expect(generatedSchema).toContain(
@@ -395,7 +389,7 @@ describe("getGeneratedSchema", () => {
                 primaryKey: ["id"],
                 columns: {
                   id: {
-                    type: "integer",
+                    type: "number",
                     optional: false,
                     customType: undefined,
                   },
@@ -403,7 +397,7 @@ describe("getGeneratedSchema", () => {
               },
             },
             relationships: {},
-          } as any, // Type assertion to avoid TypeScript errors
+          },
           drizzleSchemaSourceFile: mockSource,
           drizzleCasing: null,
         },
@@ -436,7 +430,22 @@ describe("getGeneratedSchema", () => {
       tsProject,
       result: {
         type: "config",
-        zeroSchema: oneToOneSchema.schema,
+        zeroSchema: {
+          tables: {
+            users: {
+              name: "users",
+              primaryKey: ["id"],
+              columns: {
+                id: {
+                  type: "number",
+                  optional: false,
+                  customType: undefined,
+                },
+              },
+            },
+          },
+          relationships: {},
+        },
         exportName: "schema",
         zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
       },

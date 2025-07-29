@@ -19,7 +19,7 @@ import type { ZeroCustomType } from "drizzle-zero";
 import type * as drizzleSchema from "./drizzle/schema";
 import type { DrizzleToZeroSchema } from "drizzle-zero";
 
-type ZeroSchema = DrizzleToZeroSchema<typeof drizzleSchema, "snake_case">;
+type ZeroSchema = DrizzleToZeroSchema<typeof drizzleSchema>;
 
 /**
  * The Zero schema object.

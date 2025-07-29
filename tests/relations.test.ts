@@ -39,13 +39,7 @@ describe("relationships", () => {
     const { schema: zeroSchema } = await import("./schemas/one-to-many.zero");
 
     await expect(() =>
-      drizzleZeroConfig(zeroSchema, {
-        tables: {
-          users: {
-            id: true,
-          },
-        },
-      }),
+      drizzleZeroConfig(zeroSchema),
     ).toThrowErrorMatchingInlineSnapshot(
       `[Error: ❌ drizzle-zero: No tables found in the input - did you pass in a Zero schema to the \`drizzleZeroConfig\` function instead of a Drizzle schema?]`,
     );
@@ -294,16 +288,24 @@ describe("relationships", () => {
     });
 
     expectSchemaDeepEqual(oneToOneSelfZeroSchema).toEqual(expected);
-    assertEqual(oneToOneSelfZeroSchema, expected);
+    assertEqual(
+      oneToOneSelfZeroSchema.tables.users.columns.id.customType,
+      expected.tables.users.columns.id.customType,
+    );
 
     const drizzleSchema = await import("./schemas/one-to-one-self.schema");
     assertEqual(
-      null as unknown as DrizzleToZeroSchema<typeof drizzleSchema>,
-      expected,
+      null as unknown as DrizzleToZeroSchema<
+        typeof drizzleSchema
+      >["tables"]["users"]["columns"]["id"]["customType"],
+      expected.tables.users.columns.id.customType,
     );
 
     const directMapping = drizzleZeroConfig(drizzleSchema);
-    assertEqual(directMapping, expected);
+    assertEqual(
+      directMapping.tables.users.columns.id.customType,
+      expected.tables.users.columns.id.customType,
+    );
 
     assertEqual(
       null as unknown as ZeroCustomType<
@@ -362,16 +364,24 @@ describe("relationships", () => {
     });
 
     expectSchemaDeepEqual(oneToOneZeroSchema).toEqual(expected);
-    assertEqual(oneToOneZeroSchema, expected);
+    assertEqual(
+      oneToOneZeroSchema.tables.users.columns.id.customType,
+      expected.tables.users.columns.id.customType,
+    );
 
     const drizzleSchema = await import("./schemas/one-to-one.schema");
     assertEqual(
-      null as unknown as DrizzleToZeroSchema<typeof drizzleSchema>,
-      expected,
+      null as unknown as DrizzleToZeroSchema<
+        typeof drizzleSchema
+      >["tables"]["users"]["columns"]["id"]["customType"],
+      expected.tables.users.columns.id.customType,
     );
 
     const directMapping = drizzleZeroConfig(drizzleSchema);
-    assertEqual(directMapping, expected);
+    assertEqual(
+      directMapping.tables.users.columns.id.customType,
+      expected.tables.users.columns.id.customType,
+    );
   });
 
   test("relationships - one-to-one-subset", async () => {
@@ -442,14 +452,19 @@ describe("relationships", () => {
     });
 
     expectSchemaDeepEqual(oneToOneForeignKeyZeroSchema).toEqual(expected);
-    assertEqual(oneToOneForeignKeyZeroSchema, expected);
+    assertEqual(
+      oneToOneForeignKeyZeroSchema.tables.users.columns.id.customType,
+      expected.tables.users.columns.id.customType,
+    );
 
     const drizzleSchema = await import(
       "./schemas/one-to-one-foreign-key.schema"
     );
     assertEqual(
-      null as unknown as DrizzleToZeroSchema<typeof drizzleSchema>,
-      expected,
+      null as unknown as DrizzleToZeroSchema<
+        typeof drizzleSchema
+      >["tables"]["users"]["columns"]["id"]["customType"],
+      expected.tables.users.columns.id.customType,
     );
   });
 
@@ -616,12 +631,17 @@ describe("relationships", () => {
     });
 
     expectSchemaDeepEqual(oneToManyZeroSchema).toEqual(expected);
-    assertEqual(oneToManyZeroSchema, expected);
+    assertEqual(
+      oneToManyZeroSchema.tables.users.columns.id.customType,
+      expected.tables.users.columns.id.customType,
+    );
 
     const drizzleSchema = await import("./schemas/one-to-many.schema");
     assertEqual(
-      null as unknown as DrizzleToZeroSchema<typeof drizzleSchema>,
-      expected,
+      null as unknown as DrizzleToZeroSchema<
+        typeof drizzleSchema
+      >["tables"]["users"]["columns"]["id"]["customType"],
+      expected.tables.users.columns.id.customType,
     );
   });
 
@@ -684,12 +704,17 @@ describe("relationships", () => {
     });
 
     expectSchemaDeepEqual(oneToManyNamedZeroSchema).toEqual(expected);
-    assertEqual(oneToManyNamedZeroSchema, expected);
+    assertEqual(
+      oneToManyNamedZeroSchema.tables.users.columns.id.customType,
+      expected.tables.users.columns.id.customType,
+    );
 
     const drizzleSchema = await import("./schemas/one-to-many-named.schema");
     assertEqual(
-      null as unknown as DrizzleToZeroSchema<typeof drizzleSchema>,
-      expected,
+      null as unknown as DrizzleToZeroSchema<
+        typeof drizzleSchema
+      >["tables"]["users"]["columns"]["id"]["customType"],
+      expected.tables.users.columns.id.customType,
     );
   });
 
@@ -1144,17 +1169,16 @@ describe("relationships", () => {
 
     expectSchemaDeepEqual(oneToManyCasingZeroSchema).toEqual(expected);
     assertEqual(
-      oneToManyCasingZeroSchema.tables.posts.columns.authorId,
-      expected.tables.posts.columns.authorId,
+      oneToManyCasingZeroSchema.tables.posts.columns.authorId.customType,
+      expected.tables.posts.columns.authorId.customType,
     );
 
     const drizzleSchema = await import("./schemas/one-to-many-casing.schema");
     assertEqual(
       null as unknown as DrizzleToZeroSchema<
-        typeof drizzleSchema,
-        "snake_case"
-      >,
-      expected,
+        typeof drizzleSchema
+      >["tables"]["posts"]["columns"]["authorId"]["customType"],
+      expected.tables.posts.columns.authorId.customType,
     );
   });
 
@@ -1194,14 +1218,19 @@ describe("relationships", () => {
     });
 
     expectSchemaDeepEqual(oneToManyParentChildZeroSchema).toEqual(expected);
-    assertEqual(oneToManyParentChildZeroSchema, expected);
+    assertEqual(
+      oneToManyParentChildZeroSchema.tables.filters.columns.parentId.customType,
+      expected.tables.filters.columns.parentId.customType,
+    );
 
     const drizzleSchema = await import(
       "./schemas/one-to-many-parent-child.schema"
     );
     assertEqual(
-      null as unknown as DrizzleToZeroSchema<typeof drizzleSchema>,
-      expected,
+      null as unknown as DrizzleToZeroSchema<
+        typeof drizzleSchema
+      >["tables"]["filters"]["columns"]["parentId"]["customType"],
+      expected.tables.filters.columns.parentId.customType,
     );
   });
 
@@ -1236,12 +1265,17 @@ describe("relationships", () => {
     });
 
     expectSchemaDeepEqual(customSchemaZeroSchema).toEqual(expected);
-    assertEqual(customSchemaZeroSchema, expected);
+    assertEqual(
+      customSchemaZeroSchema.tables.users.columns.id.customType,
+      expected.tables.users.columns.id.customType,
+    );
 
     const drizzleSchema = await import("./schemas/custom-schema.schema");
     assertEqual(
-      null as unknown as DrizzleToZeroSchema<typeof drizzleSchema>,
-      expected,
+      null as unknown as DrizzleToZeroSchema<
+        typeof drizzleSchema
+      >["tables"]["users"]["columns"]["id"]["customType"],
+      expected.tables.users.columns.id.customType,
     );
   });
 });

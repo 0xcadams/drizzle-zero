@@ -2,6 +2,7 @@ import {
   type ColumnBuilder,
   type ReadonlyJSONValue,
   type TableBuilderWithColumns,
+  type ValueType,
   boolean as zeroBoolean,
   enumeration as zeroEnumeration,
   json as zeroJson,
@@ -19,13 +20,7 @@ import {
   drizzleDataTypeToZeroType,
   type ZeroTypeToTypescriptType,
 } from "./drizzle-to-zero";
-import type {
-  ColumnNames,
-  Columns,
-  FindPrimaryKeyFromTable,
-  Flatten,
-  HasCapital,
-} from "./types";
+import type { ColumnNames, Columns, FindPrimaryKeyFromTable } from "./types";
 import { debugLog, typedEntries } from "./util";
 
 export type { ColumnBuilder, ReadonlyJSONValue, TableBuilderWithColumns };
@@ -57,27 +52,22 @@ type TypeOverride<TCustomType> = {
  */
 export type ColumnsConfig<TTable extends Table> =
   | boolean
-  | Partial<
-      Flatten<{
-        /**
-         * The columns to include in the Zero schema.
-         * Set to true to use default mapping, or provide a TypeOverride for custom mapping.
-         */
-        readonly [KColumn in ColumnNames<TTable>]:
-          | boolean
-          | ColumnBuilder<
-              TypeOverride<
-                ZeroTypeToTypescriptType[DrizzleDataTypeToZeroType[Columns<TTable>[KColumn]["dataType"]]]
-              >
-            >;
-      }>
-    >;
+  | Partial<{
+      /**
+       * The columns to include in the Zero schema.
+       * Set to true to use default mapping, or provide a TypeOverride for custom mapping.
+       */
+      readonly [KColumn in ColumnNames<TTable>]:
+        | boolean
+        | ColumnBuilder<
+            TypeOverride<
+              ZeroTypeToTypescriptType[DrizzleDataTypeToZeroType[Columns<TTable>[KColumn]["dataType"]]]
+            >
+          >;
+    }>;
 
 /**
  * Maps a Drizzle column type to its corresponding Zero type.
- * @template TTable The Drizzle table type
- * @template KColumn The column name
- * @template CD The column definition type
  */
 type ZeroMappedColumnType<
   TTable extends Table,
@@ -95,9 +85,6 @@ type ZeroMappedColumnType<
 /**
  * Maps a Drizzle column to its corresponding TypeScript type in Zero.
  * Handles special cases like enums and custom types.
- * @template TTable The Drizzle table type
- * @template KColumn The column name
- * @template CD The column definition type
  */
 type ZeroMappedCustomType<
   TTable extends Table,
@@ -121,100 +108,55 @@ type ZeroMappedCustomType<
 
 /**
  * Defines the structure of a column in the Zero schema.
- * @template TTable The Drizzle table type
- * @template KColumn The column name
- * @template CD The column definition type
  */
 type ZeroColumnDefinition<
   TTable extends Table,
   KColumn extends ColumnNames<TTable>,
-  TCasing extends ZeroTableCasing,
-  CD extends ColumnDefinition<TTable, KColumn>["_"] = ColumnDefinition<
-    TTable,
-    KColumn
-  >["_"],
-  BaseDefinition extends {
-    optional: false;
-    type: ZeroMappedColumnType<TTable, KColumn>;
-    customType: ZeroMappedCustomType<TTable, KColumn>;
-  } = {
-    optional: false;
-    type: ZeroMappedColumnType<TTable, KColumn>;
-    customType: ZeroMappedCustomType<TTable, KColumn>;
-  },
-  BaseOptional extends Omit<BaseDefinition, "optional"> & {
-    optional: true;
-  } = Omit<BaseDefinition, "optional"> & { optional: true },
-> = (CD extends {
-  hasDefault: true;
-  hasRuntimeDefault: false;
-}
-  ? BaseOptional
-  : CD extends { notNull: true }
-    ? BaseDefinition
-    : Omit<BaseDefinition, "optional"> & { optional: true }) &
-  (CD extends { name: KColumn }
-    ? TCasing extends "snake_case"
-      ? HasCapital<CD["name"]> extends true
-        ? { serverName: string }
-        : {}
-      : TCasing extends "camelCase"
-        ? HasCapital<CD["name"]> extends false
-          ? { serverName: string }
-          : {}
-        : {}
-    : { serverName: string });
+> = {
+  optional: boolean;
+  type: ValueType;
+  customType: ZeroMappedCustomType<TTable, KColumn>;
+  serverName?: string;
+};
 
 /**
  * Maps the columns configuration to their Zero schema definitions.
- * @template TTable The Drizzle table type
- * @template TColumnConfig The columns configuration
  */
 export type ZeroColumns<
   TTable extends Table,
-  TColumnConfig extends ColumnsConfig<TTable>,
-  TCasing extends ZeroTableCasing,
+  TColumnConfig extends ColumnsConfig<TTable> | undefined,
 > = {
-  [KColumn in ColumnNames<TTable> &
-    keyof TColumnConfig]: KColumn extends ColumnNames<TTable>
-    ? TColumnConfig[KColumn] extends ColumnBuilder<any>
-      ? TColumnConfig[KColumn]["schema"]
-      : ZeroColumnDefinition<TTable, KColumn, TCasing>
-    : never;
+  [KColumn in ColumnNames<TTable>]: KColumn extends keyof TColumnConfig
+    ? TColumnConfig[KColumn & keyof TColumnConfig] extends ColumnBuilder<any>
+      ? TColumnConfig[KColumn & keyof TColumnConfig]["schema"]
+      : ZeroColumnDefinition<TTable, KColumn>
+    : ZeroColumnDefinition<TTable, KColumn>;
 };
 
 /**
  * Represents the underlying schema for a Zero table.
- * @template TTableName The name of the table
- * @template TTable The Drizzle table type
- * @template TColumnConfig The columns configuration
  */
 export type ZeroTableBuilderSchema<
   TTableName extends string,
   TTable extends Table,
-  TColumnConfig extends ColumnsConfig<TTable>,
-  TCasing extends ZeroTableCasing,
+  TColumnConfig extends ColumnsConfig<TTable> | undefined,
 > = {
   name: TTableName;
   primaryKey: FindPrimaryKeyFromTable<TTable> extends [never]
     ? readonly [string, ...string[]]
     : readonly [string, ...string[]] & FindPrimaryKeyFromTable<TTable>;
-  columns: Flatten<ZeroColumns<TTable, TColumnConfig, TCasing>>;
+  columns: ZeroColumns<TTable, TColumnConfig>;
 }; // Zero does not support this properly yet: & (TTable['_']['name'] extends TTableName ? {} : { serverName: string });
 
 /**
  * Represents the complete Zero schema for a Drizzle table.
- * @template TTableName The name of the table
- * @template TTable The Drizzle table type
- * @template TColumnConfig The columns configuration
  */
 type ZeroTableBuilder<
   TTableName extends string,
   TTable extends Table,
   TColumnConfig extends ColumnsConfig<TTable>,
-  TCasing extends ZeroTableCasing,
 > = TableBuilderWithColumns<
-  Readonly<ZeroTableBuilderSchema<TTableName, TTable, TColumnConfig, TCasing>>
+  Readonly<ZeroTableBuilderSchema<TTableName, TTable, TColumnConfig>>
 >;
 
 /**
@@ -254,7 +196,7 @@ const createZeroTableBuilder = <
    * The casing to use for the table name.
    */
   casing?: TCasing,
-): ZeroTableBuilder<TTableName, TTable, TColumnConfig, TCasing> => {
+): ZeroTableBuilder<TTableName, TTable, TColumnConfig> => {
   const actualTableName = getTableName(table);
   const tableColumns = getTableColumns(table);
   const tableConfig = getTableConfigForDatabase(table);
@@ -288,9 +230,10 @@ const createZeroTableBuilder = <
   const columnsMapped = typedEntries(tableColumns).reduce(
     (acc, [key, column]) => {
       const columnConfig =
-        typeof columns === "object" && columns !== null
-          ? columns[key as keyof TColumnConfig]
+        typeof columns === "object" && columns !== null && columns !== undefined
+          ? columns?.[key as keyof TColumnConfig]
           : undefined;
+
       const isColumnConfigOverride = isColumnBuilder(columnConfig);
 
       // From https://github.com/drizzle-team/drizzle-orm/blob/e5c63db0df0eaff5cae8321d97a77e5b47c5800d/drizzle-kit/src/serializer/utils.ts#L5
@@ -327,10 +270,10 @@ const createZeroTableBuilder = <
 
       const type =
         drizzleColumnTypeToZeroType[
-          column.columnType as keyof DrizzleColumnTypeToZeroType
+          column.columnType as keyof typeof drizzleColumnTypeToZeroType
         ] ??
         drizzleDataTypeToZeroType[
-          column.dataType as keyof DrizzleDataTypeToZeroType
+          column.dataType as keyof typeof drizzleDataTypeToZeroType
         ] ??
         null;
 
@@ -405,8 +348,7 @@ const createZeroTableBuilder = <
     .primaryKey(...primaryKeys) as ZeroTableBuilder<
     TTableName,
     TTable,
-    TColumnConfig,
-    TCasing
+    TColumnConfig
   >;
 };
 

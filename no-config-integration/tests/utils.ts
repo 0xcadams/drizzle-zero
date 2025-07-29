@@ -25,12 +25,12 @@ import {
   message,
   user,
 } from "../drizzle/schema";
-import { schema } from "../schema";
+import { schema, type Schema } from "../schema";
 
 const PG_PORT = process.env.PG_VERSION === "17" ? 5732 : 5632;
 const ZERO_PORT = process.env.PG_VERSION === "17" ? 5949 : 4949;
 
-export const getNewZero = async () => {
+export const getNewZero = async (): Promise<Zero<Schema>> => {
   return new Zero({
     server: `http://localhost:${ZERO_PORT}`,
     userID: "1",
