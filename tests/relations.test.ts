@@ -231,6 +231,15 @@ describe("relationships", () => {
     );
   });
 
+  test("relationships - type any shows a type error", async () => {
+    assertEqual(
+      null as unknown as ZeroCustomType<any, "users", "invitedBy">,
+      null as unknown as {
+        __error__: "The schema passed in to `ZeroCustomType` is `any`. Please make sure to pass in a proper schema type, or check your imports to make sure that Typescript can resolve your schema definition.";
+      },
+    );
+  });
+
   test("relationships - no-relations", async () => {
     const { schema: noRelationsZeroSchema } = await import(
       "./schemas/no-relations.zero"

@@ -23,6 +23,12 @@ import type {
 } from "./types";
 import { debugLog, typedEntries } from "./util";
 
+type IsAny<T> = 0 extends 1 & T ? true : false;
+
+type SchemaIsAnyError = {
+  __error__: "The schema passed in to `ZeroCustomType` is `any`. Please make sure to pass in a proper schema type, or check your imports to make sure that Typescript can resolve your schema definition.";
+};
+
 /**
  * Type utility to get the Drizzle custom type for a table and column.
  *
@@ -31,18 +37,22 @@ import { debugLog, typedEntries } from "./util";
  * @template ColumnName - The name of the column
  */
 type ZeroCustomType<
-  ZeroSchema extends any,
+  ZeroSchema,
   TableName extends string,
   ColumnName extends string,
-> = ZeroSchema extends {
-  tables: {
-    [K in TableName]: {
-      columns: { [L in ColumnName]: { customType: infer T } };
-    };
-  };
-}
-  ? T & {}
-  : unknown;
+> =
+  // if the whole schema is `any`, surface our error
+  IsAny<ZeroSchema> extends true
+    ? SchemaIsAnyError
+    : // otherwise, do your usual pattern match
+      ZeroSchema extends {
+          tables: Record<
+            TableName,
+            { columns: Record<ColumnName, { customType: infer T }> }
+          >;
+        }
+      ? T
+      : unknown;
 
 /**
  * Configuration type for many-to-many relationships for a specific table.
