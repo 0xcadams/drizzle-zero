@@ -75,6 +75,40 @@ importers:
 
   custom-types: {}
 
+  db:
+    dependencies:
+      drizzle-orm:
+        specifier: ^0.44.2
+        version: 0.44.2(@opentelemetry/api@1.9.0)(@types/pg@8.15.4)(pg@8.16.3)(postgres@3.4.7)
+      drizzle-zero:
+        specifier: workspace:*
+        version: link:..
+      drizzle-zero-custom-types:
+        specifier: workspace:*
+        version: link:../custom-types
+    devDependencies:
+      '@types/pg':
+        specifier: ^8.15.4
+        version: 8.15.4
+      '@types/ws':
+        specifier: ^8.18.1
+        version: 8.18.1
+      '@vitest/browser':
+        specifier: ^3.2.4
+        version: 3.2.4(vite@7.0.0(@types/node@24.0.10)(tsx@4.20.3)(yaml@2.8.0))(vitest@3.2.4)
+      drizzle-kit:
+        specifier: ^0.31.4
+        version: 0.31.4
+      pg:
+        specifier: ^8.16.3
+        version: 8.16.3
+      prettier:
+        specifier: ^3.6.2
+        version: 3.6.2
+      ws:
+        specifier: ^8.18.3
+        version: 8.18.3
+
   integration:
     dependencies:
       drizzle-orm:
@@ -86,6 +120,9 @@ importers:
       drizzle-zero-custom-types:
         specifier: workspace:*
         version: link:../custom-types
+      drizzle-zero-db:
+        specifier: workspace:*
+        version: link:../db
     devDependencies:
       '@types/pg':
         specifier: ^8.15.4
@@ -120,6 +157,9 @@ importers:
       drizzle-zero-custom-types:
         specifier: workspace:*
         version: link:../custom-types
+      drizzle-zero-db:
+        specifier: workspace:*
+        version: link:../db
     devDependencies:
       '@testcontainers/postgresql':
         specifier: ^11.0.3

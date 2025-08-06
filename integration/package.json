@@ -3,12 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "db:generate": "drizzle-kit generate",
     "drizzle-zero:generate": "drizzle-zero generate -f",
     "pretest": "pnpm drizzle-zero:generate",
     "test": "vitest run"
   },
   "dependencies": {
+    "drizzle-zero-db": "workspace:*",
     "drizzle-orm": "^0.44.2",
     "drizzle-zero": "workspace:*",
     "drizzle-zero-custom-types": "workspace:*"

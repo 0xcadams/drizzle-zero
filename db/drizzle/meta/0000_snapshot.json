@@ -1,5 +1,5 @@
 {
-  "id": "3cdba184-f4db-4a05-8f1c-231614a0e824",
+  "id": "8ad35707-e6b7-4a8d-ad88-6db28aba2471",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -450,6 +450,12 @@
           "type": "jsonb",
           "primaryKey": false,
           "notNull": true
+        },
+        "omitted_column": {
+          "name": "omitted_column",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
@@ -481,6 +487,31 @@
           "onUpdate": "no action"
         }
       },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.omitted_table": {
+      "name": "omitted_table",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},

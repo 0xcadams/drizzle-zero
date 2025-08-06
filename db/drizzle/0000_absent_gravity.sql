@@ -90,7 +90,8 @@ CREATE TABLE "user" (
 	"custom_interface_json" jsonb NOT NULL,
 	"test_interface" jsonb NOT NULL,
 	"test_type" jsonb NOT NULL,
-	"test_exported_type" jsonb NOT NULL
+	"test_exported_type" jsonb NOT NULL,
+	"status" text
 );
 --> statement-breakpoint
 ALTER TABLE "friendship" ADD CONSTRAINT "friendship_requesting_id_user_id_fk" FOREIGN KEY ("requesting_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint

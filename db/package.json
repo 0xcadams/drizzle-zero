@@ -1,27 +1,25 @@
 {
-  "name": "drizzle-zero-no-config-integration",
+  "name": "drizzle-zero-db",
   "private": true,
   "type": "module",
   "scripts": {
-    "drizzle-zero:generate": "drizzle-zero generate -f -s drizzle.ts",
-    "pretest": "pnpm drizzle-zero:generate",
-    "test": "vitest run"
+    "db:generate": "drizzle-kit generate"
+  },
+  "exports": {
+    "./schema": "./drizzle/schema.ts"
   },
   "dependencies": {
-    "drizzle-zero-db": "workspace:*",
     "drizzle-orm": "^0.44.2",
     "drizzle-zero": "workspace:*",
     "drizzle-zero-custom-types": "workspace:*"
   },
   "devDependencies": {
-    "@testcontainers/postgresql": "^11.0.3",
     "@types/pg": "^8.15.4",
     "@types/ws": "^8.18.1",
     "@vitest/browser": "^3.2.4",
     "drizzle-kit": "^0.31.4",
     "pg": "^8.16.3",
     "prettier": "^3.6.2",
-    "testcontainers": "^11.0.3",
     "ws": "^8.18.3"
   }
 }

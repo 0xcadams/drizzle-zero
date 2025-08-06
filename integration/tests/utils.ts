@@ -16,7 +16,7 @@ import {
   StartedNetwork,
   type StartedTestContainer,
 } from "testcontainers";
-import * as drizzleSchema from "../drizzle/schema";
+import * as drizzleSchema from "drizzle-zero-db/schema";
 import {
   allTypes,
   filters,
@@ -24,7 +24,7 @@ import {
   medium,
   message,
   user,
-} from "../drizzle/schema";
+} from "drizzle-zero-db/schema";
 import { schema } from "../schema";
 
 const PG_PORT = process.env.PG_VERSION === "17" ? 5732 : 5632;
@@ -246,7 +246,7 @@ export const startPostgresAndZero = async () => {
     ])
     .withCopyDirectoriesToContainer([
       {
-        source: path.join(__dirname, "../drizzle"),
+        source: path.join(__dirname, "../../db/drizzle"),
         target: "/docker-entrypoint-initdb.d",
       },
     ])
