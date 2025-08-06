@@ -24,7 +24,13 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "lib": ["dom", "ESNext"],
-    "outDir": "out"
+    "outDir": "out",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
   },
   "include": ["**/*.ts"]
 }

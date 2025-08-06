@@ -1,5 +1,5 @@
 {
-  "name": "drizzle-zero-no-config-integration",
+  "name": "@drizzle-zero/no-config-integration",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,10 +8,10 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "drizzle-zero-db": "workspace:*",
+    "@drizzle-zero/custom-types": "workspace:*",
+    "@drizzle-zero/db": "workspace:*",
     "drizzle-orm": "^0.44.2",
-    "drizzle-zero": "workspace:*",
-    "drizzle-zero-custom-types": "workspace:*"
+    "drizzle-zero": "workspace:*"
   },
   "devDependencies": {
     "@testcontainers/postgresql": "^11.0.3",

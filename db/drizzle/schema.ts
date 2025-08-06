@@ -25,7 +25,7 @@ import {
 import type {
   CustomJsonType,
   CustomJsonInterface,
-} from "drizzle-zero-custom-types";
+} from "@drizzle-zero/custom-types";
 
 export interface TestInterface {
   nameInterface: "custom-inline-interface";

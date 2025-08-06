@@ -16,7 +16,7 @@ import {
   StartedNetwork,
   type StartedTestContainer,
 } from "testcontainers";
-import * as drizzleSchema from "drizzle-zero-db/schema";
+import * as drizzleSchema from "@drizzle-zero/db/schema";
 import {
   allTypes,
   filters,
@@ -24,7 +24,7 @@ import {
   medium,
   message,
   user,
-} from "drizzle-zero-db/schema";
+} from "@drizzle-zero/db/schema";
 import { schema, type Schema } from "../schema";
 
 const PG_PORT = process.env.PG_VERSION === "17" ? 5732 : 5632;

@@ -1,5 +1,5 @@
 {
-  "name": "drizzle-zero-custom-types",
+  "name": "@drizzle-zero/custom-types",
   "private": true,
   "type": "module",
   "exports": {

@@ -1,5 +1,5 @@
 {
-  "name": "drizzle-zero-db",
+  "name": "@drizzle-zero/db",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,9 +9,9 @@
     "./schema": "./drizzle/schema.ts"
   },
   "dependencies": {
+    "@drizzle-zero/custom-types": "workspace:*",
     "drizzle-orm": "^0.44.2",
-    "drizzle-zero": "workspace:*",
-    "drizzle-zero-custom-types": "workspace:*"
+    "drizzle-zero": "workspace:*"
   },
   "devDependencies": {
     "@types/pg": "^8.15.4",

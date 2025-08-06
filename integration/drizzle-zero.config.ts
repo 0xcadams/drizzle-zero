@@ -1,5 +1,5 @@
 import { drizzleZeroConfig } from "drizzle-zero";
-import * as drizzleSchema from "drizzle-zero-db/schema";
+import * as drizzleSchema from "@drizzle-zero/db/schema";
 
 export const schema = drizzleZeroConfig(drizzleSchema, {
   tables: {
