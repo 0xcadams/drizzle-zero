@@ -35,7 +35,6 @@ let zeroContainer: StartedTestContainer | null = null;
 
 export const db: NodePgDatabase<typeof drizzleSchema> = drizzle(pool, {
   schema: drizzleSchema,
-  casing: "snake_case",
 });
 
 export const seed = async () => {
@@ -230,7 +229,7 @@ export const startPostgresAndZero = async () => {
     ])
     .withCopyDirectoriesToContainer([
       {
-        source: path.join(__dirname, "../../db/drizzle"),
+        source: path.join(__dirname, "./drizzle"),
         target: "/docker-entrypoint-initdb.d",
       },
     ])
