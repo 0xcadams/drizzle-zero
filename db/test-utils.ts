@@ -1,4 +1,3 @@
-import { Zero } from "@rocicorp/zero";
 import {
   PostgreSqlContainer,
   StartedPostgreSqlContainer,
@@ -16,28 +15,11 @@ import {
   StartedNetwork,
   type StartedTestContainer,
 } from "testcontainers";
-import * as drizzleSchema from "@drizzle-zero/db/schema";
-import {
-  allTypes,
-  filters,
-  friendship,
-  medium,
-  message,
-  user,
-} from "@drizzle-zero/db/schema";
-import { schema } from "../schema";
+import * as drizzleSchema from "./schema";
+import { allTypes, filters, friendship, medium, message, user } from "./schema";
 
 const PG_PORT = process.env.PG_VERSION === "17" ? 5732 : 5632;
-const ZERO_PORT = process.env.PG_VERSION === "17" ? 5949 : 4949;
-
-export const getNewZero = async () => {
-  return new Zero({
-    server: `http://localhost:${ZERO_PORT}`,
-    userID: "1",
-    schema: schema,
-    kvStore: "mem",
-  });
-};
+export const ZERO_PORT = process.env.PG_VERSION === "17" ? 5949 : 4949;
 
 const pool = new Pool({
   host: "localhost",
@@ -87,6 +69,7 @@ export const seed = async () => {
     testExportedType: {
       nameType: "custom-inline-type",
     },
+    status: "COMPLETED",
   });
   await db.insert(user).values({
     id: "2",
@@ -131,6 +114,7 @@ export const seed = async () => {
     testExportedType: {
       nameType: "custom-inline-type",
     },
+    status: "ASSIGNED",
   });
 
   await db.insert(message).values({

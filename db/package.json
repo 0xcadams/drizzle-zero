@@ -2,19 +2,20 @@
   "name": "@drizzle-zero/db",
   "private": true,
   "type": "module",
+  "exports": {
+    "./schema": "./schema.ts",
+    "./test-utils": "./test-utils.ts"
+  },
   "scripts": {
     "db:generate": "drizzle-kit generate"
   },
-  "exports": {
-    "./schema": "./drizzle/schema.ts"
-  },
   "dependencies": {
     "@drizzle-zero/custom-types": "workspace:*",
-    "drizzle-orm": "^0.44.2",
+    "drizzle-orm": "^0.44.4",
     "drizzle-zero": "workspace:*"
   },
   "devDependencies": {
-    "@types/pg": "^8.15.4",
+    "@types/pg": "^8.15.5",
     "@types/ws": "^8.18.1",
     "@vitest/browser": "^3.2.4",
     "drizzle-kit": "^0.31.4",
