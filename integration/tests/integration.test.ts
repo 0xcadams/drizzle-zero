@@ -264,7 +264,7 @@ describe("types", () => {
       theme: "light",
       fontSize: 16,
     });
-    expect(result?.statusField).toStrictEqual("pending");
+    expect(result?.status).toStrictEqual("pending");
 
     expect(result?.smallSerialField).toStrictEqual(1);
     expect(result?.serialField).toStrictEqual(1);
@@ -286,6 +286,24 @@ describe("types", () => {
     expect(result?.optionalEnum).toBeNull();
     expect(result?.optionalVarchar).toBeNull();
     expect(result?.optionalUuid).toBeNull();
+
+    preloadedAllTypes.cleanup();
+    await zero.close();
+  });
+
+  test("can query enum type", async () => {
+    const zero = await getNewZero();
+
+    const q = zero.query.allTypes
+      .where((query) => query.cmp("status", "=", "pending"))
+      .one();
+
+    const preloadedAllTypes = await q.preload();
+    await preloadedAllTypes.complete;
+
+    const result = await q.run();
+
+    expect(result?.status).toStrictEqual("pending");
 
     preloadedAllTypes.cleanup();
     await zero.close();
@@ -319,7 +337,7 @@ describe("types", () => {
       jsonField: { key: "value" },
       jsonbField: { key: "value" },
       typedJsonField: { theme: "light", fontSize: 16 },
-      statusField: "active",
+      status: "active",
     });
 
     const q = zero.query.allTypes.where((query) =>
@@ -356,7 +374,7 @@ describe("types", () => {
       theme: "light",
       fontSize: 16,
     });
-    expect(result?.statusField).toStrictEqual("active");
+    expect(result?.status).toStrictEqual("active");
 
     preloadedAllTypes.cleanup();
 
@@ -399,7 +417,7 @@ describe("types", () => {
       theme: "light",
       fontSize: 16,
     });
-    expect(dbResult?.statusField).toStrictEqual("active");
+    expect(dbResult?.status).toStrictEqual("active");
 
     expect(dbResult?.smallSerialField).toStrictEqual(2);
     expect(dbResult?.serialField).toStrictEqual(2);

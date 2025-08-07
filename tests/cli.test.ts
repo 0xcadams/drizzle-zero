@@ -1069,10 +1069,9 @@ describe("getConfigFromFile", () => {
                 "serverName": "smallint",
                 "type": "number",
               },
-              "statusField": {
+              "status": {
                 "customType": null,
                 "optional": false,
-                "serverName": "status",
                 "type": "string",
               },
               "textField": {

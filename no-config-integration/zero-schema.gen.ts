@@ -297,15 +297,14 @@ export const schema = {
           >,
           serverName: "typed_json",
         },
-        statusField: {
+        status: {
           type: "string",
           optional: false,
           customType: null as unknown as ZeroCustomType<
             ZeroSchema,
             "allTypes",
-            "statusField"
+            "status"
           >,
-          serverName: "status",
         },
         optionalSmallint: {
           type: "number",

@@ -294,13 +294,13 @@ export const schema = {
           >,
           serverName: "typed_json",
         },
-        statusField: {
+        status: {
           type: "string",
           optional: false,
           customType: null as unknown as ZeroCustomType<
             typeof zeroSchema,
             "allTypes",
-            "statusField"
+            "status"
           >,
           serverName: "status",
         },

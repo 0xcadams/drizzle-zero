@@ -149,7 +149,7 @@ export const allTypes = pgTable("all_types", {
   typedJsonField: jsonb("typed_json")
     .$type<{ theme: string; fontSize: number }>()
     .notNull(),
-  statusField: statusEnum("status").notNull(),
+  status: statusEnum("status").notNull(),
   optionalSmallint: smallint("optional_smallint"),
   optionalInteger: integer("optional_integer"),
   optionalBigint: bigint("optional_bigint", { mode: "number" }),

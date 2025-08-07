@@ -221,7 +221,7 @@ describe("types", () => {
       theme: "light",
       fontSize: 16,
     });
-    expect(result?.statusField).toStrictEqual("pending");
+    expect(result?.status).toStrictEqual("pending");
 
     expect(result?.smallSerialField).toStrictEqual(1);
     expect(result?.serialField).toStrictEqual(1);
@@ -276,7 +276,7 @@ describe("types", () => {
       jsonField: { key: "value" },
       jsonbField: { key: "value" },
       typedJsonField: { theme: "light", fontSize: 16 },
-      statusField: "active",
+      status: "active",
     });
 
     const q = zero.query.allTypes.where((query) =>
@@ -313,7 +313,7 @@ describe("types", () => {
       theme: "light",
       fontSize: 16,
     });
-    expect(result?.statusField).toStrictEqual("active");
+    expect(result?.status).toStrictEqual("active");
 
     preloadedAllTypes.cleanup();
 
@@ -356,7 +356,7 @@ describe("types", () => {
       theme: "light",
       fontSize: 16,
     });
-    expect(dbResult?.statusField).toStrictEqual("active");
+    expect(dbResult?.status).toStrictEqual("active");
 
     expect(dbResult?.smallSerialField).toStrictEqual(2);
     expect(dbResult?.serialField).toStrictEqual(2);

@@ -179,7 +179,7 @@ export const seed = async () => {
     jsonField: { key: "value" },
     jsonbField: { key: "value" },
     typedJsonField: { theme: "light", fontSize: 16 },
-    statusField: "pending",
+    status: "pending",
   });
 
   await db.insert(friendship).values({
@@ -263,7 +263,7 @@ export const startPostgresAndZero = async () => {
 
   await new Promise((resolve, reject) => {
     exec(
-      `npx zero-deploy-permissions --schema-path ${path.join(__dirname, "../schema.ts")} --upstream-db ${basePgUrlWithExternalPort}/drizzle_zero`,
+      `npx zero-deploy-permissions --schema-path ${path.join(__dirname, "../integration/schema.ts")} --upstream-db ${basePgUrlWithExternalPort}/drizzle_zero`,
       (error, stdout) => {
         if (error) {
           reject(error);
