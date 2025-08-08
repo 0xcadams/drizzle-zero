@@ -247,6 +247,10 @@ export const startPostgres = async () => {
 };
 
 export const startZero = async () => {
+  if (!startedNetwork || !postgresContainer) {
+    throw new Error("Network or postgres container not started");
+  }
+
   const basePgUrl = `postgresql://${postgresContainer.getUsername()}:${postgresContainer.getPassword()}`;
   const basePgUrlWithInternalPort = `${basePgUrl}@postgres-db:5432`;
   const basePgUrlWithExternalPort = `${basePgUrl}@127.0.0.1:${PG_PORT}`;
