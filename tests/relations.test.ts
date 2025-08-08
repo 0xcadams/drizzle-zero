@@ -132,7 +132,24 @@ describe("relationships", () => {
     expectSchemaDeepEqual(manyToManyMissingForeignKeyZeroSchema).toEqual(
       expected,
     );
-    // assertEqual(manyToManyMissingForeignKeyZeroSchema, expected);
+    assertEqual(
+      manyToManyMissingForeignKeyZeroSchema.tables.users.columns.id.customType,
+      expected.tables.users.columns.id.customType,
+    );
+    assertEqual(
+      manyToManyMissingForeignKeyZeroSchema.tables.usersToGroups.columns.userId
+        .customType,
+      expected.tables.usersToGroups.columns.userId.customType,
+    );
+    assertEqual(
+      manyToManyMissingForeignKeyZeroSchema.tables.usersToGroups.columns.groupId
+        .customType,
+      expected.tables.usersToGroups.columns.groupId.customType,
+    );
+    assertEqual(
+      manyToManyMissingForeignKeyZeroSchema.tables.groups.columns.id.customType,
+      expected.tables.groups.columns.id.customType,
+    );
   });
 
   test("relationships - many-to-many-duplicate-relationship", async ({
@@ -558,6 +575,18 @@ describe("relationships", () => {
     });
 
     expectSchemaDeepEqual(oneToOne2ZeroSchema).toEqual(expected);
+    assertEqual(
+      oneToOne2ZeroSchema.tables.userTable.columns.id.customType,
+      expected.tables.userTable.columns.id.customType,
+    );
+    assertEqual(
+      oneToOne2ZeroSchema.tables.mediumTable.columns.name.customType,
+      expected.tables.mediumTable.columns.name.customType,
+    );
+    assertEqual(
+      oneToOne2ZeroSchema.tables.messageTable.columns.body.customType,
+      expected.tables.messageTable.columns.body.customType,
+    );
   });
 
   test("relationships - one-to-many", async () => {
@@ -644,6 +673,14 @@ describe("relationships", () => {
       oneToManyZeroSchema.tables.users.columns.id.customType,
       expected.tables.users.columns.id.customType,
     );
+    assertEqual(
+      oneToManyZeroSchema.tables.posts.columns.content.customType,
+      expected.tables.posts.columns.content.customType,
+    );
+    assertEqual(
+      oneToManyZeroSchema.tables.comments.columns.text.customType,
+      expected.tables.comments.columns.text.customType,
+    );
 
     const drizzleSchema = await import("./schemas/one-to-many.schema");
     assertEqual(
@@ -714,8 +751,16 @@ describe("relationships", () => {
 
     expectSchemaDeepEqual(oneToManyNamedZeroSchema).toEqual(expected);
     assertEqual(
-      oneToManyNamedZeroSchema.tables.users.columns.id.customType,
-      expected.tables.users.columns.id.customType,
+      oneToManyNamedZeroSchema.tables.users.columns.name.customType,
+      expected.tables.users.columns.name.customType,
+    );
+    assertEqual(
+      oneToManyNamedZeroSchema.tables.posts.columns.content.customType,
+      expected.tables.posts.columns.content.customType,
+    );
+    assertEqual(
+      oneToManyNamedZeroSchema.tables.posts.columns.reviewerId.customType,
+      expected.tables.posts.columns.reviewerId.customType,
     );
 
     const drizzleSchema = await import("./schemas/one-to-many-named.schema");
@@ -816,7 +861,14 @@ describe("relationships", () => {
     });
 
     expectSchemaDeepEqual(manyToManyZeroSchema).toEqual(expected);
-    // assertEqual(manyToManyZeroSchema, expected);
+    assertEqual(
+      manyToManyZeroSchema.tables.users.columns.name.customType,
+      expected.tables.users.columns.name.customType,
+    );
+    assertEqual(
+      manyToManyZeroSchema.tables.groups.columns.name.customType,
+      expected.tables.groups.columns.name.customType,
+    );
   });
 
   test("relationships - many-to-many-self-referential-fk", async () => {
@@ -887,6 +939,16 @@ describe("relationships", () => {
     expectSchemaDeepEqual(manyToManySelfReferentialFkZeroSchema).toEqual(
       expected,
     );
+    assertEqual(
+      manyToManySelfReferentialFkZeroSchema.tables.related.columns.fk_from_doc
+        .customType,
+      expected.tables.related.columns.fk_from_doc.customType,
+    );
+    assertEqual(
+      manyToManySelfReferentialFkZeroSchema.tables.related.columns.fk_to_doc
+        .customType,
+      expected.tables.related.columns.fk_to_doc.customType,
+    );
   });
 
   test("relationships - many-to-many-subset", async () => {
@@ -906,6 +968,10 @@ describe("relationships", () => {
     });
 
     expectSchemaDeepEqual(manyToManySubsetZeroSchema).toEqual(expected);
+    assertEqual(
+      manyToManySubsetZeroSchema.tables.users.columns.id.customType,
+      expected.tables.users.columns.id.customType,
+    );
   });
 
   test("relationships - many-to-many-subset-2", async () => {
@@ -954,6 +1020,16 @@ describe("relationships", () => {
     });
 
     expectSchemaDeepEqual(manyToManySubset2ZeroSchema).toEqual(expected);
+    assertEqual(
+      manyToManySubset2ZeroSchema.tables.usersToGroups.columns.userId
+        .customType,
+      expected.tables.usersToGroups.columns.userId.customType,
+    );
+    assertEqual(
+      manyToManySubset2ZeroSchema.tables.usersToGroups.columns.groupId
+        .customType,
+      expected.tables.usersToGroups.columns.groupId.customType,
+    );
   });
 
   test("relationships - many-to-many-self-referential", async () => {
@@ -1001,6 +1077,21 @@ describe("relationships", () => {
 
     expectSchemaDeepEqual(manyToManySelfReferentialZeroSchema).toEqual(
       expected,
+    );
+    assertEqual(
+      manyToManySelfReferentialZeroSchema.tables.friendship.columns.accepted
+        .customType,
+      expected.tables.friendship.columns.accepted.customType,
+    );
+    assertEqual(
+      manyToManySelfReferentialZeroSchema.tables.friendship.columns.requestingId
+        .customType,
+      expected.tables.friendship.columns.requestingId.customType,
+    );
+    assertEqual(
+      manyToManySelfReferentialZeroSchema.tables.friendship.columns.acceptingId
+        .customType,
+      expected.tables.friendship.columns.acceptingId.customType,
     );
   });
 
@@ -1093,7 +1184,20 @@ describe("relationships", () => {
     });
 
     expectSchemaDeepEqual(manyToManyExtendedConfigZeroSchema).toEqual(expected);
-    // assertEqual(manyToManyExtendedConfigZeroSchema, expected);
+    assertEqual(
+      manyToManyExtendedConfigZeroSchema.tables.usersToGroups.columns.userId
+        .customType,
+      expected.tables.usersToGroups.columns.userId.customType,
+    );
+    assertEqual(
+      manyToManyExtendedConfigZeroSchema.tables.usersToGroups.columns.groupId
+        .customType,
+      expected.tables.usersToGroups.columns.groupId.customType,
+    );
+    assertEqual(
+      manyToManyExtendedConfigZeroSchema.tables.groups.columns.name.customType,
+      expected.tables.groups.columns.name.customType,
+    );
   });
 
   test("relationships - one-to-many-casing", async () => {
@@ -1181,6 +1285,18 @@ describe("relationships", () => {
       oneToManyCasingZeroSchema.tables.posts.columns.authorId.customType,
       expected.tables.posts.columns.authorId.customType,
     );
+    assertEqual(
+      oneToManyCasingZeroSchema.tables.comments.columns.authorId.customType,
+      expected.tables.comments.columns.authorId.customType,
+    );
+    assertEqual(
+      oneToManyCasingZeroSchema.tables.comments.columns.postId.customType,
+      expected.tables.comments.columns.postId.customType,
+    );
+    assertEqual(
+      oneToManyCasingZeroSchema.tables.posts.columns.authorId.customType,
+      expected.tables.posts.columns.authorId.customType,
+    );
 
     const drizzleSchema = await import("./schemas/one-to-many-casing.schema");
     assertEqual(
@@ -1231,6 +1347,14 @@ describe("relationships", () => {
       oneToManyParentChildZeroSchema.tables.filters.columns.parentId.customType,
       expected.tables.filters.columns.parentId.customType,
     );
+    assertEqual(
+      oneToManyParentChildZeroSchema.tables.filters.columns.name.customType,
+      expected.tables.filters.columns.name.customType,
+    );
+    assertEqual(
+      oneToManyParentChildZeroSchema.tables.filters.columns.id.customType,
+      expected.tables.filters.columns.id.customType,
+    );
 
     const drizzleSchema = await import(
       "./schemas/one-to-many-parent-child.schema"
@@ -1277,6 +1401,18 @@ describe("relationships", () => {
     assertEqual(
       customSchemaZeroSchema.tables.users.columns.id.customType,
       expected.tables.users.columns.id.customType,
+    );
+    assertEqual(
+      customSchemaZeroSchema.tables.users.columns.invitedBy.customType,
+      expected.tables.users.columns.invitedBy.customType,
+    );
+    assertEqual(
+      customSchemaZeroSchema.tables.users.columns.name.customType,
+      expected.tables.users.columns.name.customType,
+    );
+    assertEqual(
+      customSchemaZeroSchema.tables.users.columns.name.customType,
+      expected.tables.users.columns.name.customType,
     );
 
     const drizzleSchema = await import("./schemas/custom-schema.schema");
