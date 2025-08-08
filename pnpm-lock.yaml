@@ -36,6 +36,9 @@ importers:
       '@types/pg':
         specifier: ^8.15.5
         version: 8.15.5
+      '@types/ws':
+        specifier: ^8.18.1
+        version: 8.18.1
       '@vitest/browser':
         specifier: ^3.2.4
         version: 3.2.4(vite@7.0.0(@types/node@24.2.0)(tsx@4.20.3)(yaml@2.8.1))(vitest@3.2.4)
@@ -93,9 +96,6 @@ importers:
       '@types/pg':
         specifier: ^8.15.5
         version: 8.15.5
-      '@types/ws':
-        specifier: ^8.18.1
-        version: 8.18.1
       '@vitest/browser':
         specifier: ^3.2.4
         version: 3.2.4(vite@7.0.0(@types/node@24.2.0)(tsx@4.20.3)(yaml@2.8.1))(vitest@3.2.4)
