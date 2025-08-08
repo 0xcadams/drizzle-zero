@@ -14,6 +14,12 @@ importers:
       jsonc-parser:
         specifier: ^3.3.1
         version: 3.3.1
+      pg:
+        specifier: ''
+        version: 8.16.3
+      postgres:
+        specifier: ''
+        version: 3.4.7
       ts-morph:
         specifier: ^26.0.0
         version: 26.0.0
@@ -21,9 +27,6 @@ importers:
       '@rocicorp/zero':
         specifier: ^0.22.2025080200
         version: 0.22.2025080200(@opentelemetry/core@2.0.1(@opentelemetry/api@1.9.0))(typescript@5.9.2)
-      '@testcontainers/postgresql':
-        specifier: ^11.5.1
-        version: 11.5.1
       '@ts-morph/common':
         specifier: ^0.27.0
         version: 0.27.0
@@ -33,6 +36,9 @@ importers:
       '@types/pg':
         specifier: ^8.15.5
         version: 8.15.5
+      '@vitest/browser':
+        specifier: ^3.2.4
+        version: 3.2.4(vite@7.0.0(@types/node@24.2.0)(tsx@4.20.3)(yaml@2.8.1))(vitest@3.2.4)
       '@vitest/coverage-v8':
         specifier: 3.2.4
         version: 3.2.4(@vitest/browser@3.2.4)(vitest@3.2.4)
@@ -45,18 +51,9 @@ importers:
       drizzle-orm:
         specifier: ^0.44.4
         version: 0.44.4(@opentelemetry/api@1.9.0)(@types/pg@8.15.5)(pg@8.16.3)(postgres@3.4.7)
-      pg:
-        specifier: ^8.16.3
-        version: 8.16.3
-      postgres:
-        specifier: ^3.4.7
-        version: 3.4.7
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
-      testcontainers:
-        specifier: ^11.5.1
-        version: 11.5.1
       tsup:
         specifier: ^8.5.0
         version: 8.5.0(postcss@8.5.6)(tsx@4.20.3)(typescript@5.9.2)(yaml@2.8.1)
@@ -87,6 +84,9 @@ importers:
         specifier: workspace:*
         version: link:..
     devDependencies:
+      '@testcontainers/postgresql':
+        specifier: ^11.5.1
+        version: 11.5.1
       '@types/pg':
         specifier: ^8.15.5
         version: 8.15.5
@@ -102,9 +102,15 @@ importers:
       pg:
         specifier: ^8.16.3
         version: 8.16.3
+      postgres:
+        specifier: ^3.4.7
+        version: 3.4.7
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
+      testcontainers:
+        specifier: ^11.5.1
+        version: 11.5.1
       ws:
         specifier: ^8.18.3
         version: 8.18.3
@@ -120,25 +126,6 @@ importers:
       drizzle-zero:
         specifier: workspace:*
         version: link:..
-    devDependencies:
-      '@types/pg':
-        specifier: ^8.15.5
-        version: 8.15.5
-      '@types/ws':
-        specifier: ^8.18.1
-        version: 8.18.1
-      '@vitest/browser':
-        specifier: ^3.2.4
-        version: 3.2.4(vite@7.0.0(@types/node@24.2.0)(tsx@4.20.3)(yaml@2.8.1))(vitest@3.2.4)
-      pg:
-        specifier: ^8.16.3
-        version: 8.16.3
-      prettier:
-        specifier: ^3.6.2
-        version: 3.6.2
-      ws:
-        specifier: ^8.18.3
-        version: 8.18.3
 
   no-config-integration:
     dependencies:
@@ -151,31 +138,6 @@ importers:
       drizzle-zero:
         specifier: workspace:*
         version: link:..
-    devDependencies:
-      '@testcontainers/postgresql':
-        specifier: ^11.5.1
-        version: 11.5.1
-      '@types/pg':
-        specifier: ^8.15.5
-        version: 8.15.5
-      '@types/ws':
-        specifier: ^8.18.1
-        version: 8.18.1
-      '@vitest/browser':
-        specifier: ^3.2.4
-        version: 3.2.4(vite@7.0.0(@types/node@24.2.0)(tsx@4.20.3)(yaml@2.8.1))(vitest@3.2.4)
-      pg:
-        specifier: ^8.16.3
-        version: 8.16.3
-      prettier:
-        specifier: ^3.6.2
-        version: 3.6.2
-      testcontainers:
-        specifier: ^11.5.1
-        version: 11.5.1
-      ws:
-        specifier: ^8.18.3
-        version: 8.18.3
 
 packages:
 
