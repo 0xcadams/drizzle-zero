@@ -1,23 +1,21 @@
 {
-  "name": "drizzle-zero-integration",
+  "name": "@drizzle-zero/integration",
   "private": true,
   "type": "module",
   "scripts": {
-    "db:generate": "drizzle-kit generate",
     "drizzle-zero:generate": "drizzle-zero generate -f",
     "pretest": "pnpm drizzle-zero:generate",
     "test": "vitest run"
   },
   "dependencies": {
-    "drizzle-orm": "^0.44.2",
-    "drizzle-zero": "workspace:*",
-    "drizzle-zero-custom-types": "workspace:*"
+    "@drizzle-zero/custom-types": "workspace:*",
+    "@drizzle-zero/db": "workspace:*",
+    "drizzle-zero": "workspace:*"
   },
   "devDependencies": {
-    "@types/pg": "^8.15.4",
+    "@types/pg": "^8.15.5",
     "@types/ws": "^8.18.1",
     "@vitest/browser": "^3.2.4",
-    "drizzle-kit": "^0.31.4",
     "pg": "^8.16.3",
     "prettier": "^3.6.2",
     "ws": "^8.18.3"

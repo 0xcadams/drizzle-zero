@@ -1,4 +1,3 @@
-import { Zero } from "@rocicorp/zero";
 import {
   PostgreSqlContainer,
   StartedPostgreSqlContainer,
@@ -16,30 +15,14 @@ import {
   StartedNetwork,
   type StartedTestContainer,
 } from "testcontainers";
-import * as drizzleSchema from "../drizzle/schema";
-import {
-  allTypes,
-  filters,
-  friendship,
-  medium,
-  message,
-  user,
-} from "../drizzle/schema";
-import { schema, type Schema } from "../schema";
+import * as drizzleSchema from "./schema";
+import { allTypes, filters, friendship, medium, message, user } from "./schema";
+import postgres from "postgres";
 
 const PG_PORT = process.env.PG_VERSION === "17" ? 5732 : 5632;
-const ZERO_PORT = process.env.PG_VERSION === "17" ? 5949 : 4949;
+export const ZERO_PORT = process.env.PG_VERSION === "17" ? 5949 : 4949;
 
-export const getNewZero = async (): Promise<Zero<Schema>> => {
-  return new Zero({
-    server: `http://localhost:${ZERO_PORT}`,
-    userID: "1",
-    schema: schema,
-    kvStore: "mem",
-  });
-};
-
-const pool = new Pool({
+export const pool = new Pool({
   host: "localhost",
   port: PG_PORT,
   user: "user",
@@ -47,13 +30,16 @@ const pool = new Pool({
   database: "drizzle_zero",
 });
 
+export const postgresJsClient = postgres(
+  `postgres://user:password@localhost:${PG_PORT}/drizzle_zero`,
+);
+
 let startedNetwork: StartedNetwork | null = null;
 let postgresContainer: StartedPostgreSqlContainer | null = null;
 let zeroContainer: StartedTestContainer | null = null;
 
 export const db: NodePgDatabase<typeof drizzleSchema> = drizzle(pool, {
   schema: drizzleSchema,
-  casing: "snake_case",
 });
 
 export const seed = async () => {
@@ -198,7 +184,7 @@ export const seed = async () => {
     jsonField: { key: "value" },
     jsonbField: { key: "value" },
     typedJsonField: { theme: "light", fontSize: 16 },
-    statusField: "pending",
+    status: "pending",
   });
 
   await db.insert(friendship).values({
@@ -217,7 +203,7 @@ export const shutdown = async () => {
   } catch (error) {}
 };
 
-export const startPostgresAndZero = async () => {
+export const startPostgres = async () => {
   startedNetwork = await new Network().start();
 
   // Start PostgreSQL container
@@ -248,14 +234,22 @@ export const startPostgresAndZero = async () => {
     ])
     .withCopyDirectoriesToContainer([
       {
-        source: path.join(__dirname, "../drizzle"),
+        source: path.join(__dirname, "./drizzle"),
         target: "/docker-entrypoint-initdb.d",
       },
     ])
     .withPullPolicy(PullPolicy.alwaysPull())
     .start();
 
-  await seed();
+  return {
+    postgresContainer,
+  };
+};
+
+export const startZero = async () => {
+  if (!startedNetwork || !postgresContainer) {
+    throw new Error("Network or postgres container not started");
+  }
 
   const basePgUrl = `postgresql://${postgresContainer.getUsername()}:${postgresContainer.getPassword()}`;
   const basePgUrlWithInternalPort = `${basePgUrl}@postgres-db:5432`;
@@ -282,7 +276,7 @@ export const startPostgresAndZero = async () => {
 
   await new Promise((resolve, reject) => {
     exec(
-      `npx zero-deploy-permissions --schema-path ${path.join(__dirname, "../schema.ts")} --upstream-db ${basePgUrlWithExternalPort}/drizzle_zero`,
+      `npx zero-deploy-permissions --schema-path ${path.join(__dirname, "../integration/schema.ts")} --upstream-db ${basePgUrlWithExternalPort}/drizzle_zero`,
       (error, stdout) => {
         if (error) {
           reject(error);
@@ -292,6 +286,17 @@ export const startPostgresAndZero = async () => {
       },
     );
   });
+
+  return {
+    zeroContainer,
+  };
+};
+
+export const startPostgresAndZero = async () => {
+  const { postgresContainer } = await startPostgres();
+  const { zeroContainer } = await startZero();
+
+  await seed();
 
   return {
     postgresContainer,

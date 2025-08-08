@@ -294,15 +294,14 @@ export const schema = {
           >,
           serverName: "typed_json",
         },
-        statusField: {
+        status: {
           type: "string",
           optional: false,
           customType: null as unknown as ZeroCustomType<
             typeof zeroSchema,
             "allTypes",
-            "statusField"
+            "status"
           >,
-          serverName: "status",
         },
         optionalSmallint: {
           type: "number",
@@ -483,7 +482,6 @@ export const schema = {
             "friendship",
             "requestingId"
           >,
-          serverName: "requesting_id",
         },
         acceptingId: {
           type: "string",
@@ -493,7 +491,6 @@ export const schema = {
             "friendship",
             "acceptingId"
           >,
-          serverName: "accepting_id",
         },
         accepted: {
           type: "boolean",

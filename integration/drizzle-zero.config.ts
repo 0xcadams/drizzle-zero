@@ -1,5 +1,5 @@
 import { drizzleZeroConfig } from "drizzle-zero";
-import * as drizzleSchema from "./drizzle/schema";
+import * as drizzleSchema from "@drizzle-zero/db/schema";
 
 export const schema = drizzleZeroConfig(drizzleSchema, {
   tables: {
@@ -56,5 +56,4 @@ export const schema = drizzleZeroConfig(drizzleSchema, {
       ],
     },
   },
-  casing: "snake_case",
 });

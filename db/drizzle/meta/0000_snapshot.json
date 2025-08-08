@@ -1,5 +1,5 @@
 {
-  "id": "3cdba184-f4db-4a05-8f1c-231614a0e824",
+  "id": "e3c7f87a-712e-46af-b190-9248ce78c20c",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -302,14 +302,14 @@
       "name": "friendship",
       "schema": "",
       "columns": {
-        "requesting_id": {
-          "name": "requesting_id",
+        "requestingId": {
+          "name": "requestingId",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "accepting_id": {
-          "name": "accepting_id",
+        "acceptingId": {
+          "name": "acceptingId",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -323,12 +323,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "friendship_requesting_id_user_id_fk": {
-          "name": "friendship_requesting_id_user_id_fk",
+        "friendship_requestingId_user_id_fk": {
+          "name": "friendship_requestingId_user_id_fk",
           "tableFrom": "friendship",
           "tableTo": "user",
           "columnsFrom": [
-            "requesting_id"
+            "requestingId"
           ],
           "columnsTo": [
             "id"
@@ -336,12 +336,12 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "friendship_accepting_id_user_id_fk": {
-          "name": "friendship_accepting_id_user_id_fk",
+        "friendship_acceptingId_user_id_fk": {
+          "name": "friendship_acceptingId_user_id_fk",
           "tableFrom": "friendship",
           "tableTo": "user",
           "columnsFrom": [
-            "accepting_id"
+            "acceptingId"
           ],
           "columnsTo": [
             "id"
@@ -351,11 +351,11 @@
         }
       },
       "compositePrimaryKeys": {
-        "friendship_requesting_id_accepting_id_pk": {
-          "name": "friendship_requesting_id_accepting_id_pk",
+        "friendship_requestingId_acceptingId_pk": {
+          "name": "friendship_requestingId_acceptingId_pk",
           "columns": [
-            "requesting_id",
-            "accepting_id"
+            "requestingId",
+            "acceptingId"
           ]
         }
       },
@@ -450,6 +450,12 @@
           "type": "jsonb",
           "primaryKey": false,
           "notNull": true
+        },
+        "omitted_column": {
+          "name": "omitted_column",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
@@ -481,6 +487,31 @@
           "onUpdate": "no action"
         }
       },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.omitted_table": {
+      "name": "omitted_table",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},

@@ -25,7 +25,7 @@ import {
 import type {
   CustomJsonType,
   CustomJsonInterface,
-} from "drizzle-zero-custom-types";
+} from "@drizzle-zero/custom-types";
 
 export interface TestInterface {
   nameInterface: "custom-inline-interface";
@@ -72,6 +72,7 @@ export const user = pgTable("user", {
   testExportedType: jsonb("test_exported_type")
     .$type<TestExportedType>()
     .notNull(),
+  status: text("status", { enum: ["ASSIGNED", "COMPLETED"] }),
 });
 
 export const userRelations = relations(user, ({ many }) => ({
@@ -148,7 +149,7 @@ export const allTypes = pgTable("all_types", {
   typedJsonField: jsonb("typed_json")
     .$type<{ theme: string; fontSize: number }>()
     .notNull(),
-  statusField: statusEnum("status").notNull(),
+  status: statusEnum("status").notNull(),
   optionalSmallint: smallint("optional_smallint"),
   optionalInteger: integer("optional_integer"),
   optionalBigint: bigint("optional_bigint", { mode: "number" }),

@@ -1069,10 +1069,9 @@ describe("getConfigFromFile", () => {
                 "serverName": "smallint",
                 "type": "number",
               },
-              "statusField": {
+              "status": {
                 "customType": null,
                 "optional": false,
-                "serverName": "status",
                 "type": "string",
               },
               "textField": {
@@ -1169,13 +1168,11 @@ describe("getConfigFromFile", () => {
               "acceptingId": {
                 "customType": null,
                 "optional": false,
-                "serverName": "accepting_id",
                 "type": "string",
               },
               "requestingId": {
                 "customType": null,
                 "optional": false,
-                "serverName": "requesting_id",
                 "type": "string",
               },
             },

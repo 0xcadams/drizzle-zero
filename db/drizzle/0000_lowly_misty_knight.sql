@@ -50,10 +50,10 @@ CREATE TABLE "filters" (
 );
 --> statement-breakpoint
 CREATE TABLE "friendship" (
-	"requesting_id" text NOT NULL,
-	"accepting_id" text NOT NULL,
+	"requestingId" text NOT NULL,
+	"acceptingId" text NOT NULL,
 	"accepted" boolean NOT NULL,
-	CONSTRAINT "friendship_requesting_id_accepting_id_pk" PRIMARY KEY("requesting_id","accepting_id")
+	CONSTRAINT "friendship_requestingId_acceptingId_pk" PRIMARY KEY("requestingId","acceptingId")
 );
 --> statement-breakpoint
 CREATE TABLE "medium" (
@@ -90,10 +90,11 @@ CREATE TABLE "user" (
 	"custom_interface_json" jsonb NOT NULL,
 	"test_interface" jsonb NOT NULL,
 	"test_type" jsonb NOT NULL,
-	"test_exported_type" jsonb NOT NULL
+	"test_exported_type" jsonb NOT NULL,
+	"status" text
 );
 --> statement-breakpoint
-ALTER TABLE "friendship" ADD CONSTRAINT "friendship_requesting_id_user_id_fk" FOREIGN KEY ("requesting_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "friendship" ADD CONSTRAINT "friendship_accepting_id_user_id_fk" FOREIGN KEY ("accepting_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "friendship" ADD CONSTRAINT "friendship_requestingId_user_id_fk" FOREIGN KEY ("requestingId") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "friendship" ADD CONSTRAINT "friendship_acceptingId_user_id_fk" FOREIGN KEY ("acceptingId") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "message" ADD CONSTRAINT "message_senderId_user_id_fk" FOREIGN KEY ("senderId") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "message" ADD CONSTRAINT "message_mediumId_medium_id_fk" FOREIGN KEY ("mediumId") REFERENCES "public"."medium"("id") ON DELETE no action ON UPDATE no action;

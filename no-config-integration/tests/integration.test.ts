@@ -1,10 +1,26 @@
+import {
+  db,
+  shutdown,
+  startPostgresAndZero,
+  ZERO_PORT,
+} from "@drizzle-zero/db/test-utils";
+import { Zero } from "@rocicorp/zero";
 import { randomUUID } from "crypto";
 import { afterAll, beforeAll, describe, expect, test } from "vitest";
 import { WebSocket } from "ws";
-import { db, getNewZero, shutdown, startPostgresAndZero } from "./utils";
+import { schema, type Schema } from "../zero-schema.gen";
 
 // Provide WebSocket on the global scope
 globalThis.WebSocket = WebSocket as any;
+
+const getNewZero = async (): Promise<Zero<Schema>> => {
+  return new Zero({
+    server: `http://localhost:${ZERO_PORT}`,
+    userID: "1",
+    schema: schema,
+    kvStore: "mem",
+  });
+};
 
 beforeAll(async () => {
   await startPostgresAndZero();
@@ -205,7 +221,7 @@ describe("types", () => {
       theme: "light",
       fontSize: 16,
     });
-    expect(result?.statusField).toStrictEqual("pending");
+    expect(result?.status).toStrictEqual("pending");
 
     expect(result?.smallSerialField).toStrictEqual(1);
     expect(result?.serialField).toStrictEqual(1);
@@ -260,7 +276,7 @@ describe("types", () => {
       jsonField: { key: "value" },
       jsonbField: { key: "value" },
       typedJsonField: { theme: "light", fontSize: 16 },
-      statusField: "active",
+      status: "active",
     });
 
     const q = zero.query.allTypes.where((query) =>
@@ -297,7 +313,7 @@ describe("types", () => {
       theme: "light",
       fontSize: 16,
     });
-    expect(result?.statusField).toStrictEqual("active");
+    expect(result?.status).toStrictEqual("active");
 
     preloadedAllTypes.cleanup();
 
@@ -340,7 +356,7 @@ describe("types", () => {
       theme: "light",
       fontSize: 16,
     });
-    expect(dbResult?.statusField).toStrictEqual("active");
+    expect(dbResult?.status).toStrictEqual("active");
 
     expect(dbResult?.smallSerialField).toStrictEqual(2);
     expect(dbResult?.serialField).toStrictEqual(2);
