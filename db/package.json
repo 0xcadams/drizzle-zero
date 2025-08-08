@@ -23,7 +23,6 @@
     "pg": "^8.16.3",
     "postgres": "^3.4.7",
     "prettier": "^3.6.2",
-    "testcontainers": "^11.5.1",
-    "ws": "^8.18.3"
+    "testcontainers": "^11.5.1"
   }
 }

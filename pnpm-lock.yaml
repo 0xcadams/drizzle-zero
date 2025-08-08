@@ -69,6 +69,9 @@ importers:
       vitest:
         specifier: ^3.2.4
         version: 3.2.4(@types/node@24.2.0)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(jsdom@26.1.0)(tsx@4.20.3)(yaml@2.8.1)
+      ws:
+        specifier: ^8.18.3
+        version: 8.18.3
 
   custom-types: {}
 
@@ -111,9 +114,6 @@ importers:
       testcontainers:
         specifier: ^11.5.1
         version: 11.5.1
-      ws:
-        specifier: ^8.18.3
-        version: 8.18.3
 
   integration:
     dependencies:
