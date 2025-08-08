@@ -17,17 +17,22 @@ import {
 } from "testcontainers";
 import * as drizzleSchema from "./schema";
 import { allTypes, filters, friendship, medium, message, user } from "./schema";
+import postgres from "postgres";
 
 const PG_PORT = process.env.PG_VERSION === "17" ? 5732 : 5632;
 export const ZERO_PORT = process.env.PG_VERSION === "17" ? 5949 : 4949;
 
-const pool = new Pool({
+export const pool = new Pool({
   host: "localhost",
   port: PG_PORT,
   user: "user",
   password: "password",
   database: "drizzle_zero",
 });
+
+export const postgresJsClient = postgres(
+  `postgres://user:password@localhost:${PG_PORT}/drizzle_zero`,
+);
 
 let startedNetwork: StartedNetwork | null = null;
 let postgresContainer: StartedPostgreSqlContainer | null = null;
@@ -198,7 +203,7 @@ export const shutdown = async () => {
   } catch (error) {}
 };
 
-export const startPostgresAndZero = async () => {
+export const startPostgres = async () => {
   startedNetwork = await new Network().start();
 
   // Start PostgreSQL container
@@ -236,8 +241,12 @@ export const startPostgresAndZero = async () => {
     .withPullPolicy(PullPolicy.alwaysPull())
     .start();
 
-  await seed();
+  return {
+    postgresContainer,
+  };
+};
 
+export const startZero = async () => {
   const basePgUrl = `postgresql://${postgresContainer.getUsername()}:${postgresContainer.getPassword()}`;
   const basePgUrlWithInternalPort = `${basePgUrl}@postgres-db:5432`;
   const basePgUrlWithExternalPort = `${basePgUrl}@127.0.0.1:${PG_PORT}`;
@@ -273,6 +282,17 @@ export const startPostgresAndZero = async () => {
       },
     );
   });
+
+  return {
+    zeroContainer,
+  };
+};
+
+export const startPostgresAndZero = async () => {
+  const { postgresContainer } = await startPostgres();
+  const { zeroContainer } = await startZero();
+
+  await seed();
 
   return {
     postgresContainer,

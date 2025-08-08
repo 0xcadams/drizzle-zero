@@ -302,7 +302,6 @@ export const schema = {
             "allTypes",
             "status"
           >,
-          serverName: "status",
         },
         optionalSmallint: {
           type: "number",
