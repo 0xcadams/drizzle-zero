@@ -293,4 +293,4 @@ export default drizzleZeroConfig(drizzleSchema, {
 
 ## License
 
-[Unlicense](LICENSE)
+[CC0](LICENSE)
