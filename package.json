@@ -1,6 +1,6 @@
 {
   "name": "drizzle-zero",
-  "version": "0.13.3-beta.1",
+  "version": "0.13.3",
   "description": "Generate Zero schemas from Drizzle ORM schemas",
   "type": "module",
   "scripts": {
@@ -95,7 +95,7 @@
   "devDependencies": {
     "@rocicorp/zero": "^0.22.2025080200",
     "@ts-morph/common": "^0.27.0",
-    "@types/node": "^24.2.0",
+    "@types/node": "^24.2.1",
     "@types/pg": "^8.15.5",
     "@types/ws": "^8.18.1",
     "@vitest/browser": "^3.2.4",
