@@ -140,29 +140,29 @@ async function cli() {
   program
     .command("generate")
     .option(
-      "--config <input-file>",
+      "-c, --config <input-file>",
       `Path to the ${defaultConfigFile} configuration file`,
     )
-    .option("--schema <input-file>", `Path to the Drizzle schema file`)
+    .option("-s, --schema <input-file>", `Path to the Drizzle schema file`)
     .option(
-      "--drizzle-kit-config <input-file>",
+      "-k, --drizzle-kit-config <input-file>",
       `Path to the Drizzle Kit config file`,
       defaultDrizzleKitConfigPath,
     )
     .option(
-      "--output <output-file>",
+      "-o, --output <output-file>",
       `Path to the generated output file`,
       defaultOutputFile,
     )
     .option(
-      "--tsconfig <tsconfig-file>",
+      "-t, --tsconfig <tsconfig-file>",
       `Path to the custom tsconfig file`,
       defaultTsConfigFile,
     )
-    .option("--format", `Format the generated schema`, false)
-    .option("--debug", `Enable debug mode`)
+    .option("-f, --format", `Format the generated schema`, false)
+    .option("-d, --debug", `Enable debug mode`)
     .option(
-      "--js-file-extension",
+      "-j, --js-file-extension",
       `Add a .js file extension to the output (for usage without \"bundler\" module resolution)`,
       false,
     )
