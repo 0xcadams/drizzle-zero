@@ -15,9 +15,10 @@
  * ------------------------------------------------------------
  */
 
-import type { ZeroCustomType } from "drizzle-zero";
+import type { Row } from "@rocicorp/zero";
+import { createBuilder } from "@rocicorp/zero";
+import type { DrizzleToZeroSchema, ZeroCustomType } from "drizzle-zero";
 import type * as drizzleSchema from "./drizzle";
-import type { DrizzleToZeroSchema } from "drizzle-zero";
 
 type ZeroSchema = DrizzleToZeroSchema<typeof drizzleSchema>;
 
@@ -838,3 +839,44 @@ export const schema = {
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type Schema = typeof schema;
+/**
+ * Represents a row from the "allTypes" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type AllTypes = Row<Schema["tables"]["allTypes"]>;
+/**
+ * Represents a row from the "filters" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type Filters = Row<Schema["tables"]["filters"]>;
+/**
+ * Represents a row from the "friendship" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type Friendship = Row<Schema["tables"]["friendship"]>;
+/**
+ * Represents a row from the "medium" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type Medium = Row<Schema["tables"]["medium"]>;
+/**
+ * Represents a row from the "message" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type Message = Row<Schema["tables"]["message"]>;
+/**
+ * Represents a row from the "omittedTable" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type OmittedTable = Row<Schema["tables"]["omittedTable"]>;
+/**
+ * Represents a row from the "user" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type User = Row<Schema["tables"]["user"]>;
+
+/**
+ * Represents the Zero schema query builder.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export const builder = createBuilder(schema);

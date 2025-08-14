@@ -49,6 +49,8 @@ export interface GeneratorOptions {
   drizzleKitConfigPath?: string;
   debug?: boolean;
   jsFileExtension?: boolean;
+  skipTypes?: boolean;
+  skipBuilder?: boolean;
 }
 
 async function main(opts: GeneratorOptions = {}) {
@@ -61,6 +63,8 @@ async function main(opts: GeneratorOptions = {}) {
     drizzleKitConfigPath,
     debug,
     jsFileExtension,
+    skipTypes,
+    skipBuilder,
   } = { ...opts };
 
   const resolvedTsConfigPath = tsConfigPath ?? defaultTsConfigFile;
@@ -116,6 +120,8 @@ async function main(opts: GeneratorOptions = {}) {
     result,
     outputFilePath: resolvedOutputFilePath,
     jsFileExtension: Boolean(jsFileExtension),
+    skipTypes: Boolean(skipTypes),
+    skipBuilder: Boolean(skipBuilder),
   });
 
   if (format) {
@@ -160,6 +166,16 @@ async function cli() {
       `Add a .js file extension to the output (for usage without \"bundler\" module resolution)`,
       false,
     )
+    .option(
+      "--skip-types",
+      "Skip generating table Row<> type exports",
+      false,
+    )
+    .option(
+      "--skip-builder",
+      "Skip generating the builder export",
+      false,
+    )
     .action(async (command) => {
       console.log(`⚙️  drizzle-zero: Generating zero schema...`);
 
@@ -172,6 +188,8 @@ async function cli() {
         drizzleKitConfigPath: command.drizzleKitConfig,
         debug: command.debug,
         jsFileExtension: command.jsFileExtension,
+        skipTypes: command.skipTypes,
+        skipBuilder: command.skipBuilder,
       });
 
       if (command.output) {

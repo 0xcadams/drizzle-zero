@@ -6,9 +6,22 @@ import {
 } from "@drizzle-zero/db/test-utils";
 import { Zero } from "@rocicorp/zero";
 import { randomUUID } from "crypto";
-import { afterAll, beforeAll, describe, expect, test } from "vitest";
+import {
+  afterAll,
+  beforeAll,
+  describe,
+  expect,
+  expectTypeOf,
+  test,
+} from "vitest";
 import { WebSocket } from "ws";
-import { schema, type Schema } from "../zero-schema.gen";
+import {
+  schema,
+  type Filters,
+  type Message,
+  type Schema,
+  type User,
+} from "../zero-schema.gen";
 
 // Provide WebSocket on the global scope
 globalThis.WebSocket = WebSocket as any;
@@ -40,6 +53,8 @@ describe("relationships", () => {
     await preloadedUsers.complete;
 
     const user = await q.run();
+
+    expectTypeOf(user).toExtend<User[]>();
 
     expect(user).toHaveLength(3);
     expect(user[0]?.name).toBe("James");
@@ -76,6 +91,8 @@ describe("relationships", () => {
 
     const filters = await q.run();
 
+    expectTypeOf(filters).toExtend<Filters[]>();
+
     expect(filters).toHaveLength(1);
     expect(filters[0]?.name).toBe("filter1");
     expect(filters[0]?.children).toHaveLength(2);
@@ -97,6 +114,8 @@ describe("relationships", () => {
 
     const messages = await q.run();
 
+    expectTypeOf(messages).toExtend<Message[]>();
+
     expect(messages).toHaveLength(2);
     expect(messages[0]?.body).toBe("Hey, James!");
     expect(messages[0]?.metadata.key).toStrictEqual("value1");
@@ -116,6 +135,8 @@ describe("relationships", () => {
     await preloadedMessages.complete;
 
     const messages = await q.run();
+
+    expectTypeOf(messages).toExtend<Message[]>();
 
     expect(messages).toHaveLength(1);
     expect(messages[0]?.body).toBe("Thomas!");
@@ -162,6 +183,8 @@ describe("relationships", () => {
     await preloadedMessages.complete;
 
     const message = await q.one().run();
+
+    expectTypeOf(message).toExtend<Message | undefined>();
 
     expect(message?.id).toBe("99");
     expect(message?.metadata.key).toStrictEqual("9988");

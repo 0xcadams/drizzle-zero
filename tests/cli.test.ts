@@ -147,6 +147,8 @@ describe("getGeneratedSchema", () => {
        * ------------------------------------------------------------
        */
 
+      import type { Row } from "@rocicorp/zero";
+      import { createBuilder } from "@rocicorp/zero";
       import type { ZeroCustomType } from "drizzle-zero";
       import type { schema as zeroSchema } from "./tests/schemas/one-to-one.zero";
 
@@ -176,6 +178,17 @@ describe("getGeneratedSchema", () => {
        * This type is auto-generated from your Drizzle schema definition.
        */
       export type Schema = typeof schema;
+      /**
+       * Represents a row from the "users" table.
+       * This type is auto-generated from your Drizzle schema definition.
+       */
+      export type Users = Row<Schema["tables"]["users"]>;
+
+      /**
+       * Represents the Zero schema query builder.
+       * This type is auto-generated from your Drizzle schema definition.
+       */
+      export const builder = createBuilder(schema);
       "
     `);
   });
@@ -516,6 +529,318 @@ describe("getGeneratedSchema", () => {
 
     // Reset the mock after the test
     vi.restoreAllMocks();
+  });
+
+  it("should generate builder export with createBuilder from @rocicorp/zero", async () => {
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    const generatedSchema = await getGeneratedSchema({
+      tsProject,
+      result: {
+        type: "config",
+        zeroSchema: {
+          tables: {
+            users: {
+              name: "users",
+              primaryKey: ["id"],
+              columns: {
+                id: {
+                  type: "number",
+                  optional: false,
+                  customType: undefined,
+                },
+                name: {
+                  type: "string",
+                  optional: false,
+                  customType: undefined,
+                },
+              },
+            },
+          },
+          relationships: {},
+        },
+        exportName: "schema",
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+    });
+
+    // Check for @rocicorp/zero imports
+    expect(generatedSchema).toContain('import { createBuilder } from "@rocicorp/zero";');
+    expect(generatedSchema).toContain('import type { Row } from "@rocicorp/zero";');
+    
+    // Check for builder export
+    expect(generatedSchema).toContain('export const builder = createBuilder(schema);');
+    
+    // Check for builder JSDoc
+    expect(generatedSchema).toContain('Represents the Zero schema query builder');
+  });
+
+  it("should generate table type exports for each table using Row type", async () => {
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    const generatedSchema = await getGeneratedSchema({
+      tsProject,
+      result: {
+        type: "config",
+        zeroSchema: {
+          tables: {
+            users: {
+              name: "users",
+              primaryKey: ["id"],
+              columns: {
+                id: { type: "number", optional: false, customType: undefined },
+                name: { type: "string", optional: false, customType: undefined },
+              },
+            },
+            posts: {
+              name: "posts",
+              primaryKey: ["id"],
+              columns: {
+                id: { type: "number", optional: false, customType: undefined },
+                title: { type: "string", optional: false, customType: undefined },
+                userId: { type: "number", optional: false, customType: undefined },
+              },
+            },
+          },
+          relationships: {},
+        },
+        exportName: "schema",
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+    });
+
+    // Check for table type exports with proper capitalization
+    expect(generatedSchema).toContain('export type Users = Row<Schema["tables"]["users"]>;');
+    expect(generatedSchema).toContain('export type Posts = Row<Schema["tables"]["posts"]>;');
+    
+    // Check for JSDoc comments on table types
+    expect(generatedSchema).toContain('Represents a row from the "users" table');
+    expect(generatedSchema).toContain('Represents a row from the "posts" table');
+  });
+
+  it("should handle table names with various casing correctly", async () => {
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    const generatedSchema = await getGeneratedSchema({
+      tsProject,
+      result: {
+        type: "config",
+        zeroSchema: {
+          tables: {
+            userProfiles: {
+              name: "userProfiles",
+              primaryKey: ["id"],
+              columns: {
+                id: { type: "number", optional: false, customType: undefined },
+              },
+            },
+            blog_posts: {
+              name: "blog_posts",
+              primaryKey: ["id"],
+              columns: {
+                id: { type: "number", optional: false, customType: undefined },
+              },
+            },
+            user: {
+              name: "user",
+              primaryKey: ["id"],
+              columns: {
+                id: { type: "number", optional: false, customType: undefined },
+              },
+            },
+          },
+          relationships: {},
+        },
+        exportName: "schema",
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+    });
+
+    // Check that capitalization works correctly for different naming conventions
+    expect(generatedSchema).toContain('export type UserProfiles = Row<Schema["tables"]["userProfiles"]>;');
+    expect(generatedSchema).toContain('export type Blog_posts = Row<Schema["tables"]["blog_posts"]>;');
+    expect(generatedSchema).toContain('export type User = Row<Schema["tables"]["user"]>;');
+  });
+
+  it("should include all new features in drizzle-kit type schemas", async () => {
+    // Mock the DrizzleToZeroSchema type
+    vi.mock("drizzle-zero", () => ({
+      DrizzleToZeroSchema: class {},
+    }));
+
+    const mockSourceFile = tsProject.createSourceFile(
+      "mock-drizzle-schema.ts",
+      `export const users = { id: { type: "serial", primaryKey: true } };`,
+    );
+
+    const mockSchema = {
+      tables: {
+        users: {
+          name: "users",
+          primaryKey: ["id"],
+          columns: {
+            id: { type: "integer", optional: false, customType: undefined },
+          },
+        },
+        posts: {
+          name: "posts", 
+          primaryKey: ["id"],
+          columns: {
+            id: { type: "integer", optional: false, customType: undefined },
+          },
+        },
+      },
+      relationships: {},
+    };
+
+    const generatedSchema = await getGeneratedSchema({
+      tsProject,
+      result: {
+        type: "drizzle-kit",
+        zeroSchema: mockSchema as any,
+        drizzleSchemaSourceFile: mockSourceFile,
+        drizzleCasing: null,
+      },
+      outputFilePath,
+    });
+
+    // Check for all the new imports
+    expect(generatedSchema).toContain('import { createBuilder } from "@rocicorp/zero";');
+    expect(generatedSchema).toContain('import type { Row } from "@rocicorp/zero";');
+    
+    // Check for builder export
+    expect(generatedSchema).toContain('export const builder = createBuilder(schema);');
+    
+    // Check for table type exports  
+    expect(generatedSchema).toContain('export type Users = Row<Schema["tables"]["users"]>;');
+    expect(generatedSchema).toContain('export type Posts = Row<Schema["tables"]["posts"]>;');
+
+    // Reset the mock after the test
+    vi.restoreAllMocks();
+  });
+
+  it("should handle empty tables object gracefully", async () => {
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    const generatedSchema = await getGeneratedSchema({
+      tsProject,
+      result: {
+        type: "config", 
+        zeroSchema: {
+          tables: {},
+          relationships: {},
+        },
+        exportName: "schema",
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+    });
+
+    // Should still include builder export but not Row import when no tables
+    expect(generatedSchema).toContain('import { createBuilder } from "@rocicorp/zero";');
+    expect(generatedSchema).not.toContain('import type { Row } from "@rocicorp/zero";');
+    expect(generatedSchema).toContain('export const builder = createBuilder(schema);');
+    
+    // Should not have any table row type exports, but should still have Schema type
+    expect(generatedSchema).toContain('export type Schema = typeof schema;');
+    expect(generatedSchema).not.toContain('Row<Schema["tables"]');
+  });
+
+  it("should skip generating table row types when skipTypes is true", async () => {
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    const generatedSchema = await getGeneratedSchema({
+      tsProject,
+      result: {
+        type: "config",
+        zeroSchema: {
+          tables: {
+            users: {
+              name: "users",
+              primaryKey: ["id"],
+              columns: {
+                id: { type: "number", optional: false, customType: undefined },
+              },
+            },
+          },
+          relationships: {},
+        },
+        exportName: "schema",
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+      skipTypes: true,
+    });
+
+    // Row import and type exports should be omitted
+    expect(generatedSchema).not.toContain('import type { Row } from "@rocicorp/zero";');
+    expect(generatedSchema).not.toContain('Row<Schema["tables"]["users"]>');
+
+    // Builder should still be present
+    expect(generatedSchema).toContain('import { createBuilder } from "@rocicorp/zero";');
+    expect(generatedSchema).toContain('export const builder = createBuilder(schema);');
+  });
+
+  it("should skip generating the builder when skipBuilder is true", async () => {
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    const generatedSchema = await getGeneratedSchema({
+      tsProject,
+      result: {
+        type: "config",
+        zeroSchema: {
+          tables: {
+            users: {
+              name: "users",
+              primaryKey: ["id"],
+              columns: {
+                id: { type: "number", optional: false, customType: undefined },
+              },
+            },
+          },
+          relationships: {},
+        },
+        exportName: "schema",
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+      skipBuilder: true,
+    });
+
+    // Builder import and export should be omitted
+    expect(generatedSchema).not.toContain('import { createBuilder } from "@rocicorp/zero";');
+    expect(generatedSchema).not.toContain('export const builder = createBuilder(schema);');
+
+    // Row types should still be present
+    expect(generatedSchema).toContain('import type { Row } from "@rocicorp/zero";');
+    expect(generatedSchema).toContain('export type Users = Row<Schema["tables"]["users"]>;');
   });
 });
 
