@@ -84,6 +84,11 @@ with `-f, --format`.
 To specify a custom tsconfig file, use `-t, --tsconfig <tsconfig-file>`.
 It will, by default, look for one in the current directory.
 
+You can also control optional outputs from the generator:
+
+- **--skip-types**: Skip generating table `Row<>` type exports.
+- **--skip-builder**: Skip generating the query `builder` export.
+
 **Important:** the Drizzle schema **must be included in the tsconfig** for
 type resolution to work. If they are not included, there will be an error similar to
 `Failed to find type definitions`.

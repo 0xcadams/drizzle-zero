@@ -7,6 +7,8 @@ export async function getGeneratedSchema({
   result,
   outputFilePath,
   jsFileExtension = false,
+  skipTypes = false,
+  skipBuilder = false,
 }: {
   tsProject: Project;
   result:
@@ -14,6 +16,8 @@ export async function getGeneratedSchema({
     | Awaited<ReturnType<typeof getDefaultConfig>>;
   outputFilePath: string;
   jsFileExtension?: boolean;
+  skipTypes?: boolean;
+  skipBuilder?: boolean;
 }) {
   const schemaObjectName = "schema";
   const typename = "Schema";
@@ -25,17 +29,6 @@ export async function getGeneratedSchema({
   zeroSchemaGenerated.addImportDeclaration({
     moduleSpecifier: "drizzle-zero",
     namedImports: [{ name: "ZeroCustomType" }],
-    isTypeOnly: true,
-  });
-
-  zeroSchemaGenerated.addImportDeclaration({
-    moduleSpecifier: "@rocicorp/zero",
-    namedImports: [{ name: "createBuilder" }],
-  });
-
-  zeroSchemaGenerated.addImportDeclaration({
-    moduleSpecifier: "@rocicorp/zero",
-    namedImports: [{ name: "Row" }],
     isTypeOnly: true,
   });
 
@@ -176,45 +169,63 @@ export async function getGeneratedSchema({
   });
 
   // Add type exports for each table
-  if (
-    result.zeroSchema &&
-    typeof result.zeroSchema === "object" &&
-    "tables" in result.zeroSchema
-  ) {
-    const tables = result.zeroSchema.tables as Record<string, unknown>;
+  if (!skipTypes) {
+    if (
+      result.zeroSchema &&
+      typeof result.zeroSchema === "object" &&
+      "tables" in result.zeroSchema
+    ) {
+      const tables = result.zeroSchema.tables as Record<string, unknown>;
 
-    for (const tableName of Object.keys(tables)) {
-      // Capitalize the first letter for the type name
-      const typeName = tableName.charAt(0).toUpperCase() + tableName.slice(1);
+      // Only add Row import if there are tables to generate types for
+      if (Object.keys(tables).length > 0) {
+        zeroSchemaGenerated.addImportDeclaration({
+          moduleSpecifier: "@rocicorp/zero",
+          namedImports: [{ name: "Row" }],
+          isTypeOnly: true,
+        });
+      }
 
-      const tableTypeAlias = zeroSchemaGenerated.addTypeAlias({
-        name: typeName,
-        isExported: true,
-        type: `Row<${typename}["tables"]["${tableName}"]>`,
-      });
+      for (const tableName of Object.keys(tables)) {
+        // Capitalize the first letter for the type name
+        const typeName = tableName.charAt(0).toUpperCase() + tableName.slice(1);
 
-      tableTypeAlias.addJsDoc({
-        description: `\nRepresents a row from the "${tableName}" table.\nThis type is auto-generated from your Drizzle schema definition.`,
-      });
+        const tableTypeAlias = zeroSchemaGenerated.addTypeAlias({
+          name: typeName,
+          isExported: true,
+          type: `Row<${typename}["tables"]["${tableName}"]>`,
+        });
+
+        tableTypeAlias.addJsDoc({
+          description: `\nRepresents a row from the "${tableName}" table.\nThis type is auto-generated from your Drizzle schema definition.`,
+        });
+      }
     }
   }
 
   // Add builder export
-  const builderVariable = zeroSchemaGenerated.addVariableStatement({
-    declarationKind: VariableDeclarationKind.Const,
-    isExported: true,
-    declarations: [
-      {
-        name: "builder",
-        initializer: `createBuilder(${schemaObjectName})`,
-      },
-    ],
-  });
+  if (!skipBuilder) {
+    zeroSchemaGenerated.addImportDeclaration({
+      moduleSpecifier: "@rocicorp/zero",
+      namedImports: [{ name: "createBuilder" }],
+    });
 
-  builderVariable.addJsDoc({
-    description:
-      "\nRepresents the Zero schema query builder.\nThis type is auto-generated from your Drizzle schema definition.",
-  });
+    const builderVariable = zeroSchemaGenerated.addVariableStatement({
+      declarationKind: VariableDeclarationKind.Const,
+      isExported: true,
+      declarations: [
+        {
+          name: "builder",
+          initializer: `createBuilder(${schemaObjectName})`,
+        },
+      ],
+    });
+
+    builderVariable.addJsDoc({
+      description:
+        "\nRepresents the Zero schema query builder.\nThis type is auto-generated from your Drizzle schema definition.",
+    });
+  }
 
   zeroSchemaGenerated.formatText();
 

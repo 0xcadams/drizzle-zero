@@ -49,6 +49,8 @@ export interface GeneratorOptions {
   drizzleKitConfigPath?: string;
   debug?: boolean;
   jsFileExtension?: boolean;
+  skipTypes?: boolean;
+  skipBuilder?: boolean;
 }
 
 async function main(opts: GeneratorOptions = {}) {
@@ -61,6 +63,8 @@ async function main(opts: GeneratorOptions = {}) {
     drizzleKitConfigPath,
     debug,
     jsFileExtension,
+    skipTypes,
+    skipBuilder,
   } = { ...opts };
 
   const resolvedTsConfigPath = tsConfigPath ?? defaultTsConfigFile;
@@ -116,6 +120,8 @@ async function main(opts: GeneratorOptions = {}) {
     result,
     outputFilePath: resolvedOutputFilePath,
     jsFileExtension: Boolean(jsFileExtension),
+    skipTypes: Boolean(skipTypes),
+    skipBuilder: Boolean(skipBuilder),
   });
 
   if (format) {
@@ -134,30 +140,40 @@ async function cli() {
   program
     .command("generate")
     .option(
-      "-c, --config <input-file>",
+      "--config <input-file>",
       `Path to the ${defaultConfigFile} configuration file`,
     )
-    .option("-s, --schema <input-file>", `Path to the Drizzle schema file`)
+    .option("--schema <input-file>", `Path to the Drizzle schema file`)
     .option(
-      "-k, --drizzle-kit-config <input-file>",
+      "--drizzle-kit-config <input-file>",
       `Path to the Drizzle Kit config file`,
       defaultDrizzleKitConfigPath,
     )
     .option(
-      "-o, --output <output-file>",
+      "--output <output-file>",
       `Path to the generated output file`,
       defaultOutputFile,
     )
     .option(
-      "-t, --tsconfig <tsconfig-file>",
+      "--tsconfig <tsconfig-file>",
       `Path to the custom tsconfig file`,
       defaultTsConfigFile,
     )
-    .option("-f, --format", `Format the generated schema`, false)
-    .option("-d, --debug", `Enable debug mode`)
+    .option("--format", `Format the generated schema`, false)
+    .option("--debug", `Enable debug mode`)
     .option(
-      "-j, --js-file-extension",
+      "--js-file-extension",
       `Add a .js file extension to the output (for usage without \"bundler\" module resolution)`,
+      false,
+    )
+    .option(
+      "--skip-types",
+      "Skip generating table Row<> type exports",
+      false,
+    )
+    .option(
+      "--skip-builder",
+      "Skip generating the builder export",
       false,
     )
     .action(async (command) => {
@@ -172,6 +188,8 @@ async function cli() {
         drizzleKitConfigPath: command.drizzleKitConfig,
         debug: command.debug,
         jsFileExtension: command.jsFileExtension,
+        skipTypes: command.skipTypes,
+        skipBuilder: command.skipBuilder,
       });
 
       if (command.output) {
