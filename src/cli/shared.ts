@@ -28,6 +28,17 @@ export async function getGeneratedSchema({
     isTypeOnly: true,
   });
 
+  zeroSchemaGenerated.addImportDeclaration({
+    moduleSpecifier: "@rocicorp/zero",
+    namedImports: [{ name: "createBuilder" }],
+  });
+
+  zeroSchemaGenerated.addImportDeclaration({
+    moduleSpecifier: "@rocicorp/zero",
+    namedImports: [{ name: "Row" }],
+    isTypeOnly: true,
+  });
+
   let zeroSchemaSpecifier: string | undefined;
 
   if (result.type === "config") {
@@ -164,9 +175,53 @@ export async function getGeneratedSchema({
       "\nRepresents the Zero schema type.\nThis type is auto-generated from your Drizzle schema definition.",
   });
 
+  // Add type exports for each table
+  if (
+    result.zeroSchema &&
+    typeof result.zeroSchema === "object" &&
+    "tables" in result.zeroSchema
+  ) {
+    const tables = result.zeroSchema.tables as Record<string, unknown>;
+
+    for (const tableName of Object.keys(tables)) {
+      // Capitalize the first letter for the type name
+      const typeName = tableName.charAt(0).toUpperCase() + tableName.slice(1);
+
+      const tableTypeAlias = zeroSchemaGenerated.addTypeAlias({
+        name: typeName,
+        isExported: true,
+        type: `Row<${typename}["tables"]["${tableName}"]>`,
+      });
+
+      tableTypeAlias.addJsDoc({
+        description: `\nRepresents a row from the "${tableName}" table.\nThis type is auto-generated from your Drizzle schema definition.`,
+      });
+    }
+  }
+
+  // Add builder export
+  const builderVariable = zeroSchemaGenerated.addVariableStatement({
+    declarationKind: VariableDeclarationKind.Const,
+    isExported: true,
+    declarations: [
+      {
+        name: "builder",
+        initializer: `createBuilder(${schemaObjectName})`,
+      },
+    ],
+  });
+
+  builderVariable.addJsDoc({
+    description:
+      "\nRepresents the Zero schema query builder.\nThis type is auto-generated from your Drizzle schema definition.",
+  });
+
   zeroSchemaGenerated.formatText();
 
-  const file = zeroSchemaGenerated.getText();
+  // organize imports
+  const organizedImports = zeroSchemaGenerated.organizeImports();
+
+  const file = organizedImports.getText();
 
   return `/* eslint-disable */
 /* tslint:disable */
