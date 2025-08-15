@@ -1,5 +1,5 @@
 import camelCase from "camelcase";
-import * as pluralize from "pluralize";
+import pluralize from "pluralize";
 import { type Project, VariableDeclarationKind } from "ts-morph";
 import type { getConfigFromFile } from "./config";
 import type { getDefaultConfig } from "./drizzle-kit";
