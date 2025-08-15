@@ -7,6 +7,8 @@ Generate [Zero](https://zero.rocicorp.dev/) schemas from [Drizzle ORM](https://o
 ```bash
 npm install drizzle-zero
 # or
+bun add drizzle-zero
+# or
 yarn add drizzle-zero
 # or
 pnpm add drizzle-zero
