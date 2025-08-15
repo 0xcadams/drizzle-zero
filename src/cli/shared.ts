@@ -1,5 +1,5 @@
 import camelCase from "camelcase";
-import { singular } from "pluralize";
+import * as pluralize from "pluralize";
 import { type Project, VariableDeclarationKind } from "ts-morph";
 import type { getConfigFromFile } from "./config";
 import type { getDefaultConfig } from "./drizzle-kit";
@@ -189,7 +189,9 @@ export async function getGeneratedSchema({
 
     for (const tableName of allTableNames) {
       // make the type name singular and camelCase
-      const typeName = camelCase(singular(tableName), { pascalCase: true });
+      const typeName = camelCase(pluralize.singular(tableName), {
+        pascalCase: true,
+      });
 
       const tableTypeAlias = zeroSchemaGenerated.addTypeAlias({
         name: typeName,
