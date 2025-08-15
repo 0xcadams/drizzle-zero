@@ -93,9 +93,9 @@
     "ts-morph": "^26.0.0"
   },
   "devDependencies": {
-    "@rocicorp/zero": "^0.22.2025080200",
+    "@rocicorp/zero": "^0.22.2025081300",
     "@ts-morph/common": "^0.27.0",
-    "@types/node": "^24.2.1",
+    "@types/node": "^24.3.0",
     "@types/pg": "^8.15.5",
     "@types/ws": "^8.18.1",
     "@vitest/browser": "^3.2.4",
@@ -105,7 +105,7 @@
     "drizzle-orm": "^0.44.4",
     "prettier": "^3.6.2",
     "tsup": "^8.5.0",
-    "tsx": "^4.20.3",
+    "tsx": "^4.20.4",
     "typescript": "^5.9.2",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.4",
