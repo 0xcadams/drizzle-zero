@@ -17,7 +17,7 @@ import {
 import { WebSocket } from "ws";
 import {
   schema,
-  type Filters,
+  type Filter,
   type Message,
   type Schema,
   type User,
@@ -91,7 +91,7 @@ describe("relationships", () => {
 
     const filters = await q.run();
 
-    expectTypeOf(filters).toExtend<Filters[]>();
+    expectTypeOf(filters).toExtend<Filter[]>();
 
     expect(filters).toHaveLength(1);
     expect(filters[0]?.name).toBe("filter1");

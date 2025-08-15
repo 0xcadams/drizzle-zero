@@ -1,3 +1,5 @@
+import camelCase from "camelcase";
+import pluralize from "pluralize";
 import { type Project, VariableDeclarationKind } from "ts-morph";
 import type { getConfigFromFile } from "./config";
 import type { getDefaultConfig } from "./drizzle-kit";
@@ -169,37 +171,37 @@ export async function getGeneratedSchema({
   });
 
   // Add type exports for each table
-  if (!skipTypes) {
-    if (
-      result.zeroSchema &&
-      typeof result.zeroSchema === "object" &&
-      "tables" in result.zeroSchema
-    ) {
-      const tables = result.zeroSchema.tables as Record<string, unknown>;
+  if (
+    !skipTypes &&
+    result.zeroSchema &&
+    typeof result.zeroSchema === "object" &&
+    "tables" in result.zeroSchema
+  ) {
+    const allTableNames = Object.keys(result.zeroSchema.tables);
 
-      // Only add Row import if there are tables to generate types for
-      if (Object.keys(tables).length > 0) {
-        zeroSchemaGenerated.addImportDeclaration({
-          moduleSpecifier: "@rocicorp/zero",
-          namedImports: [{ name: "Row" }],
-          isTypeOnly: true,
-        });
-      }
+    if (allTableNames.length > 0) {
+      zeroSchemaGenerated.addImportDeclaration({
+        moduleSpecifier: "@rocicorp/zero",
+        namedImports: [{ name: "Row" }],
+        isTypeOnly: true,
+      });
+    }
 
-      for (const tableName of Object.keys(tables)) {
-        // Capitalize the first letter for the type name
-        const typeName = tableName.charAt(0).toUpperCase() + tableName.slice(1);
+    for (const tableName of allTableNames) {
+      // make the type name singular and camelCase
+      const typeName = camelCase(pluralize.singular(tableName), {
+        pascalCase: true,
+      });
 
-        const tableTypeAlias = zeroSchemaGenerated.addTypeAlias({
-          name: typeName,
-          isExported: true,
-          type: `Row<${typename}["tables"]["${tableName}"]>`,
-        });
+      const tableTypeAlias = zeroSchemaGenerated.addTypeAlias({
+        name: typeName,
+        isExported: true,
+        type: `Row<${typename}["tables"]["${tableName}"]>`,
+      });
 
-        tableTypeAlias.addJsDoc({
-          description: `\nRepresents a row from the "${tableName}" table.\nThis type is auto-generated from your Drizzle schema definition.`,
-        });
-      }
+      tableTypeAlias.addJsDoc({
+        description: `\nRepresents a row from the "${tableName}" table.\nThis type is auto-generated from your Drizzle schema definition.`,
+      });
     }
   }
 

@@ -6,9 +6,16 @@ import {
 } from "@drizzle-zero/db/test-utils";
 import { Zero } from "@rocicorp/zero";
 import { randomUUID } from "crypto";
-import { afterAll, beforeAll, describe, expect, test } from "vitest";
+import {
+  afterAll,
+  beforeAll,
+  describe,
+  expect,
+  expectTypeOf,
+  test,
+} from "vitest";
 import { WebSocket } from "ws";
-import { schema, type Schema } from "../zero-schema.gen";
+import { schema, type Filter, type Schema } from "../zero-schema.gen";
 
 // Provide WebSocket on the global scope
 globalThis.WebSocket = WebSocket as any;
@@ -75,6 +82,8 @@ describe("relationships", () => {
     await preloadedFilters.complete;
 
     const filters = await q.run();
+
+    expectTypeOf(filters).toExtend<Filter[]>();
 
     expect(filters).toHaveLength(1);
     expect(filters[0]?.name).toBe("filter1");

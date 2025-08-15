@@ -825,12 +825,12 @@ export type Schema = typeof schema;
  * Represents a row from the "allTypes" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type AllTypes = Row<Schema["tables"]["allTypes"]>;
+export type AllType = Row<Schema["tables"]["allTypes"]>;
 /**
  * Represents a row from the "filters" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Filters = Row<Schema["tables"]["filters"]>;
+export type Filter = Row<Schema["tables"]["filters"]>;
 /**
  * Represents a row from the "friendship" table.
  * This type is auto-generated from your Drizzle schema definition.
