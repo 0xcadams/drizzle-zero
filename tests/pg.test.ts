@@ -68,7 +68,7 @@ describe("node-postgres", () => {
   });
 
   test("types", async () => {
-    const s = null as unknown as NodePgZeroTransaction<typeof drizzleSchema>;
+    const s = null as unknown as NodePgZeroTransaction<typeof db>;
 
     const country = null as unknown as Awaited<
       ReturnType<typeof s.query.country.findFirst>
@@ -215,9 +215,7 @@ describe("postgres-js", () => {
   });
 
   test("types", async () => {
-    const s = null as unknown as PostgresJsZeroTransaction<
-      typeof drizzleSchema
-    >;
+    const s = null as unknown as PostgresJsZeroTransaction<typeof db>;
 
     const country = null as unknown as Awaited<
       ReturnType<typeof s.query.country.findFirst>
