@@ -20,7 +20,12 @@ import {
   drizzleDataTypeToZeroType,
   type ZeroTypeToTypescriptType,
 } from "./drizzle-to-zero";
-import type { ColumnNames, Columns, FindPrimaryKeyFromTable } from "./types";
+import type {
+  ColumnNames,
+  Columns,
+  FindPrimaryKeyFromTable,
+  Flatten,
+} from "./types";
 import { debugLog, typedEntries } from "./util";
 
 export type { ColumnBuilder, ReadonlyJSONValue, TableBuilderWithColumns };
@@ -112,12 +117,12 @@ type ZeroMappedCustomType<
 type ZeroColumnDefinition<
   TTable extends Table,
   KColumn extends ColumnNames<TTable>,
-> = {
+> = Flatten<{
   optional: boolean;
   type: ValueType;
   customType: ZeroMappedCustomType<TTable, KColumn>;
   serverName?: string;
-};
+}>;
 
 /**
  * Maps the columns configuration to their Zero schema definitions.
@@ -140,13 +145,13 @@ export type ZeroTableBuilderSchema<
   TTableName extends string,
   TTable extends Table,
   TColumnConfig extends ColumnsConfig<TTable> | undefined,
-> = {
+> = Flatten<{
   name: TTableName;
   primaryKey: FindPrimaryKeyFromTable<TTable> extends [never]
     ? readonly [string, ...string[]]
     : readonly [string, ...string[]] & FindPrimaryKeyFromTable<TTable>;
-  columns: ZeroColumns<TTable, TColumnConfig>;
-}; // Zero does not support this properly yet: & (TTable['_']['name'] extends TTableName ? {} : { serverName: string });
+  columns: Flatten<ZeroColumns<TTable, TColumnConfig>>;
+}>; // Zero does not support this properly yet: & (TTable['_']['name'] extends TTableName ? {} : { serverName: string });
 
 /**
  * Represents the complete Zero schema for a Drizzle table.
