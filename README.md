@@ -146,6 +146,83 @@ function PostList() {
 }
 ```
 
+## Drizzle + ZQL adapters
+
+Use your existing Drizzle database connection with Zero on the server via lightweight adapters. These provide a minimal `query(sql, params)` API, and access to the underlying Drizzle transaction when you need it.
+
+### node-postgres
+
+```ts
+import { ZQLDatabase, type ServerTransaction } from "@rocicorp/zero/pg";
+import {
+  NodePgConnection,
+  type NodePgZeroTransaction,
+} from "drizzle-zero/node-postgres";
+import { nanoid } from "nanoid";
+import { db } from "./db"; // your drizzle-orm/node-postgres database
+import { schema, type Schema } from "./zero-schema.gen";
+
+// Transaction type you can use in server mutators
+type ServerTx = ServerTransaction<Schema, NodePgZeroTransaction<typeof db>>;
+
+// Create a ZQL instance backed by your Drizzle db
+const zql = new ZQLDatabase(new NodePgConnection(db), schema);
+
+// Example: use drizzle inside a server mutator
+async function sendMessage(tx: ServerTx, { userId, message }: { userId: string; message: string }) {
+  // use ZQL for inserts
+  await tx.query.message.insert({
+    id: nanoid(),
+    userId,
+    content: message,
+  });
+
+  // optionally use the underlying Drizzle transaction
+  // for server-only tables
+  await tx.dbTransaction.wrappedTransaction
+    .insert(auditLogs)
+    .values({ id: nanoid(), userId, action: "sendMessage" });
+}
+```
+
+### postgres-js
+
+```ts
+import { ZQLDatabase, type ServerTransaction } from "@rocicorp/zero/pg";
+import {
+  PostgresJsConnection,
+  type PostgresJsZeroTransaction,
+} from "drizzle-zero/postgres-js";
+import { nanoid } from "nanoid";
+import { db } from "./db"; // your drizzle-orm/postgres-js database
+import { schema, type Schema } from "./zero-schema.gen";
+
+// Transaction type you can use in server mutators
+type ServerTx = ServerTransaction<
+  Schema,
+  PostgresJsZeroTransaction<typeof db>
+>;
+
+// Create a ZQL instance backed by your Drizzle db
+const zql = new ZQLDatabase(new PostgresJsConnection(db), schema);
+
+// Example: use drizzle inside a server mutator
+async function sendMessage(tx: ServerTx, { userId, message }: { userId: string; message: string }) {
+  // use ZQL for inserts
+  await tx.query.message.insert({
+    id: nanoid(),
+    userId,
+    content: message,
+  });
+
+  // optionally use the underlying Drizzle transaction
+  // for server-only tables
+  await tx.dbTransaction.wrappedTransaction
+    .insert(auditLogs)
+    .values({ id: nanoid(), userId, action: "sendMessage" });
+}
+```
+
 ### Customize with `drizzle-zero.config.ts`
 
 If you want to customize the tables/columns that are synced by Zero, you can optionally
