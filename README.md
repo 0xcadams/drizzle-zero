@@ -148,7 +148,11 @@ function PostList() {
 
 ## Drizzle + ZQL adapters
 
-Use your existing Drizzle database connection with Zero on the server via lightweight adapters. These provide a minimal `query(sql, params)` API, and access to the underlying Drizzle transaction when you need it.
+Use your existing Drizzle database connection with Zero on the server via lightweight adapters. These provide
+access to the underlying Drizzle transaction inside a Zero server mutator.
+
+This lets you do things like update server-only tables outside of Zero, perform queries/updates that may not be
+easy in ZQL, or reuse Drizzle code between external server logic and Zero mutators.
 
 ### node-postgres
 
