@@ -164,6 +164,8 @@ import { schema, type Schema } from "./zero-schema.gen";
 
 // Transaction type you can use in server mutators
 type ServerTx = ServerTransaction<Schema, NodePgZeroTransaction<typeof db>>;
+// You can also pass your drizzle schema instead                       ^
+// e.g. NodePgZeroTransaction<typeof drizzleSchema>
 
 // Create a ZQL instance backed by your Drizzle db
 const zql = new ZQLDatabase(new NodePgConnection(db), schema);
@@ -201,6 +203,8 @@ import { schema, type Schema } from "./zero-schema.gen";
 type ServerTx = ServerTransaction<
   Schema,
   PostgresJsZeroTransaction<typeof db>
+  // You can also pass your drizzle schema instead
+  // e.g. PostgresJsZeroTransaction<typeof drizzleSchema>
 >;
 
 // Create a ZQL instance backed by your Drizzle db
