@@ -152,7 +152,7 @@ Use your existing Drizzle database connection with Zero on the server via lightw
 access to the underlying Drizzle transaction inside a Zero server mutator.
 
 This lets you do things like update server-only tables outside of Zero, perform queries/updates that may not be
-easy in ZQL, or reuse Drizzle code between external server logic and Zero mutators.
+easy in ZQL, or reuse Drizzle code between external server logic and Zero mutators. All of these updates are guaranteed to be executed in the same database transaction as the mutator itself, for consistency.
 
 ### node-postgres
 
@@ -376,6 +376,7 @@ export default drizzleZeroConfig(drizzleSchema, {
   - Sync a subset of tables and columns
 - Handles all Drizzle column types that are supported by Zero
 - Type-safe schema generation with inferred types from Drizzle
+- Custom ZQL database adapter for using Drizzle in the same `tx` as Zero mutators
 - Supports relationships:
   - One-to-one relationships
   - One-to-many relationships
