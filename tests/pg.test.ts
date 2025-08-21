@@ -67,8 +67,20 @@ describe("node-postgres", () => {
     await shutdown();
   });
 
-  test("types", async () => {
+  test("types - implicit schema generic", async () => {
     const s = null as unknown as NodePgZeroTransaction<typeof db>;
+
+    const country = null as unknown as Awaited<
+      ReturnType<typeof s.query.country.findFirst>
+    >;
+
+    expectTypeOf(country).toExtend<
+      { id: string; name: string | null } | undefined
+    >();
+  });
+
+  test("types - explicit schema generic", async () => {
+    const s = null as unknown as NodePgZeroTransaction<typeof drizzleSchema>;
 
     const country = null as unknown as Awaited<
       ReturnType<typeof s.query.country.findFirst>
@@ -214,8 +226,22 @@ describe("postgres-js", () => {
     expect(result[0]?.id).toEqual(newCountry.id);
   });
 
-  test("types", async () => {
+  test("types - implicit schema generic", async () => {
     const s = null as unknown as PostgresJsZeroTransaction<typeof db>;
+
+    const country = null as unknown as Awaited<
+      ReturnType<typeof s.query.country.findFirst>
+    >;
+
+    expectTypeOf(country).toExtend<
+      { id: string; name: string | null } | undefined
+    >();
+  });
+
+  test("types - explicit schema generic", async () => {
+    const s = null as unknown as PostgresJsZeroTransaction<
+      typeof drizzleSchema
+    >;
 
     const country = null as unknown as Awaited<
       ReturnType<typeof s.query.country.findFirst>

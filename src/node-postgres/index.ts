@@ -8,12 +8,14 @@ import type { PgTransaction } from "drizzle-orm/pg-core";
 import type { ExtractTablesWithRelations } from "drizzle-orm/relations";
 
 export type NodePgZeroTransaction<
-  TDrizzle extends NodePgDatabase<Record<string, unknown>> & {
-    $client: NodePgClient;
-  },
-  TSchema extends TDrizzle extends NodePgDatabase<infer TSchema>
+  TDbOrSchema extends
+    | (NodePgDatabase<Record<string, unknown>> & { $client: NodePgClient })
+    | Record<string, unknown>,
+  TSchema extends Record<string, unknown> = TDbOrSchema extends NodePgDatabase<
+    infer TSchema
+  >
     ? TSchema
-    : never = TDrizzle extends NodePgDatabase<infer TSchema> ? TSchema : never,
+    : TDbOrSchema,
 > = PgTransaction<
   NodePgQueryResultHKT,
   TSchema,
