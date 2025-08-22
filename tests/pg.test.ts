@@ -148,25 +148,6 @@ describe("node-postgres", () => {
     }
   });
 
-  test("can query from the database in a transaction", async ({ expect }) => {
-    const newCountry = getRandomCountry();
-
-    await db.insert(drizzleSchema.country).values(newCountry);
-
-    const drizzleConnection = new NodePgConnection(db);
-    const result = await drizzleConnection.transaction(async (tx) => {
-      const result = await tx.query('SELECT * FROM "country" WHERE id = $1', [
-        newCountry.id,
-      ]);
-      return result;
-    });
-
-    for await (const row of result) {
-      expect(row.name).toBe(newCountry.name);
-      expect(row.id).toBe(newCountry.id);
-    }
-  });
-
   test("can use the underlying wrappedTransaction", async ({ expect }) => {
     const newCountry = getRandomCountry();
 
@@ -264,25 +245,6 @@ describe("postgres-js", () => {
     );
     expect(result[0]?.name).toBe(newCountry.name);
     expect(result[0]?.id).toBe(newCountry.id);
-  });
-
-  test("can query from the database in a transaction", async ({ expect }) => {
-    const newCountry = getRandomCountry();
-
-    await db.insert(drizzleSchema.country).values(newCountry);
-
-    const drizzleConnection = new PostgresJsConnection(db);
-    const result = await drizzleConnection.transaction(async (tx) => {
-      const result = await tx.query('SELECT * FROM "country" WHERE id = $1', [
-        newCountry.id,
-      ]);
-      return result;
-    });
-
-    for await (const row of result) {
-      expect(row.name).toBe(newCountry.name);
-      expect(row.id).toBe(newCountry.id);
-    }
   });
 
   test("can query from the database in a transaction", async ({ expect }) => {
