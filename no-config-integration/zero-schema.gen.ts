@@ -307,6 +307,85 @@ export const schema = {
             "status"
           >,
         },
+        textArray: {
+          type: "json",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            ZeroSchema,
+            "allTypes",
+            "textArray"
+          >,
+          serverName: "text_array",
+        },
+        intArray: {
+          type: "json",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            ZeroSchema,
+            "allTypes",
+            "intArray"
+          >,
+          serverName: "int_array",
+        },
+        boolArray: {
+          type: "json",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            ZeroSchema,
+            "allTypes",
+            "boolArray"
+          >,
+          serverName: "bool_array",
+        },
+        numericArray: {
+          type: "json",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            ZeroSchema,
+            "allTypes",
+            "numericArray"
+          >,
+          serverName: "numeric_array",
+        },
+        uuidArray: {
+          type: "json",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            ZeroSchema,
+            "allTypes",
+            "uuidArray"
+          >,
+          serverName: "uuid_array",
+        },
+        jsonbArray: {
+          type: "json",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            ZeroSchema,
+            "allTypes",
+            "jsonbArray"
+          >,
+          serverName: "jsonb_array",
+        },
+        enumArray: {
+          type: "json",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            ZeroSchema,
+            "allTypes",
+            "enumArray"
+          >,
+          serverName: "enum_array",
+        },
+        matrix: {
+          type: "json",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            ZeroSchema,
+            "allTypes",
+            "matrix"
+          >,
+        },
         optionalSmallint: {
           type: "number",
           optional: true,

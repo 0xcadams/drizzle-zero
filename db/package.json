@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@drizzle-zero/custom-types": "workspace:*",
-    "drizzle-orm": "^0.44.4",
+    "drizzle-orm": "^0.44.5",
     "drizzle-zero": "workspace:*"
   },
   "devDependencies": {

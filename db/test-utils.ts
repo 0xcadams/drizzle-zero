@@ -185,6 +185,14 @@ export const seed = async () => {
     jsonbField: { key: "value" },
     typedJsonField: { theme: "light", fontSize: 16 },
     status: "pending",
+    textArray: ["text", "text2"],
+    intArray: [1, 2],
+    boolArray: [true, false],
+    numericArray: ["8.8", "9.9"],
+    uuidArray: [randomUUID(), randomUUID()],
+    jsonbArray: [{ key: "value" }, { key: "value2" }],
+    enumArray: ["pending", "active"],
+    matrix: [[1, 2], [3, 4]],
   });
 
   await db.insert(friendship).values({

@@ -1,5 +1,5 @@
 {
-  "id": "e3c7f87a-712e-46af-b190-9248ce78c20c",
+  "id": "580a298a-1c25-4aa6-bd95-88e6a053b817",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -176,6 +176,55 @@
           "name": "status",
           "type": "status_type",
           "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "text_array": {
+          "name": "text_array",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "int_array": {
+          "name": "int_array",
+          "type": "integer[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bool_array": {
+          "name": "bool_array",
+          "type": "boolean[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "numeric_array": {
+          "name": "numeric_array",
+          "type": "numeric(10, 2)[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "uuid_array": {
+          "name": "uuid_array",
+          "type": "uuid[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jsonb_array": {
+          "name": "jsonb_array",
+          "type": "jsonb[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "enum_array": {
+          "name": "enum_array",
+          "type": "status_type[]",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "matrix": {
+          "name": "matrix",
+          "type": "integer[][]",
           "primaryKey": false,
           "notNull": true
         },
