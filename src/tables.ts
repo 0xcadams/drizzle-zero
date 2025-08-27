@@ -108,9 +108,9 @@ type ZeroMappedCustomType<
       }
     ? CD["data"]
     : CD extends {
-        columnType: "PgArray";
-        data: infer TArrayData;
-      }
+          columnType: "PgArray";
+          data: infer TArrayData;
+        }
       ? TArrayData
       : CD extends { $type: any }
         ? CD["$type"]
