@@ -66,7 +66,7 @@
     "url": "https://github.com/0xcadams/drizzle-zero/issues"
   },
   "peerDependencies": {
-    "@rocicorp/zero": ">=0.13.2025013101",
+    "@rocicorp/zero": ">=0.22.2025081301",
     "@types/pg": "",
     "drizzle-orm": ">=0.36.0",
     "pg": "",
