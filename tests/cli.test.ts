@@ -1297,12 +1297,6 @@ describe("getConfigFromFile", () => {
                 "serverName": "bigint_number",
                 "type": "number",
               },
-              "boolArray": {
-                "customType": null,
-                "optional": false,
-                "serverName": "bool_array",
-                "type": "json",
-              },
               "booleanField": {
                 "customType": null,
                 "optional": false,
