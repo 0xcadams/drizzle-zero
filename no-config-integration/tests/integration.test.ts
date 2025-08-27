@@ -5,7 +5,6 @@ import {
   ZERO_PORT,
 } from "@drizzle-zero/db/test-utils";
 import { Zero } from "@rocicorp/zero";
-import { randomUUID } from "crypto";
 import {
   afterAll,
   beforeAll,
@@ -245,6 +244,23 @@ describe("types", () => {
       fontSize: 16,
     });
     expect(result?.status).toStrictEqual("pending");
+    expect(result?.textArray).toStrictEqual(["text", "text2"]);
+    expect(result?.intArray).toStrictEqual([1, 2]);
+    // expect(result?.boolArray).toStrictEqual([true, false]);
+    expect(result?.numericArray).toStrictEqual([8.8, 9.9]);
+    expect(result?.uuidArray).toStrictEqual([
+      "123e4567-e89b-12d3-a456-426614174001",
+      "123e4567-e89b-12d3-a456-426614174002",
+    ]);
+    // expect(result?.jsonbArray).toStrictEqual([
+    //   { key: "value" },
+    //   { key: "value2" },
+    // ]);
+    expect(result?.enumArray).toStrictEqual(["pending", "active"]);
+    expect(result?.matrix).toStrictEqual([
+      [1, 2],
+      [3, 4],
+    ]);
 
     expect(result?.smallSerialField).toStrictEqual(1);
     expect(result?.serialField).toStrictEqual(1);
@@ -288,7 +304,7 @@ describe("types", () => {
       doublePrecisionField: 28.2,
       textField: "text2",
       charField: "f",
-      uuidField: randomUUID(),
+      uuidField: "123e4567-e89b-12d3-a456-426614174001",
       varcharField: "varchar2",
       booleanField: true,
       timestampField: currentDate.getTime(),
@@ -300,6 +316,20 @@ describe("types", () => {
       jsonbField: { key: "value" },
       typedJsonField: { theme: "light", fontSize: 16 },
       status: "active",
+      textArray: ["text", "text2"],
+      intArray: [1, 2],
+      // boolArray: [true, false],
+      numericArray: [8.8, 9.9],
+      uuidArray: [
+        "123e4567-e89b-12d3-a456-426614174001",
+        "123e4567-e89b-12d3-a456-426614174002",
+      ],
+      jsonbArray: [{ key: "value" }, { key: "value2" }],
+      enumArray: ["pending", "active"],
+      matrix: [
+        [1, 2],
+        [3, 4],
+      ],
     });
 
     const q = zero.query.allTypes.where((query) =>
@@ -337,6 +367,23 @@ describe("types", () => {
       fontSize: 16,
     });
     expect(result?.status).toStrictEqual("active");
+    expect(result?.textArray).toStrictEqual(["text", "text2"]);
+    expect(result?.intArray).toStrictEqual([1, 2]);
+    // expect(result?.boolArray).toStrictEqual([true, false]);
+    expect(result?.numericArray).toStrictEqual([8.8, 9.9]);
+    expect(result?.uuidArray).toStrictEqual([
+      "123e4567-e89b-12d3-a456-426614174001",
+      "123e4567-e89b-12d3-a456-426614174002",
+    ]);
+    // expect(result?.jsonbArray).toStrictEqual([
+    //   { key: "value" },
+    //   { key: "value2" },
+    // ]);
+    expect(result?.enumArray).toStrictEqual(["pending", "active"]);
+    expect(result?.matrix).toStrictEqual([
+      [1, 2],
+      [3, 4],
+    ]);
 
     preloadedAllTypes.cleanup();
 
@@ -380,6 +427,23 @@ describe("types", () => {
       fontSize: 16,
     });
     expect(dbResult?.status).toStrictEqual("active");
+    expect(dbResult?.textArray).toStrictEqual(["text", "text2"]);
+    expect(dbResult?.intArray).toStrictEqual([1, 2]);
+    // expect(dbResult?.boolArray).toStrictEqual([true, false]);
+    expect(dbResult?.numericArray).toStrictEqual([8.8, 9.9]);
+    expect(dbResult?.uuidArray).toStrictEqual([
+      "123e4567-e89b-12d3-a456-426614174001",
+      "123e4567-e89b-12d3-a456-426614174002",
+    ]);
+    expect(dbResult?.jsonbArray).toStrictEqual([
+      { key: "value" },
+      { key: "value2" },
+    ]);
+    expect(dbResult?.enumArray).toStrictEqual(["pending", "active"]);
+    expect(dbResult?.matrix).toStrictEqual([
+      [1, 2],
+      [3, 4],
+    ]);
 
     expect(dbResult?.smallSerialField).toStrictEqual(2);
     expect(dbResult?.serialField).toStrictEqual(2);

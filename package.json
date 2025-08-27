@@ -4,7 +4,6 @@
   "description": "Generate Zero schemas from Drizzle ORM schemas",
   "type": "module",
   "scripts": {
-    "dev:cli": "tsx --watch cli/src/index.ts -c cli/test/drizzle-zero.config.ts -o cli/test/zero-schema.gen.ts",
     "clean": "rm -rf dist node_modules coverage && cd integration && rm -rf node_modules && cd ../no-config-integration && rm -rf node_modules && cd ../db && rm -rf node_modules",
     "build": "rm -rf dist && tsx build.ts && chmod +x dist/cli/index.js",
     "release": "pnpm run build && pnpm publish",
@@ -66,7 +65,7 @@
     "url": "https://github.com/0xcadams/drizzle-zero/issues"
   },
   "peerDependencies": {
-    "@rocicorp/zero": ">=0.13.2025013101",
+    "@rocicorp/zero": ">=0.22.2025081301",
     "@types/pg": "",
     "drizzle-orm": ">=0.36.0",
     "pg": "",
@@ -95,7 +94,7 @@
     "ts-morph": "^26.0.0"
   },
   "devDependencies": {
-    "@rocicorp/zero": "^0.22.2025081300",
+    "@rocicorp/zero": "^0.22.2025081301",
     "@ts-morph/common": "^0.27.0",
     "@types/node": "^24.3.0",
     "@types/pg": "^8.15.5",
@@ -105,10 +104,10 @@
     "@vitest/coverage-v8": "3.2.4",
     "@vitest/ui": "^3.2.4",
     "drizzle-kit": "^0.31.4",
-    "drizzle-orm": "^0.44.4",
+    "drizzle-orm": "^0.44.5",
     "prettier": "^3.6.2",
     "tsup": "^8.5.0",
-    "tsx": "^4.20.4",
+    "tsx": "^4.20.5",
     "typescript": "^5.9.2",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.4",
