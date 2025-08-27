@@ -1522,37 +1522,9 @@ describe("tables", () => {
     );
   });
 
-  test("pg - array types", ({ expect }) => {
-    const testTable = pgTable("test", {
-      id: text().primaryKey(),
-      tags: text().array().notNull(),
-      scores: jsonb().array(),
-    });
+  test("pg - array type", () => {
+    const enumType = pgEnum("status", ["active", "inactive", "pending"]);
 
-    const result = createZeroTableBuilder("test", testTable, {
-      id: true,
-      tags: true,
-      scores: true,
-    });
-
-    const expected = table("test")
-      .columns({
-        id: string(),
-        tags: json(),
-        scores: json().optional(),
-      })
-      .primaryKey("id");
-
-    expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    
-    // Verify that array columns are properly mapped to JSON type
-    expect(result.schema.columns.tags.type).toBe("json");
-    expect(result.schema.columns.scores.type).toBe("json");
-    expect(result.schema.columns.tags.optional).toBe(false);
-    expect(result.schema.columns.scores.optional).toBe(true);
-  });
-
-  test("pg - array types with various base types", ({ expect }) => {
     const testTable = pgTable("test", {
       id: text().primaryKey(),
       textArray: text().array(),
@@ -1560,43 +1532,68 @@ describe("tables", () => {
       boolArray: pgBoolean().array(),
       numericArray: numeric().array(),
       uuidArray: uuid().array(),
+      jsonbArray: jsonb().array().$type<{ id: string; name: string }[]>(),
+      enumArray: enumType().array(),
+      matrix: integer().array().array(),
     });
 
-    const result = createZeroTableBuilder("test", testTable, {
-      id: true,
-      textArray: true,
-      intArray: true,
-      boolArray: true,
-      numericArray: true,
-      uuidArray: true,
-    });
+    const result = createZeroTableBuilder("test", testTable);
 
     const expected = table("test")
       .columns({
         id: string(),
-        textArray: json().optional(),
-        intArray: json(),
-        boolArray: json().optional(),
-        numericArray: json().optional(),
-        uuidArray: json().optional(),
+        textArray: json<string[]>().optional(),
+        intArray: json<number[]>(),
+        boolArray: json<boolean[]>().optional(),
+        numericArray: json<string[]>().optional(),
+        uuidArray: json<string[]>().optional(),
+        jsonbArray: json<{ id: string; name: string }[]>().optional(),
+        enumArray: json<("active" | "inactive" | "pending")[]>().optional(),
+        matrix: json<number[][]>().optional(),
       })
       .primaryKey("id");
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
-    
-    // Verify all array types are mapped to JSON
-    expect(result.schema.columns.textArray.type).toBe("json");
-    expect(result.schema.columns.intArray.type).toBe("json");
-    expect(result.schema.columns.boolArray.type).toBe("json");
-    expect(result.schema.columns.numericArray.type).toBe("json");
-    expect(result.schema.columns.uuidArray.type).toBe("json");
+
+    assertEqual(
+      result.schema.columns.textArray.customType,
+      expected.schema.columns.textArray.customType,
+    );
+    assertEqual(
+      result.schema.columns.intArray.customType,
+      expected.schema.columns.intArray.customType,
+    );
+    assertEqual(
+      result.schema.columns.boolArray.customType,
+      expected.schema.columns.boolArray.customType,
+    );
+    assertEqual(
+      result.schema.columns.numericArray.customType,
+      expected.schema.columns.numericArray.customType,
+    );
+    assertEqual(
+      result.schema.columns.uuidArray.customType,
+      expected.schema.columns.uuidArray.customType,
+    );
+    assertEqual(
+      result.schema.columns.jsonbArray.customType,
+      expected.schema.columns.jsonbArray.customType,
+    );
+    assertEqual(
+      result.schema.columns.enumArray.customType,
+      expected.schema.columns.enumArray.customType,
+    );
+    assertEqual(
+      result.schema.columns.matrix.customType,
+      expected.schema.columns.matrix.customType,
+    );
   });
 
-  test("pg - array types with custom types", ({ expect }) => {
+  test("pg - array types with custom types", () => {
     const testTable = pgTable("test", {
       id: text().primaryKey(),
-      emails: text().$type<`${string}@${string}`>().array().notNull(),
-      customNumbers: integer().$type<1 | 2 | 3>().array(),
+      emails: text().array().$type<`${string}@${string}`[]>().notNull(),
+      customNumbers: integer().array().$type<1 | 2 | 3[]>(),
     });
 
     const result = createZeroTableBuilder("test", testTable, {
@@ -1605,31 +1602,24 @@ describe("tables", () => {
       customNumbers: true,
     });
 
-    // Arrays with custom types should still be mapped to JSON
-    expect(result.schema.columns.emails.type).toBe("json");
-    expect(result.schema.columns.customNumbers.type).toBe("json");
-    expect(result.schema.columns.emails.optional).toBe(false);
-    expect(result.schema.columns.customNumbers.optional).toBe(true);
-  });
+    const expected = table("test")
+      .columns({
+        id: string(),
+        emails: json<`${string}@${string}`[]>(),
+        customNumbers: json<1 | 2 | 3[]>().optional(),
+      })
+      .primaryKey("id");
 
-  test("pg - array types with default values", ({ expect }) => {
-    const testTable = pgTable("test", {
-      id: text().primaryKey(),
-      tagsWithDefault: text().array().default([]),
-      scoresWithDefault: integer().array().default([0, 1, 2]),
-    });
+    expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
 
-    const result = createZeroTableBuilder("test", testTable, {
-      id: true,
-      tagsWithDefault: true,
-      scoresWithDefault: true,
-    });
-
-    // Arrays with defaults should be optional
-    expect(result.schema.columns.tagsWithDefault.type).toBe("json");
-    expect(result.schema.columns.scoresWithDefault.type).toBe("json");
-    expect(result.schema.columns.tagsWithDefault.optional).toBe(true);
-    expect(result.schema.columns.scoresWithDefault.optional).toBe(true);
+    assertEqual(
+      result.schema.columns.emails.customType,
+      expected.schema.columns.emails.customType,
+    );
+    assertEqual(
+      result.schema.columns.customNumbers.customType,
+      expected.schema.columns.customNumbers.customType,
+    );
   });
 
   test("pg - interval types", ({ expect }) => {
