@@ -107,9 +107,14 @@ type ZeroMappedCustomType<
         data: string;
       }
     ? CD["data"]
-    : CD extends { $type: any }
-      ? CD["$type"]
-      : ZeroTypeToTypescriptType[ZeroMappedColumnType<TTable, KColumn>];
+    : CD extends {
+        columnType: "PgArray";
+        data: infer TArrayData;
+      }
+      ? TArrayData
+      : CD extends { $type: any }
+        ? CD["$type"]
+        : ZeroTypeToTypescriptType[ZeroMappedColumnType<TTable, KColumn>];
 
 /**
  * Defines the structure of a column in the Zero schema.

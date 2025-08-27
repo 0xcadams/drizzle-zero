@@ -36,7 +36,8 @@ type DrizzleColumnType =
   | "PgJson"
   | "PgNumeric"
   | "PgDateString"
-  | "PgTimestampString";
+  | "PgTimestampString"
+  | "PgArray";
 
 /**
  * Maps Postgres-specific Drizzle column types to their corresponding Zero schema types.
@@ -53,6 +54,7 @@ export const drizzleColumnTypeToZeroType = {
   PgNumeric: "number",
   PgDateString: "number",
   PgTimestampString: "number",
+  PgArray: "json",
 } as const satisfies Record<DrizzleColumnType, string>;
 
 /**
