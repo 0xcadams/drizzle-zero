@@ -4,7 +4,6 @@
   "description": "Generate Zero schemas from Drizzle ORM schemas",
   "type": "module",
   "scripts": {
-    "dev:cli": "tsx --watch cli/src/index.ts -c cli/test/drizzle-zero.config.ts -o cli/test/zero-schema.gen.ts",
     "clean": "rm -rf dist node_modules coverage && cd integration && rm -rf node_modules && cd ../no-config-integration && rm -rf node_modules && cd ../db && rm -rf node_modules",
     "build": "rm -rf dist && tsx build.ts && chmod +x dist/cli/index.js",
     "release": "pnpm run build && pnpm publish",
