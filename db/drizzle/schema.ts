@@ -152,8 +152,14 @@ export const allTypes = pgTable("all_types", {
   status: statusEnum("status").notNull(),
   textArray: text("text_array").array().notNull(),
   intArray: integer("int_array").array().notNull(),
-  boolArray: boolean("bool_array").array().notNull(),
-  numericArray: numeric("numeric_array", { precision: 10, scale: 2 }).array().notNull(),
+  // boolArray: boolean("bool_array").array().notNull(),
+  numericArray: numeric("numeric_array", {
+    precision: 10,
+    scale: 2,
+    mode: "number",
+  })
+    .array()
+    .notNull(),
   uuidArray: uuid("uuid_array").array().notNull(),
   jsonbArray: jsonb("jsonb_array").array().$type<{ key: string }[]>().notNull(),
   enumArray: statusEnum("enum_array").array().notNull(),

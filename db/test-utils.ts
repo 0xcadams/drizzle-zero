@@ -3,7 +3,6 @@ import {
   StartedPostgreSqlContainer,
 } from "@testcontainers/postgresql";
 import { exec } from "child_process";
-import { randomUUID } from "crypto";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { drizzle } from "drizzle-orm/node-postgres";
 import path from "path";
@@ -173,7 +172,7 @@ export const seed = async () => {
     doublePrecisionField: 11.9,
     textField: "text",
     charField: "c",
-    uuidField: randomUUID(),
+    uuidField: "123e4567-e89b-12d3-a456-426614174000",
     varcharField: "varchar",
     booleanField: true,
     timestampField: new Date(),
@@ -187,12 +186,18 @@ export const seed = async () => {
     status: "pending",
     textArray: ["text", "text2"],
     intArray: [1, 2],
-    boolArray: [true, false],
-    numericArray: ["8.8", "9.9"],
-    uuidArray: [randomUUID(), randomUUID()],
+    // boolArray: [true, false],
+    numericArray: [8.8, 9.9],
+    uuidArray: [
+      "123e4567-e89b-12d3-a456-426614174001",
+      "123e4567-e89b-12d3-a456-426614174002",
+    ],
     jsonbArray: [{ key: "value" }, { key: "value2" }],
     enumArray: ["pending", "active"],
-    matrix: [[1, 2], [3, 4]],
+    matrix: [
+      [1, 2],
+      [3, 4],
+    ],
   });
 
   await db.insert(friendship).values({

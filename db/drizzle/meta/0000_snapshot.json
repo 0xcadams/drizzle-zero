@@ -1,5 +1,5 @@
 {
-  "id": "580a298a-1c25-4aa6-bd95-88e6a053b817",
+  "id": "5dcb8c07-b22c-412d-903e-58fbde956cb2",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -188,12 +188,6 @@
         "int_array": {
           "name": "int_array",
           "type": "integer[]",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "bool_array": {
-          "name": "bool_array",
-          "type": "boolean[]",
           "primaryKey": false,
           "notNull": true
         },

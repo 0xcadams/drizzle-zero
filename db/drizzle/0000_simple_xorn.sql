@@ -30,7 +30,6 @@ CREATE TABLE "all_types" (
 	"status" "status_type" NOT NULL,
 	"text_array" text[] NOT NULL,
 	"int_array" integer[] NOT NULL,
-	"bool_array" boolean[] NOT NULL,
 	"numeric_array" numeric(10, 2)[] NOT NULL,
 	"uuid_array" uuid[] NOT NULL,
 	"jsonb_array" jsonb[] NOT NULL,

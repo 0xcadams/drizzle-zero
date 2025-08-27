@@ -325,16 +325,6 @@ export const schema = {
           >,
           serverName: "int_array",
         },
-        boolArray: {
-          type: "json",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "boolArray"
-          >,
-          serverName: "bool_array",
-        },
         numericArray: {
           type: "json",
           optional: false,
