@@ -1334,10 +1334,22 @@ describe("getConfigFromFile", () => {
                 "serverName": "double_precision",
                 "type": "number",
               },
+              "enumArray": {
+                "customType": null,
+                "optional": false,
+                "serverName": "enum_array",
+                "type": "json",
+              },
               "id": {
                 "customType": null,
                 "optional": false,
                 "type": "string",
+              },
+              "intArray": {
+                "customType": null,
+                "optional": false,
+                "serverName": "int_array",
+                "type": "json",
               },
               "integerField": {
                 "customType": null,
@@ -1351,10 +1363,27 @@ describe("getConfigFromFile", () => {
                 "serverName": "json",
                 "type": "json",
               },
+              "jsonbArray": {
+                "customType": null,
+                "optional": false,
+                "serverName": "jsonb_array",
+                "type": "json",
+              },
               "jsonbField": {
                 "customType": null,
                 "optional": false,
                 "serverName": "jsonb",
+                "type": "json",
+              },
+              "matrix": {
+                "customType": null,
+                "optional": false,
+                "type": "json",
+              },
+              "numericArray": {
+                "customType": null,
+                "optional": false,
+                "serverName": "numeric_array",
                 "type": "json",
               },
               "numericField": {
@@ -1470,6 +1499,12 @@ describe("getConfigFromFile", () => {
                 "optional": false,
                 "type": "string",
               },
+              "textArray": {
+                "customType": null,
+                "optional": false,
+                "serverName": "text_array",
+                "type": "json",
+              },
               "textField": {
                 "customType": null,
                 "optional": false,
@@ -1510,6 +1545,12 @@ describe("getConfigFromFile", () => {
                 "customType": null,
                 "optional": true,
                 "type": "number",
+              },
+              "uuidArray": {
+                "customType": null,
+                "optional": false,
+                "serverName": "uuid_array",
+                "type": "json",
               },
               "uuidField": {
                 "customType": null,
