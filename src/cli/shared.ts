@@ -129,6 +129,8 @@ export async function getGeneratedSchema({
                     writer.write(
                       `null as unknown as ZeroCustomType<${zeroSchemaSpecifier}, "${keys[tableIndex]}", "${keys[columnIndex]}">`,
                     );
+                  } else if (key.startsWith("enableLegacy")) {
+                    writer.write("true");
                   } else {
                     writeValue(propValue, [...keys, key], indent + 2);
                   }

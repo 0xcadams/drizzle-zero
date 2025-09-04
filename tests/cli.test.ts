@@ -1150,6 +1150,8 @@ describe("getConfigFromFile", () => {
 
     expect(result.zeroSchema).toMatchInlineSnapshot(`
       {
+        "enableLegacyMutators": undefined,
+        "enableLegacyQueries": undefined,
         "relationships": {
           "filters": {
             "children": [

@@ -883,6 +883,8 @@ export const schema = {
       ],
     },
   },
+  enableLegacyQueries: true,
+  enableLegacyMutators: true,
 } as const;
 
 /**

@@ -41,8 +41,8 @@ describe("relationships", () => {
     await expect(() =>
       drizzleZeroConfig(zeroSchema),
     ).toThrowErrorMatchingInlineSnapshot(
-      `[Error: ❌ drizzle-zero: No tables found in the input - did you pass in a Zero schema to the \`drizzleZeroConfig\` function instead of a Drizzle schema?]`,
-    );
+
+    `[Error: drizzle-zero: table or relation with key enableLegacyQueries is not defined]`);
   });
 
   test("relationships - many-to-many-incorrect-many", async ({ expect }) => {
