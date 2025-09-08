@@ -91,7 +91,7 @@
     "commander": "^14.0.0",
     "jsonc-parser": "^3.3.1",
     "pluralize": "^8.0.0",
-    "ts-morph": "^26.0.0"
+    "ts-morph": "^27.0.0"
   },
   "devDependencies": {
     "@rocicorp/zero": "^0.23.2025090100",
