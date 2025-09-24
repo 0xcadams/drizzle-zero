@@ -18,6 +18,7 @@ import {
   drizzleColumnTypeToZeroType,
   type DrizzleDataTypeToZeroType,
   drizzleDataTypeToZeroType,
+  postgresTypeToZeroType,
   type ZeroTypeToTypescriptType,
 } from "./drizzle-to-zero";
 import type {
@@ -288,6 +289,9 @@ const createZeroTableBuilder = <
         ] ??
         drizzleDataTypeToZeroType[
           column.dataType as keyof typeof drizzleDataTypeToZeroType
+        ] ??
+        postgresTypeToZeroType[
+          column.getSQLType() as keyof typeof postgresTypeToZeroType
         ] ??
         null;
 
