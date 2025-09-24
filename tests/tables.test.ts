@@ -236,7 +236,7 @@ describe("tables", () => {
   });
 
   test("pg - custom column type", () => {
-    const customColumnType = customType<{
+    const customColumnDateTimeType = customType<{
       data: Date;
       driverData: string;
       config: { precision: Precision; withTimezone: boolean };
@@ -263,14 +263,55 @@ describe("tables", () => {
       },
     });
 
+    const customColumnNumberType = customType<{
+      data: number;
+      driverData: string;
+      notNull: false;
+    }>({
+      dataType() {
+        return "integer";
+      },
+    });
+
+    const customColumnEnumType = customType<{
+      data: "foo" | "bar";
+      driverData: string;
+      notNull: false;
+    }>({
+      dataType() {
+        return "enum";
+      },
+    });
+
+    type TypeId<T> = string & {
+      __type: T;
+    };
+
+    const customTypeIdFactory = <T extends string>() =>
+      customType<{
+        data: TypeId<T>;
+        driverData: string;
+        notNull: false;
+      }>({
+        dataType() {
+          return "text";
+        },
+      });
+
     const testTable = pgTable("users", {
       id: text().primaryKey(),
-      createdAt: customColumnType("created_at").notNull(),
+      createdAt: customColumnDateTimeType("created_at").notNull(),
+      number: customColumnNumberType("number").notNull(),
+      enum: customColumnEnumType("enum").notNull(),
+      typeId: customTypeIdFactory<"user">()("type_id").notNull(),
     });
 
     const result = createZeroTableBuilder("custom_column_type", testTable, {
       id: true,
       createdAt: number().from("created_at"),
+      number: true,
+      enum: true,
+      typeId: true,
     });
 
     const expected = table("custom_column_type")
@@ -278,6 +319,9 @@ describe("tables", () => {
       .columns({
         id: string(),
         createdAt: number().from("created_at"),
+        number: number(),
+        enum: enumeration<"foo" | "bar">(),
+        typeId: string<TypeId<"user">>().from("type_id"),
       })
       .primaryKey("id");
 
@@ -289,6 +333,18 @@ describe("tables", () => {
     assertEqual(
       result.schema.columns.createdAt.customType,
       expected.schema.columns.createdAt.customType,
+    );
+    assertEqual(
+      result.schema.columns.number.customType,
+      expected.schema.columns.number.customType,
+    );
+    assertEqual(
+      result.schema.columns.enum.customType,
+      expected.schema.columns.enum.customType,
+    );
+    assertEqual(
+      result.schema.columns.typeId.customType,
+      expected.schema.columns.typeId.customType,
     );
   });
 

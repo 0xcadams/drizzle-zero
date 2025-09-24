@@ -18,6 +18,7 @@ import {
   drizzleColumnTypeToZeroType,
   type DrizzleDataTypeToZeroType,
   drizzleDataTypeToZeroType,
+  postgresTypeToZeroType,
   type ZeroTypeToTypescriptType,
 } from "./drizzle-to-zero";
 import type {
@@ -99,22 +100,26 @@ type ZeroMappedCustomType<
     KColumn
   >["_"],
 > = CD extends {
-  columnType: "PgEnumColumn";
+  columnType: "PgCustomColumn";
 }
   ? CD["data"]
   : CD extends {
-        columnType: "PgText";
-        data: string;
+        columnType: "PgEnumColumn";
       }
     ? CD["data"]
     : CD extends {
-          columnType: "PgArray";
-          data: infer TArrayData;
+          columnType: "PgText";
+          data: string;
         }
-      ? TArrayData
-      : CD extends { $type: any }
-        ? CD["$type"]
-        : ZeroTypeToTypescriptType[ZeroMappedColumnType<TTable, KColumn>];
+      ? CD["data"]
+      : CD extends {
+            columnType: "PgArray";
+            data: infer TArrayData;
+          }
+        ? TArrayData
+        : CD extends { $type: any }
+          ? CD["$type"]
+          : ZeroTypeToTypescriptType[ZeroMappedColumnType<TTable, KColumn>];
 
 /**
  * Defines the structure of a column in the Zero schema.
@@ -284,6 +289,9 @@ const createZeroTableBuilder = <
         ] ??
         drizzleDataTypeToZeroType[
           column.dataType as keyof typeof drizzleDataTypeToZeroType
+        ] ??
+        postgresTypeToZeroType[
+          column.getSQLType() as keyof typeof postgresTypeToZeroType
         ] ??
         null;
 

@@ -64,6 +64,58 @@ export const drizzleColumnTypeToZeroType = {
 export type DrizzleColumnTypeToZeroType = typeof drizzleColumnTypeToZeroType;
 
 /**
+ * Maps PostgreSQL SQL type names to their corresponding Zero schema types.
+ */
+export const postgresTypeToZeroType = {
+  // string-like
+  text: "string",
+  char: "string",
+  character: "string",
+  varchar: "string",
+  "character varying": "string",
+  uuid: "string",
+  enum: "string", // enums are emitted via zero.enumeration([...]) and are strings
+
+  // json-like
+  jsonb: "json",
+  json: "json",
+
+  // number-like (all numeric types)
+  numeric: "number",
+  decimal: "number",
+  int: "number",
+  integer: "number",
+  smallint: "number",
+  bigint: "number",
+  int2: "number",
+  int4: "number",
+  int8: "number",
+  real: "number",
+  float4: "number",
+  float8: "number",
+  "double precision": "number",
+  serial: "number",
+  bigserial: "number",
+
+  // date/time mapped to number (epoch millis)
+  date: "number",
+  timestamp: "number",
+  "timestamp without time zone": "number",
+  "timestamp with time zone": "number",
+  timestamptz: "number",
+
+  // boolean
+  boolean: "boolean",
+  bool: "boolean",
+} as const satisfies Record<string, string>;
+
+/**
+ * Type representation of the Postgres-specific Drizzle to Zero type mapping.
+ * Extracts the type information from the postgresTypeToZeroType constant.
+ */
+export type PostgresTypeToZeroType = typeof postgresTypeToZeroType;
+
+/**
  * Maps Zero schema types to their corresponding TypeScript types.
  */
 export type ZeroTypeToTypescriptType = {
