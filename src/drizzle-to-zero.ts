@@ -116,26 +116,6 @@ export const postgresTypeToZeroType = {
 export type PostgresTypeToZeroType = typeof postgresTypeToZeroType;
 
 /**
- * Derived mapping from Postgres SQL type names to their resulting JS/TS types,
- * based on Zero type mapping above.
- */
-export type PostgresTypeToTypescriptType = {
-  [K in keyof PostgresTypeToZeroType]: ZeroTypeToTypescriptType[PostgresTypeToZeroType[K]];
-};
-
-/**
- * Reference mapping guide (PG Type → schema.ts Type → JS/TS Type):
- * - All numeric types → number → number
- * - char, varchar, text, uuid → string → string
- * - bool → boolean → boolean
- * - date, timestamp, timestamptz → number → number
- * - json, jsonb → json → JSONValue
- * - enum → enumeration → string
- * - T[] (arrays) → json<U[]> where U is schema.ts type for T → V[] where V is JS/TS type for T
- *   Note: Arrays are represented as Zero json columns; element types flow through `$type`.
- */
-
-/**
  * Maps Zero schema types to their corresponding TypeScript types.
  */
 export type ZeroTypeToTypescriptType = {
