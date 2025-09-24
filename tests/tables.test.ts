@@ -236,7 +236,7 @@ describe("tables", () => {
   });
 
   test("pg - custom column type", () => {
-    const customColumnType = customType<{
+    const customColumnDateTimeType = customType<{
       data: Date;
       driverData: string;
       config: { precision: Precision; withTimezone: boolean };
@@ -263,14 +263,31 @@ describe("tables", () => {
       },
     });
 
+    type TypeId<T> = string & {
+      __type: T;
+    };
+
+    const customTypeIdFactory = <T extends string>() =>
+      customType<{
+        data: TypeId<T>;
+        driverData: string;
+        notNull: false;
+      }>({
+        dataType() {
+          return "text";
+        },
+      });
+
     const testTable = pgTable("users", {
       id: text().primaryKey(),
-      createdAt: customColumnType("created_at").notNull(),
+      createdAt: customColumnDateTimeType("created_at").notNull(),
+      typeId: customTypeIdFactory<"user">()("type_id").notNull(),
     });
 
     const result = createZeroTableBuilder("custom_column_type", testTable, {
       id: true,
       createdAt: number().from("created_at"),
+      typeId: true,
     });
 
     const expected = table("custom_column_type")
@@ -278,6 +295,7 @@ describe("tables", () => {
       .columns({
         id: string(),
         createdAt: number().from("created_at"),
+        typeId: string<TypeId<"user">>().from("type_id"),
       })
       .primaryKey("id");
 
@@ -289,6 +307,10 @@ describe("tables", () => {
     assertEqual(
       result.schema.columns.createdAt.customType,
       expected.schema.columns.createdAt.customType,
+    );
+    assertEqual(
+      result.schema.columns.typeId.customType,
+      expected.schema.columns.typeId.customType,
     );
   });
 
