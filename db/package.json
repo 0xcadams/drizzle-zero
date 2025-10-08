@@ -11,17 +11,17 @@
   },
   "dependencies": {
     "@drizzle-zero/custom-types": "workspace:*",
-    "drizzle-orm": "^0.44.5",
+    "drizzle-orm": "^0.44.6",
     "drizzle-zero": "workspace:*"
   },
   "devDependencies": {
-    "@testcontainers/postgresql": "^11.6.0",
+    "@testcontainers/postgresql": "^11.7.1",
     "@types/pg": "^8.15.5",
     "@vitest/browser": "^3.2.4",
-    "drizzle-kit": "^0.31.4",
+    "drizzle-kit": "^0.31.5",
     "pg": "^8.16.3",
     "postgres": "^3.4.7",
     "prettier": "^3.6.2",
-    "testcontainers": "^11.6.0"
+    "testcontainers": "^11.7.1"
   }
 }
