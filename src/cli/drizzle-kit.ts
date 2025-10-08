@@ -44,7 +44,6 @@ export const getDefaultConfig = async ({
     tsProject,
     filePath: resolvedDrizzleSchemaPath,
     debug: Boolean(debug),
-    label: "Drizzle schema file",
   });
 
   return {

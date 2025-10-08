@@ -95,7 +95,6 @@ async function main(opts: GeneratorOptions = {}) {
       tsProject,
       filePath: path.resolve(process.cwd(), configFilePath),
       debug: Boolean(debug),
-      label: "config file",
     });
   }
 

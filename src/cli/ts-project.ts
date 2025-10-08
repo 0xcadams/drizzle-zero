@@ -1,36 +1,28 @@
-import * as path from "node:path";
 import type { Project, SourceFile } from "ts-morph";
 
 export function ensureSourceFileInProject({
   tsProject,
   filePath,
-  debug = false,
-  label,
+  debug,
 }: {
   tsProject: Project;
   filePath: string;
-  debug?: boolean;
-  label?: string;
+  debug: boolean;
 }): SourceFile | undefined {
-  const resolvedPath = path.resolve(process.cwd(), filePath);
-  const posixPath = resolvedPath.split(path.sep).join(path.posix.sep);
-  const shortLabel = label ?? resolvedPath;
-
   const existingSourceFile =
-    tsProject.getSourceFile(posixPath) ??
-    tsProject.getSourceFile(resolvedPath) ??
-    tsProject.addSourceFileAtPathIfExists(resolvedPath);
+    tsProject.getSourceFile(filePath) ??
+    tsProject.addSourceFileAtPathIfExists(filePath);
 
   if (existingSourceFile) {
     return existingSourceFile;
   }
 
   try {
-    return tsProject.addSourceFileAtPath(resolvedPath);
+    return tsProject.addSourceFileAtPath(filePath);
   } catch (error) {
     if (debug) {
       console.warn(
-        `⚠️  drizzle-zero: Could not load ${shortLabel} (${resolvedPath}) into the TypeScript project.`,
+        `⚠️  drizzle-zero: Could not load ${filePath} into the TypeScript project.`,
         error,
       );
     }
