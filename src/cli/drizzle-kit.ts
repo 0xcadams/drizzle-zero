@@ -5,6 +5,7 @@ import * as url from "node:url";
 import type { Project } from "ts-morph";
 import { tsImport } from "tsx/esm/api";
 import { drizzleZeroConfig, type DrizzleToZeroSchema } from "../relations";
+import { ensureSourceFileInProject } from "./ts-project";
 
 export const getDefaultConfig = async ({
   drizzleSchemaPath,
@@ -37,6 +38,13 @@ export const getDefaultConfig = async ({
   const zeroSchema = drizzleZeroConfig(drizzleSchema, {
     casing: drizzleCasing ?? undefined,
     debug: Boolean(debug),
+  });
+
+  ensureSourceFileInProject({
+    tsProject,
+    filePath: resolvedDrizzleSchemaPath,
+    debug: Boolean(debug),
+    label: "Drizzle schema file",
   });
 
   return {

@@ -7,6 +7,7 @@ import { getConfigFromFile, getDefaultConfigFilePath } from "./config";
 import { getDefaultConfig } from "./drizzle-kit";
 import { getGeneratedSchema } from "./shared";
 import { discoverAllTsConfigs } from "./tsconfig";
+import { ensureSourceFileInProject } from "./ts-project";
 
 const defaultConfigFile = "./drizzle-zero.config.ts";
 const defaultOutputFile = "./zero-schema.gen.ts";
@@ -89,6 +90,15 @@ async function main(opts: GeneratorOptions = {}) {
     tsProject.addSourceFilesFromTsConfig(tsConfigPath);
   }
 
+  if (configFilePath) {
+    ensureSourceFileInProject({
+      tsProject,
+      filePath: path.resolve(process.cwd(), configFilePath),
+      debug: Boolean(debug),
+      label: "config file",
+    });
+  }
+
   const result = configFilePath
     ? await getConfigFromFile({
         configFilePath,
@@ -166,16 +176,8 @@ async function cli() {
       `Add a .js file extension to the output (for usage without \"bundler\" module resolution)`,
       false,
     )
-    .option(
-      "--skip-types",
-      "Skip generating table Row<> type exports",
-      false,
-    )
-    .option(
-      "--skip-builder",
-      "Skip generating the builder export",
-      false,
-    )
+    .option("--skip-types", "Skip generating table Row<> type exports", false)
+    .option("--skip-builder", "Skip generating the builder export", false)
     .action(async (command) => {
       console.log(`⚙️  drizzle-zero: Generating zero schema...`);
 
