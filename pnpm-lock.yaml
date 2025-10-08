@@ -101,7 +101,7 @@ importers:
     devDependencies:
       '@testcontainers/postgresql':
         specifier: ^11.6.0
-        version: 11.6.0
+        version: 11.7.1
       '@types/pg':
         specifier: ^8.15.5
         version: 8.15.5
@@ -1697,8 +1697,8 @@ packages:
   '@shikijs/vscode-textmate@10.0.2':
     resolution: {integrity: sha512-83yeghZ2xxin3Nj8z1NMd/NCuca+gsYXswywDy5bHvwlWL8tpTQmzGeUuHd9FC3E/SBEMvzJRwWEOz5gGes9Qg==}
 
-  '@testcontainers/postgresql@11.6.0':
-    resolution: {integrity: sha512-+JlbHfcWpxrfWG4BZeWiNKI4pjn4FPWCnKFYkUSneuYjEuYJQWSFdP38W5RB0N1rf5ce+dYzb5SXi4i2MWH3Zw==}
+  '@testcontainers/postgresql@11.7.1':
+    resolution: {integrity: sha512-8PfGNqwdyoMPQuubZM0wd07/tfi4vhLAjXP791tM105vSCmzCOhLfYu2CIq04GKVlmW1J5z5nOZWLNlU9WrUuQ==}
 
   '@testing-library/dom@10.4.0':
     resolution: {integrity: sha512-pemlzrSESWbdAloYml3bAJMEfNh1Z7EduzqPKprCH5S341frlpYnUEW0H72dLxa6IsYr+mPno20GiSm+h9dEdQ==}
@@ -2268,6 +2268,10 @@ packages:
 
   dockerode@4.0.8:
     resolution: {integrity: sha512-HdPBprWmwfHMHi12AVIFDhXIqIS+EpiOVkZaAZxgML4xf5McqEZjJZtahTPkLDxWOt84ApfWPAH9EoQwOiaAIQ==}
+    engines: {node: '>= 8.0'}
+
+  dockerode@4.0.9:
+    resolution: {integrity: sha512-iND4mcOWhPaCNh54WmK/KoSb35AFqPAUWFMffTQcp52uQt36b5uNwEJTSXntJZBbeGad72Crbi/hvDIv6us/6Q==}
     engines: {node: '>= 8.0'}
 
   dom-accessibility-api@0.5.16:
@@ -3461,6 +3465,9 @@ packages:
 
   testcontainers@11.6.0:
     resolution: {integrity: sha512-2kXdhZ4mvvPP4xEY1yxhLSrFt/TXokClOtppA4bt/5FJJwZrnUkyCo3TVfhHx3Ynlq1N00qjoQuxpnwFqU9a7g==}
+
+  testcontainers@11.7.1:
+    resolution: {integrity: sha512-fjut+07G4Avp6Lly/6hQePpUpQFv9ZyQd+7JC5iCDKg+dWa2Sw7fXD3pBrkzslYFfKqGx9M6kyIaLpg9VeMsjw==}
 
   text-decoder@1.2.3:
     resolution: {integrity: sha512-3/o9z3X0X0fTupwsYvR03pJ/DjWuqqrfwBgTQzdWDiQSm9KitAyz/9WqsT2JQW7KV2m+bC2ol/zqpW37NHxLaA==}
@@ -5292,9 +5299,9 @@ snapshots:
 
   '@shikijs/vscode-textmate@10.0.2': {}
 
-  '@testcontainers/postgresql@11.6.0':
+  '@testcontainers/postgresql@11.7.1':
     dependencies:
-      testcontainers: 11.6.0
+      testcontainers: 11.7.1
     transitivePeerDependencies:
       - bare-buffer
       - react-native-b4a
@@ -5898,6 +5905,18 @@ snapshots:
       - supports-color
 
   dockerode@4.0.8:
+    dependencies:
+      '@balena/dockerignore': 1.0.2
+      '@grpc/grpc-js': 1.14.0
+      '@grpc/proto-loader': 0.7.15
+      docker-modem: 5.0.6
+      protobufjs: 7.5.4
+      tar-fs: 2.1.4
+      uuid: 10.0.0
+    transitivePeerDependencies:
+      - supports-color
+
+  dockerode@4.0.9:
     dependencies:
       '@balena/dockerignore': 1.0.2
       '@grpc/grpc-js': 1.14.0
@@ -7174,6 +7193,28 @@ snapshots:
       debug: 4.4.3
       docker-compose: 1.3.0
       dockerode: 4.0.8
+      get-port: 7.1.0
+      proper-lockfile: 4.1.2
+      properties-reader: 2.3.0
+      ssh-remote-port-forward: 1.0.4
+      tar-fs: 3.1.1
+      tmp: 0.2.5
+      undici: 7.16.0
+    transitivePeerDependencies:
+      - bare-buffer
+      - react-native-b4a
+      - supports-color
+
+  testcontainers@11.7.1:
+    dependencies:
+      '@balena/dockerignore': 1.0.2
+      '@types/dockerode': 3.3.44
+      archiver: 7.0.1
+      async-lock: 1.4.1
+      byline: 5.0.0
+      debug: 4.4.3
+      docker-compose: 1.3.0
+      dockerode: 4.0.9
       get-port: 7.1.0
       proper-lockfile: 4.1.2
       properties-reader: 2.3.0
