@@ -132,7 +132,7 @@ async function main(opts: GeneratorOptions = {}) {
     tsProject,
     result,
     outputFilePath: resolvedOutputFilePath,
-    jsFileExtension: Boolean(jsFileExtension),
+    jsExtensionOverride: jsFileExtension ? "force" : "auto",
     skipTypes: Boolean(skipTypes),
     skipBuilder: Boolean(skipBuilder),
     disableLegacyMutators: Boolean(disableLegacyMutators),
@@ -178,8 +178,7 @@ async function cli() {
     .option("-d, --debug", `Enable debug mode`)
     .option(
       "-j, --js-file-extension",
-      `Add a .js file extension to the output (for usage without \"bundler\" module resolution)`,
-      false,
+      `Add a .js file extension to imports in the generated output (auto-detected from tsconfig if not specified)`,
     )
     .option("--skip-types", "Skip generating table Row<> type exports", false)
     .option("--skip-builder", "Skip generating the builder export", false)

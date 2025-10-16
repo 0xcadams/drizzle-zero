@@ -429,14 +429,14 @@ describe("getGeneratedSchema", () => {
     vi.restoreAllMocks();
   });
 
-  it("should add .js file extensions to imports when jsFileExtension is true", async () => {
+  it("should add .js file extensions to imports when jsExtensionOverride is \"force\"", async () => {
     const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
       tsProject,
       configPath: schemaPath,
       exportName: "schema",
     });
 
-    // Generate schema with jsFileExtension enabled
+    // Generate schema with jsExtensionOverride set to "force"
     const generatedSchema = await getGeneratedSchema({
       tsProject,
       result: {
@@ -461,7 +461,7 @@ describe("getGeneratedSchema", () => {
         zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
       },
       outputFilePath,
-      jsFileExtension: true,
+      jsExtensionOverride: "force",
     });
 
     // Verify the import statement includes .js extension
@@ -474,7 +474,7 @@ describe("getGeneratedSchema", () => {
     expect(generatedSchema).toContain('"users": {');
   });
 
-  it("should add .js file extensions to drizzle-kit imports when jsFileExtension is true", async () => {
+  it("should add .js file extensions to drizzle-kit imports when jsExtensionOverride is \"force\"", async () => {
     // Mock the DrizzleToZeroSchema type
     vi.mock("drizzle-zero", () => ({
       DrizzleToZeroSchema: class {},
@@ -505,7 +505,7 @@ describe("getGeneratedSchema", () => {
       relationships: {},
     };
 
-    // Generate the schema with jsFileExtension enabled for drizzle-kit type
+    // Generate the schema with jsExtensionOverride set to "force" for drizzle-kit type
     const generatedSchema = await getGeneratedSchema({
       tsProject,
       result: {
@@ -515,7 +515,7 @@ describe("getGeneratedSchema", () => {
         drizzleCasing: null,
       },
       outputFilePath,
-      jsFileExtension: true,
+      jsExtensionOverride: "force",
     });
 
     // Verify the import statement includes .js extension for drizzle schema
@@ -527,6 +527,338 @@ describe("getGeneratedSchema", () => {
 
     // Reset the mock after the test
     vi.restoreAllMocks();
+  });
+
+  it("should not add .js file extensions to imports when jsExtensionOverride is \"none\"", async () => {
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    // Generate schema with jsExtensionOverride set to "none"
+    const generatedSchema = await getGeneratedSchema({
+      tsProject,
+      result: {
+        type: "config",
+        zeroSchema: {
+          tables: {
+            users: {
+              name: "users",
+              primaryKey: ["id"],
+              columns: {
+                id: {
+                  type: "number",
+                  optional: false,
+                  customType: undefined,
+                },
+              },
+            },
+          },
+          relationships: {},
+        },
+        exportName: "schema",
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+      jsExtensionOverride: "none",
+    });
+
+    // Verify the import statement does NOT include .js extension
+    expect(generatedSchema).toContain(
+      'from "./tests/schemas/one-to-one.zero";',
+    );
+    expect(generatedSchema).not.toContain(
+      'from "./tests/schemas/one-to-one.zero.js";',
+    );
+
+    // Verify the rest of the schema is still generated correctly
+    expect(generatedSchema).toContain("export const schema = {");
+    expect(generatedSchema).toContain('"users": {');
+  });
+
+  it("should not add .js file extensions to drizzle-kit imports when jsExtensionOverride is \"none\"", async () => {
+    // Mock the DrizzleToZeroSchema type
+    vi.mock("drizzle-zero", () => ({
+      DrizzleToZeroSchema: class {},
+    }));
+
+    // Mock the drizzle schema source file
+    const mockSourceFile = tsProject.createSourceFile(
+      "mock-drizzle-schema-none.ts",
+      `
+        export const users = {
+          id: { type: "serial", primaryKey: true },
+          name: { type: "text", notNull: true }
+        };
+      `,
+    );
+
+    const mockSchema = {
+      tables: {
+        users: {
+          name: "users",
+          primaryKey: ["id"],
+          columns: {
+            id: { type: "integer", optional: false, customType: undefined },
+            name: { type: "string", optional: false, customType: undefined },
+          },
+        },
+      },
+      relationships: {},
+    };
+
+    // Generate the schema with jsExtensionOverride set to "none" for drizzle-kit type
+    const generatedSchema = await getGeneratedSchema({
+      tsProject,
+      result: {
+        type: "drizzle-kit",
+        zeroSchema: mockSchema as any,
+        drizzleSchemaSourceFile: mockSourceFile,
+        drizzleCasing: null,
+      },
+      outputFilePath,
+      jsExtensionOverride: "none",
+    });
+
+    // Verify the import statement does NOT include .js extension for drizzle schema
+    expect(generatedSchema).toContain('from "./mock-drizzle-schema-none";');
+    expect(generatedSchema).not.toContain(
+      'from "./mock-drizzle-schema-none.js";',
+    );
+
+    // Verify the rest of the schema is still generated correctly
+    expect(generatedSchema).toContain("export const schema = {");
+    expect(generatedSchema).toContain('"users": {');
+
+    // Reset the mock after the test
+    vi.restoreAllMocks();
+  });
+
+  it("should auto-detect and add .js extensions when jsExtensionOverride is \"auto\" with Node16 moduleResolution", async () => {
+    // Create a temporary tsconfig with Node16 moduleResolution
+    const tempTsProject = new Project({
+      compilerOptions: {
+        moduleResolution: 3, // Node16
+      },
+    });
+
+    // Add the schema file to the temporary project
+    tempTsProject.addSourceFileAtPath(schemaPath);
+
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject: tempTsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    // Generate schema with jsExtensionOverride set to "auto" (default)
+    const generatedSchema = await getGeneratedSchema({
+      tsProject: tempTsProject,
+      result: {
+        type: "config",
+        zeroSchema: {
+          tables: {
+            users: {
+              name: "users",
+              primaryKey: ["id"],
+              columns: {
+                id: {
+                  type: "number",
+                  optional: false,
+                  customType: undefined,
+                },
+              },
+            },
+          },
+          relationships: {},
+        },
+        exportName: "schema",
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+      jsExtensionOverride: "auto",
+    });
+
+    // Verify the import statement includes .js extension due to Node16
+    expect(generatedSchema).toContain(
+      'from "./tests/schemas/one-to-one.zero.js";',
+    );
+
+    // Verify the rest of the schema is still generated correctly
+    expect(generatedSchema).toContain("export const schema = {");
+    expect(generatedSchema).toContain('"users": {');
+  });
+
+  it("should auto-detect and add .js extensions when jsExtensionOverride is \"auto\" with NodeNext moduleResolution", async () => {
+    // Create a temporary tsconfig with NodeNext moduleResolution
+    const tempTsProject = new Project({
+      compilerOptions: {
+        moduleResolution: 99, // NodeNext
+      },
+    });
+
+    // Add the schema file to the temporary project
+    tempTsProject.addSourceFileAtPath(schemaPath);
+
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject: tempTsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    // Generate schema with jsExtensionOverride set to "auto" (default)
+    const generatedSchema = await getGeneratedSchema({
+      tsProject: tempTsProject,
+      result: {
+        type: "config",
+        zeroSchema: {
+          tables: {
+            users: {
+              name: "users",
+              primaryKey: ["id"],
+              columns: {
+                id: {
+                  type: "number",
+                  optional: false,
+                  customType: undefined,
+                },
+              },
+            },
+          },
+          relationships: {},
+        },
+        exportName: "schema",
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+      jsExtensionOverride: "auto",
+    });
+
+    // Verify the import statement includes .js extension due to NodeNext
+    expect(generatedSchema).toContain(
+      'from "./tests/schemas/one-to-one.zero.js";',
+    );
+
+    // Verify the rest of the schema is still generated correctly
+    expect(generatedSchema).toContain("export const schema = {");
+    expect(generatedSchema).toContain('"users": {');
+  });
+
+  it("should not add .js extensions when jsExtensionOverride is \"auto\" with NodeJs moduleResolution", async () => {
+    // Create a temporary tsconfig with NodeJs moduleResolution
+    const tempTsProject = new Project({
+      compilerOptions: {
+        moduleResolution: 2, // NodeJs
+      },
+    });
+
+    // Add the schema file to the temporary project
+    tempTsProject.addSourceFileAtPath(schemaPath);
+
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject: tempTsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    // Generate schema with jsExtensionOverride set to "auto" (default)
+    const generatedSchema = await getGeneratedSchema({
+      tsProject: tempTsProject,
+      result: {
+        type: "config",
+        zeroSchema: {
+          tables: {
+            users: {
+              name: "users",
+              primaryKey: ["id"],
+              columns: {
+                id: {
+                  type: "number",
+                  optional: false,
+                  customType: undefined,
+                },
+              },
+            },
+          },
+          relationships: {},
+        },
+        exportName: "schema",
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+      jsExtensionOverride: "auto",
+    });
+
+    // Verify the import statement does NOT include .js extension due to NodeJs
+    expect(generatedSchema).toContain(
+      'from "./tests/schemas/one-to-one.zero";',
+    );
+    expect(generatedSchema).not.toContain(
+      'from "./tests/schemas/one-to-one.zero.js";',
+    );
+
+    // Verify the rest of the schema is still generated correctly
+    expect(generatedSchema).toContain("export const schema = {");
+    expect(generatedSchema).toContain('"users": {');
+  });
+
+  it("should not add .js extensions when jsExtensionOverride is \"auto\" with Bundler moduleResolution", async () => {
+    // Create a temporary tsconfig with Bundler moduleResolution
+    const tempTsProject = new Project({
+      compilerOptions: {
+        moduleResolution: 100, // Bundler
+      },
+    });
+
+    // Add the schema file to the temporary project
+    tempTsProject.addSourceFileAtPath(schemaPath);
+
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject: tempTsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    // Generate schema with jsExtensionOverride set to "auto" (default)
+    const generatedSchema = await getGeneratedSchema({
+      tsProject: tempTsProject,
+      result: {
+        type: "config",
+        zeroSchema: {
+          tables: {
+            users: {
+              name: "users",
+              primaryKey: ["id"],
+              columns: {
+                id: {
+                  type: "number",
+                  optional: false,
+                  customType: undefined,
+                },
+              },
+            },
+          },
+          relationships: {},
+        },
+        exportName: "schema",
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+      jsExtensionOverride: "auto",
+    });
+
+    // Verify the import statement does NOT include .js extension due to Bundler
+    expect(generatedSchema).toContain(
+      'from "./tests/schemas/one-to-one.zero";',
+    );
+    expect(generatedSchema).not.toContain(
+      'from "./tests/schemas/one-to-one.zero.js";',
+    );
+
+    // Verify the rest of the schema is still generated correctly
+    expect(generatedSchema).toContain("export const schema = {");
+    expect(generatedSchema).toContain('"users": {');
   });
 
   it("should generate builder export with createBuilder from @rocicorp/zero", async () => {

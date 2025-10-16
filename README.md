@@ -86,6 +86,8 @@ with `-f, --format`.
 To specify a custom tsconfig file, use `-t, --tsconfig <tsconfig-file>`.
 It will, by default, look for one in the current directory.
 
+The CLI automatically detects whether `.js` file extensions are needed in import statements based on your tsconfig's `moduleResolution` setting. If you're using `"moduleResolution": "node16"` or `"nodenext"`, the generator will automatically add `.js` extensions to imports. You can override this behavior with `-j, --js-file-extension` if needed.
+
 You can also control optional outputs from the generator:
 
 - **--skip-types**: Skip generating table `Row<>` type exports.
