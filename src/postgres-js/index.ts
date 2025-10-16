@@ -1,4 +1,3 @@
-import type { DBConnection, DBTransaction, Row } from "@rocicorp/zero/pg";
 import type { PgTransaction } from "drizzle-orm/pg-core";
 import type {
   PostgresJsDatabase,
@@ -7,6 +6,10 @@ import type {
 import type { ExtractTablesWithRelations } from "drizzle-orm/relations";
 import type postgres from "postgres";
 
+/**
+ * @deprecated use `DrizzleTransaction` from `@rocicorp/zero/server/adapters/drizzle` instead.
+ * @see https://zero.rocicorp.dev/docs/zql-on-the-server#drizzle
+ */
 export type PostgresJsZeroTransaction<
   TDbOrSchema extends
     | (PostgresJsDatabase<Record<string, unknown>> & {
@@ -25,6 +28,10 @@ export type PostgresJsZeroTransaction<
   ExtractTablesWithRelations<TSchema>
 >;
 
+/**
+ * @deprecated use `zeroDrizzle` from `@rocicorp/zero/server/adapters/drizzle` instead.
+ * @see https://zero.rocicorp.dev/docs/zql-on-the-server#drizzle
+ */
 export class PostgresJsConnection<
   TDrizzle extends PostgresJsDatabase<Record<string, unknown>> & {
     $client: postgres.Sql<{}>;
@@ -33,24 +40,21 @@ export class PostgresJsConnection<
     ? TSchema
     : never,
   TTransaction extends PostgresJsZeroTransaction<TDrizzle, TSchema>,
-> implements DBConnection<TTransaction>
-{
+> {
   readonly #drizzle: TDrizzle;
 
   constructor(drizzle: TDrizzle) {
     this.#drizzle = drizzle;
   }
 
-  query(sql: string, params: unknown[]): Promise<Row[]> {
+  query(sql: string, params: unknown[]): Promise<Record<string, unknown>[]> {
     return this.#drizzle.$client.unsafe(
       sql,
       params as postgres.ParameterOrJSON<never>[],
     );
   }
 
-  transaction<T>(
-    fn: (tx: DBTransaction<TTransaction>) => Promise<T>,
-  ): Promise<T> {
+  transaction<T>(fn: (tx: any) => Promise<T>): Promise<T> {
     return this.#drizzle.transaction((drizzleTx) =>
       fn(
         new ZeroPostgresJsTransaction<TDrizzle, TSchema, TTransaction>(
@@ -73,15 +77,14 @@ class ZeroPostgresJsTransaction<
     TSchema,
     ExtractTablesWithRelations<TSchema>
   >,
-> implements DBTransaction<TTransaction>
-{
+> {
   readonly wrappedTransaction: TTransaction;
 
   constructor(drizzleTx: TTransaction) {
     this.wrappedTransaction = drizzleTx;
   }
 
-  query(sql: string, params: unknown[]): Promise<Row[]> {
+  query(sql: string, params: unknown[]): Promise<Record<string, unknown>[]> {
     const session = this.wrappedTransaction._.session as unknown as {
       client: TDrizzle["$client"];
     };

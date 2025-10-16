@@ -11,6 +11,8 @@ export async function getGeneratedSchema({
   jsFileExtension = false,
   skipTypes = false,
   skipBuilder = false,
+  disableLegacyMutators = false,
+  disableLegacyQueries = false,
 }: {
   tsProject: Project;
   result:
@@ -20,6 +22,8 @@ export async function getGeneratedSchema({
   jsFileExtension?: boolean;
   skipTypes?: boolean;
   skipBuilder?: boolean;
+  disableLegacyMutators?: boolean;
+  disableLegacyQueries?: boolean;
 }) {
   const schemaObjectName = "schema";
   const typename = "Schema";
@@ -129,8 +133,10 @@ export async function getGeneratedSchema({
                     writer.write(
                       `null as unknown as ZeroCustomType<${zeroSchemaSpecifier}, "${keys[tableIndex]}", "${keys[columnIndex]}">`,
                     );
-                  } else if (key.startsWith("enableLegacy")) {
-                    writer.write("true");
+                  } else if (key === "enableLegacyMutators") {
+                    writer.write(disableLegacyMutators ? "false" : "true");
+                  } else if (key === "enableLegacyQueries") {
+                    writer.write(disableLegacyQueries ? "false" : "true");
                   } else {
                     writeValue(propValue, [...keys, key], indent + 2);
                   }

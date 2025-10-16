@@ -904,6 +904,190 @@ describe("getGeneratedSchema", () => {
       'export type User = Row<Schema["tables"]["users"]>;',
     );
   });
+
+  it("should set enableLegacyMutators to false when disableLegacyMutators is true", async () => {
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    const generatedSchema = await getGeneratedSchema({
+      tsProject,
+      result: {
+        type: "config",
+        zeroSchema: {
+          tables: {
+            users: {
+              name: "users",
+              primaryKey: ["id"],
+              columns: {
+                id: { type: "number", optional: false, customType: undefined },
+              },
+            },
+          },
+          relationships: {},
+          enableLegacyMutators: true,
+        },
+        exportName: "schema",
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+      disableLegacyMutators: true,
+    });
+
+    // Check that enableLegacyMutators is set to false in the generated schema
+    expect(generatedSchema).toContain('"enableLegacyMutators": false');
+    expect(generatedSchema).not.toContain('"enableLegacyMutators": true');
+  });
+
+  it("should set enableLegacyQueries to false when disableLegacyQueries is true", async () => {
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    const generatedSchema = await getGeneratedSchema({
+      tsProject,
+      result: {
+        type: "config",
+        zeroSchema: {
+          tables: {
+            users: {
+              name: "users",
+              primaryKey: ["id"],
+              columns: {
+                id: { type: "number", optional: false, customType: undefined },
+              },
+            },
+          },
+          relationships: {},
+          enableLegacyQueries: true,
+        },
+        exportName: "schema",
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+      disableLegacyQueries: true,
+    });
+
+    // Check that enableLegacyQueries is set to false in the generated schema
+    expect(generatedSchema).toContain('"enableLegacyQueries": false');
+    expect(generatedSchema).not.toContain('"enableLegacyQueries": true');
+  });
+
+  it("should set both enableLegacyMutators and enableLegacyQueries to false when both disable flags are true", async () => {
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    const generatedSchema = await getGeneratedSchema({
+      tsProject,
+      result: {
+        type: "config",
+        zeroSchema: {
+          tables: {
+            users: {
+              name: "users",
+              primaryKey: ["id"],
+              columns: {
+                id: { type: "number", optional: false, customType: undefined },
+              },
+            },
+          },
+          relationships: {},
+          enableLegacyMutators: true,
+          enableLegacyQueries: true,
+        },
+        exportName: "schema",
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+      disableLegacyMutators: true,
+      disableLegacyQueries: true,
+    });
+
+    // Check that both flags are set to false in the generated schema
+    expect(generatedSchema).toContain('"enableLegacyMutators": false');
+    expect(generatedSchema).toContain('"enableLegacyQueries": false');
+    expect(generatedSchema).not.toContain('"enableLegacyMutators": true');
+    expect(generatedSchema).not.toContain('"enableLegacyQueries": true');
+  });
+
+  it("should keep enableLegacyMutators as true when disableLegacyMutators is false", async () => {
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    const generatedSchema = await getGeneratedSchema({
+      tsProject,
+      result: {
+        type: "config",
+        zeroSchema: {
+          tables: {
+            users: {
+              name: "users",
+              primaryKey: ["id"],
+              columns: {
+                id: { type: "number", optional: false, customType: undefined },
+              },
+            },
+          },
+          relationships: {},
+          enableLegacyMutators: true,
+        },
+        exportName: "schema",
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+      disableLegacyMutators: false,
+    });
+
+    // Check that enableLegacyMutators remains true in the generated schema
+    expect(generatedSchema).toContain('"enableLegacyMutators": true');
+    expect(generatedSchema).not.toContain('"enableLegacyMutators": false');
+  });
+
+  it("should keep enableLegacyQueries as true when disableLegacyQueries is false", async () => {
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    const generatedSchema = await getGeneratedSchema({
+      tsProject,
+      result: {
+        type: "config",
+        zeroSchema: {
+          tables: {
+            users: {
+              name: "users",
+              primaryKey: ["id"],
+              columns: {
+                id: { type: "number", optional: false, customType: undefined },
+              },
+            },
+          },
+          relationships: {},
+          enableLegacyQueries: true,
+        },
+        exportName: "schema",
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+      disableLegacyQueries: false,
+    });
+
+    // Check that enableLegacyQueries remains true in the generated schema
+    expect(generatedSchema).toContain('"enableLegacyQueries": true');
+    expect(generatedSchema).not.toContain('"enableLegacyQueries": false');
+  });
 });
 
 describe("drizzle-kit functions", () => {
