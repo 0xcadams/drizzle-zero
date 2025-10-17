@@ -36,7 +36,6 @@ type SchemaIsAnyError = {
 
 /**
  * Maps a column definition to its Zero type (string, number, boolean, json).
- * This replicates the logic from ZeroMappedColumnType in tables.ts.
  */
 type DirectZeroType<CD> = CD extends {
   columnType: keyof DrizzleColumnTypeToZeroType;
@@ -48,19 +47,15 @@ type DirectZeroType<CD> = CD extends {
 
 /**
  * Maps column types to their default TypeScript types when no custom type is specified.
- * This replicates the fallback logic from ZeroMappedCustomType in tables.ts:
- * ZeroTypeToTypescriptType[ZeroMappedColumnType<TTable, KColumn>]
  */
-type DefaultColumnType<CD> = DirectZeroType<CD> extends keyof ZeroTypeToTypescriptType
-  ? ZeroTypeToTypescriptType[DirectZeroType<CD>]
-  : unknown;
+type DefaultColumnType<CD> =
+  DirectZeroType<CD> extends keyof ZeroTypeToTypescriptType
+    ? ZeroTypeToTypescriptType[DirectZeroType<CD>]
+    : unknown;
 
 /**
- * Direct extraction of custom type from Drizzle schema without expanding entire Zero schema.
- * This is much faster than the old approach which required expanding DrizzleToZeroSchema.
- *
- * This mirrors the logic from ZeroMappedCustomType in tables.ts but works directly on the
- * Drizzle schema instead of requiring ZeroTableBuilderSchema expansion.
+ * Direct extraction of the custom type from Drizzle schema. This falls back
+ * to the default TypeScript type if no custom type is specified.
  *
  * @template DrizzleSchema - The Drizzle schema object (typeof drizzleSchema)
  * @template TableKey - The key of the table in the schema
