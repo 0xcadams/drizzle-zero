@@ -2,7 +2,6 @@ import {
   PostgreSqlContainer,
   StartedPostgreSqlContainer,
 } from "@testcontainers/postgresql";
-import { exec } from "child_process";
 import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { drizzle } from "drizzle-orm/node-postgres";
 import path from "path";
@@ -267,7 +266,6 @@ export const startZero = async () => {
 
   const basePgUrl = `postgresql://${postgresContainer.getUsername()}:${postgresContainer.getPassword()}`;
   const basePgUrlWithInternalPort = `${basePgUrl}@postgres-db:5432`;
-  const basePgUrlWithExternalPort = `${basePgUrl}@127.0.0.1:${PG_PORT}`;
 
   // Start Zero container
   zeroContainer = await new GenericContainer(`rocicorp/zero:latest`)
@@ -282,23 +280,11 @@ export const startZero = async () => {
       ZERO_REPLICA_FILE: "/zero.db",
       ZERO_NUM_SYNC_WORKERS: "1",
       ZERO_ADMIN_PASSWORD: "password",
+      ZERO_GET_QUERIES_URL: `http://localhost/nonexistent`,
     })
     .withStartupTimeout(60000)
     .withPullPolicy(PullPolicy.alwaysPull())
     .start();
-
-  await new Promise((resolve, reject) => {
-    exec(
-      `npx zero-deploy-permissions --schema-path ${path.join(__dirname, "../integration/schema.ts")} --upstream-db ${basePgUrlWithExternalPort}/drizzle_zero`,
-      (error, stdout) => {
-        if (error) {
-          reject(error);
-          return;
-        }
-        resolve(stdout);
-      },
-    );
-  });
 
   return {
     zeroContainer,

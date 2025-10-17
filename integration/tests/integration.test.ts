@@ -1,10 +1,11 @@
 import {
+  ZERO_PORT,
   db,
   shutdown,
   startPostgresAndZero,
-  ZERO_PORT,
 } from "@drizzle-zero/db/test-utils";
 import { Zero } from "@rocicorp/zero";
+import { zeroDrizzle } from "@rocicorp/zero/server/adapters/drizzle";
 import {
   afterAll,
   beforeAll,
@@ -14,7 +15,23 @@ import {
   test,
 } from "vitest";
 import { WebSocket } from "ws";
+import {
+  allTypesById,
+  allTypesByStatus,
+  allUsers,
+  filtersWithChildren,
+  mediumById,
+  messageById,
+  messageWithRelations,
+  messagesByBody,
+  messagesBySender,
+  userWithFriends,
+  userWithMediums,
+  complexOrderWithEverything,
+} from "../synced-queries";
 import { schema, type Filter, type Schema } from "../zero-schema.gen";
+
+const zeroDb = zeroDrizzle(schema, db as any);
 
 // Provide WebSocket on the global scope
 globalThis.WebSocket = WebSocket as any;
@@ -40,12 +57,9 @@ describe("relationships", () => {
   test("can query users", async () => {
     const zero = await getNewZero();
 
-    const q = zero.query.user;
+    const query = allUsers();
 
-    const preloadedUsers = await q.preload();
-    await preloadedUsers.complete;
-
-    const user = await q.run();
+    const user = await zero.run(query, { type: "complete" });
 
     expect(user).toHaveLength(3);
     expect(user[0]?.name).toBe("James");
@@ -66,21 +80,15 @@ describe("relationships", () => {
     ).toBe(true);
     expect(user[0]?.testType.nameType === "custom-inline-type").toBe(true);
 
-    preloadedUsers.cleanup();
     await zero.close();
   });
 
   test("can query filters", async () => {
     const zero = await getNewZero();
 
-    const q = zero.query.filters
-      .where((q) => q.cmp("id", "=", "1"))
-      .related("children", (q) => q.related("children").orderBy("id", "asc"));
+    const query = filtersWithChildren("1");
 
-    const preloadedFilters = await q.preload();
-    await preloadedFilters.complete;
-
-    const filters = await q.run();
+    const filters = await zero.run(query, { type: "complete" });
 
     expectTypeOf(filters).toExtend<Filter[]>();
 
@@ -91,76 +99,58 @@ describe("relationships", () => {
     expect(filters[0]?.children[1]?.name).toBe("filter3");
     expect(filters[0]?.children[0]?.children[0]?.name).toBeUndefined();
 
-    preloadedFilters.cleanup();
     await zero.close();
   });
 
   test("can query messages", async () => {
     const zero = await getNewZero();
 
-    const q = zero.query.message;
+    const query = messagesBySender("1");
 
-    const preloadedMessages = await q.preload();
-    await preloadedMessages.complete;
-
-    const messages = await q.run();
+    const messages = await zero.run(query, { type: "complete" });
 
     expect(messages).toHaveLength(2);
     expect(messages[0]?.body).toBe("Hey, James!");
     expect(messages[0]?.metadata.key).toStrictEqual("value1");
 
-    preloadedMessages.cleanup();
     await zero.close();
   });
 
   test("can query messages with filter", async () => {
     const zero = await getNewZero();
 
-    const q = zero.query.message.where((query) =>
-      query.cmp("body", "=", "Thomas!"),
-    );
+    const query = messagesByBody("Thomas!");
 
-    const preloadedMessages = await q.preload();
-    await preloadedMessages.complete;
-
-    const messages = await q.run();
+    const messages = await zero.run(query, { type: "complete" });
 
     expect(messages).toHaveLength(1);
     expect(messages[0]?.body).toBe("Thomas!");
     expect(messages[0]?.metadata.key).toStrictEqual("value5");
 
-    preloadedMessages.cleanup();
     await zero.close();
   });
 
   test("can query messages with relationships", async () => {
     const zero = await getNewZero();
 
-    const q = zero.query.message.related("medium").related("sender");
+    const query = messageWithRelations("1");
 
-    const preloadedMessages = await q.preload();
-    await preloadedMessages.complete;
+    const message = await zero.run(query, { type: "complete" });
 
-    const messages = await q.one().run();
+    expect(message?.medium?.id).toBe("1");
+    expect(message?.medium?.name).toBe("email");
 
-    expect(messages?.medium?.id).toBe("1");
-    expect(messages?.medium?.name).toBe("email");
+    expect(message?.sender?.name).toBe("James");
 
-    expect(messages?.sender?.name).toBe("James");
-
-    preloadedMessages.cleanup();
     await zero.close();
   });
 
   test("can query many-to-many relationships", async () => {
     const zero = await getNewZero();
 
-    const q = zero.query.user.related("mediums").one();
+    const query = userWithMediums("1");
 
-    const preloadedUsers = await q.preload();
-    await preloadedUsers.complete;
-
-    const user = await q.one().run();
+    const user = await zero.run(query, { type: "complete" });
 
     expect(user?.mediums).toHaveLength(2);
     expect(user?.mediums?.[0]?.name).toBe("email");
@@ -175,63 +165,49 @@ describe("relationships", () => {
     );
     expect(user?.testExportedType.nameType).toBe("custom-inline-type");
 
-    preloadedUsers.cleanup();
     await zero.close();
   });
 
   test("can query many-to-many extended relationships", async () => {
     const zero = await getNewZero();
 
-    const q = zero.query.user.related("friends").one();
+    const query = userWithFriends("1");
 
-    const preloadedUsers = await q.preload();
-    await preloadedUsers.complete;
-
-    const user = await q.one().run();
+    const user = await zero.run(query, { type: "complete" });
 
     expect(user?.friends).toHaveLength(1);
     expect(user?.friends[0]?.name).toBe("John");
 
-    preloadedUsers.cleanup();
     await zero.close();
   });
 
   test("can insert messages", async () => {
     const zero = await getNewZero();
 
-    await zero.mutate.message.insert({
-      id: "99",
-      body: "Hi, James!",
-      senderId: "1",
-      mediumId: "4",
-      metadata: { key: "9988" },
+    await zeroDb.transaction(async (tx) => {
+      await tx.mutate.message.insert({
+        id: "99",
+        body: "Hi, James!",
+        senderId: "1",
+        mediumId: "4",
+        metadata: { key: "9988" },
+      });
     });
 
-    const q = zero.query.message.where((query) => query.cmp("id", "=", "99"));
+    const query = messageById("99");
 
-    const preloadedMessages = await q.preload();
-    await preloadedMessages.complete;
-
-    const message = await q.one().run();
+    const message = await zero.run(query, { type: "complete" });
 
     expect(message?.id).toBe("99");
     expect(message?.metadata.key).toStrictEqual("9988");
     expect(message?.createdAt).toBeDefined();
     expect(message?.updatedAt).toBeDefined();
-    preloadedMessages.cleanup();
+    const mediumQuery = mediumById(message?.mediumId ?? "");
 
-    const q1 = zero.query.medium.where((query) =>
-      query.cmp("id", "=", message?.mediumId ?? "none"),
-    );
-
-    const preloadedMedium = await q1.preload();
-    await preloadedMedium.complete;
-
-    const medium = await q1.one().run();
+    const medium = await zero.run(mediumQuery, { type: "complete" });
 
     expect(medium?.name).toBe("whatsapp");
 
-    preloadedMedium.cleanup();
     await zero.close();
   });
 });
@@ -240,12 +216,9 @@ describe("types", () => {
   test("can query all types", async () => {
     const zero = await getNewZero();
 
-    const q = zero.query.allTypes.one();
+    const query = allTypesById("1");
 
-    const preloadedAllTypes = await q.preload();
-    await preloadedAllTypes.complete;
-
-    const result = await q.run();
+    const result = await zero.run(query, { type: "complete" });
 
     expect(result?.id).toStrictEqual("1");
     expect(result?.smallintField).toStrictEqual(1);
@@ -310,25 +283,18 @@ describe("types", () => {
     expect(result?.optionalVarchar).toBeNull();
     expect(result?.optionalUuid).toBeNull();
 
-    preloadedAllTypes.cleanup();
     await zero.close();
   });
 
   test("can query enum type", async () => {
     const zero = await getNewZero();
 
-    const q = zero.query.allTypes
-      .where((query) => query.cmp("status", "=", "pending"))
-      .one();
+    const query = allTypesByStatus("pending");
 
-    const preloadedAllTypes = await q.preload();
-    await preloadedAllTypes.complete;
-
-    const result = await q.run();
+    const result = await zero.run(query, { type: "complete" });
 
     expect(result?.status).toStrictEqual("pending");
 
-    preloadedAllTypes.cleanup();
     await zero.close();
   });
 
@@ -340,51 +306,48 @@ describe("types", () => {
     const uuid1 = "123e4567-e89b-12d3-a456-426614174001";
     const uuid2 = "123e4567-e89b-12d3-a456-426614174002";
 
-    await zero.mutate.allTypes.insert({
-      id: "1011",
-      smallintField: 22,
-      integerField: 23,
-      bigintField: 24,
-      bigintNumberField: 444,
-      numericField: 25.84,
-      decimalField: 26.33,
-      realField: 27.1,
-      doublePrecisionField: 28.2,
-      textField: "text2",
-      charField: "f",
-      uuidField: uuid1,
-      varcharField: "varchar2",
-      booleanField: true,
-      timestampField: currentDate.getTime(),
-      timestampTzField: currentDate.getTime(),
-      timestampModeDate: currentDate.getTime(),
-      timestampModeString: currentDate.getTime(),
-      dateField: currentDate.getTime(),
-      jsonField: { key: "value" },
-      jsonbField: { key: "value" },
-      typedJsonField: { theme: "light", fontSize: 16 },
-      status: "active",
-      textArray: ["text", "text2"],
-      intArray: [1, 2],
-      // boolArray: [true, false],
-      numericArray: [8.8, 9.9],
-      uuidArray: [uuid1, uuid2],
-      jsonbArray: [{ key: "value" }, { key: "value2" }],
-      enumArray: ["pending", "active"],
-      matrix: [
-        [1, 2],
-        [3, 4],
-      ],
+    await zeroDb.transaction(async (tx) => {
+      await tx.mutate.allTypes.insert({
+        id: "1011",
+        smallintField: 22,
+        integerField: 23,
+        bigintField: 24,
+        bigintNumberField: 444,
+        numericField: 25.84,
+        decimalField: 26.33,
+        realField: 27.1,
+        doublePrecisionField: 28.2,
+        textField: "text2",
+        charField: "f",
+        uuidField: uuid1,
+        varcharField: "varchar2",
+        booleanField: true,
+        timestampField: currentDate.getTime(),
+        timestampTzField: currentDate.getTime(),
+        timestampModeDate: currentDate.getTime(),
+        timestampModeString: currentDate.getTime(),
+        dateField: currentDate.getTime(),
+        jsonField: { key: "value" },
+        jsonbField: { key: "value" },
+        typedJsonField: { theme: "light", fontSize: 16 },
+        status: "active",
+        textArray: ["text", "text2"],
+        intArray: [1, 2],
+        // boolArray: [true, false],
+        numericArray: [8.8, 9.9],
+        uuidArray: [uuid1, uuid2],
+        jsonbArray: [{ key: "value" }, { key: "value2" }],
+        enumArray: ["pending", "active"],
+        matrix: [
+          [1, 2],
+          [3, 4],
+        ],
+      });
     });
 
-    const q = zero.query.allTypes.where((query) =>
-      query.cmp("id", "=", "1011"),
-    );
+    const query = allTypesById("1011");
 
-    const preloadedAllTypes = await q.preload();
-    await preloadedAllTypes.complete;
-
-    const result = await q.one().run();
+    const result = await zero.run(query, { type: "complete" });
 
     expect(result?.id).toStrictEqual("1011");
     expect(result?.smallintField).toStrictEqual(22);
@@ -426,8 +389,6 @@ describe("types", () => {
       [1, 2],
       [3, 4],
     ]);
-
-    preloadedAllTypes.cleanup();
 
     const dbResult = await db.query.allTypes.findFirst({
       where: (table, { eq }) => eq(table.id, "1011"),
@@ -502,6 +463,331 @@ describe("types", () => {
     expect(dbResult?.optionalEnum).toBeNull();
     expect(dbResult?.optionalVarchar).toBeNull();
     expect(dbResult?.optionalUuid).toBeNull();
+
+    await zero.close();
+  });
+});
+
+describe("complex order", () => {
+  test("can hydrate and query complex order", async () => {
+    const zero = await getNewZero();
+
+    await zeroDb.transaction(async (tx) => {
+      await tx.mutate.user.insert({
+        id: "cust-1",
+        name: "Customer One",
+        email: "customer1@example.com",
+        partner: false,
+        customTypeJson: {
+          id: "cust-1",
+          custom: "this-is-imported-from-custom-types",
+        },
+        customInterfaceJson: {
+          custom: "this-interface-is-imported-from-custom-types",
+        },
+        testInterface: { nameInterface: "custom-inline-interface" },
+        testType: { nameType: "custom-inline-type" },
+        testExportedType: { nameType: "custom-inline-type" },
+        status: "COMPLETED",
+      });
+
+      await tx.mutate.user.insert({
+        id: "owner-1",
+        name: "Account Owner",
+        email: "owner@example.com",
+        partner: false,
+        customTypeJson: {
+          id: "owner-1",
+          custom: "this-is-imported-from-custom-types",
+        },
+        customInterfaceJson: {
+          custom: "this-interface-is-imported-from-custom-types",
+        },
+        testInterface: { nameInterface: "custom-inline-interface" },
+        testType: { nameType: "custom-inline-type" },
+        testExportedType: { nameType: "custom-inline-type" },
+        status: "ASSIGNED",
+      });
+
+      await tx.mutate.user.insert({
+        id: "sales-1",
+        name: "Sales Person",
+        email: "sales@example.com",
+        partner: false,
+        customTypeJson: {
+          id: "sales-1",
+          custom: "this-is-imported-from-custom-types",
+        },
+        customInterfaceJson: {
+          custom: "this-interface-is-imported-from-custom-types",
+        },
+        testInterface: { nameInterface: "custom-inline-interface" },
+        testType: { nameType: "custom-inline-type" },
+        testExportedType: { nameType: "custom-inline-type" },
+        status: "ASSIGNED",
+      });
+
+      await tx.mutate.user.insert({
+        id: "friend-1",
+        name: "Customer Friend",
+        email: "friend@example.com",
+        partner: false,
+        customTypeJson: {
+          id: "friend-1",
+          custom: "this-is-imported-from-custom-types",
+        },
+        customInterfaceJson: {
+          custom: "this-interface-is-imported-from-custom-types",
+        },
+        testInterface: { nameInterface: "custom-inline-interface" },
+        testType: { nameType: "custom-inline-type" },
+        testExportedType: { nameType: "custom-inline-type" },
+        status: "ASSIGNED",
+      });
+
+      await tx.mutate.friendship.insert({
+        requestingId: "cust-1",
+        acceptingId: "friend-1",
+        accepted: true,
+      });
+      await tx.mutate.friendship.insert({
+        requestingId: "friend-1",
+        acceptingId: "cust-1",
+        accepted: true,
+      });
+
+      await tx.mutate.medium.insert({ id: "med-email", name: "email" });
+
+      await tx.mutate.message.insert({
+        id: "msg-cust-1",
+        body: "Hello from customer",
+        senderId: "cust-1",
+        mediumId: "med-email",
+        metadata: { key: "cust-meta" },
+      });
+
+      await tx.mutate.message.insert({
+        id: "msg-friend-1",
+        body: "Friend ping",
+        senderId: "friend-1",
+        mediumId: "med-email",
+        metadata: { key: "friend-meta" },
+      });
+
+      await tx.mutate.message.insert({
+        id: "msg-owner-1",
+        body: "Owner update",
+        senderId: "owner-1",
+        mediumId: "med-email",
+        metadata: { key: "owner-meta" },
+      });
+
+      await tx.mutate.message.insert({
+        id: "msg-1",
+        body: "Welcome!",
+        senderId: "sales-1",
+        mediumId: "med-email",
+        metadata: { key: "meta-1" },
+      });
+
+      await tx.mutate.message.insert({
+        id: "msg-2",
+        body: "Invoice attached",
+        senderId: "sales-1",
+        mediumId: "med-email",
+        metadata: { key: "meta-2" },
+      });
+
+      await tx.mutate.crmAccount.insert({
+        id: "acct-1",
+        name: "Acme Corp",
+        ownerId: "owner-1",
+        industry: "Manufacturing",
+      });
+
+      await tx.mutate.crmContact.insert({
+        id: "contact-1",
+        accountId: "acct-1",
+        firstName: "Alice",
+        lastName: "Smith",
+        email: "alice@example.com",
+      });
+
+      await tx.mutate.crmPipelineStage.insert({
+        id: "stage-1",
+        name: "Qualification",
+        sequence: 1,
+        probability: 20,
+      });
+
+      await tx.mutate.crmOpportunity.insert({
+        id: "opp-1",
+        accountId: "acct-1",
+        stageId: "stage-1",
+        name: "Big Deal",
+        amount: 125000,
+      });
+
+      await tx.mutate.crmOpportunityStageHistory.insert({
+        id: "opp-hist-1",
+        opportunityId: "opp-1",
+        stageId: "stage-1",
+        changedById: "owner-1",
+        changedAt: Date.now(),
+      });
+
+      await tx.mutate.crmActivityType.insert({
+        id: "activity-type-1",
+        name: "Call",
+        description: "Customer call",
+      });
+
+      await tx.mutate.crmActivity.insert({
+        id: "activity-1",
+        accountId: "acct-1",
+        contactId: "contact-1",
+        opportunityId: "opp-1",
+        typeId: "activity-type-1",
+        performedById: "sales-1",
+        notes: "Discussed order details",
+      });
+
+      await tx.mutate.crmNote.insert({
+        id: "note-1",
+        accountId: "acct-1",
+        contactId: "contact-1",
+        authorId: "sales-1",
+        body: "Follow up next week",
+      });
+
+      await tx.mutate.productCategory.insert({
+        id: "cat-root",
+        name: "Root Category",
+      });
+
+      await tx.mutate.productCategory.insert({
+        id: "cat-child",
+        name: "Child Category",
+        parentId: "cat-root",
+      });
+
+      await tx.mutate.product.insert({
+        id: "prod-1",
+        categoryId: "cat-child",
+        name: "Widget",
+        status: "active",
+      });
+
+      await tx.mutate.productVariant.insert({
+        id: "variant-1",
+        productId: "prod-1",
+        sku: "WIDGET-1",
+        price: 4999,
+        currency: "USD",
+        isActive: true,
+      });
+
+      await tx.mutate.productMedia.insert({
+        id: "media-1",
+        productId: "prod-1",
+        url: "https://example.com/widget.png",
+        type: "image",
+      });
+
+      await tx.mutate.inventoryLocation.insert({
+        id: "loc-1",
+        name: "Warehouse",
+      });
+
+      await tx.mutate.inventoryLevel.insert({
+        id: "level-1",
+        locationId: "loc-1",
+        variantId: "variant-1",
+        quantity: 10,
+        reserved: 2,
+      });
+
+      await tx.mutate.inventoryItem.insert({
+        id: "inventory-item-1",
+        variantId: "variant-1",
+        serialNumber: "SN-1",
+        metadata: { warranty: "1 year" },
+      });
+
+      await tx.mutate.orderTable.insert({
+        id: "order-1",
+        customerId: "cust-1",
+        opportunityId: "opp-1",
+        status: "PROCESSING",
+        total: 99999,
+        currency: "USD",
+      });
+
+      await tx.mutate.orderItem.insert({
+        id: "order-item-1",
+        orderId: "order-1",
+        variantId: "variant-1",
+        quantity: 2,
+        unitPrice: 4999,
+      });
+
+      await tx.mutate.payment.insert({
+        id: "payment-1",
+        status: "PENDING",
+        amount: 9999,
+        currency: "USD",
+        receivedById: "sales-1",
+      });
+
+      await tx.mutate.orderPayment.insert({
+        id: "order-payment-1",
+        orderId: "order-1",
+        paymentId: "payment-1",
+        amount: 9999,
+        status: "PENDING",
+      });
+
+      await tx.mutate.shipment.insert({
+        id: "shipment-1",
+        orderId: "order-1",
+        carrier: "UPS",
+        trackingNumber: "1Z999",
+      });
+
+      await tx.mutate.shipmentItem.insert({
+        id: "shipment-item-1",
+        shipmentId: "shipment-1",
+        orderItemId: "order-item-1",
+        quantity: 2,
+      });
+    });
+
+    const query = complexOrderWithEverything("order-1");
+    const result = (await zero.run(query, { type: "complete" })) as any;
+
+    expect(result?.id).toBe("order-1");
+    expect(result?.customer?.messages).toHaveLength(1);
+    expect(
+      result?.customer?.messages?.[0]?.sender?.friends?.[0]?.messages?.[0]
+        ?.body,
+    ).toBe("Friend ping");
+    expect(result?.opportunity?.account?.owner?.messages?.[0]?.body).toBe(
+      "Owner update",
+    );
+    expect(
+      result?.opportunity?.account?.contacts?.[0]?.activities?.[0]?.notes,
+    ).toBe("Discussed order details");
+    expect(result?.items?.[0]?.variant?.inventoryItems?.[0]?.metadata).toEqual({
+      warranty: "1 year",
+    });
+    expect(
+      result?.payments?.[0]?.payment?.order?.shipments?.[0]?.items?.[0]
+        ?.orderItem?.order?.customer?.id,
+    ).toBe("cust-1");
+    expect(
+      result?.shipments?.[0]?.items?.[0]?.orderItem?.variant?.product?.category
+        ?.parent?.children?.[0]?.id,
+    ).toBe("cat-child");
 
     await zero.close();
   });
