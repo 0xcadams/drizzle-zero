@@ -3,9 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "tsc",
     "drizzle-zero:generate": "drizzle-zero generate -f -s drizzle.ts",
     "pretest": "pnpm drizzle-zero:generate",
-    "test": "vitest run"
+    "test": "pnpm build && vitest run"
   },
   "dependencies": {
     "@drizzle-zero/custom-types": "workspace:*",

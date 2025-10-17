@@ -17,7 +17,6 @@
     "declarationMap": true,
     "sourceMap": true,
     "declaration": true,
-    "noEmit": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
     "types": ["node", "vitest"],
@@ -27,7 +26,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "outDir": "./dist"
   },
   "include": ["**/*.ts"]
 }
