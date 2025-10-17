@@ -280,6 +280,7 @@ export const startZero = async () => {
       ZERO_REPLICA_FILE: "/zero.db",
       ZERO_NUM_SYNC_WORKERS: "1",
       ZERO_ADMIN_PASSWORD: "password",
+      ZERO_GET_QUERIES_URL: `http://localhost/nonexistent`,
     })
     .withStartupTimeout(60000)
     .withPullPolicy(PullPolicy.alwaysPull())

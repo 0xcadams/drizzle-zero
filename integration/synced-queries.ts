@@ -111,10 +111,7 @@ export const complexOrderWithEverything = syncedQuery(
               .related("messages", (q3) =>
                 q3.related("medium").related("sender").orderBy("id", "asc"),
               )
-              .related("friends", (q3) =>
-                q3.related("messages").orderBy("id", "asc"),
-              )
-              .orderBy("id", "asc"),
+              .related("friends", (q3) => q3.related("messages")),
           ),
       )
       .related("opportunity", (q) =>
@@ -147,7 +144,7 @@ export const complexOrderWithEverything = syncedQuery(
                       .related("account", (q5) =>
                         q5.related("opportunities").related("contacts"),
                       )
-                      .orderBy("id", "asc"),
+                      .orderBy("contactId", "asc"),
                   )
                   .related("notes", (q4) =>
                     q4
