@@ -8,19 +8,47 @@ export async function getGeneratedSchema({
   tsProject,
   result,
   outputFilePath,
-  jsFileExtension = false,
+  jsExtensionOverride = "auto",
   skipTypes = false,
   skipBuilder = false,
+  disableLegacyMutators = false,
+  disableLegacyQueries = false,
+  debug,
 }: {
   tsProject: Project;
   result:
     | Awaited<ReturnType<typeof getConfigFromFile>>
     | Awaited<ReturnType<typeof getDefaultConfig>>;
   outputFilePath: string;
-  jsFileExtension?: boolean;
+  jsExtensionOverride?: "auto" | "force" | "none";
   skipTypes?: boolean;
   skipBuilder?: boolean;
+  disableLegacyMutators?: boolean;
+  disableLegacyQueries?: boolean;
+  debug?: boolean;
 }) {
+  // Auto-detect if .js extensions are needed based on tsconfig
+  // unless explicitly overridden by the user
+  let needsJsExtension = jsExtensionOverride === "force";
+
+  if (jsExtensionOverride === "auto") {
+    const compilerOptions = tsProject.getCompilerOptions();
+    const moduleResolution = compilerOptions.moduleResolution;
+
+    // ModuleResolutionKind enum values:
+    // Classic = 1, NodeJs = 2, Node16 = 3, NodeNext = 99, Bundler = 100
+    // We need .js extensions for Node16 (3) and NodeNext (99)
+    // For NodeJs (2), we typically don't need them
+    // For Bundler (100), we definitely don't need them
+    needsJsExtension = moduleResolution === 3 || moduleResolution === 99;
+
+    if (needsJsExtension && debug) {
+      console.log(
+        `ℹ️  drizzle-zero: Auto-detected moduleResolution requires .js extensions (moduleResolution=${moduleResolution})`,
+      );
+    }
+  }
+
   const schemaObjectName = "schema";
   const typename = "Schema";
 
@@ -44,7 +72,7 @@ export async function getGeneratedSchema({
 
     // Add import for DrizzleConfigSchema
     zeroSchemaGenerated.addImportDeclaration({
-      moduleSpecifier: jsFileExtension
+      moduleSpecifier: needsJsExtension
         ? `${moduleSpecifier}.js`
         : moduleSpecifier,
       namedImports: [{ name: result.exportName, alias: "zeroSchema" }],
@@ -59,7 +87,7 @@ export async function getGeneratedSchema({
       );
 
     zeroSchemaGenerated.addImportDeclaration({
-      moduleSpecifier: jsFileExtension
+      moduleSpecifier: needsJsExtension
         ? `${moduleSpecifier}.js`
         : moduleSpecifier,
       namespaceImport: "drizzleSchema",
@@ -129,8 +157,10 @@ export async function getGeneratedSchema({
                     writer.write(
                       `null as unknown as ZeroCustomType<${zeroSchemaSpecifier}, "${keys[tableIndex]}", "${keys[columnIndex]}">`,
                     );
-                  } else if (key.startsWith("enableLegacy")) {
-                    writer.write("true");
+                  } else if (key === "enableLegacyMutators") {
+                    writer.write(disableLegacyMutators ? "false" : "true");
+                  } else if (key === "enableLegacyQueries") {
+                    writer.write(disableLegacyQueries ? "false" : "true");
                   } else {
                     writeValue(propValue, [...keys, key], indent + 2);
                   }

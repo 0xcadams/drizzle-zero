@@ -86,10 +86,16 @@ with `-f, --format`.
 To specify a custom tsconfig file, use `-t, --tsconfig <tsconfig-file>`.
 It will, by default, look for one in the current directory.
 
+The CLI automatically detects whether `.js` file extensions are needed in import statements based on your tsconfig's `moduleResolution` setting. If you're using `"moduleResolution": "node16"` or `"nodenext"`, the generator will automatically add `.js` extensions to imports. You can override this behavior with `-j, --js-file-extension` if needed.
+
 You can also control optional outputs from the generator:
 
 - **--skip-types**: Skip generating table `Row<>` type exports.
 - **--skip-builder**: Skip generating the query `builder` export.
+- **--disable-legacy-mutators**: Disable legacy CRUD mutators (sets `enableLegacyMutators` to `false` in the generated schema). Use this when you want to use only custom mutators instead of the default CRUD operations.
+- **--disable-legacy-queries**: Disable legacy CRUD queries (sets `enableLegacyQueries` to `false` in the generated schema). Use this when you want to use only custom queries.
+
+For more information on disabling legacy mutators and queries, see the [Zero documentation](https://zero.rocicorp.dev/docs/custom-mutators#disabling-crud-mutators).
 
 **Important:** the Drizzle schema **must be included in the tsconfig** for
 type resolution to work. If they are not included, there will be an error similar to

@@ -54,11 +54,17 @@ jobs:
       - name: Run integration tests (PG 17)
         run: cd integration && PG_VERSION=17 pnpm test
 
+      - name: Run integration tests (PG 18)
+        run: cd integration && PG_VERSION=18 pnpm test
+
       - name: Run no config integration tests (PG 16)
         run: cd no-config-integration && PG_VERSION=16 pnpm test
 
       - name: Run no config integration tests (PG 17)
         run: cd no-config-integration && PG_VERSION=17 pnpm test
+
+      - name: Run no config integration tests (PG 18)
+        run: cd no-config-integration && PG_VERSION=18 pnpm test
 
       - name: Type check tests
         run: pnpm run test:types

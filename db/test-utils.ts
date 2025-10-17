@@ -18,8 +18,9 @@ import * as drizzleSchema from "./schema";
 import { allTypes, filters, friendship, medium, message, user } from "./schema";
 import postgres from "postgres";
 
-const PG_PORT = process.env.PG_VERSION === "17" ? 5732 : 5632;
-export const ZERO_PORT = process.env.PG_VERSION === "17" ? 5949 : 4949;
+const versionInt = parseInt(process.env.PG_VERSION ?? "16");
+const PG_PORT = 5732 + (versionInt - 16);
+export const ZERO_PORT = 5949 + (versionInt - 16);
 
 export const pool = new Pool({
   host: "localhost",
@@ -277,11 +278,10 @@ export const startZero = async () => {
     .withNetwork(startedNetwork)
     .withEnvironment({
       ZERO_UPSTREAM_DB: `${basePgUrlWithInternalPort}/drizzle_zero`,
-      ZERO_CVR_DB: `${basePgUrlWithInternalPort}/drizzle_zero`,
-      ZERO_CHANGE_DB: `${basePgUrlWithInternalPort}/drizzle_zero`,
       ZERO_AUTH_SECRET: "secretkey",
       ZERO_REPLICA_FILE: "/zero.db",
       ZERO_NUM_SYNC_WORKERS: "1",
+      ZERO_ADMIN_PASSWORD: "password",
     })
     .withStartupTimeout(60000)
     .withPullPolicy(PullPolicy.alwaysPull())

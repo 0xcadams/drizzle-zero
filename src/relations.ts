@@ -121,6 +121,8 @@ type DrizzleToZeroSchema<
       : never;
   };
   readonly relationships: any;
+  readonly enableLegacyMutators?: boolean;
+  readonly enableLegacyQueries?: boolean;
 };
 
 /**
