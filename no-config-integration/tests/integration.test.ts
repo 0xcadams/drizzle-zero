@@ -33,7 +33,7 @@ import {
   messagesBySender,
 } from "../synced-queries";
 
-const zeroDb = zeroDrizzle(schema, db);
+const zeroDb = zeroDrizzle(schema, db as any);
 
 // Provide WebSocket on the global scope
 globalThis.WebSocket = WebSocket as any;

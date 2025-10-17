@@ -266,7 +266,6 @@ export const startZero = async () => {
 
   const basePgUrl = `postgresql://${postgresContainer.getUsername()}:${postgresContainer.getPassword()}`;
   const basePgUrlWithInternalPort = `${basePgUrl}@postgres-db:5432`;
-  const basePgUrlWithExternalPort = `${basePgUrl}@127.0.0.1:${PG_PORT}`;
 
   // Start Zero container
   zeroContainer = await new GenericContainer(`rocicorp/zero:latest`)

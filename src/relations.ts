@@ -8,6 +8,11 @@ import {
   Relations,
   Table,
 } from "drizzle-orm";
+import type {
+  DrizzleColumnTypeToZeroType,
+  DrizzleDataTypeToZeroType,
+  ZeroTypeToTypescriptType,
+} from "./drizzle-to-zero";
 import {
   createZeroTableBuilder,
   getDrizzleColumnKeyFromColumnName,
@@ -28,6 +33,64 @@ type IsAny<T> = 0 extends 1 & T ? true : false;
 type SchemaIsAnyError = {
   __error__: "The schema passed in to `ZeroCustomType` is `any`. Please make sure to pass in a proper schema type, or check your imports to make sure that Typescript can resolve your schema definition.";
 };
+
+/**
+ * Maps a column definition to its Zero type (string, number, boolean, json).
+ * This replicates the logic from ZeroMappedColumnType in tables.ts.
+ */
+type DirectZeroType<CD> = CD extends {
+  columnType: keyof DrizzleColumnTypeToZeroType;
+}
+  ? DrizzleColumnTypeToZeroType[CD["columnType"]]
+  : CD extends { dataType: keyof DrizzleDataTypeToZeroType }
+    ? DrizzleDataTypeToZeroType[CD["dataType"]]
+    : never;
+
+/**
+ * Maps column types to their default TypeScript types when no custom type is specified.
+ * This replicates the fallback logic from ZeroMappedCustomType in tables.ts:
+ * ZeroTypeToTypescriptType[ZeroMappedColumnType<TTable, KColumn>]
+ */
+type DefaultColumnType<CD> = DirectZeroType<CD> extends keyof ZeroTypeToTypescriptType
+  ? ZeroTypeToTypescriptType[DirectZeroType<CD>]
+  : unknown;
+
+/**
+ * Direct extraction of custom type from Drizzle schema without expanding entire Zero schema.
+ * This is much faster than the old approach which required expanding DrizzleToZeroSchema.
+ *
+ * This mirrors the logic from ZeroMappedCustomType in tables.ts but works directly on the
+ * Drizzle schema instead of requiring ZeroTableBuilderSchema expansion.
+ *
+ * @template DrizzleSchema - The Drizzle schema object (typeof drizzleSchema)
+ * @template TableKey - The key of the table in the schema
+ * @template ColumnKey - The key of the column in the table
+ */
+type CustomType<
+  DrizzleSchema,
+  TableKey extends string,
+  ColumnKey extends string,
+> = TableKey extends keyof DrizzleSchema
+  ? DrizzleSchema[TableKey] extends Table
+    ? ColumnKey extends keyof DrizzleSchema[TableKey]
+      ? DrizzleSchema[TableKey][ColumnKey] extends { _: infer CD }
+        ? CD extends { columnType: "PgCustomColumn"; data: infer TData }
+          ? TData
+          : CD extends { columnType: "PgEnumColumn"; data: infer TData }
+            ? TData
+            : CD extends { columnType: "PgText"; data: infer TData }
+              ? TData extends string
+                ? TData
+                : string
+              : CD extends { columnType: "PgArray"; data: infer TArrayData }
+                ? TArrayData
+                : CD extends { $type: infer TType }
+                  ? TType
+                  : DefaultColumnType<CD>
+        : unknown
+      : unknown
+    : unknown
+  : unknown;
 
 /**
  * Type utility to get the Drizzle custom type for a table and column.
@@ -858,4 +921,9 @@ const getDrizzleKeyFromTableName = ({
   )?.[0]!;
 };
 
-export { drizzleZeroConfig, type DrizzleToZeroSchema, type ZeroCustomType };
+export {
+  drizzleZeroConfig,
+  type CustomType,
+  type DrizzleToZeroSchema,
+  type ZeroCustomType,
+};

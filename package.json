@@ -94,7 +94,7 @@
     "ts-morph": "^27.0.2"
   },
   "devDependencies": {
-    "@rocicorp/zero": "file:/Users/chase/git/roci/mono/packages/zero/rocicorp-zero-0.24.2025101200.tgz",
+    "@rocicorp/zero": "0.24.2025101500",
     "@ts-morph/common": "^0.28.1",
     "@types/node": "^24.8.0",
     "@types/pg": "^8.15.5",

@@ -1,10 +1,8 @@
 import { syncedQuery } from "@rocicorp/zero";
 import { builder } from "./zero-schema.gen";
 
-export const allUsers = syncedQuery(
-  "noConfig.allUsers",
-  undefined,
-  () => builder.user.orderBy("id", "asc"),
+export const allUsers = syncedQuery("noConfig.allUsers", undefined, () =>
+  builder.user.orderBy("id", "asc"),
 );
 
 export const filtersWithChildren = syncedQuery(
@@ -29,9 +27,7 @@ export const messagesByBody = syncedQuery(
   "noConfig.messagesByBody",
   undefined,
   (body: string) =>
-    builder.message
-      .where((q) => q.cmp("body", "=", body))
-      .orderBy("id", "asc"),
+    builder.message.where((q) => q.cmp("body", "=", body)).orderBy("id", "asc"),
 );
 
 export const messageWithRelations = syncedQuery(
@@ -48,20 +44,17 @@ export const messageWithRelations = syncedQuery(
 export const messageById = syncedQuery(
   "noConfig.messageById",
   undefined,
-  (id: string) =>
-    builder.message.where((q) => q.cmp("id", "=", id)).one(),
+  (id: string) => builder.message.where((q) => q.cmp("id", "=", id)).one(),
 );
 
 export const mediumById = syncedQuery(
   "noConfig.mediumById",
   undefined,
-  (id: string) =>
-    builder.medium.where((q) => q.cmp("id", "=", id)).one(),
+  (id: string) => builder.medium.where((q) => q.cmp("id", "=", id)).one(),
 );
 
 export const allTypesById = syncedQuery(
   "noConfig.allTypesById",
   undefined,
-  (id: string) =>
-    builder.allTypes.where((q) => q.cmp("id", "=", id)).one(),
+  (id: string) => builder.allTypes.where((q) => q.cmp("id", "=", id)).one(),
 );

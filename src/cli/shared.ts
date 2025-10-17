@@ -56,15 +56,16 @@ export async function getGeneratedSchema({
     overwrite: true,
   });
 
-  zeroSchemaGenerated.addImportDeclaration({
-    moduleSpecifier: "drizzle-zero",
-    namedImports: [{ name: "ZeroCustomType" }],
-    isTypeOnly: true,
-  });
-
+  let customTypeHelper: string;
   let zeroSchemaSpecifier: string | undefined;
 
   if (result.type === "config") {
+    // For config mode, use ZeroCustomType with the config schema
+    zeroSchemaGenerated.addImportDeclaration({
+      moduleSpecifier: "drizzle-zero",
+      namedImports: [{ name: "ZeroCustomType" }],
+      isTypeOnly: true,
+    });
     const moduleSpecifier =
       zeroSchemaGenerated.getRelativePathAsModuleSpecifierTo(
         result.zeroSchemaTypeDeclarations[1].getSourceFile(),
@@ -80,7 +81,9 @@ export async function getGeneratedSchema({
     });
 
     zeroSchemaSpecifier = "typeof zeroSchema";
+    customTypeHelper = "ZeroCustomType";
   } else {
+    // For no-config mode, use CustomType to avoid expanding entire schema
     const moduleSpecifier =
       zeroSchemaGenerated.getRelativePathAsModuleSpecifierTo(
         result.drizzleSchemaSourceFile,
@@ -94,20 +97,15 @@ export async function getGeneratedSchema({
       isTypeOnly: true,
     });
 
-    // Add import for DrizzleToZeroSchema type
+    // Add import for CustomType - much faster than ZeroCustomType
     zeroSchemaGenerated.addImportDeclaration({
       moduleSpecifier: "drizzle-zero",
-      namedImports: [{ name: "DrizzleToZeroSchema" }],
+      namedImports: [{ name: "CustomType" }],
       isTypeOnly: true,
     });
 
-    zeroSchemaGenerated.addTypeAlias({
-      name: "ZeroSchema",
-      isExported: false,
-      type: `DrizzleToZeroSchema<typeof drizzleSchema>`,
-    });
-
-    zeroSchemaSpecifier = "ZeroSchema";
+    zeroSchemaSpecifier = "typeof drizzleSchema";
+    customTypeHelper = "CustomType";
   }
 
   const schemaVariable = zeroSchemaGenerated.addVariableStatement({
@@ -155,7 +153,7 @@ export async function getGeneratedSchema({
                     const columnIndex = 3;
 
                     writer.write(
-                      `null as unknown as ZeroCustomType<${zeroSchemaSpecifier}, "${keys[tableIndex]}", "${keys[columnIndex]}">`,
+                      `null as unknown as ${customTypeHelper}<${zeroSchemaSpecifier}, "${keys[tableIndex]}", "${keys[columnIndex]}">`,
                     );
                   } else if (key === "enableLegacyMutators") {
                     writer.write(disableLegacyMutators ? "false" : "true");

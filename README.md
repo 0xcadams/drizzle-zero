@@ -143,6 +143,9 @@ If you want to customize the tables/columns that are synced by Zero, you can opt
 create a new config file at `drizzle-zero.config.ts` specifying the tables and/or columns you want to
 include in the CLI output:
 
+> **Important:** The config file currently struggles with types for large schemas. In those cases,
+> stick with the default CLI behavior.
+
 ```ts
 import { drizzleZeroConfig } from "drizzle-zero";
 // directly glob import your original Drizzle schema w/ tables/relations

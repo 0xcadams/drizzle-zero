@@ -10,10 +10,8 @@
 
 import type { Row } from "@rocicorp/zero";
 import { createBuilder } from "@rocicorp/zero";
-import type { DrizzleToZeroSchema, ZeroCustomType } from "drizzle-zero";
+import type { DirectCustomType } from "drizzle-zero";
 import type * as drizzleSchema from "./drizzle";
-
-type ZeroSchema = DrizzleToZeroSchema<typeof drizzleSchema>;
 
 /**
  * The Zero schema object.
@@ -27,8 +25,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "createdAt"
           >,
@@ -36,8 +34,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "updatedAt"
           >,
@@ -45,8 +43,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "id"
           >,
@@ -54,8 +52,8 @@ export const schema = {
         smallintField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "smallintField"
           >,
@@ -64,8 +62,8 @@ export const schema = {
         integerField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "integerField"
           >,
@@ -74,8 +72,8 @@ export const schema = {
         bigintField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "bigintField"
           >,
@@ -84,8 +82,8 @@ export const schema = {
         bigintNumberField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "bigintNumberField"
           >,
@@ -94,8 +92,8 @@ export const schema = {
         smallSerialField: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "smallSerialField"
           >,
@@ -104,8 +102,8 @@ export const schema = {
         serialField: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "serialField"
           >,
@@ -114,8 +112,8 @@ export const schema = {
         bigSerialField: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "bigSerialField"
           >,
@@ -124,8 +122,8 @@ export const schema = {
         numericField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "numericField"
           >,
@@ -134,8 +132,8 @@ export const schema = {
         decimalField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "decimalField"
           >,
@@ -144,8 +142,8 @@ export const schema = {
         realField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "realField"
           >,
@@ -154,8 +152,8 @@ export const schema = {
         doublePrecisionField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "doublePrecisionField"
           >,
@@ -164,8 +162,8 @@ export const schema = {
         textField: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "textField"
           >,
@@ -174,8 +172,8 @@ export const schema = {
         charField: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "charField"
           >,
@@ -184,8 +182,8 @@ export const schema = {
         uuidField: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "uuidField"
           >,
@@ -194,8 +192,8 @@ export const schema = {
         varcharField: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "varcharField"
           >,
@@ -204,8 +202,8 @@ export const schema = {
         booleanField: {
           type: "boolean",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "booleanField"
           >,
@@ -214,8 +212,8 @@ export const schema = {
         timestampField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "timestampField"
           >,
@@ -224,8 +222,8 @@ export const schema = {
         timestampTzField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "timestampTzField"
           >,
@@ -234,8 +232,8 @@ export const schema = {
         timestampModeString: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "timestampModeString"
           >,
@@ -244,8 +242,8 @@ export const schema = {
         timestampModeDate: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "timestampModeDate"
           >,
@@ -254,8 +252,8 @@ export const schema = {
         dateField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "dateField"
           >,
@@ -264,8 +262,8 @@ export const schema = {
         jsonField: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "jsonField"
           >,
@@ -274,8 +272,8 @@ export const schema = {
         jsonbField: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "jsonbField"
           >,
@@ -284,8 +282,8 @@ export const schema = {
         typedJsonField: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "typedJsonField"
           >,
@@ -294,8 +292,8 @@ export const schema = {
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "status"
           >,
@@ -303,8 +301,8 @@ export const schema = {
         textArray: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "textArray"
           >,
@@ -313,8 +311,8 @@ export const schema = {
         intArray: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "intArray"
           >,
@@ -323,8 +321,8 @@ export const schema = {
         numericArray: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "numericArray"
           >,
@@ -333,8 +331,8 @@ export const schema = {
         uuidArray: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "uuidArray"
           >,
@@ -343,8 +341,8 @@ export const schema = {
         jsonbArray: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "jsonbArray"
           >,
@@ -353,8 +351,8 @@ export const schema = {
         enumArray: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "enumArray"
           >,
@@ -363,8 +361,8 @@ export const schema = {
         matrix: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "matrix"
           >,
@@ -372,8 +370,8 @@ export const schema = {
         optionalSmallint: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalSmallint"
           >,
@@ -382,8 +380,8 @@ export const schema = {
         optionalInteger: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalInteger"
           >,
@@ -392,8 +390,8 @@ export const schema = {
         optionalBigint: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalBigint"
           >,
@@ -402,8 +400,8 @@ export const schema = {
         optionalNumeric: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalNumeric"
           >,
@@ -412,8 +410,8 @@ export const schema = {
         optionalReal: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalReal"
           >,
@@ -422,8 +420,8 @@ export const schema = {
         optionalDoublePrecision: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalDoublePrecision"
           >,
@@ -432,8 +430,8 @@ export const schema = {
         optionalText: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalText"
           >,
@@ -442,8 +440,8 @@ export const schema = {
         optionalBoolean: {
           type: "boolean",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalBoolean"
           >,
@@ -452,8 +450,8 @@ export const schema = {
         optionalTimestamp: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalTimestamp"
           >,
@@ -462,8 +460,8 @@ export const schema = {
         optionalJson: {
           type: "json",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalJson"
           >,
@@ -472,8 +470,8 @@ export const schema = {
         optionalEnum: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalEnum"
           >,
@@ -482,8 +480,8 @@ export const schema = {
         optionalVarchar: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalVarchar"
           >,
@@ -492,8 +490,8 @@ export const schema = {
         optionalUuid: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalUuid"
           >,
@@ -509,8 +507,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsDashboard",
             "createdAt"
           >,
@@ -518,8 +516,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsDashboard",
             "updatedAt"
           >,
@@ -527,8 +525,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsDashboard",
             "id"
           >,
@@ -536,8 +534,8 @@ export const schema = {
         ownerId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsDashboard",
             "ownerId"
           >,
@@ -546,8 +544,8 @@ export const schema = {
         title: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsDashboard",
             "title"
           >,
@@ -555,8 +553,8 @@ export const schema = {
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsDashboard",
             "description"
           >,
@@ -571,8 +569,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsWidget",
             "createdAt"
           >,
@@ -580,8 +578,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsWidget",
             "updatedAt"
           >,
@@ -589,8 +587,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsWidget",
             "id"
           >,
@@ -598,8 +596,8 @@ export const schema = {
         dashboardId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsWidget",
             "dashboardId"
           >,
@@ -608,8 +606,8 @@ export const schema = {
         title: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsWidget",
             "title"
           >,
@@ -617,8 +615,8 @@ export const schema = {
         widgetType: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsWidget",
             "widgetType"
           >,
@@ -627,8 +625,8 @@ export const schema = {
         position: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsWidget",
             "position"
           >,
@@ -643,8 +641,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsWidgetQuery",
             "createdAt"
           >,
@@ -652,8 +650,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsWidgetQuery",
             "updatedAt"
           >,
@@ -661,8 +659,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsWidgetQuery",
             "id"
           >,
@@ -670,8 +668,8 @@ export const schema = {
         widgetId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsWidgetQuery",
             "widgetId"
           >,
@@ -680,8 +678,8 @@ export const schema = {
         dataSource: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsWidgetQuery",
             "dataSource"
           >,
@@ -690,8 +688,8 @@ export const schema = {
         query: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsWidgetQuery",
             "query"
           >,
@@ -699,8 +697,8 @@ export const schema = {
         refreshIntervalSeconds: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "analyticsWidgetQuery",
             "refreshIntervalSeconds"
           >,
@@ -716,8 +714,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "benefitEnrollment",
             "createdAt"
           >,
@@ -725,8 +723,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "benefitEnrollment",
             "updatedAt"
           >,
@@ -734,8 +732,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "benefitEnrollment",
             "id"
           >,
@@ -743,8 +741,8 @@ export const schema = {
         benefitPlanId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "benefitEnrollment",
             "benefitPlanId"
           >,
@@ -753,8 +751,8 @@ export const schema = {
         employeeId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "benefitEnrollment",
             "employeeId"
           >,
@@ -763,8 +761,8 @@ export const schema = {
         enrolledAt: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "benefitEnrollment",
             "enrolledAt"
           >,
@@ -773,8 +771,8 @@ export const schema = {
         coverageLevel: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "benefitEnrollment",
             "coverageLevel"
           >,
@@ -790,8 +788,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "benefitPlan",
             "createdAt"
           >,
@@ -799,8 +797,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "benefitPlan",
             "updatedAt"
           >,
@@ -808,8 +806,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "benefitPlan",
             "id"
           >,
@@ -817,8 +815,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "benefitPlan",
             "name"
           >,
@@ -826,8 +824,8 @@ export const schema = {
         provider: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "benefitPlan",
             "provider"
           >,
@@ -835,8 +833,8 @@ export const schema = {
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "benefitPlan",
             "description"
           >,
@@ -844,8 +842,8 @@ export const schema = {
         administratorId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "benefitPlan",
             "administratorId"
           >,
@@ -861,8 +859,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "billingInvoice",
             "createdAt"
           >,
@@ -870,8 +868,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "billingInvoice",
             "updatedAt"
           >,
@@ -879,8 +877,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "billingInvoice",
             "id"
           >,
@@ -888,8 +886,8 @@ export const schema = {
         accountId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "billingInvoice",
             "accountId"
           >,
@@ -898,8 +896,8 @@ export const schema = {
         contactId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "billingInvoice",
             "contactId"
           >,
@@ -908,8 +906,8 @@ export const schema = {
         issuedById: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "billingInvoice",
             "issuedById"
           >,
@@ -918,8 +916,8 @@ export const schema = {
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "billingInvoice",
             "status"
           >,
@@ -927,8 +925,8 @@ export const schema = {
         invoiceDate: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "billingInvoice",
             "invoiceDate"
           >,
@@ -937,8 +935,8 @@ export const schema = {
         dueDate: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "billingInvoice",
             "dueDate"
           >,
@@ -947,8 +945,8 @@ export const schema = {
         totalAmount: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "billingInvoice",
             "totalAmount"
           >,
@@ -957,8 +955,8 @@ export const schema = {
         currency: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "billingInvoice",
             "currency"
           >,
@@ -973,8 +971,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "billingInvoiceLine",
             "createdAt"
           >,
@@ -982,8 +980,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "billingInvoiceLine",
             "updatedAt"
           >,
@@ -991,8 +989,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "billingInvoiceLine",
             "id"
           >,
@@ -1000,8 +998,8 @@ export const schema = {
         invoiceId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "billingInvoiceLine",
             "invoiceId"
           >,
@@ -1010,8 +1008,8 @@ export const schema = {
         orderItemId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "billingInvoiceLine",
             "orderItemId"
           >,
@@ -1020,8 +1018,8 @@ export const schema = {
         description: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "billingInvoiceLine",
             "description"
           >,
@@ -1029,8 +1027,8 @@ export const schema = {
         quantity: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "billingInvoiceLine",
             "quantity"
           >,
@@ -1038,8 +1036,8 @@ export const schema = {
         unitPrice: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "billingInvoiceLine",
             "unitPrice"
           >,
@@ -1055,8 +1053,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "budget",
             "createdAt"
           >,
@@ -1064,8 +1062,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "budget",
             "updatedAt"
           >,
@@ -1073,8 +1071,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "budget",
             "id"
           >,
@@ -1082,8 +1080,8 @@ export const schema = {
         departmentId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "budget",
             "departmentId"
           >,
@@ -1092,8 +1090,8 @@ export const schema = {
         fiscalYear: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "budget",
             "fiscalYear"
           >,
@@ -1102,8 +1100,8 @@ export const schema = {
         totalAmount: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "budget",
             "totalAmount"
           >,
@@ -1112,8 +1110,8 @@ export const schema = {
         currency: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "budget",
             "currency"
           >,
@@ -1127,8 +1125,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "budgetLine",
             "createdAt"
           >,
@@ -1136,8 +1134,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "budgetLine",
             "updatedAt"
           >,
@@ -1145,8 +1143,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "budgetLine",
             "id"
           >,
@@ -1154,8 +1152,8 @@ export const schema = {
         budgetId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "budgetLine",
             "budgetId"
           >,
@@ -1164,8 +1162,8 @@ export const schema = {
         accountId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "budgetLine",
             "accountId"
           >,
@@ -1174,8 +1172,8 @@ export const schema = {
         amount: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "budgetLine",
             "amount"
           >,
@@ -1190,8 +1188,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmAccount",
             "createdAt"
           >,
@@ -1199,8 +1197,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmAccount",
             "updatedAt"
           >,
@@ -1208,8 +1206,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmAccount",
             "id"
           >,
@@ -1217,8 +1215,8 @@ export const schema = {
         ownerId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmAccount",
             "ownerId"
           >,
@@ -1227,8 +1225,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmAccount",
             "name"
           >,
@@ -1236,8 +1234,8 @@ export const schema = {
         industry: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmAccount",
             "industry"
           >,
@@ -1245,8 +1243,8 @@ export const schema = {
         status: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmAccount",
             "status"
           >,
@@ -1261,8 +1259,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmActivity",
             "createdAt"
           >,
@@ -1270,8 +1268,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmActivity",
             "updatedAt"
           >,
@@ -1279,8 +1277,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmActivity",
             "id"
           >,
@@ -1288,8 +1286,8 @@ export const schema = {
         accountId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmActivity",
             "accountId"
           >,
@@ -1298,8 +1296,8 @@ export const schema = {
         contactId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmActivity",
             "contactId"
           >,
@@ -1308,8 +1306,8 @@ export const schema = {
         opportunityId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmActivity",
             "opportunityId"
           >,
@@ -1318,8 +1316,8 @@ export const schema = {
         typeId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmActivity",
             "typeId"
           >,
@@ -1328,8 +1326,8 @@ export const schema = {
         performedById: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmActivity",
             "performedById"
           >,
@@ -1338,8 +1336,8 @@ export const schema = {
         notes: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmActivity",
             "notes"
           >,
@@ -1354,8 +1352,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmActivityType",
             "createdAt"
           >,
@@ -1363,8 +1361,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmActivityType",
             "updatedAt"
           >,
@@ -1372,8 +1370,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmActivityType",
             "id"
           >,
@@ -1381,8 +1379,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmActivityType",
             "name"
           >,
@@ -1390,8 +1388,8 @@ export const schema = {
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmActivityType",
             "description"
           >,
@@ -1406,8 +1404,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmContact",
             "createdAt"
           >,
@@ -1415,8 +1413,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmContact",
             "updatedAt"
           >,
@@ -1424,8 +1422,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmContact",
             "id"
           >,
@@ -1433,8 +1431,8 @@ export const schema = {
         accountId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmContact",
             "accountId"
           >,
@@ -1443,8 +1441,8 @@ export const schema = {
         firstName: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmContact",
             "firstName"
           >,
@@ -1453,8 +1451,8 @@ export const schema = {
         lastName: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmContact",
             "lastName"
           >,
@@ -1463,8 +1461,8 @@ export const schema = {
         email: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmContact",
             "email"
           >,
@@ -1472,8 +1470,8 @@ export const schema = {
         phone: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmContact",
             "phone"
           >,
@@ -1488,8 +1486,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmNote",
             "createdAt"
           >,
@@ -1497,8 +1495,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmNote",
             "updatedAt"
           >,
@@ -1506,8 +1504,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmNote",
             "id"
           >,
@@ -1515,8 +1513,8 @@ export const schema = {
         accountId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmNote",
             "accountId"
           >,
@@ -1525,8 +1523,8 @@ export const schema = {
         contactId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmNote",
             "contactId"
           >,
@@ -1535,8 +1533,8 @@ export const schema = {
         authorId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmNote",
             "authorId"
           >,
@@ -1545,8 +1543,8 @@ export const schema = {
         body: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmNote",
             "body"
           >,
@@ -1561,8 +1559,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmOpportunity",
             "createdAt"
           >,
@@ -1570,8 +1568,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmOpportunity",
             "updatedAt"
           >,
@@ -1579,8 +1577,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmOpportunity",
             "id"
           >,
@@ -1588,8 +1586,8 @@ export const schema = {
         accountId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmOpportunity",
             "accountId"
           >,
@@ -1598,8 +1596,8 @@ export const schema = {
         stageId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmOpportunity",
             "stageId"
           >,
@@ -1608,8 +1606,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmOpportunity",
             "name"
           >,
@@ -1617,8 +1615,8 @@ export const schema = {
         amount: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmOpportunity",
             "amount"
           >,
@@ -1626,8 +1624,8 @@ export const schema = {
         closeDate: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmOpportunity",
             "closeDate"
           >,
@@ -1643,8 +1641,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmOpportunityStageHistory",
             "createdAt"
           >,
@@ -1652,8 +1650,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmOpportunityStageHistory",
             "updatedAt"
           >,
@@ -1661,8 +1659,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmOpportunityStageHistory",
             "id"
           >,
@@ -1670,8 +1668,8 @@ export const schema = {
         opportunityId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmOpportunityStageHistory",
             "opportunityId"
           >,
@@ -1680,8 +1678,8 @@ export const schema = {
         stageId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmOpportunityStageHistory",
             "stageId"
           >,
@@ -1690,8 +1688,8 @@ export const schema = {
         changedById: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmOpportunityStageHistory",
             "changedById"
           >,
@@ -1700,8 +1698,8 @@ export const schema = {
         changedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmOpportunityStageHistory",
             "changedAt"
           >,
@@ -1717,8 +1715,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmPipelineStage",
             "createdAt"
           >,
@@ -1726,8 +1724,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmPipelineStage",
             "updatedAt"
           >,
@@ -1735,8 +1733,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmPipelineStage",
             "id"
           >,
@@ -1744,8 +1742,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmPipelineStage",
             "name"
           >,
@@ -1753,8 +1751,8 @@ export const schema = {
         sequence: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmPipelineStage",
             "sequence"
           >,
@@ -1762,8 +1760,8 @@ export const schema = {
         probability: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "crmPipelineStage",
             "probability"
           >,
@@ -1778,8 +1776,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "department",
             "createdAt"
           >,
@@ -1787,8 +1785,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "department",
             "updatedAt"
           >,
@@ -1796,8 +1794,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "department",
             "id"
           >,
@@ -1805,8 +1803,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "department",
             "name"
           >,
@@ -1814,8 +1812,8 @@ export const schema = {
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "department",
             "description"
           >,
@@ -1823,8 +1821,8 @@ export const schema = {
         managerId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "department",
             "managerId"
           >,
@@ -1839,8 +1837,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFile",
             "createdAt"
           >,
@@ -1848,8 +1846,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFile",
             "updatedAt"
           >,
@@ -1857,8 +1855,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFile",
             "id"
           >,
@@ -1866,8 +1864,8 @@ export const schema = {
         folderId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFile",
             "folderId"
           >,
@@ -1876,8 +1874,8 @@ export const schema = {
         uploadedById: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFile",
             "uploadedById"
           >,
@@ -1886,8 +1884,8 @@ export const schema = {
         fileName: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFile",
             "fileName"
           >,
@@ -1896,8 +1894,8 @@ export const schema = {
         mimeType: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFile",
             "mimeType"
           >,
@@ -1906,8 +1904,8 @@ export const schema = {
         sizeBytes: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFile",
             "sizeBytes"
           >,
@@ -1916,8 +1914,8 @@ export const schema = {
         version: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFile",
             "version"
           >,
@@ -1932,8 +1930,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFileVersion",
             "createdAt"
           >,
@@ -1941,8 +1939,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFileVersion",
             "updatedAt"
           >,
@@ -1950,8 +1948,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFileVersion",
             "id"
           >,
@@ -1959,8 +1957,8 @@ export const schema = {
         fileId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFileVersion",
             "fileId"
           >,
@@ -1969,8 +1967,8 @@ export const schema = {
         uploadedById: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFileVersion",
             "uploadedById"
           >,
@@ -1979,8 +1977,8 @@ export const schema = {
         version: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFileVersion",
             "version"
           >,
@@ -1988,8 +1986,8 @@ export const schema = {
         changeLog: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFileVersion",
             "changeLog"
           >,
@@ -1998,8 +1996,8 @@ export const schema = {
         fileSizeBytes: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFileVersion",
             "fileSizeBytes"
           >,
@@ -2015,8 +2013,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFolder",
             "createdAt"
           >,
@@ -2024,8 +2022,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFolder",
             "updatedAt"
           >,
@@ -2033,8 +2031,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFolder",
             "id"
           >,
@@ -2042,8 +2040,8 @@ export const schema = {
         libraryId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFolder",
             "libraryId"
           >,
@@ -2052,8 +2050,8 @@ export const schema = {
         parentId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFolder",
             "parentId"
           >,
@@ -2062,8 +2060,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentFolder",
             "name"
           >,
@@ -2078,8 +2076,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentLibrary",
             "createdAt"
           >,
@@ -2087,8 +2085,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentLibrary",
             "updatedAt"
           >,
@@ -2096,8 +2094,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentLibrary",
             "id"
           >,
@@ -2105,8 +2103,8 @@ export const schema = {
         projectId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentLibrary",
             "projectId"
           >,
@@ -2115,8 +2113,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentLibrary",
             "name"
           >,
@@ -2124,8 +2122,8 @@ export const schema = {
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentLibrary",
             "description"
           >,
@@ -2133,8 +2131,8 @@ export const schema = {
         visibility: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentLibrary",
             "visibility"
           >,
@@ -2149,8 +2147,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentSharing",
             "createdAt"
           >,
@@ -2158,8 +2156,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentSharing",
             "updatedAt"
           >,
@@ -2167,8 +2165,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentSharing",
             "id"
           >,
@@ -2176,8 +2174,8 @@ export const schema = {
         fileId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentSharing",
             "fileId"
           >,
@@ -2186,8 +2184,8 @@ export const schema = {
         sharedWithUserId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentSharing",
             "sharedWithUserId"
           >,
@@ -2196,8 +2194,8 @@ export const schema = {
         sharedWithTeamId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentSharing",
             "sharedWithTeamId"
           >,
@@ -2206,8 +2204,8 @@ export const schema = {
         permission: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "documentSharing",
             "permission"
           >,
@@ -2222,8 +2220,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employeeDocument",
             "createdAt"
           >,
@@ -2231,8 +2229,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employeeDocument",
             "updatedAt"
           >,
@@ -2240,8 +2238,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employeeDocument",
             "id"
           >,
@@ -2249,8 +2247,8 @@ export const schema = {
         employeeId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employeeDocument",
             "employeeId"
           >,
@@ -2259,8 +2257,8 @@ export const schema = {
         fileName: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employeeDocument",
             "fileName"
           >,
@@ -2269,8 +2267,8 @@ export const schema = {
         documentType: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employeeDocument",
             "documentType"
           >,
@@ -2279,8 +2277,8 @@ export const schema = {
         uploadedById: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employeeDocument",
             "uploadedById"
           >,
@@ -2296,8 +2294,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employeeProfile",
             "createdAt"
           >,
@@ -2305,8 +2303,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employeeProfile",
             "updatedAt"
           >,
@@ -2314,8 +2312,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employeeProfile",
             "id"
           >,
@@ -2323,8 +2321,8 @@ export const schema = {
         userId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employeeProfile",
             "userId"
           >,
@@ -2333,8 +2331,8 @@ export const schema = {
         departmentId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employeeProfile",
             "departmentId"
           >,
@@ -2343,8 +2341,8 @@ export const schema = {
         teamId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employeeProfile",
             "teamId"
           >,
@@ -2353,8 +2351,8 @@ export const schema = {
         title: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employeeProfile",
             "title"
           >,
@@ -2362,8 +2360,8 @@ export const schema = {
         startDate: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employeeProfile",
             "startDate"
           >,
@@ -2372,8 +2370,8 @@ export const schema = {
         employmentType: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employeeProfile",
             "employmentType"
           >,
@@ -2389,8 +2387,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employmentHistory",
             "createdAt"
           >,
@@ -2398,8 +2396,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employmentHistory",
             "updatedAt"
           >,
@@ -2407,8 +2405,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employmentHistory",
             "id"
           >,
@@ -2416,8 +2414,8 @@ export const schema = {
         employeeId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employmentHistory",
             "employeeId"
           >,
@@ -2426,8 +2424,8 @@ export const schema = {
         company: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employmentHistory",
             "company"
           >,
@@ -2435,8 +2433,8 @@ export const schema = {
         title: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employmentHistory",
             "title"
           >,
@@ -2444,8 +2442,8 @@ export const schema = {
         startDate: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employmentHistory",
             "startDate"
           >,
@@ -2454,8 +2452,8 @@ export const schema = {
         endDate: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "employmentHistory",
             "endDate"
           >,
@@ -2471,8 +2469,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "expenseItem",
             "createdAt"
           >,
@@ -2480,8 +2478,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "expenseItem",
             "updatedAt"
           >,
@@ -2489,8 +2487,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "expenseItem",
             "id"
           >,
@@ -2498,8 +2496,8 @@ export const schema = {
         reportId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "expenseItem",
             "reportId"
           >,
@@ -2508,8 +2506,8 @@ export const schema = {
         amount: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "expenseItem",
             "amount"
           >,
@@ -2517,8 +2515,8 @@ export const schema = {
         category: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "expenseItem",
             "category"
           >,
@@ -2526,8 +2524,8 @@ export const schema = {
         incurredAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "expenseItem",
             "incurredAt"
           >,
@@ -2536,8 +2534,8 @@ export const schema = {
         merchant: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "expenseItem",
             "merchant"
           >,
@@ -2545,8 +2543,8 @@ export const schema = {
         notes: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "expenseItem",
             "notes"
           >,
@@ -2561,8 +2559,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "expenseReport",
             "createdAt"
           >,
@@ -2570,8 +2568,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "expenseReport",
             "updatedAt"
           >,
@@ -2579,8 +2577,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "expenseReport",
             "id"
           >,
@@ -2588,8 +2586,8 @@ export const schema = {
         ownerId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "expenseReport",
             "ownerId"
           >,
@@ -2598,8 +2596,8 @@ export const schema = {
         departmentId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "expenseReport",
             "departmentId"
           >,
@@ -2608,8 +2606,8 @@ export const schema = {
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "expenseReport",
             "status"
           >,
@@ -2617,8 +2615,8 @@ export const schema = {
         submittedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "expenseReport",
             "submittedAt"
           >,
@@ -2634,8 +2632,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "filters",
             "id"
           >,
@@ -2643,8 +2641,8 @@ export const schema = {
         name: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "filters",
             "name"
           >,
@@ -2652,8 +2650,8 @@ export const schema = {
         parentId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "filters",
             "parentId"
           >,
@@ -2668,8 +2666,8 @@ export const schema = {
         requestingId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "friendship",
             "requestingId"
           >,
@@ -2677,8 +2675,8 @@ export const schema = {
         acceptingId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "friendship",
             "acceptingId"
           >,
@@ -2686,8 +2684,8 @@ export const schema = {
         accepted: {
           type: "boolean",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "friendship",
             "accepted"
           >,
@@ -2701,8 +2699,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationCredential",
             "createdAt"
           >,
@@ -2710,8 +2708,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationCredential",
             "updatedAt"
           >,
@@ -2719,8 +2717,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationCredential",
             "id"
           >,
@@ -2728,8 +2726,8 @@ export const schema = {
         webhookId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationCredential",
             "webhookId"
           >,
@@ -2738,8 +2736,8 @@ export const schema = {
         provider: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationCredential",
             "provider"
           >,
@@ -2747,8 +2745,8 @@ export const schema = {
         clientId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationCredential",
             "clientId"
           >,
@@ -2757,8 +2755,8 @@ export const schema = {
         clientSecret: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationCredential",
             "clientSecret"
           >,
@@ -2767,8 +2765,8 @@ export const schema = {
         metadata: {
           type: "json",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationCredential",
             "metadata"
           >,
@@ -2783,8 +2781,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationEvent",
             "createdAt"
           >,
@@ -2792,8 +2790,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationEvent",
             "updatedAt"
           >,
@@ -2801,8 +2799,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationEvent",
             "id"
           >,
@@ -2810,8 +2808,8 @@ export const schema = {
         webhookId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationEvent",
             "webhookId"
           >,
@@ -2820,8 +2818,8 @@ export const schema = {
         payload: {
           type: "json",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationEvent",
             "payload"
           >,
@@ -2829,8 +2827,8 @@ export const schema = {
         eventType: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationEvent",
             "eventType"
           >,
@@ -2839,8 +2837,8 @@ export const schema = {
         deliveredAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationEvent",
             "deliveredAt"
           >,
@@ -2849,8 +2847,8 @@ export const schema = {
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationEvent",
             "status"
           >,
@@ -2865,8 +2863,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationWebhook",
             "createdAt"
           >,
@@ -2874,8 +2872,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationWebhook",
             "updatedAt"
           >,
@@ -2883,8 +2881,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationWebhook",
             "id"
           >,
@@ -2892,8 +2890,8 @@ export const schema = {
         projectId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationWebhook",
             "projectId"
           >,
@@ -2902,8 +2900,8 @@ export const schema = {
         accountId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationWebhook",
             "accountId"
           >,
@@ -2912,8 +2910,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationWebhook",
             "name"
           >,
@@ -2921,8 +2919,8 @@ export const schema = {
         url: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationWebhook",
             "url"
           >,
@@ -2930,8 +2928,8 @@ export const schema = {
         secret: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationWebhook",
             "secret"
           >,
@@ -2939,8 +2937,8 @@ export const schema = {
         isActive: {
           type: "boolean",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "integrationWebhook",
             "isActive"
           >,
@@ -2956,8 +2954,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "inventoryItem",
             "createdAt"
           >,
@@ -2965,8 +2963,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "inventoryItem",
             "updatedAt"
           >,
@@ -2974,8 +2972,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "inventoryItem",
             "id"
           >,
@@ -2983,8 +2981,8 @@ export const schema = {
         variantId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "inventoryItem",
             "variantId"
           >,
@@ -2993,8 +2991,8 @@ export const schema = {
         serialNumber: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "inventoryItem",
             "serialNumber"
           >,
@@ -3003,8 +3001,8 @@ export const schema = {
         metadata: {
           type: "json",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "inventoryItem",
             "metadata"
           >,
@@ -3019,8 +3017,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "inventoryLevel",
             "createdAt"
           >,
@@ -3028,8 +3026,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "inventoryLevel",
             "updatedAt"
           >,
@@ -3037,8 +3035,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "inventoryLevel",
             "id"
           >,
@@ -3046,8 +3044,8 @@ export const schema = {
         locationId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "inventoryLevel",
             "locationId"
           >,
@@ -3056,8 +3054,8 @@ export const schema = {
         variantId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "inventoryLevel",
             "variantId"
           >,
@@ -3066,8 +3064,8 @@ export const schema = {
         quantity: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "inventoryLevel",
             "quantity"
           >,
@@ -3075,8 +3073,8 @@ export const schema = {
         reserved: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "inventoryLevel",
             "reserved"
           >,
@@ -3091,8 +3089,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "inventoryLocation",
             "createdAt"
           >,
@@ -3100,8 +3098,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "inventoryLocation",
             "updatedAt"
           >,
@@ -3109,8 +3107,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "inventoryLocation",
             "id"
           >,
@@ -3118,8 +3116,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "inventoryLocation",
             "name"
           >,
@@ -3127,8 +3125,8 @@ export const schema = {
         address: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "inventoryLocation",
             "address"
           >,
@@ -3136,8 +3134,8 @@ export const schema = {
         region: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "inventoryLocation",
             "region"
           >,
@@ -3152,8 +3150,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerAccount",
             "createdAt"
           >,
@@ -3161,8 +3159,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerAccount",
             "updatedAt"
           >,
@@ -3170,8 +3168,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerAccount",
             "id"
           >,
@@ -3179,8 +3177,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerAccount",
             "name"
           >,
@@ -3188,8 +3186,8 @@ export const schema = {
         code: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerAccount",
             "code"
           >,
@@ -3197,8 +3195,8 @@ export const schema = {
         accountType: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerAccount",
             "accountType"
           >,
@@ -3207,8 +3205,8 @@ export const schema = {
         parentAccountId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerAccount",
             "parentAccountId"
           >,
@@ -3224,8 +3222,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerEntry",
             "createdAt"
           >,
@@ -3233,8 +3231,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerEntry",
             "updatedAt"
           >,
@@ -3242,8 +3240,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerEntry",
             "id"
           >,
@@ -3251,8 +3249,8 @@ export const schema = {
         transactionId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerEntry",
             "transactionId"
           >,
@@ -3261,8 +3259,8 @@ export const schema = {
         accountId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerEntry",
             "accountId"
           >,
@@ -3271,8 +3269,8 @@ export const schema = {
         debit: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerEntry",
             "debit"
           >,
@@ -3280,8 +3278,8 @@ export const schema = {
         credit: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerEntry",
             "credit"
           >,
@@ -3289,8 +3287,8 @@ export const schema = {
         memo: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerEntry",
             "memo"
           >,
@@ -3305,8 +3303,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerTransaction",
             "createdAt"
           >,
@@ -3314,8 +3312,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerTransaction",
             "updatedAt"
           >,
@@ -3323,8 +3321,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerTransaction",
             "id"
           >,
@@ -3332,8 +3330,8 @@ export const schema = {
         reference: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerTransaction",
             "reference"
           >,
@@ -3341,8 +3339,8 @@ export const schema = {
         transactionDate: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerTransaction",
             "transactionDate"
           >,
@@ -3351,8 +3349,8 @@ export const schema = {
         createdById: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerTransaction",
             "createdById"
           >,
@@ -3361,8 +3359,8 @@ export const schema = {
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "ledgerTransaction",
             "description"
           >,
@@ -3377,8 +3375,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingAudience",
             "createdAt"
           >,
@@ -3386,8 +3384,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingAudience",
             "updatedAt"
           >,
@@ -3395,8 +3393,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingAudience",
             "id"
           >,
@@ -3404,8 +3402,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingAudience",
             "name"
           >,
@@ -3413,8 +3411,8 @@ export const schema = {
         segmentType: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingAudience",
             "segmentType"
           >,
@@ -3423,8 +3421,8 @@ export const schema = {
         definition: {
           type: "json",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingAudience",
             "definition"
           >,
@@ -3439,8 +3437,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaign",
             "createdAt"
           >,
@@ -3448,8 +3446,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaign",
             "updatedAt"
           >,
@@ -3457,8 +3455,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaign",
             "id"
           >,
@@ -3466,8 +3464,8 @@ export const schema = {
         ownerId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaign",
             "ownerId"
           >,
@@ -3476,8 +3474,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaign",
             "name"
           >,
@@ -3485,8 +3483,8 @@ export const schema = {
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaign",
             "status"
           >,
@@ -3494,8 +3492,8 @@ export const schema = {
         startDate: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaign",
             "startDate"
           >,
@@ -3504,8 +3502,8 @@ export const schema = {
         endDate: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaign",
             "endDate"
           >,
@@ -3514,8 +3512,8 @@ export const schema = {
         budgetAmount: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaign",
             "budgetAmount"
           >,
@@ -3531,8 +3529,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaignAudience",
             "createdAt"
           >,
@@ -3540,8 +3538,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaignAudience",
             "updatedAt"
           >,
@@ -3549,8 +3547,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaignAudience",
             "id"
           >,
@@ -3558,8 +3556,8 @@ export const schema = {
         campaignId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaignAudience",
             "campaignId"
           >,
@@ -3568,8 +3566,8 @@ export const schema = {
         audienceId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaignAudience",
             "audienceId"
           >,
@@ -3585,8 +3583,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaignChannel",
             "createdAt"
           >,
@@ -3594,8 +3592,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaignChannel",
             "updatedAt"
           >,
@@ -3603,8 +3601,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaignChannel",
             "id"
           >,
@@ -3612,8 +3610,8 @@ export const schema = {
         campaignId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaignChannel",
             "campaignId"
           >,
@@ -3622,8 +3620,8 @@ export const schema = {
         channelId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaignChannel",
             "channelId"
           >,
@@ -3632,8 +3630,8 @@ export const schema = {
         allocation: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingCampaignChannel",
             "allocation"
           >,
@@ -3648,8 +3646,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingChannel",
             "createdAt"
           >,
@@ -3657,8 +3655,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingChannel",
             "updatedAt"
           >,
@@ -3666,8 +3664,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingChannel",
             "id"
           >,
@@ -3675,8 +3673,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingChannel",
             "name"
           >,
@@ -3684,8 +3682,8 @@ export const schema = {
         channelType: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingChannel",
             "channelType"
           >,
@@ -3694,8 +3692,8 @@ export const schema = {
         costModel: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "marketingChannel",
             "costModel"
           >,
@@ -3711,8 +3709,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "medium",
             "createdAt"
           >,
@@ -3720,8 +3718,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "medium",
             "updatedAt"
           >,
@@ -3729,8 +3727,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "medium",
             "id"
           >,
@@ -3738,8 +3736,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "medium",
             "name"
           >,
@@ -3753,8 +3751,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "message",
             "createdAt"
           >,
@@ -3762,8 +3760,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "message",
             "updatedAt"
           >,
@@ -3771,8 +3769,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "message",
             "id"
           >,
@@ -3780,8 +3778,8 @@ export const schema = {
         senderId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "message",
             "senderId"
           >,
@@ -3789,8 +3787,8 @@ export const schema = {
         mediumId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "message",
             "mediumId"
           >,
@@ -3798,8 +3796,8 @@ export const schema = {
         body: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "message",
             "body"
           >,
@@ -3807,8 +3805,8 @@ export const schema = {
         metadata: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "message",
             "metadata"
           >,
@@ -3816,8 +3814,8 @@ export const schema = {
         omittedColumn: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "message",
             "omittedColumn"
           >,
@@ -3832,8 +3830,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "omittedTable",
             "id"
           >,
@@ -3841,8 +3839,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "omittedTable",
             "name"
           >,
@@ -3857,8 +3855,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderItem",
             "createdAt"
           >,
@@ -3866,8 +3864,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderItem",
             "updatedAt"
           >,
@@ -3875,8 +3873,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderItem",
             "id"
           >,
@@ -3884,8 +3882,8 @@ export const schema = {
         orderId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderItem",
             "orderId"
           >,
@@ -3894,8 +3892,8 @@ export const schema = {
         variantId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderItem",
             "variantId"
           >,
@@ -3904,8 +3902,8 @@ export const schema = {
         quantity: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderItem",
             "quantity"
           >,
@@ -3913,8 +3911,8 @@ export const schema = {
         unitPrice: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderItem",
             "unitPrice"
           >,
@@ -3930,8 +3928,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderPayment",
             "createdAt"
           >,
@@ -3939,8 +3937,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderPayment",
             "updatedAt"
           >,
@@ -3948,8 +3946,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderPayment",
             "id"
           >,
@@ -3957,8 +3955,8 @@ export const schema = {
         orderId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderPayment",
             "orderId"
           >,
@@ -3967,8 +3965,8 @@ export const schema = {
         paymentId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderPayment",
             "paymentId"
           >,
@@ -3977,8 +3975,8 @@ export const schema = {
         amount: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderPayment",
             "amount"
           >,
@@ -3986,8 +3984,8 @@ export const schema = {
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderPayment",
             "status"
           >,
@@ -4002,8 +4000,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderTable",
             "createdAt"
           >,
@@ -4011,8 +4009,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderTable",
             "updatedAt"
           >,
@@ -4020,8 +4018,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderTable",
             "id"
           >,
@@ -4029,8 +4027,8 @@ export const schema = {
         customerId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderTable",
             "customerId"
           >,
@@ -4039,8 +4037,8 @@ export const schema = {
         opportunityId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderTable",
             "opportunityId"
           >,
@@ -4049,8 +4047,8 @@ export const schema = {
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderTable",
             "status"
           >,
@@ -4058,8 +4056,8 @@ export const schema = {
         total: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderTable",
             "total"
           >,
@@ -4067,8 +4065,8 @@ export const schema = {
         currency: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "orderTable",
             "currency"
           >,
@@ -4083,8 +4081,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "payment",
             "createdAt"
           >,
@@ -4092,8 +4090,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "payment",
             "updatedAt"
           >,
@@ -4101,8 +4099,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "payment",
             "id"
           >,
@@ -4110,8 +4108,8 @@ export const schema = {
         externalRef: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "payment",
             "externalRef"
           >,
@@ -4120,8 +4118,8 @@ export const schema = {
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "payment",
             "status"
           >,
@@ -4129,8 +4127,8 @@ export const schema = {
         amount: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "payment",
             "amount"
           >,
@@ -4138,8 +4136,8 @@ export const schema = {
         currency: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "payment",
             "currency"
           >,
@@ -4147,8 +4145,8 @@ export const schema = {
         receivedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "payment",
             "receivedAt"
           >,
@@ -4157,8 +4155,8 @@ export const schema = {
         receivedById: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "payment",
             "receivedById"
           >,
@@ -4173,8 +4171,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "product",
             "createdAt"
           >,
@@ -4182,8 +4180,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "product",
             "updatedAt"
           >,
@@ -4191,8 +4189,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "product",
             "id"
           >,
@@ -4200,8 +4198,8 @@ export const schema = {
         categoryId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "product",
             "categoryId"
           >,
@@ -4210,8 +4208,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "product",
             "name"
           >,
@@ -4219,8 +4217,8 @@ export const schema = {
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "product",
             "description"
           >,
@@ -4228,8 +4226,8 @@ export const schema = {
         status: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "product",
             "status"
           >,
@@ -4243,8 +4241,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productCategory",
             "createdAt"
           >,
@@ -4252,8 +4250,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productCategory",
             "updatedAt"
           >,
@@ -4261,8 +4259,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productCategory",
             "id"
           >,
@@ -4270,8 +4268,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productCategory",
             "name"
           >,
@@ -4279,8 +4277,8 @@ export const schema = {
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productCategory",
             "description"
           >,
@@ -4288,8 +4286,8 @@ export const schema = {
         parentId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productCategory",
             "parentId"
           >,
@@ -4305,8 +4303,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productMedia",
             "createdAt"
           >,
@@ -4314,8 +4312,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productMedia",
             "updatedAt"
           >,
@@ -4323,8 +4321,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productMedia",
             "id"
           >,
@@ -4332,8 +4330,8 @@ export const schema = {
         productId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productMedia",
             "productId"
           >,
@@ -4342,8 +4340,8 @@ export const schema = {
         url: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productMedia",
             "url"
           >,
@@ -4351,8 +4349,8 @@ export const schema = {
         type: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productMedia",
             "type"
           >,
@@ -4367,8 +4365,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productVariant",
             "createdAt"
           >,
@@ -4376,8 +4374,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productVariant",
             "updatedAt"
           >,
@@ -4385,8 +4383,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productVariant",
             "id"
           >,
@@ -4394,8 +4392,8 @@ export const schema = {
         productId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productVariant",
             "productId"
           >,
@@ -4404,8 +4402,8 @@ export const schema = {
         sku: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productVariant",
             "sku"
           >,
@@ -4413,8 +4411,8 @@ export const schema = {
         price: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productVariant",
             "price"
           >,
@@ -4422,8 +4420,8 @@ export const schema = {
         currency: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productVariant",
             "currency"
           >,
@@ -4431,8 +4429,8 @@ export const schema = {
         isActive: {
           type: "boolean",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "productVariant",
             "isActive"
           >,
@@ -4448,8 +4446,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "project",
             "createdAt"
           >,
@@ -4457,8 +4455,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "project",
             "updatedAt"
           >,
@@ -4466,8 +4464,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "project",
             "id"
           >,
@@ -4475,8 +4473,8 @@ export const schema = {
         ownerId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "project",
             "ownerId"
           >,
@@ -4485,8 +4483,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "project",
             "name"
           >,
@@ -4494,8 +4492,8 @@ export const schema = {
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "project",
             "description"
           >,
@@ -4503,8 +4501,8 @@ export const schema = {
         status: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "project",
             "status"
           >,
@@ -4518,8 +4516,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAssignment",
             "createdAt"
           >,
@@ -4527,8 +4525,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAssignment",
             "updatedAt"
           >,
@@ -4536,8 +4534,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAssignment",
             "id"
           >,
@@ -4545,8 +4543,8 @@ export const schema = {
         taskId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAssignment",
             "taskId"
           >,
@@ -4555,8 +4553,8 @@ export const schema = {
         userId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAssignment",
             "userId"
           >,
@@ -4565,8 +4563,8 @@ export const schema = {
         assignedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAssignment",
             "assignedAt"
           >,
@@ -4575,8 +4573,8 @@ export const schema = {
         role: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAssignment",
             "role"
           >,
@@ -4591,8 +4589,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAttachment",
             "createdAt"
           >,
@@ -4600,8 +4598,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAttachment",
             "updatedAt"
           >,
@@ -4609,8 +4607,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAttachment",
             "id"
           >,
@@ -4618,8 +4616,8 @@ export const schema = {
         taskId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAttachment",
             "taskId"
           >,
@@ -4628,8 +4626,8 @@ export const schema = {
         fileName: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAttachment",
             "fileName"
           >,
@@ -4638,8 +4636,8 @@ export const schema = {
         fileType: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAttachment",
             "fileType"
           >,
@@ -4655,8 +4653,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAudit",
             "createdAt"
           >,
@@ -4664,8 +4662,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAudit",
             "updatedAt"
           >,
@@ -4673,8 +4671,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAudit",
             "id"
           >,
@@ -4682,8 +4680,8 @@ export const schema = {
         projectId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAudit",
             "projectId"
           >,
@@ -4692,8 +4690,8 @@ export const schema = {
         actorId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAudit",
             "actorId"
           >,
@@ -4702,8 +4700,8 @@ export const schema = {
         action: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAudit",
             "action"
           >,
@@ -4711,8 +4709,8 @@ export const schema = {
         details: {
           type: "json",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectAudit",
             "details"
           >,
@@ -4727,8 +4725,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectComment",
             "createdAt"
           >,
@@ -4736,8 +4734,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectComment",
             "updatedAt"
           >,
@@ -4745,8 +4743,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectComment",
             "id"
           >,
@@ -4754,8 +4752,8 @@ export const schema = {
         taskId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectComment",
             "taskId"
           >,
@@ -4764,8 +4762,8 @@ export const schema = {
         authorId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectComment",
             "authorId"
           >,
@@ -4774,8 +4772,8 @@ export const schema = {
         body: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectComment",
             "body"
           >,
@@ -4790,8 +4788,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectNote",
             "createdAt"
           >,
@@ -4799,8 +4797,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectNote",
             "updatedAt"
           >,
@@ -4808,8 +4806,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectNote",
             "id"
           >,
@@ -4817,8 +4815,8 @@ export const schema = {
         projectId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectNote",
             "projectId"
           >,
@@ -4827,8 +4825,8 @@ export const schema = {
         authorId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectNote",
             "authorId"
           >,
@@ -4837,8 +4835,8 @@ export const schema = {
         note: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectNote",
             "note"
           >,
@@ -4853,8 +4851,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectPhase",
             "createdAt"
           >,
@@ -4862,8 +4860,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectPhase",
             "updatedAt"
           >,
@@ -4871,8 +4869,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectPhase",
             "id"
           >,
@@ -4880,8 +4878,8 @@ export const schema = {
         projectId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectPhase",
             "projectId"
           >,
@@ -4890,8 +4888,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectPhase",
             "name"
           >,
@@ -4899,8 +4897,8 @@ export const schema = {
         sequence: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectPhase",
             "sequence"
           >,
@@ -4915,8 +4913,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectTag",
             "createdAt"
           >,
@@ -4924,8 +4922,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectTag",
             "updatedAt"
           >,
@@ -4933,8 +4931,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectTag",
             "id"
           >,
@@ -4942,8 +4940,8 @@ export const schema = {
         label: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectTag",
             "label"
           >,
@@ -4951,8 +4949,8 @@ export const schema = {
         color: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectTag",
             "color"
           >,
@@ -4967,8 +4965,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectTask",
             "createdAt"
           >,
@@ -4976,8 +4974,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectTask",
             "updatedAt"
           >,
@@ -4985,8 +4983,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectTask",
             "id"
           >,
@@ -4994,8 +4992,8 @@ export const schema = {
         projectId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectTask",
             "projectId"
           >,
@@ -5004,8 +5002,8 @@ export const schema = {
         phaseId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectTask",
             "phaseId"
           >,
@@ -5014,8 +5012,8 @@ export const schema = {
         title: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectTask",
             "title"
           >,
@@ -5023,8 +5021,8 @@ export const schema = {
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectTask",
             "status"
           >,
@@ -5032,8 +5030,8 @@ export const schema = {
         priority: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectTask",
             "priority"
           >,
@@ -5048,8 +5046,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectTaskTag",
             "createdAt"
           >,
@@ -5057,8 +5055,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectTaskTag",
             "updatedAt"
           >,
@@ -5066,8 +5064,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectTaskTag",
             "id"
           >,
@@ -5075,8 +5073,8 @@ export const schema = {
         taskId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectTaskTag",
             "taskId"
           >,
@@ -5085,8 +5083,8 @@ export const schema = {
         tagId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "projectTaskTag",
             "tagId"
           >,
@@ -5102,8 +5100,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "shipment",
             "createdAt"
           >,
@@ -5111,8 +5109,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "shipment",
             "updatedAt"
           >,
@@ -5120,8 +5118,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "shipment",
             "id"
           >,
@@ -5129,8 +5127,8 @@ export const schema = {
         orderId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "shipment",
             "orderId"
           >,
@@ -5139,8 +5137,8 @@ export const schema = {
         shippedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "shipment",
             "shippedAt"
           >,
@@ -5149,8 +5147,8 @@ export const schema = {
         deliveredAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "shipment",
             "deliveredAt"
           >,
@@ -5159,8 +5157,8 @@ export const schema = {
         carrier: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "shipment",
             "carrier"
           >,
@@ -5168,8 +5166,8 @@ export const schema = {
         trackingNumber: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "shipment",
             "trackingNumber"
           >,
@@ -5184,8 +5182,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "shipmentItem",
             "createdAt"
           >,
@@ -5193,8 +5191,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "shipmentItem",
             "updatedAt"
           >,
@@ -5202,8 +5200,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "shipmentItem",
             "id"
           >,
@@ -5211,8 +5209,8 @@ export const schema = {
         shipmentId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "shipmentItem",
             "shipmentId"
           >,
@@ -5221,8 +5219,8 @@ export const schema = {
         orderItemId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "shipmentItem",
             "orderItemId"
           >,
@@ -5231,8 +5229,8 @@ export const schema = {
         quantity: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "shipmentItem",
             "quantity"
           >,
@@ -5247,8 +5245,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicket",
             "createdAt"
           >,
@@ -5256,8 +5254,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicket",
             "updatedAt"
           >,
@@ -5265,8 +5263,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicket",
             "id"
           >,
@@ -5274,8 +5272,8 @@ export const schema = {
         customerId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicket",
             "customerId"
           >,
@@ -5284,8 +5282,8 @@ export const schema = {
         assignedTeamId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicket",
             "assignedTeamId"
           >,
@@ -5294,8 +5292,8 @@ export const schema = {
         subject: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicket",
             "subject"
           >,
@@ -5303,8 +5301,8 @@ export const schema = {
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicket",
             "status"
           >,
@@ -5312,8 +5310,8 @@ export const schema = {
         priority: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicket",
             "priority"
           >,
@@ -5321,8 +5319,8 @@ export const schema = {
         source: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicket",
             "source"
           >,
@@ -5337,8 +5335,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketAssignment",
             "createdAt"
           >,
@@ -5346,8 +5344,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketAssignment",
             "updatedAt"
           >,
@@ -5355,8 +5353,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketAssignment",
             "id"
           >,
@@ -5364,8 +5362,8 @@ export const schema = {
         ticketId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketAssignment",
             "ticketId"
           >,
@@ -5374,8 +5372,8 @@ export const schema = {
         assigneeId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketAssignment",
             "assigneeId"
           >,
@@ -5384,8 +5382,8 @@ export const schema = {
         assignedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketAssignment",
             "assignedAt"
           >,
@@ -5394,8 +5392,8 @@ export const schema = {
         assignmentType: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketAssignment",
             "assignmentType"
           >,
@@ -5411,8 +5409,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketAudit",
             "createdAt"
           >,
@@ -5420,8 +5418,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketAudit",
             "updatedAt"
           >,
@@ -5429,8 +5427,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketAudit",
             "id"
           >,
@@ -5438,8 +5436,8 @@ export const schema = {
         ticketId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketAudit",
             "ticketId"
           >,
@@ -5448,8 +5446,8 @@ export const schema = {
         actorId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketAudit",
             "actorId"
           >,
@@ -5458,8 +5456,8 @@ export const schema = {
         action: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketAudit",
             "action"
           >,
@@ -5467,8 +5465,8 @@ export const schema = {
         details: {
           type: "json",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketAudit",
             "details"
           >,
@@ -5483,8 +5481,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketMessage",
             "createdAt"
           >,
@@ -5492,8 +5490,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketMessage",
             "updatedAt"
           >,
@@ -5501,8 +5499,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketMessage",
             "id"
           >,
@@ -5510,8 +5508,8 @@ export const schema = {
         ticketId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketMessage",
             "ticketId"
           >,
@@ -5520,8 +5518,8 @@ export const schema = {
         authorId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketMessage",
             "authorId"
           >,
@@ -5530,8 +5528,8 @@ export const schema = {
         body: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketMessage",
             "body"
           >,
@@ -5539,8 +5537,8 @@ export const schema = {
         visibility: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketMessage",
             "visibility"
           >,
@@ -5555,8 +5553,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketTag",
             "createdAt"
           >,
@@ -5564,8 +5562,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketTag",
             "updatedAt"
           >,
@@ -5573,8 +5571,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketTag",
             "id"
           >,
@@ -5582,8 +5580,8 @@ export const schema = {
         label: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketTag",
             "label"
           >,
@@ -5591,8 +5589,8 @@ export const schema = {
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketTag",
             "description"
           >,
@@ -5607,8 +5605,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketTagLink",
             "createdAt"
           >,
@@ -5616,8 +5614,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketTagLink",
             "updatedAt"
           >,
@@ -5625,8 +5623,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketTagLink",
             "id"
           >,
@@ -5634,8 +5632,8 @@ export const schema = {
         ticketId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketTagLink",
             "ticketId"
           >,
@@ -5644,8 +5642,8 @@ export const schema = {
         tagId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "supportTicketTagLink",
             "tagId"
           >,
@@ -5661,8 +5659,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "team",
             "createdAt"
           >,
@@ -5670,8 +5668,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "team",
             "updatedAt"
           >,
@@ -5679,8 +5677,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "team",
             "id"
           >,
@@ -5688,8 +5686,8 @@ export const schema = {
         departmentId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "team",
             "departmentId"
           >,
@@ -5698,8 +5696,8 @@ export const schema = {
         leadId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "team",
             "leadId"
           >,
@@ -5708,8 +5706,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "team",
             "name"
           >,
@@ -5723,8 +5721,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "timeEntry",
             "createdAt"
           >,
@@ -5732,8 +5730,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "timeEntry",
             "updatedAt"
           >,
@@ -5741,8 +5739,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "timeEntry",
             "id"
           >,
@@ -5750,8 +5748,8 @@ export const schema = {
         timesheetId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "timeEntry",
             "timesheetId"
           >,
@@ -5760,8 +5758,8 @@ export const schema = {
         taskId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "timeEntry",
             "taskId"
           >,
@@ -5770,8 +5768,8 @@ export const schema = {
         hours: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "timeEntry",
             "hours"
           >,
@@ -5779,8 +5777,8 @@ export const schema = {
         notes: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "timeEntry",
             "notes"
           >,
@@ -5788,8 +5786,8 @@ export const schema = {
         entryDate: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "timeEntry",
             "entryDate"
           >,
@@ -5805,8 +5803,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "timesheet",
             "createdAt"
           >,
@@ -5814,8 +5812,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "timesheet",
             "updatedAt"
           >,
@@ -5823,8 +5821,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "timesheet",
             "id"
           >,
@@ -5832,8 +5830,8 @@ export const schema = {
         employeeId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "timesheet",
             "employeeId"
           >,
@@ -5842,8 +5840,8 @@ export const schema = {
         periodStart: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "timesheet",
             "periodStart"
           >,
@@ -5852,8 +5850,8 @@ export const schema = {
         periodEnd: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "timesheet",
             "periodEnd"
           >,
@@ -5862,8 +5860,8 @@ export const schema = {
         submittedById: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "timesheet",
             "submittedById"
           >,
@@ -5872,8 +5870,8 @@ export const schema = {
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "timesheet",
             "status"
           >,
@@ -5887,8 +5885,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "user",
             "createdAt"
           >,
@@ -5896,8 +5894,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "user",
             "updatedAt"
           >,
@@ -5905,8 +5903,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "user",
             "id"
           >,
@@ -5914,8 +5912,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "user",
             "name"
           >,
@@ -5923,8 +5921,8 @@ export const schema = {
         partner: {
           type: "boolean",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "user",
             "partner"
           >,
@@ -5932,8 +5930,8 @@ export const schema = {
         email: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "user",
             "email"
           >,
@@ -5941,8 +5939,8 @@ export const schema = {
         customTypeJson: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "user",
             "customTypeJson"
           >,
@@ -5951,8 +5949,8 @@ export const schema = {
         customInterfaceJson: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "user",
             "customInterfaceJson"
           >,
@@ -5961,8 +5959,8 @@ export const schema = {
         testInterface: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "user",
             "testInterface"
           >,
@@ -5971,8 +5969,8 @@ export const schema = {
         testType: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "user",
             "testType"
           >,
@@ -5981,8 +5979,8 @@ export const schema = {
         testExportedType: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "user",
             "testExportedType"
           >,
@@ -5991,8 +5989,8 @@ export const schema = {
         status: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as DirectCustomType<
+            typeof drizzleSchema,
             "user",
             "status"
           >,
