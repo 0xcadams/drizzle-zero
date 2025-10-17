@@ -7625,8 +7625,8 @@ export const schema = {
       ],
     },
   },
-  enableLegacyQueries: true,
-  enableLegacyMutators: true,
+  enableLegacyQueries: false,
+  enableLegacyMutators: false,
 } as const;
 
 /**

@@ -1,10 +1,11 @@
 import {
+  ZERO_PORT,
   db,
   shutdown,
   startPostgresAndZero,
-  ZERO_PORT,
 } from "@drizzle-zero/db/test-utils";
 import { Zero } from "@rocicorp/zero";
+import { zeroDrizzle } from "@rocicorp/zero/server/adapters/drizzle";
 import {
   afterAll,
   beforeAll,
@@ -14,7 +15,22 @@ import {
   test,
 } from "vitest";
 import { WebSocket } from "ws";
+import {
+  allTypesById,
+  allTypesByStatus,
+  allUsers,
+  filtersWithChildren,
+  mediumById,
+  messageById,
+  messageWithRelations,
+  messagesByBody,
+  messagesBySender,
+  userWithFriends,
+  userWithMediums,
+} from "../synced-queries";
 import { schema, type Filter, type Schema } from "../zero-schema.gen";
+
+const zeroDb = zeroDrizzle(schema, db);
 
 // Provide WebSocket on the global scope
 globalThis.WebSocket = WebSocket as any;
@@ -40,12 +56,9 @@ describe("relationships", () => {
   test("can query users", async () => {
     const zero = await getNewZero();
 
-    const q = zero.query.user;
+    const query = allUsers();
 
-    const preloadedUsers = await q.preload();
-    await preloadedUsers.complete;
-
-    const user = await q.run();
+    const user = await zero.run(query, { type: "complete" });
 
     expect(user).toHaveLength(3);
     expect(user[0]?.name).toBe("James");
@@ -66,21 +79,15 @@ describe("relationships", () => {
     ).toBe(true);
     expect(user[0]?.testType.nameType === "custom-inline-type").toBe(true);
 
-    preloadedUsers.cleanup();
     await zero.close();
   });
 
   test("can query filters", async () => {
     const zero = await getNewZero();
 
-    const q = zero.query.filters
-      .where((q) => q.cmp("id", "=", "1"))
-      .related("children", (q) => q.related("children").orderBy("id", "asc"));
+    const query = filtersWithChildren("1");
 
-    const preloadedFilters = await q.preload();
-    await preloadedFilters.complete;
-
-    const filters = await q.run();
+    const filters = await zero.run(query, { type: "complete" });
 
     expectTypeOf(filters).toExtend<Filter[]>();
 
@@ -91,76 +98,58 @@ describe("relationships", () => {
     expect(filters[0]?.children[1]?.name).toBe("filter3");
     expect(filters[0]?.children[0]?.children[0]?.name).toBeUndefined();
 
-    preloadedFilters.cleanup();
     await zero.close();
   });
 
   test("can query messages", async () => {
     const zero = await getNewZero();
 
-    const q = zero.query.message;
+    const query = messagesBySender("1");
 
-    const preloadedMessages = await q.preload();
-    await preloadedMessages.complete;
-
-    const messages = await q.run();
+    const messages = await zero.run(query, { type: "complete" });
 
     expect(messages).toHaveLength(2);
     expect(messages[0]?.body).toBe("Hey, James!");
     expect(messages[0]?.metadata.key).toStrictEqual("value1");
 
-    preloadedMessages.cleanup();
     await zero.close();
   });
 
   test("can query messages with filter", async () => {
     const zero = await getNewZero();
 
-    const q = zero.query.message.where((query) =>
-      query.cmp("body", "=", "Thomas!"),
-    );
+    const query = messagesByBody("Thomas!");
 
-    const preloadedMessages = await q.preload();
-    await preloadedMessages.complete;
-
-    const messages = await q.run();
+    const messages = await zero.run(query, { type: "complete" });
 
     expect(messages).toHaveLength(1);
     expect(messages[0]?.body).toBe("Thomas!");
     expect(messages[0]?.metadata.key).toStrictEqual("value5");
 
-    preloadedMessages.cleanup();
     await zero.close();
   });
 
   test("can query messages with relationships", async () => {
     const zero = await getNewZero();
 
-    const q = zero.query.message.related("medium").related("sender");
+    const query = messageWithRelations("1");
 
-    const preloadedMessages = await q.preload();
-    await preloadedMessages.complete;
+    const message = await zero.run(query, { type: "complete" });
 
-    const messages = await q.one().run();
+    expect(message?.medium?.id).toBe("1");
+    expect(message?.medium?.name).toBe("email");
 
-    expect(messages?.medium?.id).toBe("1");
-    expect(messages?.medium?.name).toBe("email");
+    expect(message?.sender?.name).toBe("James");
 
-    expect(messages?.sender?.name).toBe("James");
-
-    preloadedMessages.cleanup();
     await zero.close();
   });
 
   test("can query many-to-many relationships", async () => {
     const zero = await getNewZero();
 
-    const q = zero.query.user.related("mediums").one();
+    const query = userWithMediums("1");
 
-    const preloadedUsers = await q.preload();
-    await preloadedUsers.complete;
-
-    const user = await q.one().run();
+    const user = await zero.run(query, { type: "complete" });
 
     expect(user?.mediums).toHaveLength(2);
     expect(user?.mediums?.[0]?.name).toBe("email");
@@ -175,63 +164,49 @@ describe("relationships", () => {
     );
     expect(user?.testExportedType.nameType).toBe("custom-inline-type");
 
-    preloadedUsers.cleanup();
     await zero.close();
   });
 
   test("can query many-to-many extended relationships", async () => {
     const zero = await getNewZero();
 
-    const q = zero.query.user.related("friends").one();
+    const query = userWithFriends("1");
 
-    const preloadedUsers = await q.preload();
-    await preloadedUsers.complete;
-
-    const user = await q.one().run();
+    const user = await zero.run(query, { type: "complete" });
 
     expect(user?.friends).toHaveLength(1);
     expect(user?.friends[0]?.name).toBe("John");
 
-    preloadedUsers.cleanup();
     await zero.close();
   });
 
   test("can insert messages", async () => {
     const zero = await getNewZero();
 
-    await zero.mutate.message.insert({
-      id: "99",
-      body: "Hi, James!",
-      senderId: "1",
-      mediumId: "4",
-      metadata: { key: "9988" },
+    await zeroDb.transaction(async (tx) => {
+      await tx.mutate.message.insert({
+        id: "99",
+        body: "Hi, James!",
+        senderId: "1",
+        mediumId: "4",
+        metadata: { key: "9988" },
+      });
     });
 
-    const q = zero.query.message.where((query) => query.cmp("id", "=", "99"));
+    const query = messageById("99");
 
-    const preloadedMessages = await q.preload();
-    await preloadedMessages.complete;
-
-    const message = await q.one().run();
+    const message = await zero.run(query, { type: "complete" });
 
     expect(message?.id).toBe("99");
     expect(message?.metadata.key).toStrictEqual("9988");
     expect(message?.createdAt).toBeDefined();
     expect(message?.updatedAt).toBeDefined();
-    preloadedMessages.cleanup();
+    const mediumQuery = mediumById(message?.mediumId ?? "");
 
-    const q1 = zero.query.medium.where((query) =>
-      query.cmp("id", "=", message?.mediumId ?? "none"),
-    );
-
-    const preloadedMedium = await q1.preload();
-    await preloadedMedium.complete;
-
-    const medium = await q1.one().run();
+    const medium = await zero.run(mediumQuery, { type: "complete" });
 
     expect(medium?.name).toBe("whatsapp");
 
-    preloadedMedium.cleanup();
     await zero.close();
   });
 });
@@ -240,12 +215,9 @@ describe("types", () => {
   test("can query all types", async () => {
     const zero = await getNewZero();
 
-    const q = zero.query.allTypes.one();
+    const query = allTypesById("1");
 
-    const preloadedAllTypes = await q.preload();
-    await preloadedAllTypes.complete;
-
-    const result = await q.run();
+    const result = await zero.run(query, { type: "complete" });
 
     expect(result?.id).toStrictEqual("1");
     expect(result?.smallintField).toStrictEqual(1);
@@ -310,25 +282,18 @@ describe("types", () => {
     expect(result?.optionalVarchar).toBeNull();
     expect(result?.optionalUuid).toBeNull();
 
-    preloadedAllTypes.cleanup();
     await zero.close();
   });
 
   test("can query enum type", async () => {
     const zero = await getNewZero();
 
-    const q = zero.query.allTypes
-      .where((query) => query.cmp("status", "=", "pending"))
-      .one();
+    const query = allTypesByStatus("pending");
 
-    const preloadedAllTypes = await q.preload();
-    await preloadedAllTypes.complete;
-
-    const result = await q.run();
+    const result = await zero.run(query, { type: "complete" });
 
     expect(result?.status).toStrictEqual("pending");
 
-    preloadedAllTypes.cleanup();
     await zero.close();
   });
 
@@ -340,51 +305,48 @@ describe("types", () => {
     const uuid1 = "123e4567-e89b-12d3-a456-426614174001";
     const uuid2 = "123e4567-e89b-12d3-a456-426614174002";
 
-    await zero.mutate.allTypes.insert({
-      id: "1011",
-      smallintField: 22,
-      integerField: 23,
-      bigintField: 24,
-      bigintNumberField: 444,
-      numericField: 25.84,
-      decimalField: 26.33,
-      realField: 27.1,
-      doublePrecisionField: 28.2,
-      textField: "text2",
-      charField: "f",
-      uuidField: uuid1,
-      varcharField: "varchar2",
-      booleanField: true,
-      timestampField: currentDate.getTime(),
-      timestampTzField: currentDate.getTime(),
-      timestampModeDate: currentDate.getTime(),
-      timestampModeString: currentDate.getTime(),
-      dateField: currentDate.getTime(),
-      jsonField: { key: "value" },
-      jsonbField: { key: "value" },
-      typedJsonField: { theme: "light", fontSize: 16 },
-      status: "active",
-      textArray: ["text", "text2"],
-      intArray: [1, 2],
-      // boolArray: [true, false],
-      numericArray: [8.8, 9.9],
-      uuidArray: [uuid1, uuid2],
-      jsonbArray: [{ key: "value" }, { key: "value2" }],
-      enumArray: ["pending", "active"],
-      matrix: [
-        [1, 2],
-        [3, 4],
-      ],
+    await zeroDb.transaction(async (tx) => {
+      await tx.mutate.allTypes.insert({
+        id: "1011",
+        smallintField: 22,
+        integerField: 23,
+        bigintField: 24,
+        bigintNumberField: 444,
+        numericField: 25.84,
+        decimalField: 26.33,
+        realField: 27.1,
+        doublePrecisionField: 28.2,
+        textField: "text2",
+        charField: "f",
+        uuidField: uuid1,
+        varcharField: "varchar2",
+        booleanField: true,
+        timestampField: currentDate.getTime(),
+        timestampTzField: currentDate.getTime(),
+        timestampModeDate: currentDate.getTime(),
+        timestampModeString: currentDate.getTime(),
+        dateField: currentDate.getTime(),
+        jsonField: { key: "value" },
+        jsonbField: { key: "value" },
+        typedJsonField: { theme: "light", fontSize: 16 },
+        status: "active",
+        textArray: ["text", "text2"],
+        intArray: [1, 2],
+        // boolArray: [true, false],
+        numericArray: [8.8, 9.9],
+        uuidArray: [uuid1, uuid2],
+        jsonbArray: [{ key: "value" }, { key: "value2" }],
+        enumArray: ["pending", "active"],
+        matrix: [
+          [1, 2],
+          [3, 4],
+        ],
+      });
     });
 
-    const q = zero.query.allTypes.where((query) =>
-      query.cmp("id", "=", "1011"),
-    );
+    const query = allTypesById("1011");
 
-    const preloadedAllTypes = await q.preload();
-    await preloadedAllTypes.complete;
-
-    const result = await q.one().run();
+    const result = await zero.run(query, { type: "complete" });
 
     expect(result?.id).toStrictEqual("1011");
     expect(result?.smallintField).toStrictEqual(22);
@@ -426,8 +388,6 @@ describe("types", () => {
       [1, 2],
       [3, 4],
     ]);
-
-    preloadedAllTypes.cleanup();
 
     const dbResult = await db.query.allTypes.findFirst({
       where: (table, { eq }) => eq(table.id, "1011"),
