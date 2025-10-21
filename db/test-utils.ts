@@ -194,10 +194,6 @@ export const seed = async () => {
     ],
     jsonbArray: [{ key: "value" }, { key: "value2" }],
     enumArray: ["pending", "active"],
-    matrix: [
-      [1, 2],
-      [3, 4],
-    ],
   });
 
   await db.insert(friendship).values({

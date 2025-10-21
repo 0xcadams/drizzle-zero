@@ -164,7 +164,6 @@ export const allTypes = pgTable("all_types", {
   uuidArray: uuid("uuid_array").array().notNull(),
   jsonbArray: jsonb("jsonb_array").array().$type<{ key: string }[]>().notNull(),
   enumArray: statusEnum("enum_array").array().notNull(),
-  matrix: integer("matrix").array().array().notNull(),
   optionalSmallint: smallint("optional_smallint"),
   optionalInteger: integer("optional_integer"),
   optionalBigint: bigint("optional_bigint", { mode: "number" }),

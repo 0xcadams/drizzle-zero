@@ -10,9 +10,11 @@
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
+    "@hono/node-server": "^1.19.5",
     "@drizzle-zero/custom-types": "workspace:*",
     "drizzle-orm": "^0.44.6",
-    "drizzle-zero": "workspace:*"
+    "drizzle-zero": "workspace:*",
+    "hono": "^4.10.1"
   },
   "devDependencies": {
     "@testcontainers/postgresql": "^11.7.1",

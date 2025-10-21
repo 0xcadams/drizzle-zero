@@ -1,5 +1,5 @@
 {
-  "id": "d9a0c6c9-9bd8-4b8b-8f23-03d2115deebb",
+  "id": "2329fb38-9c4f-4f1c-bf67-551e24034827",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -213,12 +213,6 @@
           "name": "enum_array",
           "type": "status_type[]",
           "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "matrix": {
-          "name": "matrix",
-          "type": "integer[][]",
           "primaryKey": false,
           "notNull": true
         },

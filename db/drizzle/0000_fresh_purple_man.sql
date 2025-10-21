@@ -34,7 +34,6 @@ CREATE TABLE "all_types" (
 	"uuid_array" uuid[] NOT NULL,
 	"jsonb_array" jsonb[] NOT NULL,
 	"enum_array" "status_type"[] NOT NULL,
-	"matrix" integer[][] NOT NULL,
 	"optional_smallint" smallint,
 	"optional_integer" integer,
 	"optional_bigint" bigint,

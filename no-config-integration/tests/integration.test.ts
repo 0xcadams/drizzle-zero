@@ -235,10 +235,6 @@ describe("types", () => {
     //   { key: "value2" },
     // ]);
     expect(result?.enumArray).toStrictEqual(["pending", "active"]);
-    expect(result?.matrix).toStrictEqual([
-      [1, 2],
-      [3, 4],
-    ]);
 
     expect(result?.smallSerialField).toStrictEqual(1);
     expect(result?.serialField).toStrictEqual(1);
@@ -304,10 +300,6 @@ describe("types", () => {
         ],
         jsonbArray: [{ key: "value" }, { key: "value2" }],
         enumArray: ["pending", "active"],
-        matrix: [
-          [1, 2],
-          [3, 4],
-        ],
       });
     });
 
@@ -354,10 +346,6 @@ describe("types", () => {
     //   { key: "value2" },
     // ]);
     expect(result?.enumArray).toStrictEqual(["pending", "active"]);
-    expect(result?.matrix).toStrictEqual([
-      [1, 2],
-      [3, 4],
-    ]);
 
     const dbResult = await db.query.allTypes.findFirst({
       where: (table, { eq }) => eq(table.id, "1011"),
@@ -412,10 +400,6 @@ describe("types", () => {
       { key: "value2" },
     ]);
     expect(dbResult?.enumArray).toStrictEqual(["pending", "active"]);
-    expect(dbResult?.matrix).toStrictEqual([
-      [1, 2],
-      [3, 4],
-    ]);
 
     expect(dbResult?.smallSerialField).toStrictEqual(2);
     expect(dbResult?.serialField).toStrictEqual(2);

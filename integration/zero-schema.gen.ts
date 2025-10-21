@@ -358,15 +358,6 @@ export const schema = {
           >,
           serverName: "enum_array",
         },
-        matrix: {
-          type: "json",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "matrix"
-          >,
-        },
         optionalSmallint: {
           type: "number",
           optional: true,
