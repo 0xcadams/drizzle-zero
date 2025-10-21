@@ -1,39 +1,42 @@
-import { syncedQuery } from "@rocicorp/zero";
+import { syncedQueryWithContext } from "@rocicorp/zero";
+import { z } from "zod";
 import { builder } from "./zero-schema.gen";
 
-export const allUsers = syncedQuery("noConfig.allUsers", undefined, () =>
-  builder.user.orderBy("id", "asc"),
+export const allUsers = syncedQueryWithContext(
+  "noConfig.allUsers",
+  z.tuple([]),
+  (_ctx) => builder.user.orderBy("id", "asc"),
 );
 
-export const filtersWithChildren = syncedQuery(
+export const filtersWithChildren = syncedQueryWithContext(
   "noConfig.filtersWithChildren",
-  undefined,
-  (rootId: string) =>
+  z.tuple([z.string()]),
+  (_ctx, rootId) =>
     builder.filters
       .where((q) => q.cmp("id", "=", rootId))
       .related("children", (q) => q.related("children").orderBy("id", "asc")),
 );
 
-export const messagesBySender = syncedQuery(
+export const messagesBySender = syncedQueryWithContext(
   "noConfig.messagesBySender",
-  undefined,
-  (senderId: string) =>
+  z.tuple([z.string()]),
+  (_ctx, senderId) =>
     builder.message
       .where((q) => q.cmp("senderId", "=", senderId))
       .orderBy("id", "asc"),
 );
 
-export const messagesByBody = syncedQuery(
+export const messagesByBody = syncedQueryWithContext(
   "noConfig.messagesByBody",
-  undefined,
-  (body: string) =>
+  z.tuple([z.string()]),
+  (_ctx, body) =>
     builder.message.where((q) => q.cmp("body", "=", body)).orderBy("id", "asc"),
 );
 
-export const messageWithRelations = syncedQuery(
+export const messageWithRelations = syncedQueryWithContext(
   "noConfig.messageWithRelations",
-  undefined,
-  (id: string) =>
+  z.tuple([z.string()]),
+  (_ctx, id) =>
     builder.message
       .where((q) => q.cmp("id", "=", id))
       .related("medium")
@@ -41,28 +44,28 @@ export const messageWithRelations = syncedQuery(
       .one(),
 );
 
-export const messageById = syncedQuery(
+export const messageById = syncedQueryWithContext(
   "noConfig.messageById",
-  undefined,
-  (id: string) => builder.message.where((q) => q.cmp("id", "=", id)).one(),
+  z.tuple([z.string()]),
+  (_ctx, id) => builder.message.where((q) => q.cmp("id", "=", id)).one(),
 );
 
-export const mediumById = syncedQuery(
+export const mediumById = syncedQueryWithContext(
   "noConfig.mediumById",
-  undefined,
-  (id: string) => builder.medium.where((q) => q.cmp("id", "=", id)).one(),
+  z.tuple([z.string()]),
+  (_ctx, id) => builder.medium.where((q) => q.cmp("id", "=", id)).one(),
 );
 
-export const allTypesById = syncedQuery(
+export const allTypesById = syncedQueryWithContext(
   "noConfig.allTypesById",
-  undefined,
-  (id: string) => builder.allTypes.where((q) => q.cmp("id", "=", id)).one(),
+  z.tuple([z.string()]),
+  (_ctx, id) => builder.allTypes.where((q) => q.cmp("id", "=", id)).one(),
 );
 
-export const complexOrderWithEverything = syncedQuery(
+export const complexOrderWithEverything = syncedQueryWithContext(
   "integration.complexOrderWithEverything",
-  undefined,
-  (orderId: string) =>
+  z.tuple([z.string()]),
+  (_ctx, orderId) =>
     builder.orderTable
       .where((q) => q.cmp("id", "=", orderId))
       .related("customer", (q) =>

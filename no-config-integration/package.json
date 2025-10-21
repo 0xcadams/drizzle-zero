@@ -11,6 +11,9 @@
   "dependencies": {
     "@drizzle-zero/custom-types": "workspace:*",
     "@drizzle-zero/db": "workspace:*",
-    "drizzle-zero": "workspace:*"
+    "@hono/node-server": "^1.19.5",
+    "drizzle-zero": "workspace:*",
+    "hono": "^4.10.1",
+    "zod": "^4.1.12"
   }
 }

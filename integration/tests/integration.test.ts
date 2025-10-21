@@ -30,11 +30,18 @@ import {
   complexOrderWithEverything,
 } from "../synced-queries";
 import { schema, type Filter, type Schema } from "../zero-schema.gen";
+import {
+  startGetQueriesServer,
+  stopGetQueriesServer,
+} from "../get-queries-server";
+import type { Server } from "http";
 
 const zeroDb = zeroDrizzle(schema, db as any);
 
 // Provide WebSocket on the global scope
 globalThis.WebSocket = WebSocket as any;
+
+let queriesServer: Server;
 
 const getNewZero = async (): Promise<Zero<Schema>> => {
   return new Zero({
@@ -46,18 +53,24 @@ const getNewZero = async (): Promise<Zero<Schema>> => {
 };
 
 beforeAll(async () => {
-  await startPostgresAndZero();
+  const { server, url } = await startGetQueriesServer();
+  queriesServer = server;
+
+  await startPostgresAndZero({ getQueriesUrl: url });
 }, 60000);
 
 afterAll(async () => {
   await shutdown();
+  if (queriesServer) {
+    await stopGetQueriesServer(queriesServer);
+  }
 });
 
 describe("relationships", () => {
   test("can query users", async () => {
     const zero = await getNewZero();
 
-    const query = allUsers();
+    const query = allUsers(undefined);
 
     const user = await zero.run(query, { type: "complete" });
 
@@ -86,7 +99,7 @@ describe("relationships", () => {
   test("can query filters", async () => {
     const zero = await getNewZero();
 
-    const query = filtersWithChildren("1");
+    const query = filtersWithChildren(undefined, "1");
 
     const filters = await zero.run(query, { type: "complete" });
 
@@ -105,7 +118,7 @@ describe("relationships", () => {
   test("can query messages", async () => {
     const zero = await getNewZero();
 
-    const query = messagesBySender("1");
+    const query = messagesBySender(undefined, "1");
 
     const messages = await zero.run(query, { type: "complete" });
 
@@ -119,7 +132,7 @@ describe("relationships", () => {
   test("can query messages with filter", async () => {
     const zero = await getNewZero();
 
-    const query = messagesByBody("Thomas!");
+    const query = messagesByBody(undefined, "Thomas!");
 
     const messages = await zero.run(query, { type: "complete" });
 
@@ -133,7 +146,7 @@ describe("relationships", () => {
   test("can query messages with relationships", async () => {
     const zero = await getNewZero();
 
-    const query = messageWithRelations("1");
+    const query = messageWithRelations(undefined, "1");
 
     const message = await zero.run(query, { type: "complete" });
 
@@ -148,7 +161,7 @@ describe("relationships", () => {
   test("can query many-to-many relationships", async () => {
     const zero = await getNewZero();
 
-    const query = userWithMediums("1");
+    const query = userWithMediums(undefined, "1");
 
     const user = await zero.run(query, { type: "complete" });
 
@@ -171,7 +184,7 @@ describe("relationships", () => {
   test("can query many-to-many extended relationships", async () => {
     const zero = await getNewZero();
 
-    const query = userWithFriends("1");
+    const query = userWithFriends(undefined, "1");
 
     const user = await zero.run(query, { type: "complete" });
 
@@ -194,7 +207,7 @@ describe("relationships", () => {
       });
     });
 
-    const query = messageById("99");
+    const query = messageById(undefined, "99");
 
     const message = await zero.run(query, { type: "complete" });
 
@@ -202,7 +215,7 @@ describe("relationships", () => {
     expect(message?.metadata.key).toStrictEqual("9988");
     expect(message?.createdAt).toBeDefined();
     expect(message?.updatedAt).toBeDefined();
-    const mediumQuery = mediumById(message?.mediumId ?? "");
+    const mediumQuery = mediumById(undefined, message?.mediumId ?? "");
 
     const medium = await zero.run(mediumQuery, { type: "complete" });
 
@@ -216,7 +229,7 @@ describe("types", () => {
   test("can query all types", async () => {
     const zero = await getNewZero();
 
-    const query = allTypesById("1");
+    const query = allTypesById(undefined, "1");
 
     const result = await zero.run(query, { type: "complete" });
 
@@ -285,7 +298,7 @@ describe("types", () => {
   test("can query enum type", async () => {
     const zero = await getNewZero();
 
-    const query = allTypesByStatus("pending");
+    const query = allTypesByStatus(undefined, "pending");
 
     const result = await zero.run(query, { type: "complete" });
 
@@ -315,7 +328,7 @@ describe("types", () => {
         doublePrecisionField: 28.2,
         textField: "text2",
         charField: "f",
-        uuidField: uuid1,
+        uuidField: "123e4567-e89b-12d3-a456-426614174001",
         varcharField: "varchar2",
         booleanField: true,
         timestampField: currentDate.getTime(),
@@ -331,13 +344,16 @@ describe("types", () => {
         intArray: [1, 2],
         // boolArray: [true, false],
         numericArray: [8.8, 9.9],
-        uuidArray: [uuid1, uuid2],
+        uuidArray: [
+          "123e4567-e89b-12d3-a456-426614174001",
+          "123e4567-e89b-12d3-a456-426614174002",
+        ],
         jsonbArray: [{ key: "value" }, { key: "value2" }],
         enumArray: ["pending", "active"],
       });
     });
 
-    const query = allTypesById("1011");
+    const query = allTypesById(undefined, "1011");
 
     const result = await zero.run(query, { type: "complete" });
 
@@ -746,32 +762,10 @@ describe("complex order", () => {
       });
     });
 
-    const query = complexOrderWithEverything("order-1");
+    const query = complexOrderWithEverything(undefined, "order-1");
     const result = (await zero.run(query, { type: "complete" })) as any;
 
-    expect(result?.id).toBe("order-1");
-    expect(result?.customer?.messages).toHaveLength(1);
-    expect(
-      result?.customer?.messages?.[0]?.sender?.friends?.[0]?.messages?.[0]
-        ?.body,
-    ).toBe("Friend ping");
-    expect(result?.opportunity?.account?.owner?.messages?.[0]?.body).toBe(
-      "Owner update",
-    );
-    expect(
-      result?.opportunity?.account?.contacts?.[0]?.activities?.[0]?.notes,
-    ).toBe("Discussed order details");
-    expect(result?.items?.[0]?.variant?.inventoryItems?.[0]?.metadata).toEqual({
-      warranty: "1 year",
-    });
-    expect(
-      result?.payments?.[0]?.payment?.order?.shipments?.[0]?.items?.[0]
-        ?.orderItem?.order?.customer?.id,
-    ).toBe("cust-1");
-    expect(
-      result?.shipments?.[0]?.items?.[0]?.orderItem?.variant?.product?.category
-        ?.parent?.children?.[0]?.id,
-    ).toBe("cat-child");
+    expect(result).toMatchSnapshot();
 
     await zero.close();
   });

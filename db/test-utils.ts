@@ -255,7 +255,7 @@ export const startPostgres = async () => {
   };
 };
 
-export const startZero = async () => {
+export const startZero = async (options: { getQueriesUrl: string }) => {
   if (!startedNetwork || !postgresContainer) {
     throw new Error("Network or postgres container not started");
   }
@@ -276,7 +276,7 @@ export const startZero = async () => {
       ZERO_REPLICA_FILE: "/zero.db",
       ZERO_NUM_SYNC_WORKERS: "1",
       ZERO_ADMIN_PASSWORD: "password",
-      ZERO_GET_QUERIES_URL: `http://localhost/nonexistent`,
+      ZERO_GET_QUERIES_URL: options.getQueriesUrl,
     })
     .withStartupTimeout(60000)
     .withPullPolicy(PullPolicy.alwaysPull())
@@ -287,9 +287,11 @@ export const startZero = async () => {
   };
 };
 
-export const startPostgresAndZero = async () => {
+export const startPostgresAndZero = async (options: {
+  getQueriesUrl: string;
+}) => {
   const { postgresContainer } = await startPostgres();
-  const { zeroContainer } = await startZero();
+  const { zeroContainer } = await startZero(options);
 
   await seed();
 

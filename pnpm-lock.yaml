@@ -92,18 +92,12 @@ importers:
       '@drizzle-zero/custom-types':
         specifier: workspace:*
         version: link:../custom-types
-      '@hono/node-server':
-        specifier: ^1.19.5
-        version: 1.19.5(hono@4.10.1)
       drizzle-orm:
         specifier: ^0.44.6
         version: 0.44.6(@opentelemetry/api@1.9.0)(@types/pg@8.15.5)(pg@8.16.3)(postgres@3.4.7)
       drizzle-zero:
         specifier: workspace:*
         version: link:..
-      hono:
-        specifier: ^4.10.1
-        version: 4.10.1
     devDependencies:
       '@testcontainers/postgresql':
         specifier: ^11.7.1
@@ -138,9 +132,18 @@ importers:
       '@drizzle-zero/db':
         specifier: workspace:*
         version: link:../db
+      '@hono/node-server':
+        specifier: ^1.19.5
+        version: 1.19.5(hono@4.10.1)
       drizzle-zero:
         specifier: workspace:*
         version: link:..
+      hono:
+        specifier: ^4.10.1
+        version: 4.10.1
+      zod:
+        specifier: ^4.1.12
+        version: 4.1.12
 
   no-config-integration:
     dependencies:
@@ -150,9 +153,18 @@ importers:
       '@drizzle-zero/db':
         specifier: workspace:*
         version: link:../db
+      '@hono/node-server':
+        specifier: ^1.19.5
+        version: 1.19.5(hono@4.10.1)
       drizzle-zero:
         specifier: workspace:*
         version: link:..
+      hono:
+        specifier: ^4.10.1
+        version: 4.10.1
+      zod:
+        specifier: ^4.1.12
+        version: 4.1.12
 
 packages:
 
@@ -3813,6 +3825,9 @@ packages:
     resolution: {integrity: sha512-zK7YHHz4ZXpW89AHXUPbQVGKI7uvkd3hzusTdotCg1UxyaVtg0zFJSTfW/Dq5f7OBBVnq6cZIaC8Ti4hb6dtCA==}
     engines: {node: '>= 14'}
 
+  zod@4.1.12:
+    resolution: {integrity: sha512-JInaHOamG8pt5+Ey8kGmdcAcg3OL9reK8ltczgHTAwNhMys/6ThXHityHxVV2p3fkw/c+MAvBHFVYHFZDmjMCQ==}
+
 snapshots:
 
   '@ampproject/remapping@2.3.0':
@@ -7469,3 +7484,5 @@ snapshots:
       archiver-utils: 5.0.2
       compress-commons: 6.0.2
       readable-stream: 4.7.0
+
+  zod@4.1.12: {}
