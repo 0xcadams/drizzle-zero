@@ -9,19 +9,19 @@
   "scripts": {
     "db:generate": "drizzle-kit generate"
   },
-  "dependencies": { 
+  "dependencies": {
     "@drizzle-zero/custom-types": "workspace:*",
     "drizzle-orm": "^0.44.6",
-    "drizzle-zero": "workspace:*" 
+    "drizzle-zero": "workspace:*"
   },
   "devDependencies": {
-    "@testcontainers/postgresql": "^11.7.1",
+    "@testcontainers/postgresql": "^11.7.2",
     "@types/pg": "^8.15.5",
-    "@vitest/browser": "^3.2.4",
+    "@vitest/browser": "^4.0.1",
     "drizzle-kit": "^0.31.5",
     "pg": "^8.16.3",
     "postgres": "^3.4.7",
     "prettier": "^3.6.2",
-    "testcontainers": "^11.7.1"
+    "testcontainers": "^11.7.2"
   }
 }
