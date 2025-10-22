@@ -2467,11 +2467,6 @@ exports[`getConfigFromFile > should successfully load and parse a valid config f
           "serverName": "jsonb",
           "type": "json",
         },
-        "matrix": {
-          "customType": null,
-          "optional": false,
-          "type": "json",
-        },
         "numericArray": {
           "customType": null,
           "optional": false,

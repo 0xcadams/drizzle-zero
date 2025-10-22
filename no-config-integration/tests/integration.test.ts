@@ -1,4 +1,4 @@
-import { startGetQueriesServer } from "@/get-queries-server";
+import { startGetQueriesServer } from "../get-queries-server";
 import {
   ZERO_PORT,
   db,
