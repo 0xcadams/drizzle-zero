@@ -132,4 +132,86 @@ describe("discoverAllTsConfigs", () => {
 
     warnSpy.mockRestore();
   });
+
+  it("should warn when tsconfig has JSON parsing errors but continue", async () => {
+    const rootPath = path.join(tempDir, "tsconfig.json");
+    const libADir = path.join(tempDir, "libs", "lib-a");
+    const libAPath = path.join(libADir, "tsconfig.json");
+
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    await fs.mkdir(libADir, { recursive: true });
+
+    // Write root with valid JSON but child with invalid JSONC (syntax error)
+    await fs.writeFile(
+      rootPath,
+      JSON.stringify({ references: [{ path: "./libs/lib-a" }] }),
+    );
+
+    // Invalid JSON with trailing comma
+    await fs.writeFile(
+      libAPath,
+      '{ "compilerOptions": {}, "references": [{ "path": "../other", }] }',
+    );
+
+    const result = await discoverAllTsConfigs(rootPath);
+
+    // Should still include both configs
+    expect(result.has(rootPath)).toBe(true);
+    expect(result.has(libAPath)).toBe(true);
+
+    // Should have warned about syntax errors
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining("Found syntax errors"),
+    );
+
+    warnSpy.mockRestore();
+  });
+
+  it("should handle ENOENT errors when tsconfig file doesn't exist", async () => {
+    const rootPath = path.join(tempDir, "tsconfig.json");
+    const libADir = path.join(tempDir, "libs", "lib-a");
+
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    await fs.mkdir(libADir, { recursive: true });
+
+    // Reference a tsconfig that doesn't exist
+    await fs.writeFile(
+      rootPath,
+      JSON.stringify({
+        references: [{ path: "./libs/lib-a/tsconfig.json" }],
+      }),
+    );
+
+    const result = await discoverAllTsConfigs(rootPath);
+
+    // Should only include root
+    expect(result).toEqual(new Set([rootPath]));
+
+    // Should warn about missing reference path
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining("Could not resolve reference path"),
+    );
+
+    warnSpy.mockRestore();
+  });
+
+  it("should handle file vs directory resolution in references", async () => {
+    const rootPath = path.join(tempDir, "tsconfig.json");
+    const libADir = path.join(tempDir, "libs", "lib-a");
+    const libAPath = path.join(libADir, "tsconfig.json");
+
+    await fs.mkdir(libADir, { recursive: true });
+
+    // Reference as directory (not file)
+    await fs.writeFile(
+      rootPath,
+      JSON.stringify({ references: [{ path: "./libs/lib-a" }] }),
+    );
+    await fs.writeFile(libAPath, JSON.stringify({ compilerOptions: {} }));
+
+    const result = await discoverAllTsConfigs(rootPath);
+    expect(result).toEqual(new Set([rootPath, libAPath]));
+  });
 });
