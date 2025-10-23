@@ -6005,7 +6005,7 @@ exports[`getConfigFromFile > should successfully load and parse a valid config f
       "columns": {
         "id": {
           "customType": null,
-          "optional": true,
+          "optional": false,
           "type": "number",
         },
         "name": {
@@ -6024,12 +6024,12 @@ exports[`getConfigFromFile > should successfully load and parse a valid config f
       "columns": {
         "id1": {
           "customType": null,
-          "optional": true,
+          "optional": false,
           "type": "string",
         },
         "id2": {
           "customType": null,
-          "optional": true,
+          "optional": false,
           "type": "number",
         },
         "name": {
@@ -6049,7 +6049,7 @@ exports[`getConfigFromFile > should successfully load and parse a valid config f
       "columns": {
         "id": {
           "customType": null,
-          "optional": true,
+          "optional": false,
           "type": "number",
         },
         "name": {
@@ -6075,7 +6075,7 @@ exports[`getConfigFromFile > should successfully load and parse a valid config f
       "columns": {
         "id": {
           "customType": null,
-          "optional": true,
+          "optional": false,
           "type": "number",
         },
         "name": {
@@ -6094,7 +6094,7 @@ exports[`getConfigFromFile > should successfully load and parse a valid config f
       "columns": {
         "id": {
           "customType": null,
-          "optional": true,
+          "optional": false,
           "type": "number",
         },
         "name": {
@@ -6113,7 +6113,7 @@ exports[`getConfigFromFile > should successfully load and parse a valid config f
       "columns": {
         "id": {
           "customType": null,
-          "optional": true,
+          "optional": false,
           "type": "string",
         },
         "name": {
@@ -6132,7 +6132,7 @@ exports[`getConfigFromFile > should successfully load and parse a valid config f
       "columns": {
         "id": {
           "customType": null,
-          "optional": true,
+          "optional": false,
           "type": "number",
         },
         "name": {
@@ -6151,7 +6151,7 @@ exports[`getConfigFromFile > should successfully load and parse a valid config f
       "columns": {
         "id": {
           "customType": null,
-          "optional": true,
+          "optional": false,
           "type": "string",
         },
         "name": {
@@ -6170,7 +6170,7 @@ exports[`getConfigFromFile > should successfully load and parse a valid config f
       "columns": {
         "id": {
           "customType": null,
-          "optional": true,
+          "optional": false,
           "type": "string",
         },
         "name": {
