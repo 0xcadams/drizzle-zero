@@ -61,6 +61,7 @@ const sharedColumns = {
 export const user = pgTable("user", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   name: text("name").notNull(),
   partner: boolean("partner").notNull(),
   email: text("email").$type<`${string}@${string}`>().notNull(),
@@ -77,22 +78,32 @@ export const user = pgTable("user", {
 });
 
 export const userRelations = relations(user, ({ many }) => ({
+  workspace: one(workspace, {
+    fields: [user.workspaceId],
+    references: [workspace.id],
+  }),
   messages: many(message),
 }));
 
 export const medium = pgTable("medium", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   name: text("name").notNull(),
 });
 
 export const mediumRelations = relations(medium, ({ many }) => ({
+  workspace: one(workspace, {
+    fields: [medium.workspaceId],
+    references: [workspace.id],
+  }),
   messages: many(message),
 }));
 
 export const message = pgTable("message", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   senderId: text("senderId").references(() => user.id),
   mediumId: text("mediumId").references(() => medium.id),
   body: text("body").notNull(),
@@ -101,6 +112,10 @@ export const message = pgTable("message", {
 });
 
 export const messageRelations = relations(message, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [message.workspaceId],
+    references: [workspace.id],
+  }),
   medium: one(medium, {
     fields: [message.mediumId],
     references: [medium.id],
@@ -120,6 +135,7 @@ export const statusEnum = pgEnum("status_type", [
 export const allTypes = pgTable("all_types", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   smallintField: smallint("smallint").notNull(),
   integerField: integer("integer").notNull(),
   bigintField: bigint("bigint", { mode: "bigint" }).notNull(),
@@ -183,6 +199,7 @@ export const allTypes = pgTable("all_types", {
 export const friendship = pgTable(
   "friendship",
   {
+    workspaceId: text("workspace_id").notNull().references(() => workspace.id),
     requestingId: text()
       .notNull()
       .references(() => user.id),
@@ -194,13 +211,33 @@ export const friendship = pgTable(
   (t) => [primaryKey({ columns: [t.requestingId, t.acceptingId] })],
 );
 
+export const friendshipRelations = relations(friendship, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [friendship.workspaceId],
+    references: [workspace.id],
+  }),
+  requesting: one(user, {
+    fields: [friendship.requestingId],
+    references: [user.id],
+  }),
+  accepting: one(user, {
+    fields: [friendship.acceptingId],
+    references: [user.id],
+  }),
+}));
+
 export const filters = pgTable("filters", {
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   name: text("name"),
   parentId: text("parent_id"),
 });
 
 export const filtersRelations = relations(filters, ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [filters.workspaceId],
+    references: [workspace.id],
+  }),
   parent: one(filters, {
     fields: [filters.parentId],
     references: [filters.id],
@@ -210,12 +247,21 @@ export const filtersRelations = relations(filters, ({ one, many }) => ({
 
 export const omittedTable = pgTable("omitted_table", {
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   name: text("name").notNull(),
 });
+
+export const omittedTableRelations = relations(omittedTable, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [omittedTable.workspaceId],
+    references: [workspace.id],
+  }),
+}));
 
 export const projectTag = pgTable("project_tag", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   label: text("label").notNull(),
   color: text("color"),
 });
@@ -223,6 +269,7 @@ export const projectTag = pgTable("project_tag", {
 export const project = pgTable("project", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   ownerId: text("owner_id").references(() => user.id),
   name: text("name").notNull(),
   description: text("description"),
@@ -232,6 +279,7 @@ export const project = pgTable("project", {
 export const projectPhase = pgTable("project_phase", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   projectId: text("project_id")
     .notNull()
     .references(() => project.id),
@@ -242,6 +290,7 @@ export const projectPhase = pgTable("project_phase", {
 export const projectTask = pgTable("project_task", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   projectId: text("project_id")
     .notNull()
     .references(() => project.id),
@@ -256,6 +305,7 @@ export const projectTask = pgTable("project_task", {
 export const projectAssignment = pgTable("project_assignment", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   taskId: text("task_id")
     .notNull()
     .references(() => projectTask.id),
@@ -269,6 +319,7 @@ export const projectAssignment = pgTable("project_assignment", {
 export const projectComment = pgTable("project_comment", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   taskId: text("task_id")
     .notNull()
     .references(() => projectTask.id),
@@ -281,6 +332,7 @@ export const projectComment = pgTable("project_comment", {
 export const projectAttachment = pgTable("project_attachment", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   taskId: text("task_id")
     .notNull()
     .references(() => projectTask.id),
@@ -291,6 +343,7 @@ export const projectAttachment = pgTable("project_attachment", {
 export const projectTaskTag = pgTable("project_task_tag", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   taskId: text("task_id")
     .notNull()
     .references(() => projectTask.id),
@@ -302,6 +355,7 @@ export const projectTaskTag = pgTable("project_task_tag", {
 export const projectNote = pgTable("project_note", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   projectId: text("project_id")
     .notNull()
     .references(() => project.id),
@@ -312,6 +366,7 @@ export const projectNote = pgTable("project_note", {
 export const projectAudit = pgTable("project_audit", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   projectId: text("project_id")
     .notNull()
     .references(() => project.id),
@@ -321,10 +376,18 @@ export const projectAudit = pgTable("project_audit", {
 });
 
 export const projectTagRelations = relations(projectTag, ({ many }) => ({
+  workspace: one(workspace, {
+    fields: [projectTag.workspaceId],
+    references: [workspace.id],
+  }),
   taskLinks: many(projectTaskTag),
 }));
 
 export const projectRelations = relations(project, ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [project.workspaceId],
+    references: [workspace.id],
+  }),
   owner: one(user, {
     fields: [project.ownerId],
     references: [user.id],
@@ -347,6 +410,10 @@ export const projectPhaseRelations = relations(
 );
 
 export const projectTaskRelations = relations(projectTask, ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [projectTask.workspaceId],
+    references: [workspace.id],
+  }),
   project: one(project, {
     fields: [projectTask.projectId],
     references: [project.id],
@@ -376,6 +443,10 @@ export const projectAssignmentRelations = relations(
 );
 
 export const projectCommentRelations = relations(projectComment, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [projectComment.workspaceId],
+    references: [workspace.id],
+  }),
   task: one(projectTask, {
     fields: [projectComment.taskId],
     references: [projectTask.id],
@@ -397,6 +468,10 @@ export const projectAttachmentRelations = relations(
 );
 
 export const projectTaskTagRelations = relations(projectTaskTag, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [projectTaskTag.workspaceId],
+    references: [workspace.id],
+  }),
   task: one(projectTask, {
     fields: [projectTaskTag.taskId],
     references: [projectTask.id],
@@ -408,6 +483,10 @@ export const projectTaskTagRelations = relations(projectTaskTag, ({ one }) => ({
 }));
 
 export const projectNoteRelations = relations(projectNote, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [projectNote.workspaceId],
+    references: [workspace.id],
+  }),
   project: one(project, {
     fields: [projectNote.projectId],
     references: [project.id],
@@ -419,6 +498,10 @@ export const projectNoteRelations = relations(projectNote, ({ one }) => ({
 }));
 
 export const projectAuditRelations = relations(projectAudit, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [projectAudit.workspaceId],
+    references: [workspace.id],
+  }),
   project: one(project, {
     fields: [projectAudit.projectId],
     references: [project.id],
@@ -432,6 +515,7 @@ export const projectAuditRelations = relations(projectAudit, ({ one }) => ({
 export const crmAccount = pgTable("crm_account", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   ownerId: text("owner_id").references(() => user.id),
   name: text("name").notNull(),
   industry: text("industry"),
@@ -441,6 +525,7 @@ export const crmAccount = pgTable("crm_account", {
 export const crmContact = pgTable("crm_contact", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   accountId: text("account_id")
     .notNull()
     .references(() => crmAccount.id),
@@ -453,6 +538,7 @@ export const crmContact = pgTable("crm_contact", {
 export const crmPipelineStage = pgTable("crm_pipeline_stage", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   name: text("name").notNull(),
   sequence: integer("sequence").notNull(),
   probability: integer("probability"),
@@ -461,6 +547,7 @@ export const crmPipelineStage = pgTable("crm_pipeline_stage", {
 export const crmOpportunity = pgTable("crm_opportunity", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   accountId: text("account_id")
     .notNull()
     .references(() => crmAccount.id),
@@ -477,6 +564,7 @@ export const crmOpportunityStageHistory = pgTable(
   {
     ...sharedColumns,
     id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
     opportunityId: text("opportunity_id")
       .notNull()
       .references(() => crmOpportunity.id),
@@ -493,6 +581,7 @@ export const crmOpportunityStageHistory = pgTable(
 export const crmActivityType = pgTable("crm_activity_type", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   name: text("name").notNull(),
   description: text("description"),
 });
@@ -500,6 +589,7 @@ export const crmActivityType = pgTable("crm_activity_type", {
 export const crmActivity = pgTable("crm_activity", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   accountId: text("account_id")
     .notNull()
     .references(() => crmAccount.id),
@@ -515,6 +605,7 @@ export const crmActivity = pgTable("crm_activity", {
 export const crmNote = pgTable("crm_note", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   accountId: text("account_id")
     .notNull()
     .references(() => crmAccount.id),
@@ -524,6 +615,10 @@ export const crmNote = pgTable("crm_note", {
 });
 
 export const crmAccountRelations = relations(crmAccount, ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [crmAccount.workspaceId],
+    references: [workspace.id],
+  }),
   owner: one(user, {
     fields: [crmAccount.ownerId],
     references: [user.id],
@@ -535,6 +630,10 @@ export const crmAccountRelations = relations(crmAccount, ({ one, many }) => ({
 }));
 
 export const crmContactRelations = relations(crmContact, ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [crmContact.workspaceId],
+    references: [workspace.id],
+  }),
   account: one(crmAccount, {
     fields: [crmContact.accountId],
     references: [crmAccount.id],
@@ -593,6 +692,10 @@ export const crmActivityTypeRelations = relations(
 );
 
 export const crmActivityRelations = relations(crmActivity, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [crmActivity.workspaceId],
+    references: [workspace.id],
+  }),
   account: one(crmAccount, {
     fields: [crmActivity.accountId],
     references: [crmAccount.id],
@@ -616,6 +719,10 @@ export const crmActivityRelations = relations(crmActivity, ({ one }) => ({
 }));
 
 export const crmNoteRelations = relations(crmNote, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [crmNote.workspaceId],
+    references: [workspace.id],
+  }),
   account: one(crmAccount, {
     fields: [crmNote.accountId],
     references: [crmAccount.id],
@@ -635,6 +742,7 @@ export const productCategory = pgTable(
   {
     ...sharedColumns,
     id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
     name: text("name").notNull(),
     description: text("description"),
     parentId: text("parent_id"),
@@ -650,6 +758,7 @@ export const productCategory = pgTable(
 export const product = pgTable("product", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   categoryId: text("category_id")
     .notNull()
     .references(() => productCategory.id),
@@ -661,6 +770,7 @@ export const product = pgTable("product", {
 export const productVariant = pgTable("product_variant", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   productId: text("product_id")
     .notNull()
     .references(() => product.id),
@@ -673,6 +783,7 @@ export const productVariant = pgTable("product_variant", {
 export const productMedia = pgTable("product_media", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   productId: text("product_id")
     .notNull()
     .references(() => product.id),
@@ -683,6 +794,7 @@ export const productMedia = pgTable("product_media", {
 export const inventoryLocation = pgTable("inventory_location", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   name: text("name").notNull(),
   address: text("address"),
   region: text("region"),
@@ -691,6 +803,7 @@ export const inventoryLocation = pgTable("inventory_location", {
 export const inventoryItem = pgTable("inventory_item", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   variantId: text("variant_id")
     .notNull()
     .references(() => productVariant.id),
@@ -701,6 +814,7 @@ export const inventoryItem = pgTable("inventory_item", {
 export const inventoryLevel = pgTable("inventory_level", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   locationId: text("location_id")
     .notNull()
     .references(() => inventoryLocation.id),
@@ -714,6 +828,7 @@ export const inventoryLevel = pgTable("inventory_level", {
 export const orderTable = pgTable("order", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   customerId: text("customer_id").references(() => user.id),
   opportunityId: text("opportunity_id").references(() => crmOpportunity.id),
   status: text("status").notNull(),
@@ -724,6 +839,7 @@ export const orderTable = pgTable("order", {
 export const orderItem = pgTable("order_item", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   orderId: text("order_id")
     .notNull()
     .references(() => orderTable.id),
@@ -737,6 +853,7 @@ export const orderItem = pgTable("order_item", {
 export const payment = pgTable("payment", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   externalRef: text("external_ref"),
   status: text("status").notNull(),
   amount: numeric("amount", { precision: 12, scale: 2 }).notNull(),
@@ -745,9 +862,21 @@ export const payment = pgTable("payment", {
   receivedById: text("received_by_id").references(() => user.id),
 });
 
+export const paymentRelations = relations(payment, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [payment.workspaceId],
+    references: [workspace.id],
+  }),
+  receivedBy: one(user, {
+    fields: [payment.receivedById],
+    references: [user.id],
+  }),
+}));
+
 export const orderPayment = pgTable("order_payment", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   orderId: text("order_id")
     .notNull()
     .references(() => orderTable.id),
@@ -759,6 +888,7 @@ export const orderPayment = pgTable("order_payment", {
 export const shipment = pgTable("shipment", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   orderId: text("order_id")
     .notNull()
     .references(() => orderTable.id),
@@ -771,6 +901,7 @@ export const shipment = pgTable("shipment", {
 export const shipmentItem = pgTable("shipment_item", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   shipmentId: text("shipment_id")
     .notNull()
     .references(() => shipment.id),
@@ -793,6 +924,10 @@ export const productCategoryRelations = relations(
 );
 
 export const productRelations = relations(product, ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [product.workspaceId],
+    references: [workspace.id],
+  }),
   category: one(productCategory, {
     fields: [product.categoryId],
     references: [productCategory.id],
@@ -815,6 +950,10 @@ export const productVariantRelations = relations(
 );
 
 export const productMediaRelations = relations(productMedia, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [productMedia.workspaceId],
+    references: [workspace.id],
+  }),
   product: one(product, {
     fields: [productMedia.productId],
     references: [product.id],
@@ -829,6 +968,10 @@ export const inventoryLocationRelations = relations(
 );
 
 export const inventoryItemRelations = relations(inventoryItem, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [inventoryItem.workspaceId],
+    references: [workspace.id],
+  }),
   variant: one(productVariant, {
     fields: [inventoryItem.variantId],
     references: [productVariant.id],
@@ -836,6 +979,10 @@ export const inventoryItemRelations = relations(inventoryItem, ({ one }) => ({
 }));
 
 export const inventoryLevelRelations = relations(inventoryLevel, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [inventoryLevel.workspaceId],
+    references: [workspace.id],
+  }),
   location: one(inventoryLocation, {
     fields: [inventoryLevel.locationId],
     references: [inventoryLocation.id],
@@ -847,6 +994,10 @@ export const inventoryLevelRelations = relations(inventoryLevel, ({ one }) => ({
 }));
 
 export const orderRelations = relations(orderTable, ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [orderTable.workspaceId],
+    references: [workspace.id],
+  }),
   customer: one(user, {
     fields: [orderTable.customerId],
     references: [user.id],
@@ -861,6 +1012,10 @@ export const orderRelations = relations(orderTable, ({ one, many }) => ({
 }));
 
 export const orderItemRelations = relations(orderItem, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [orderItem.workspaceId],
+    references: [workspace.id],
+  }),
   order: one(orderTable, {
     fields: [orderItem.orderId],
     references: [orderTable.id],
@@ -872,6 +1027,10 @@ export const orderItemRelations = relations(orderItem, ({ one }) => ({
 }));
 
 export const orderPaymentRelations = relations(orderPayment, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [orderPayment.workspaceId],
+    references: [workspace.id],
+  }),
   order: one(orderTable, {
     fields: [orderPayment.orderId],
     references: [orderTable.id],
@@ -883,6 +1042,10 @@ export const orderPaymentRelations = relations(orderPayment, ({ one }) => ({
 }));
 
 export const shipmentRelations = relations(shipment, ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [shipment.workspaceId],
+    references: [workspace.id],
+  }),
   order: one(orderTable, {
     fields: [shipment.orderId],
     references: [orderTable.id],
@@ -891,6 +1054,10 @@ export const shipmentRelations = relations(shipment, ({ one, many }) => ({
 }));
 
 export const shipmentItemRelations = relations(shipmentItem, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [shipmentItem.workspaceId],
+    references: [workspace.id],
+  }),
   shipment: one(shipment, {
     fields: [shipmentItem.shipmentId],
     references: [shipment.id],
@@ -904,6 +1071,7 @@ export const shipmentItemRelations = relations(shipmentItem, ({ one }) => ({
 export const department = pgTable("department", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   name: text("name").notNull(),
   description: text("description"),
   managerId: text("manager_id").references(() => user.id),
@@ -912,6 +1080,7 @@ export const department = pgTable("department", {
 export const team = pgTable("team", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   departmentId: text("department_id")
     .notNull()
     .references(() => department.id),
@@ -922,6 +1091,7 @@ export const team = pgTable("team", {
 export const employeeProfile = pgTable("employee_profile", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   userId: text("user_id")
     .notNull()
     .references(() => user.id),
@@ -935,6 +1105,7 @@ export const employeeProfile = pgTable("employee_profile", {
 export const employmentHistory = pgTable("employment_history", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   employeeId: text("employee_id")
     .notNull()
     .references(() => employeeProfile.id),
@@ -947,6 +1118,7 @@ export const employmentHistory = pgTable("employment_history", {
 export const employeeDocument = pgTable("employee_document", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   employeeId: text("employee_id")
     .notNull()
     .references(() => employeeProfile.id),
@@ -958,6 +1130,7 @@ export const employeeDocument = pgTable("employee_document", {
 export const timesheet = pgTable("timesheet", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   employeeId: text("employee_id")
     .notNull()
     .references(() => employeeProfile.id),
@@ -970,6 +1143,7 @@ export const timesheet = pgTable("timesheet", {
 export const timeEntry = pgTable("time_entry", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   timesheetId: text("timesheet_id")
     .notNull()
     .references(() => timesheet.id),
@@ -982,6 +1156,7 @@ export const timeEntry = pgTable("time_entry", {
 export const benefitPlan = pgTable("benefit_plan", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   name: text("name").notNull(),
   provider: text("provider"),
   description: text("description"),
@@ -991,6 +1166,7 @@ export const benefitPlan = pgTable("benefit_plan", {
 export const benefitEnrollment = pgTable("benefit_enrollment", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   benefitPlanId: text("benefit_plan_id")
     .notNull()
     .references(() => benefitPlan.id),
@@ -1002,6 +1178,10 @@ export const benefitEnrollment = pgTable("benefit_enrollment", {
 });
 
 export const departmentRelations = relations(department, ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [department.workspaceId],
+    references: [workspace.id],
+  }),
   manager: one(user, {
     fields: [department.managerId],
     references: [user.id],
@@ -1033,6 +1213,10 @@ export const employeeProfileRelations = relations(
 );
 
 export const teamRelations = relations(team, ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [team.workspaceId],
+    references: [workspace.id],
+  }),
   department: one(department, {
     fields: [team.departmentId],
     references: [department.id],
@@ -1069,6 +1253,10 @@ export const employeeDocumentRelations = relations(
 );
 
 export const timesheetRelations = relations(timesheet, ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [timesheet.workspaceId],
+    references: [workspace.id],
+  }),
   employee: one(employeeProfile, {
     fields: [timesheet.employeeId],
     references: [employeeProfile.id],
@@ -1081,6 +1269,10 @@ export const timesheetRelations = relations(timesheet, ({ one, many }) => ({
 }));
 
 export const timeEntryRelations = relations(timeEntry, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [timeEntry.workspaceId],
+    references: [workspace.id],
+  }),
   timesheet: one(timesheet, {
     fields: [timeEntry.timesheetId],
     references: [timesheet.id],
@@ -1092,6 +1284,10 @@ export const timeEntryRelations = relations(timeEntry, ({ one }) => ({
 }));
 
 export const benefitPlanRelations = relations(benefitPlan, ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [benefitPlan.workspaceId],
+    references: [workspace.id],
+  }),
   administrator: one(user, {
     fields: [benefitPlan.administratorId],
     references: [user.id],
@@ -1116,6 +1312,7 @@ export const benefitEnrollmentRelations = relations(
 export const supportTicket = pgTable("support_ticket", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   customerId: text("customer_id").references(() => user.id),
   assignedTeamId: text("assigned_team_id").references(() => team.id),
   subject: text("subject").notNull(),
@@ -1127,6 +1324,7 @@ export const supportTicket = pgTable("support_ticket", {
 export const supportTicketMessage = pgTable("support_ticket_message", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   ticketId: text("ticket_id")
     .notNull()
     .references(() => supportTicket.id),
@@ -1138,6 +1336,7 @@ export const supportTicketMessage = pgTable("support_ticket_message", {
 export const supportTicketTag = pgTable("support_ticket_tag", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   label: text("label").notNull(),
   description: text("description"),
 });
@@ -1145,6 +1344,7 @@ export const supportTicketTag = pgTable("support_ticket_tag", {
 export const supportTicketTagLink = pgTable("support_ticket_tag_link", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   ticketId: text("ticket_id")
     .notNull()
     .references(() => supportTicket.id),
@@ -1156,6 +1356,7 @@ export const supportTicketTagLink = pgTable("support_ticket_tag_link", {
 export const supportTicketAssignment = pgTable("support_ticket_assignment", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   ticketId: text("ticket_id")
     .notNull()
     .references(() => supportTicket.id),
@@ -1167,6 +1368,7 @@ export const supportTicketAssignment = pgTable("support_ticket_assignment", {
 export const supportTicketAudit = pgTable("support_ticket_audit", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   ticketId: text("ticket_id")
     .notNull()
     .references(() => supportTicket.id),
@@ -1178,6 +1380,10 @@ export const supportTicketAudit = pgTable("support_ticket_audit", {
 export const supportTicketRelations = relations(
   supportTicket,
   ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [supportTicket.workspaceId],
+    references: [workspace.id],
+  }),
     customer: one(user, {
       fields: [supportTicket.customerId],
       references: [user.id],
@@ -1196,6 +1402,10 @@ export const supportTicketRelations = relations(
 export const supportTicketMessageRelations = relations(
   supportTicketMessage,
   ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [supportTicketMessage.workspaceId],
+    references: [workspace.id],
+  }),
     ticket: one(supportTicket, {
       fields: [supportTicketMessage.ticketId],
       references: [supportTicket.id],
@@ -1210,6 +1420,10 @@ export const supportTicketMessageRelations = relations(
 export const supportTicketTagRelations = relations(
   supportTicketTag,
   ({ many }) => ({
+  workspace: one(workspace, {
+    fields: [supportTicketTag.workspaceId],
+    references: [workspace.id],
+  }),
     ticketLinks: many(supportTicketTagLink),
   }),
 );
@@ -1217,6 +1431,10 @@ export const supportTicketTagRelations = relations(
 export const supportTicketTagLinkRelations = relations(
   supportTicketTagLink,
   ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [supportTicketTagLink.workspaceId],
+    references: [workspace.id],
+  }),
     ticket: one(supportTicket, {
       fields: [supportTicketTagLink.ticketId],
       references: [supportTicket.id],
@@ -1231,6 +1449,10 @@ export const supportTicketTagLinkRelations = relations(
 export const supportTicketAssignmentRelations = relations(
   supportTicketAssignment,
   ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [supportTicketAssignment.workspaceId],
+    references: [workspace.id],
+  }),
     ticket: one(supportTicket, {
       fields: [supportTicketAssignment.ticketId],
       references: [supportTicket.id],
@@ -1245,6 +1467,10 @@ export const supportTicketAssignmentRelations = relations(
 export const supportTicketAuditRelations = relations(
   supportTicketAudit,
   ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [supportTicketAudit.workspaceId],
+    references: [workspace.id],
+  }),
     ticket: one(supportTicket, {
       fields: [supportTicketAudit.ticketId],
       references: [supportTicket.id],
@@ -1259,6 +1485,7 @@ export const supportTicketAuditRelations = relations(
 export const billingInvoice = pgTable("billing_invoice", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   accountId: text("account_id")
     .notNull()
     .references(() => crmAccount.id),
@@ -1274,6 +1501,7 @@ export const billingInvoice = pgTable("billing_invoice", {
 export const billingInvoiceLine = pgTable("billing_invoice_line", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   invoiceId: text("invoice_id")
     .notNull()
     .references(() => billingInvoice.id),
@@ -1286,6 +1514,7 @@ export const billingInvoiceLine = pgTable("billing_invoice_line", {
 export const expenseReport = pgTable("expense_report", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   ownerId: text("owner_id")
     .notNull()
     .references(() => user.id),
@@ -1297,6 +1526,7 @@ export const expenseReport = pgTable("expense_report", {
 export const expenseItem = pgTable("expense_item", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   reportId: text("report_id")
     .notNull()
     .references(() => expenseReport.id),
@@ -1312,6 +1542,7 @@ export const ledgerAccount = pgTable(
   {
     ...sharedColumns,
     id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
     name: text("name").notNull(),
     code: text("code").notNull(),
     accountType: text("account_type").notNull(),
@@ -1328,6 +1559,7 @@ export const ledgerAccount = pgTable(
 export const ledgerTransaction = pgTable("ledger_transaction", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   reference: text("reference"),
   transactionDate: date("transaction_date").notNull(),
   createdById: text("created_by_id").references(() => user.id),
@@ -1337,6 +1569,7 @@ export const ledgerTransaction = pgTable("ledger_transaction", {
 export const ledgerEntry = pgTable("ledger_entry", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   transactionId: text("transaction_id")
     .notNull()
     .references(() => ledgerTransaction.id),
@@ -1351,6 +1584,7 @@ export const ledgerEntry = pgTable("ledger_entry", {
 export const budget = pgTable("budget", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   departmentId: text("department_id").references(() => department.id),
   fiscalYear: integer("fiscal_year").notNull(),
   totalAmount: numeric("total_amount", { precision: 12, scale: 2 }).notNull(),
@@ -1360,6 +1594,7 @@ export const budget = pgTable("budget", {
 export const budgetLine = pgTable("budget_line", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   budgetId: text("budget_id")
     .notNull()
     .references(() => budget.id),
@@ -1372,6 +1607,10 @@ export const budgetLine = pgTable("budget_line", {
 export const billingInvoiceRelations = relations(
   billingInvoice,
   ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [billingInvoice.workspaceId],
+    references: [workspace.id],
+  }),
     account: one(crmAccount, {
       fields: [billingInvoice.accountId],
       references: [crmAccount.id],
@@ -1391,6 +1630,10 @@ export const billingInvoiceRelations = relations(
 export const billingInvoiceLineRelations = relations(
   billingInvoiceLine,
   ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [billingInvoiceLine.workspaceId],
+    references: [workspace.id],
+  }),
     invoice: one(billingInvoice, {
       fields: [billingInvoiceLine.invoiceId],
       references: [billingInvoice.id],
@@ -1405,6 +1648,10 @@ export const billingInvoiceLineRelations = relations(
 export const expenseReportRelations = relations(
   expenseReport,
   ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [expenseReport.workspaceId],
+    references: [workspace.id],
+  }),
     owner: one(user, {
       fields: [expenseReport.ownerId],
       references: [user.id],
@@ -1418,6 +1665,10 @@ export const expenseReportRelations = relations(
 );
 
 export const expenseItemRelations = relations(expenseItem, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [expenseItem.workspaceId],
+    references: [workspace.id],
+  }),
   report: one(expenseReport, {
     fields: [expenseItem.reportId],
     references: [expenseReport.id],
@@ -1427,6 +1678,10 @@ export const expenseItemRelations = relations(expenseItem, ({ one }) => ({
 export const ledgerAccountRelations = relations(
   ledgerAccount,
   ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [ledgerAccount.workspaceId],
+    references: [workspace.id],
+  }),
     parent: one(ledgerAccount, {
       fields: [ledgerAccount.parentAccountId],
       references: [ledgerAccount.id],
@@ -1440,6 +1695,10 @@ export const ledgerAccountRelations = relations(
 export const ledgerTransactionRelations = relations(
   ledgerTransaction,
   ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [ledgerTransaction.workspaceId],
+    references: [workspace.id],
+  }),
     creator: one(user, {
       fields: [ledgerTransaction.createdById],
       references: [user.id],
@@ -1449,6 +1708,10 @@ export const ledgerTransactionRelations = relations(
 );
 
 export const ledgerEntryRelations = relations(ledgerEntry, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [ledgerEntry.workspaceId],
+    references: [workspace.id],
+  }),
   transaction: one(ledgerTransaction, {
     fields: [ledgerEntry.transactionId],
     references: [ledgerTransaction.id],
@@ -1460,6 +1723,10 @@ export const ledgerEntryRelations = relations(ledgerEntry, ({ one }) => ({
 }));
 
 export const budgetRelations = relations(budget, ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [budget.workspaceId],
+    references: [workspace.id],
+  }),
   department: one(department, {
     fields: [budget.departmentId],
     references: [department.id],
@@ -1468,6 +1735,10 @@ export const budgetRelations = relations(budget, ({ one, many }) => ({
 }));
 
 export const budgetLineRelations = relations(budgetLine, ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [budgetLine.workspaceId],
+    references: [workspace.id],
+  }),
   budget: one(budget, {
     fields: [budgetLine.budgetId],
     references: [budget.id],
@@ -1481,6 +1752,7 @@ export const budgetLineRelations = relations(budgetLine, ({ one }) => ({
 export const marketingCampaign = pgTable("marketing_campaign", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   ownerId: text("owner_id").references(() => user.id),
   name: text("name").notNull(),
   status: text("status").notNull(),
@@ -1492,6 +1764,7 @@ export const marketingCampaign = pgTable("marketing_campaign", {
 export const marketingChannel = pgTable("marketing_channel", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   name: text("name").notNull(),
   channelType: text("channel_type"),
   costModel: text("cost_model"),
@@ -1500,6 +1773,7 @@ export const marketingChannel = pgTable("marketing_channel", {
 export const marketingCampaignChannel = pgTable("marketing_campaign_channel", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   campaignId: text("campaign_id")
     .notNull()
     .references(() => marketingCampaign.id),
@@ -1512,6 +1786,7 @@ export const marketingCampaignChannel = pgTable("marketing_campaign_channel", {
 export const marketingAudience = pgTable("marketing_audience", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   name: text("name").notNull(),
   segmentType: text("segment_type"),
   definition: jsonb("definition"),
@@ -1522,6 +1797,7 @@ export const marketingCampaignAudience = pgTable(
   {
     ...sharedColumns,
     id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
     campaignId: text("campaign_id")
       .notNull()
       .references(() => marketingCampaign.id),
@@ -1534,6 +1810,10 @@ export const marketingCampaignAudience = pgTable(
 export const marketingCampaignRelations = relations(
   marketingCampaign,
   ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [marketingCampaign.workspaceId],
+    references: [workspace.id],
+  }),
     owner: one(user, {
       fields: [marketingCampaign.ownerId],
       references: [user.id],
@@ -1546,6 +1826,10 @@ export const marketingCampaignRelations = relations(
 export const marketingChannelRelations = relations(
   marketingChannel,
   ({ many }) => ({
+  workspace: one(workspace, {
+    fields: [marketingChannel.workspaceId],
+    references: [workspace.id],
+  }),
     campaignChannels: many(marketingCampaignChannel),
   }),
 );
@@ -1553,6 +1837,10 @@ export const marketingChannelRelations = relations(
 export const marketingCampaignChannelRelations = relations(
   marketingCampaignChannel,
   ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [marketingCampaignChannel.workspaceId],
+    references: [workspace.id],
+  }),
     campaign: one(marketingCampaign, {
       fields: [marketingCampaignChannel.campaignId],
       references: [marketingCampaign.id],
@@ -1567,6 +1855,10 @@ export const marketingCampaignChannelRelations = relations(
 export const marketingAudienceRelations = relations(
   marketingAudience,
   ({ many }) => ({
+  workspace: one(workspace, {
+    fields: [marketingAudience.workspaceId],
+    references: [workspace.id],
+  }),
     campaignAudiences: many(marketingCampaignAudience),
   }),
 );
@@ -1574,6 +1866,10 @@ export const marketingAudienceRelations = relations(
 export const marketingCampaignAudienceRelations = relations(
   marketingCampaignAudience,
   ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [marketingCampaignAudience.workspaceId],
+    references: [workspace.id],
+  }),
     campaign: one(marketingCampaign, {
       fields: [marketingCampaignAudience.campaignId],
       references: [marketingCampaign.id],
@@ -1588,6 +1884,7 @@ export const marketingCampaignAudienceRelations = relations(
 export const analyticsDashboard = pgTable("analytics_dashboard", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   ownerId: text("owner_id").references(() => user.id),
   title: text("title").notNull(),
   description: text("description"),
@@ -1596,6 +1893,7 @@ export const analyticsDashboard = pgTable("analytics_dashboard", {
 export const analyticsWidget = pgTable("analytics_widget", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   dashboardId: text("dashboard_id")
     .notNull()
     .references(() => analyticsDashboard.id),
@@ -1607,6 +1905,7 @@ export const analyticsWidget = pgTable("analytics_widget", {
 export const analyticsWidgetQuery = pgTable("analytics_widget_query", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   widgetId: text("widget_id")
     .notNull()
     .references(() => analyticsWidget.id),
@@ -1618,6 +1917,10 @@ export const analyticsWidgetQuery = pgTable("analytics_widget_query", {
 export const analyticsDashboardRelations = relations(
   analyticsDashboard,
   ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [analyticsDashboard.workspaceId],
+    references: [workspace.id],
+  }),
     owner: one(user, {
       fields: [analyticsDashboard.ownerId],
       references: [user.id],
@@ -1629,6 +1932,10 @@ export const analyticsDashboardRelations = relations(
 export const analyticsWidgetRelations = relations(
   analyticsWidget,
   ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [analyticsWidget.workspaceId],
+    references: [workspace.id],
+  }),
     dashboard: one(analyticsDashboard, {
       fields: [analyticsWidget.dashboardId],
       references: [analyticsDashboard.id],
@@ -1640,6 +1947,10 @@ export const analyticsWidgetRelations = relations(
 export const analyticsWidgetQueryRelations = relations(
   analyticsWidgetQuery,
   ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [analyticsWidgetQuery.workspaceId],
+    references: [workspace.id],
+  }),
     widget: one(analyticsWidget, {
       fields: [analyticsWidgetQuery.widgetId],
       references: [analyticsWidget.id],
@@ -1650,6 +1961,7 @@ export const analyticsWidgetQueryRelations = relations(
 export const integrationWebhook = pgTable("integration_webhook", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   projectId: text("project_id").references(() => project.id),
   accountId: text("account_id").references(() => crmAccount.id),
   name: text("name").notNull(),
@@ -1661,6 +1973,7 @@ export const integrationWebhook = pgTable("integration_webhook", {
 export const integrationEvent = pgTable("integration_event", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   webhookId: text("webhook_id")
     .notNull()
     .references(() => integrationWebhook.id),
@@ -1673,6 +1986,10 @@ export const integrationEvent = pgTable("integration_event", {
 export const integrationWebhookRelations = relations(
   integrationWebhook,
   ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [integrationWebhook.workspaceId],
+    references: [workspace.id],
+  }),
     project: one(project, {
       fields: [integrationWebhook.projectId],
       references: [project.id],
@@ -1688,6 +2005,10 @@ export const integrationWebhookRelations = relations(
 export const integrationEventRelations = relations(
   integrationEvent,
   ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [integrationEvent.workspaceId],
+    references: [workspace.id],
+  }),
     webhook: one(integrationWebhook, {
       fields: [integrationEvent.webhookId],
       references: [integrationWebhook.id],
@@ -1698,6 +2019,7 @@ export const integrationEventRelations = relations(
 export const integrationCredential = pgTable("integration_credential", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   webhookId: text("webhook_id").references(() => integrationWebhook.id),
   provider: text("provider").notNull(),
   clientId: text("client_id"),
@@ -1708,6 +2030,10 @@ export const integrationCredential = pgTable("integration_credential", {
 export const integrationCredentialRelations = relations(
   integrationCredential,
   ({ one }) => ({
+  workspace: one(workspace, {
+    fields: [integrationCredential.workspaceId],
+    references: [workspace.id],
+  }),
     webhook: one(integrationWebhook, {
       fields: [integrationCredential.webhookId],
       references: [integrationWebhook.id],
@@ -1718,6 +2044,7 @@ export const integrationCredentialRelations = relations(
 export const documentLibrary = pgTable("document_library", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   projectId: text("project_id").references(() => project.id),
   name: text("name").notNull(),
   description: text("description"),
@@ -1729,6 +2056,7 @@ export const documentFolder = pgTable(
   {
     ...sharedColumns,
     id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
     libraryId: text("library_id")
       .notNull()
       .references(() => documentLibrary.id),
@@ -1746,6 +2074,7 @@ export const documentFolder = pgTable(
 export const documentFile = pgTable("document_file", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   folderId: text("folder_id")
     .notNull()
     .references(() => documentFolder.id),
@@ -1759,6 +2088,7 @@ export const documentFile = pgTable("document_file", {
 export const documentFileVersion = pgTable("document_file_version", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   fileId: text("file_id")
     .notNull()
     .references(() => documentFile.id),
@@ -1771,6 +2101,7 @@ export const documentFileVersion = pgTable("document_file_version", {
 export const documentSharing = pgTable("document_sharing", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   fileId: text("file_id")
     .notNull()
     .references(() => documentFile.id),
@@ -1782,6 +2113,10 @@ export const documentSharing = pgTable("document_sharing", {
 export const documentLibraryRelations = relations(
   documentLibrary,
   ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [documentLibrary.workspaceId],
+    references: [workspace.id],
+  }),
     project: one(project, {
       fields: [documentLibrary.projectId],
       references: [project.id],
@@ -1793,6 +2128,10 @@ export const documentLibraryRelations = relations(
 export const documentFolderRelations = relations(
   documentFolder,
   ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [documentFolder.workspaceId],
+    references: [workspace.id],
+  }),
     library: one(documentLibrary, {
       fields: [documentFolder.libraryId],
       references: [documentLibrary.id],
@@ -3798,6 +4137,7 @@ export const productCategory = pgTable("product_category", {
   ...sharedColumns,
   id: text("id").primaryKey(),
   workspaceId: text("workspace_id").notNull().references(() => workspace.id),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   catalogId: text("catalog_id").references(() => productCatalog.id),
   name: text("name").notNull(),
   description: text("description"),
@@ -3805,6 +4145,10 @@ export const productCategory = pgTable("product_category", {
 });
 
 export const productCategoryRelations = relations(productCategory, ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [productCategory.workspaceId],
+    references: [workspace.id],
+  }),
   workspace: one(workspace, { fields: [productCategory.workspaceId], references: [workspace.id] }),
   catalog: one(productCatalog, { fields: [productCategory.catalogId], references: [productCatalog.id] }),
   products: many(product),
@@ -3816,6 +4160,7 @@ export const product = pgTable("product", {
   ...sharedColumns,
   id: text("id").primaryKey(),
   workspaceId: text("workspace_id").notNull().references(() => workspace.id),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   categoryId: text("category_id").references(() => productCategory.id),
   name: text("name").notNull(),
   description: text("description"),
@@ -3825,6 +4170,10 @@ export const product = pgTable("product", {
 });
 
 export const productRelations = relations(product, ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [product.workspaceId],
+    references: [workspace.id],
+  }),
   workspace: one(workspace, { fields: [product.workspaceId], references: [workspace.id] }),
   category: one(productCategory, { fields: [product.categoryId], references: [productCategory.id] }),
   variants: many(productVariant),
@@ -3836,6 +4185,7 @@ export const productVariant = pgTable("product_variant", {
   ...sharedColumns,
   id: text("id").primaryKey(),
   workspaceId: text("workspace_id").notNull().references(() => workspace.id),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   productId: text("product_id").notNull().references(() => product.id),
   name: text("name").notNull(),
   sku: text("sku").notNull().unique(),
@@ -3843,6 +4193,10 @@ export const productVariant = pgTable("product_variant", {
 });
 
 export const productVariantRelations = relations(productVariant, ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [productVariant.workspaceId],
+    references: [workspace.id],
+  }),
   workspace: one(workspace, { fields: [productVariant.workspaceId], references: [workspace.id] }),
   product: one(product, { fields: [productVariant.productId], references: [product.id] }),
   prices: many(productPrice),
@@ -3871,6 +4225,7 @@ export const inventoryLocation = pgTable("inventory_location", {
   ...sharedColumns,
   id: text("id").primaryKey(),
   workspaceId: text("workspace_id").notNull().references(() => workspace.id),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   name: text("name").notNull(),
   locationType: text("location_type").notNull(),
   address: text("address"),
@@ -3878,6 +4233,10 @@ export const inventoryLocation = pgTable("inventory_location", {
 });
 
 export const inventoryLocationRelations = relations(inventoryLocation, ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [inventoryLocation.workspaceId],
+    references: [workspace.id],
+  }),
   workspace: one(workspace, { fields: [inventoryLocation.workspaceId], references: [workspace.id] }),
   inventoryItems: many(inventoryItem),
 }));
@@ -3885,6 +4244,7 @@ export const inventoryLocationRelations = relations(inventoryLocation, ({ one, m
 export const inventoryItem = pgTable("inventory_item", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   productId: text("product_id").notNull().references(() => product.id),
   locationId: text("location_id").notNull().references(() => inventoryLocation.id),
@@ -3896,6 +4256,10 @@ export const inventoryItem = pgTable("inventory_item", {
 });
 
 export const inventoryItemRelations = relations(inventoryItem, ({ one, many }) => ({
+  workspace: one(workspace, {
+    fields: [inventoryItem.workspaceId],
+    references: [workspace.id],
+  }),
   workspace: one(workspace, { fields: [inventoryItem.workspaceId], references: [workspace.id] }),
   product: one(product, { fields: [inventoryItem.productId], references: [product.id] }),
   location: one(inventoryLocation, { fields: [inventoryItem.locationId], references: [inventoryLocation.id] }),
@@ -4118,6 +4482,7 @@ export const kbArticleTagRelations = relations(kbArticleTag, ({ one }) => ({
 export const supportTicket = pgTable("support_ticket", {
   ...sharedColumns,
   id: text("id").primaryKey(),
+  workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   workspaceId: text("workspace_id").notNull().references(() => workspace.id),
   ticketNumber: text("ticket_number").notNull().unique(),
   customerId: text("customer_id").references(() => crmContact.id),
