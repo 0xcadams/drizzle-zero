@@ -3,13 +3,13 @@ import { z } from "zod";
 import { builder } from "./zero-schema.gen";
 
 export const allUsers = syncedQueryWithContext(
-  "noConfig.allUsers",
+  "integration.allUsers",
   z.tuple([]),
   (_ctx) => builder.user.orderBy("id", "asc"),
 );
 
 export const filtersWithChildren = syncedQueryWithContext(
-  "noConfig.filtersWithChildren",
+  "integration.filtersWithChildren",
   z.tuple([z.string()]),
   (_ctx, rootId) =>
     builder.filters
@@ -18,7 +18,7 @@ export const filtersWithChildren = syncedQueryWithContext(
 );
 
 export const messagesBySender = syncedQueryWithContext(
-  "noConfig.messagesBySender",
+  "integration.messagesBySender",
   z.tuple([z.string()]),
   (_ctx, senderId) =>
     builder.message
@@ -27,14 +27,14 @@ export const messagesBySender = syncedQueryWithContext(
 );
 
 export const messagesByBody = syncedQueryWithContext(
-  "noConfig.messagesByBody",
+  "integration.messagesByBody",
   z.tuple([z.string()]),
   (_ctx, body) =>
     builder.message.where((q) => q.cmp("body", "=", body)).orderBy("id", "asc"),
 );
 
 export const messageWithRelations = syncedQueryWithContext(
-  "noConfig.messageWithRelations",
+  "integration.messageWithRelations",
   z.tuple([z.string()]),
   (_ctx, id) =>
     builder.message
@@ -45,21 +45,28 @@ export const messageWithRelations = syncedQueryWithContext(
 );
 
 export const messageById = syncedQueryWithContext(
-  "noConfig.messageById",
+  "integration.messageById",
   z.tuple([z.string()]),
   (_ctx, id) => builder.message.where((q) => q.cmp("id", "=", id)).one(),
 );
 
 export const mediumById = syncedQueryWithContext(
-  "noConfig.mediumById",
+  "integration.mediumById",
   z.tuple([z.string()]),
   (_ctx, id) => builder.medium.where((q) => q.cmp("id", "=", id)).one(),
 );
 
 export const allTypesById = syncedQueryWithContext(
-  "noConfig.allTypesById",
+  "integration.allTypesById",
   z.tuple([z.string()]),
   (_ctx, id) => builder.allTypes.where((q) => q.cmp("id", "=", id)).one(),
+);
+
+export const allTypesByStatus = syncedQueryWithContext(
+  "integration.allTypesByStatus",
+  z.tuple([z.enum(["active", "inactive", "pending"])]),
+  (_ctx, status) =>
+    builder.allTypes.where((q) => q.cmp("status", "=", status)).one(),
 );
 
 export const complexOrderWithEverything = syncedQueryWithContext(
@@ -68,17 +75,104 @@ export const complexOrderWithEverything = syncedQueryWithContext(
   (_ctx, orderId) =>
     builder.orderTable
       .where((q) => q.cmp("id", "=", orderId))
+      .related("workspace", (q) =>
+        q
+          .related("memberships", (q2) =>
+            q2
+              .related("user", (q3) =>
+                q3
+                  .related("workspace")
+                  .related("messages")
+                  .orderBy("id", "asc"),
+              )
+              .related("workspace", (q3) =>
+                q3
+                  .related("apiKeys")
+                  .related("memberships")
+                  .orderBy("id", "asc"),
+              )
+              .orderBy("id", "asc"),
+          )
+          .related("apiKeys", (q2) =>
+            q2.related("workspace").orderBy("id", "asc"),
+          )
+          .related("invitations", (q2) =>
+            q2
+              .related("workspace")
+              .related("inviter", (q3) =>
+                q3.related("messages").related("workspace"),
+              )
+              .orderBy("id", "asc"),
+          )
+          .related("supportTickets", (q2) =>
+            q2
+              .related("workspace")
+              .related("customer", (q3) =>
+                q3.related("messages").related("workspace"),
+              )
+              .orderBy("id", "asc"),
+          )
+          .related("crmAccounts", (q2) =>
+            q2
+              .related("workspace")
+              .related("owner", (q3) =>
+                q3.related("messages").related("workspace"),
+              )
+              .related("contacts", (q3) =>
+                q3
+                  .related("account")
+                  .related("activities")
+                  .orderBy("id", "asc"),
+              )
+              .related("opportunities", (q3) =>
+                q3.related("account").related("stage").orderBy("id", "asc"),
+              )
+              .orderBy("id", "asc"),
+          )
+          // .related("suppliers", (q2) =>
+          //   q2.related("workspace").orderBy("id", "asc"),
+          // )
+          // .related("purchaseOrders", (q2) =>
+          //   q2.related("workspace").orderBy("id", "asc"),
+          // ).related("chatChannels", (q2) =>
+          //   q2
+          //     .related("workspace")
+          //     .related("messages", (q3) =>
+          //       q3.related("channel").orderBy("id", "asc"),
+          //     )
+          //     .orderBy("id", "asc"),
+          // )
+          .related("projectTasks", (q2) =>
+            q2
+              .related("workspace")
+              .related("project", (q3) => q3.related("phases").related("owner"))
+              .related("phase", (q3) => q3.related("project").related("tasks"))
+              .related("assignments", (q3) =>
+                q3.related("task").related("user").orderBy("id", "asc"),
+              )
+              .orderBy("id", "asc"),
+          ),
+      )
       .related("customer", (q) =>
-        q.related("messages", (q2) =>
-          q2
-            .related("medium", (q3) =>
-              q3.related("messages", (q4) =>
-                q4.related("sender").related("medium").orderBy("id", "asc"),
-              ),
-            )
-            .related("sender", (q3) => q3.related("messages"))
-            .orderBy("id", "asc"),
-        ),
+        q
+          .related("workspace", (q2) =>
+            q2.related("memberships").related("apiKeys"),
+          )
+          .related("messages", (q2) =>
+            q2
+              .related("workspace")
+              .related("medium", (q3) =>
+                q3
+                  .related("workspace")
+                  .related("messages", (q4) =>
+                    q4.related("sender").related("medium").orderBy("id", "asc"),
+                  ),
+              )
+              .related("sender", (q3) =>
+                q3.related("workspace").related("messages"),
+              )
+              .orderBy("id", "asc"),
+          ),
       )
       .related("opportunity", (q) =>
         q
@@ -102,15 +196,19 @@ export const complexOrderWithEverything = syncedQueryWithContext(
                       .related("opportunity", (q5) =>
                         q5.related("account").related("stage"),
                       )
-                      .related("performer", (q5) => q5.related("messages"))
+                      .related("performer", (q5) =>
+                        q5.related("messages").related("workspace"),
+                      )
                       .related("account", (q5) =>
                         q5.related("opportunities").related("contacts"),
                       )
-                      .orderBy("id", "asc"),
+                      .orderBy("contactId", "asc"),
                   )
                   .related("notes", (q4) =>
                     q4
-                      .related("author", (q5) => q5.related("messages"))
+                      .related("author", (q5) =>
+                        q5.related("messages").related("workspace"),
+                      )
                       .related("contact", (q5) =>
                         q5.related("account").related("activities"),
                       )
@@ -144,7 +242,9 @@ export const complexOrderWithEverything = syncedQueryWithContext(
                   .related("activities", (q4) =>
                     q4
                       .related("type", (q5) => q5.related("activities"))
-                      .related("performer", (q5) => q5.related("messages"))
+                      .related("performer", (q5) =>
+                        q5.related("messages").related("workspace"),
+                      )
                       .related("account", (q5) => q5.related("opportunities"))
                       .related("contact", (q5) => q5.related("notes"))
                       .related("opportunity", (q5) => q5.related("stage"))
@@ -156,7 +256,9 @@ export const complexOrderWithEverything = syncedQueryWithContext(
                         q5.related("stage").related("account"),
                       )
                       .related("stage", (q5) => q5.related("opportunities"))
-                      .related("changedBy", (q5) => q5.related("messages"))
+                      .related("changedBy", (q5) =>
+                        q5.related("messages").related("workspace"),
+                      )
                       .orderBy("id", "asc"),
                   )
                   .orderBy("id", "asc"),
@@ -173,7 +275,9 @@ export const complexOrderWithEverything = syncedQueryWithContext(
                     q4.related("stage").related("account"),
                   )
                   .related("type", (q4) => q4.related("activities"))
-                  .related("performer")
+                  .related("performer", (q4) =>
+                    q4.related("messages").related("workspace"),
+                  )
                   .orderBy("id", "asc"),
               )
               .related("notes", (q3) =>
@@ -184,7 +288,9 @@ export const complexOrderWithEverything = syncedQueryWithContext(
                   .related("contact", (q4) =>
                     q4.related("activities").related("account"),
                   )
-                  .related("author", (q4) => q4.related("messages"))
+                  .related("author", (q4) =>
+                    q4.related("messages").related("workspace"),
+                  )
                   .orderBy("id", "asc"),
               ),
           )
@@ -226,7 +332,7 @@ export const complexOrderWithEverything = syncedQueryWithContext(
               .related("stage", (q3) =>
                 q3.related("opportunities").related("historyEntries"),
               )
-              .related("changedBy")
+              .related("changedBy", (q3) => q3.related("messages"))
               .orderBy("id", "asc"),
           ),
       )
@@ -234,7 +340,9 @@ export const complexOrderWithEverything = syncedQueryWithContext(
         q
           .related("order", (q2) =>
             q2
-              .related("customer", (q3) => q3.related("messages"))
+              .related("customer", (q3) =>
+                q3.related("messages").related("workspace"),
+              )
               .related("opportunity", (q3) =>
                 q3.related("account").related("stage").related("activities"),
               )
@@ -339,7 +447,9 @@ export const complexOrderWithEverything = syncedQueryWithContext(
         q
           .related("order", (q2) =>
             q2
-              .related("customer", (q3) => q3.related("messages"))
+              .related("customer", (q3) =>
+                q3.related("messages").related("workspace"),
+              )
               .related("opportunity", (q3) =>
                 q3.related("account").related("stage"),
               )
@@ -358,7 +468,9 @@ export const complexOrderWithEverything = syncedQueryWithContext(
         q
           .related("order", (q2) =>
             q2
-              .related("customer", (q3) => q3.related("messages"))
+              .related("customer", (q3) =>
+                q3.related("messages").related("workspace"),
+              )
               .related("opportunity", (q3) =>
                 q3.related("account").related("historyEntries"),
               )
@@ -379,7 +491,9 @@ export const complexOrderWithEverything = syncedQueryWithContext(
                 q3
                   .related("order", (q4) =>
                     q4
-                      .related("customer", (q5) => q5.related("messages"))
+                      .related("customer", (q5) =>
+                        q5.related("messages").related("workspace"),
+                      )
                       .related("opportunity", (q5) =>
                         q5.related("account").related("stage"),
                       )

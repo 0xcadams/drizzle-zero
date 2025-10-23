@@ -6,6 +6,7 @@ import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { drizzle } from "drizzle-orm/node-postgres";
 import path from "path";
 import { Pool } from "pg";
+import postgres from "postgres";
 import {
   GenericContainer,
   Network,
@@ -13,12 +14,19 @@ import {
   StartedNetwork,
   type StartedTestContainer,
 } from "testcontainers";
+import { getShortCode } from "./drizzle/types";
 import * as drizzleSchema from "./schema";
 import {
   allTypes,
   analyticsDashboard,
   analyticsWidget,
   analyticsWidgetQuery,
+  apInvoice,
+  apVendor,
+  arCustomer,
+  arInvoice,
+  bankAccount,
+  bankTransaction,
   benefitEnrollment,
   benefitPlan,
   billingInvoice,
@@ -29,10 +37,15 @@ import {
   crmActivity,
   crmActivityType,
   crmContact,
+  crmLead,
+  crmLeadActivity,
+  crmLeadSource,
   crmNote,
   crmOpportunity,
   crmOpportunityStageHistory,
   crmPipelineStage,
+  crmSalesSequence,
+  crmSalesSequenceStep,
   department,
   documentFile,
   documentFileVersion,
@@ -46,6 +59,10 @@ import {
   expenseReport,
   filters,
   friendship,
+  hrDepartment,
+  hrEmployee,
+  hrTimeOffPolicy,
+  hrTimeOffRequest,
   integrationCredential,
   integrationEvent,
   integrationWebhook,
@@ -67,6 +84,7 @@ import {
   orderTable,
   payment,
   product,
+  productCatalog,
   productCategory,
   productMedia,
   productVariant,
@@ -92,9 +110,11 @@ import {
   timeEntry,
   timesheet,
   user,
+  // New tables
+  workspace,
+  workspaceApiKey,
+  workspaceMembership,
 } from "./schema";
-import postgres from "postgres";
-import { getShortCode } from "./drizzle/types";
 
 const versionInt = parseInt(process.env.PG_VERSION ?? "16");
 const PG_PORT = 5732 + (versionInt - 16);
@@ -121,16 +141,56 @@ export const db: NodePgDatabase<typeof drizzleSchema> = drizzle(pool, {
 });
 
 export const seed = async () => {
-  await db.insert(medium).values({ id: "1", name: "email" });
-  await db.insert(medium).values({ id: "2", name: "teams" });
-  await db.insert(medium).values({ id: "3", name: "sms" });
-  await db.insert(medium).values({ id: "4", name: "whatsapp" });
+  await db.insert(workspace).values([
+    {
+      id: "workspace_1",
+      name: "Acme Corporation",
+      slug: "acme-corp",
+      subscriptionTier: "enterprise",
+      billingEmail: "billing@acme.com",
+      settings: { theme: "dark", notifications: true },
+    },
+    {
+      id: "workspace_2",
+      name: "TechStart Inc",
+      slug: "techstart",
+      subscriptionTier: "pro",
+      billingEmail: "admin@techstart.com",
+      settings: { theme: "light", notifications: false },
+    },
+  ]);
 
-  await db.insert(filters).values({ id: "1", name: "filter1" });
-  await db.insert(filters).values({ id: "2", name: "filter2", parentId: "1" });
-  await db.insert(filters).values({ id: "3", name: "filter3", parentId: "1" });
+  await db
+    .insert(medium)
+    .values({ workspaceId: "workspace_1", id: "1", name: "email" });
+  await db
+    .insert(medium)
+    .values({ workspaceId: "workspace_1", id: "2", name: "teams" });
+  await db
+    .insert(medium)
+    .values({ workspaceId: "workspace_1", id: "3", name: "sms" });
+  await db
+    .insert(medium)
+    .values({ workspaceId: "workspace_1", id: "4", name: "whatsapp" });
+
+  await db
+    .insert(filters)
+    .values({ workspaceId: "workspace_1", id: "1", name: "filter1" });
+  await db.insert(filters).values({
+    workspaceId: "workspace_1",
+    id: "2",
+    name: "filter2",
+    parentId: "1",
+  });
+  await db.insert(filters).values({
+    workspaceId: "workspace_1",
+    id: "3",
+    name: "filter3",
+    parentId: "1",
+  });
 
   await db.insert(user).values({
+    workspaceId: "workspace_1",
     id: "1",
     name: "James",
     partner: true,
@@ -164,6 +224,7 @@ export const seed = async () => {
     regionCode: "CA",
   });
   await db.insert(user).values({
+    workspaceId: "workspace_1",
     id: "2",
     name: "John",
     partner: false,
@@ -196,6 +257,7 @@ export const seed = async () => {
     regionCode: "CA",
   });
   await db.insert(user).values({
+    workspaceId: "workspace_1",
     id: "3",
     name: "Jane",
     partner: false,
@@ -230,6 +292,7 @@ export const seed = async () => {
   });
 
   await db.insert(message).values({
+    workspaceId: "workspace_1",
     id: "1",
     body: "Hey, James!",
     senderId: "1",
@@ -238,6 +301,7 @@ export const seed = async () => {
   });
 
   await db.insert(message).values({
+    workspaceId: "workspace_1",
     id: "2",
     body: "Hello on Teams",
     senderId: "2",
@@ -246,6 +310,7 @@ export const seed = async () => {
   });
 
   await db.insert(message).values({
+    workspaceId: "workspace_1",
     id: "3",
     body: "SMS message here",
     senderId: "3",
@@ -254,6 +319,7 @@ export const seed = async () => {
   });
 
   await db.insert(message).values({
+    workspaceId: "workspace_1",
     id: "4",
     body: "WhatsApp message",
     senderId: "2",
@@ -262,6 +328,7 @@ export const seed = async () => {
   });
 
   await db.insert(message).values({
+    workspaceId: "workspace_1",
     id: "5",
     body: "Thomas!",
     senderId: "1",
@@ -271,6 +338,7 @@ export const seed = async () => {
 
   await db.insert(user).values([
     {
+      workspaceId: "workspace_1",
       id: "4",
       name: "Thomas",
       partner: true,
@@ -304,6 +372,7 @@ export const seed = async () => {
       regionCode: "CA",
     },
     {
+      workspaceId: "workspace_1",
       id: "5",
       name: "Priya",
       partner: true,
@@ -337,6 +406,7 @@ export const seed = async () => {
       regionCode: "CA",
     },
     {
+      workspaceId: "workspace_1",
       id: "6",
       name: "Liu",
       partner: false,
@@ -370,6 +440,7 @@ export const seed = async () => {
       regionCode: "CA",
     },
     {
+      workspaceId: "workspace_1",
       id: "7",
       name: "Amelia",
       partner: false,
@@ -406,6 +477,7 @@ export const seed = async () => {
 
   await db.insert(message).values([
     {
+      workspaceId: "workspace_1",
       id: "6",
       body: "Looping in the ops team now.",
       senderId: "4",
@@ -413,6 +485,7 @@ export const seed = async () => {
       metadata: { key: "value6" },
     },
     {
+      workspaceId: "workspace_1",
       id: "7",
       body: "Weekly sync invite sent.",
       senderId: "5",
@@ -420,6 +493,7 @@ export const seed = async () => {
       metadata: { key: "value7" },
     },
     {
+      workspaceId: "workspace_1",
       id: "8",
       body: "Inventory alert triggered.",
       senderId: "6",
@@ -427,6 +501,7 @@ export const seed = async () => {
       metadata: { key: "value8" },
     },
     {
+      workspaceId: "workspace_1",
       id: "9",
       body: "Design mockups ready for review.",
       senderId: "7",
@@ -436,13 +511,29 @@ export const seed = async () => {
   ]);
 
   await db.insert(projectTag).values([
-    { id: "project-tag-design", label: "Design", color: "#FF8A65" },
-    { id: "project-tag-backlog", label: "Backlog", color: "#4DB6AC" },
-    { id: "project-tag-customer", label: "Customer", color: "#9575CD" },
+    {
+      workspaceId: "workspace_1",
+      id: "project-tag-design",
+      label: "Design",
+      color: "#FF8A65",
+    },
+    {
+      workspaceId: "workspace_1",
+      id: "project-tag-backlog",
+      label: "Backlog",
+      color: "#4DB6AC",
+    },
+    {
+      workspaceId: "workspace_1",
+      id: "project-tag-customer",
+      label: "Customer",
+      color: "#9575CD",
+    },
   ]);
 
   await db.insert(project).values([
     {
+      workspaceId: "workspace_1",
       id: "project-ops",
       ownerId: "4",
       name: "Operations Platform Revamp",
@@ -455,6 +546,7 @@ export const seed = async () => {
       },
     },
     {
+      workspaceId: "workspace_1",
       id: "project-marketing",
       ownerId: "5",
       name: "Marketing Launch Q4",
@@ -471,18 +563,21 @@ export const seed = async () => {
 
   await db.insert(projectPhase).values([
     {
+      workspaceId: "workspace_1",
       id: "phase-discovery",
       projectId: "project-ops",
       name: "Discovery",
       sequence: 1,
     },
     {
+      workspaceId: "workspace_1",
       id: "phase-build",
       projectId: "project-ops",
       name: "Build",
       sequence: 2,
     },
     {
+      workspaceId: "workspace_1",
       id: "phase-launch",
       projectId: "project-marketing",
       name: "Launch",
@@ -492,6 +587,7 @@ export const seed = async () => {
 
   await db.insert(projectTask).values([
     {
+      workspaceId: "workspace_1",
       id: "task-user-research",
       projectId: "project-ops",
       phaseId: "phase-discovery",
@@ -500,6 +596,7 @@ export const seed = async () => {
       priority: "high",
     },
     {
+      workspaceId: "workspace_1",
       id: "task-automation",
       projectId: "project-ops",
       phaseId: "phase-build",
@@ -508,6 +605,7 @@ export const seed = async () => {
       priority: "critical",
     },
     {
+      workspaceId: "workspace_1",
       id: "task-launch-plan",
       projectId: "project-marketing",
       phaseId: "phase-launch",
@@ -519,6 +617,7 @@ export const seed = async () => {
 
   await db.insert(projectAssignment).values([
     {
+      workspaceId: "workspace_1",
       id: "assignment-1",
       taskId: "task-user-research",
       userId: "5",
@@ -526,6 +625,7 @@ export const seed = async () => {
       role: "Research Lead",
     },
     {
+      workspaceId: "workspace_1",
       id: "assignment-2",
       taskId: "task-automation",
       userId: "6",
@@ -533,6 +633,7 @@ export const seed = async () => {
       role: "Automation Engineer",
     },
     {
+      workspaceId: "workspace_1",
       id: "assignment-3",
       taskId: "task-launch-plan",
       userId: "7",
@@ -543,12 +644,14 @@ export const seed = async () => {
 
   await db.insert(projectComment).values([
     {
+      workspaceId: "workspace_1",
       id: "comment-1",
       taskId: "task-user-research",
       authorId: "5",
       body: "User interviews scheduled for next Tuesday.",
     },
     {
+      workspaceId: "workspace_1",
       id: "comment-2",
       taskId: "task-automation",
       authorId: "6",
@@ -558,6 +661,7 @@ export const seed = async () => {
 
   await db.insert(projectAttachment).values([
     {
+      workspaceId: "workspace_1",
       id: "attachment-1",
       taskId: "task-user-research",
       fileName: "interview-script.docx",
@@ -565,6 +669,7 @@ export const seed = async () => {
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     },
     {
+      workspaceId: "workspace_1",
       id: "attachment-2",
       taskId: "task-automation",
       fileName: "workflow-diagram.png",
@@ -574,16 +679,19 @@ export const seed = async () => {
 
   await db.insert(projectTaskTag).values([
     {
+      workspaceId: "workspace_1",
       id: "tasktag-1",
       taskId: "task-user-research",
       tagId: "project-tag-customer",
     },
     {
+      workspaceId: "workspace_1",
       id: "tasktag-2",
       taskId: "task-automation",
       tagId: "project-tag-backlog",
     },
     {
+      workspaceId: "workspace_1",
       id: "tasktag-3",
       taskId: "task-launch-plan",
       tagId: "project-tag-design",
@@ -592,12 +700,14 @@ export const seed = async () => {
 
   await db.insert(projectNote).values([
     {
+      workspaceId: "workspace_1",
       id: "project-note-1",
       projectId: "project-ops",
       authorId: "4",
       note: "Ops revamp aligns with Q3 retention goals.",
     },
     {
+      workspaceId: "workspace_1",
       id: "project-note-2",
       projectId: "project-marketing",
       authorId: "5",
@@ -607,6 +717,7 @@ export const seed = async () => {
 
   await db.insert(projectAudit).values([
     {
+      workspaceId: "workspace_1",
       id: "project-audit-1",
       projectId: "project-ops",
       actorId: "4",
@@ -620,6 +731,7 @@ export const seed = async () => {
       ],
     },
     {
+      workspaceId: "workspace_1",
       id: "project-audit-2",
       projectId: "project-marketing",
       actorId: "5",
@@ -636,6 +748,7 @@ export const seed = async () => {
 
   await db.insert(documentLibrary).values([
     {
+      workspaceId: "workspace_1",
       id: "library-ops",
       projectId: "project-ops",
       name: "Ops Shared Docs",
@@ -646,11 +759,13 @@ export const seed = async () => {
 
   await db.insert(documentFolder).values([
     {
+      workspaceId: "workspace_1",
       id: "folder-root",
       libraryId: "library-ops",
       name: "Root",
     },
     {
+      workspaceId: "workspace_1",
       id: "folder-research",
       libraryId: "library-ops",
       parentId: "folder-root",
@@ -660,6 +775,7 @@ export const seed = async () => {
 
   await db.insert(documentFile).values([
     {
+      workspaceId: "workspace_1",
       id: "file-brief",
       folderId: "folder-root",
       uploadedById: "4",
@@ -669,6 +785,7 @@ export const seed = async () => {
       version: 1,
     },
     {
+      workspaceId: "workspace_1",
       id: "file-notes",
       folderId: "folder-research",
       uploadedById: "5",
@@ -681,6 +798,7 @@ export const seed = async () => {
 
   await db.insert(documentFileVersion).values([
     {
+      workspaceId: "workspace_1",
       id: "filever-brief-1",
       fileId: "file-brief",
       uploadedById: "4",
@@ -689,6 +807,7 @@ export const seed = async () => {
       fileSizeBytes: 524288,
     },
     {
+      workspaceId: "workspace_1",
       id: "filever-notes-2",
       fileId: "file-notes",
       uploadedById: "5",
@@ -700,6 +819,7 @@ export const seed = async () => {
 
   await db.insert(crmAccount).values([
     {
+      workspaceId: "workspace_1",
       id: "acct-aurora",
       ownerId: "1",
       name: "Aurora Manufacturing",
@@ -707,6 +827,7 @@ export const seed = async () => {
       status: "active",
     },
     {
+      workspaceId: "workspace_1",
       id: "acct-lumen",
       ownerId: "5",
       name: "Lumen Retail Group",
@@ -717,6 +838,7 @@ export const seed = async () => {
 
   await db.insert(crmContact).values([
     {
+      workspaceId: "workspace_1",
       id: "contact-alana",
       accountId: "acct-aurora",
       firstName: "Alana",
@@ -725,6 +847,7 @@ export const seed = async () => {
       phone: "+1-555-0142",
     },
     {
+      workspaceId: "workspace_1",
       id: "contact-ravi",
       accountId: "acct-lumen",
       firstName: "Ravi",
@@ -736,13 +859,21 @@ export const seed = async () => {
 
   await db.insert(crmPipelineStage).values([
     {
+      workspaceId: "workspace_1",
       id: "stage-qualify",
       name: "Qualification",
       sequence: 1,
       probability: 20,
     },
-    { id: "stage-proposal", name: "Proposal", sequence: 2, probability: 45 },
     {
+      workspaceId: "workspace_1",
+      id: "stage-proposal",
+      name: "Proposal",
+      sequence: 2,
+      probability: 45,
+    },
+    {
+      workspaceId: "workspace_1",
       id: "stage-negotiation",
       name: "Negotiation",
       sequence: 3,
@@ -752,6 +883,7 @@ export const seed = async () => {
 
   await db.insert(crmOpportunity).values([
     {
+      workspaceId: "workspace_1",
       id: "opp-aurora-platform",
       accountId: "acct-aurora",
       stageId: "stage-proposal",
@@ -763,12 +895,14 @@ export const seed = async () => {
 
   await db.insert(crmOpportunityStageHistory).values([
     {
+      workspaceId: "workspace_1",
       id: "opp-stagehist-1",
       opportunityId: "opp-aurora-platform",
       stageId: "stage-qualify",
       changedById: "1",
     },
     {
+      workspaceId: "workspace_1",
       id: "opp-stagehist-2",
       opportunityId: "opp-aurora-platform",
       stageId: "stage-proposal",
@@ -778,11 +912,13 @@ export const seed = async () => {
 
   await db.insert(crmActivityType).values([
     {
+      workspaceId: "workspace_1",
       id: "activity-call",
       name: "Call",
       description: "Phone or VoIP conversations.",
     },
     {
+      workspaceId: "workspace_1",
       id: "activity-demo",
       name: "Product Demo",
       description: "Live product walkthrough.",
@@ -791,6 +927,7 @@ export const seed = async () => {
 
   await db.insert(crmActivity).values([
     {
+      workspaceId: "workspace_1",
       id: "activity-1",
       accountId: "acct-aurora",
       contactId: "contact-alana",
@@ -800,6 +937,7 @@ export const seed = async () => {
       notes: "Discussed integration requirements and security posture.",
     },
     {
+      workspaceId: "workspace_1",
       id: "activity-2",
       accountId: "acct-lumen",
       contactId: "contact-ravi",
@@ -811,6 +949,7 @@ export const seed = async () => {
 
   await db.insert(crmNote).values([
     {
+      workspaceId: "workspace_1",
       id: "crm-note-aurora",
       accountId: "acct-aurora",
       contactId: "contact-alana",
@@ -821,11 +960,13 @@ export const seed = async () => {
 
   await db.insert(productCategory).values([
     {
+      workspaceId: "workspace_1",
       id: "cat-platform",
       name: "Platform",
       description: "Core SaaS platform modules",
     },
     {
+      workspaceId: "workspace_1",
       id: "cat-services",
       name: "Services",
       description: "Professional services and onboarding",
@@ -834,6 +975,7 @@ export const seed = async () => {
 
   await db.insert(product).values([
     {
+      workspaceId: "workspace_1",
       id: "product-zero",
       categoryId: "cat-platform",
       name: "Zero Workflows",
@@ -841,6 +983,7 @@ export const seed = async () => {
       status: "active",
     },
     {
+      workspaceId: "workspace_1",
       id: "product-onboarding",
       categoryId: "cat-services",
       name: "Whiteglove Onboarding",
@@ -851,6 +994,7 @@ export const seed = async () => {
 
   await db.insert(productVariant).values([
     {
+      workspaceId: "workspace_1",
       id: "variant-zero-enterprise",
       productId: "product-zero",
       sku: "ZERO-ENT-12",
@@ -859,6 +1003,7 @@ export const seed = async () => {
       isActive: true,
     },
     {
+      workspaceId: "workspace_1",
       id: "variant-onboarding-std",
       productId: "product-onboarding",
       sku: "SERV-ONB-01",
@@ -870,6 +1015,7 @@ export const seed = async () => {
 
   await db.insert(productMedia).values([
     {
+      workspaceId: "workspace_1",
       id: "media-zero",
       productId: "product-zero",
       url: "https://cdn.example.com/products/zero-workflows/overview.png",
@@ -884,6 +1030,7 @@ export const seed = async () => {
       },
     },
     {
+      workspaceId: "workspace_1",
       id: "media-onboarding",
       productId: "product-onboarding",
       url: "https://cdn.example.com/products/onboarding/guide.pdf",
@@ -901,6 +1048,7 @@ export const seed = async () => {
 
   await db.insert(inventoryLocation).values([
     {
+      workspaceId: "workspace_1",
       id: "inventory-remote",
       name: "Remote Delivery",
       address: "123 Cloud Way",
@@ -910,6 +1058,7 @@ export const seed = async () => {
 
   await db.insert(inventoryLevel).values([
     {
+      workspaceId: "workspace_1",
       id: "inventorylevel-zero",
       locationId: "inventory-remote",
       variantId: "variant-zero-enterprise",
@@ -917,6 +1066,7 @@ export const seed = async () => {
       reserved: 5,
     },
     {
+      workspaceId: "workspace_1",
       id: "inventorylevel-onboarding",
       locationId: "inventory-remote",
       variantId: "variant-onboarding-std",
@@ -927,6 +1077,7 @@ export const seed = async () => {
 
   await db.insert(inventoryItem).values([
     {
+      workspaceId: "workspace_1",
       id: "inventoryitem-zero-001",
       variantId: "variant-zero-enterprise",
       serialNumber: "ZERO-ENT-001",
@@ -936,6 +1087,7 @@ export const seed = async () => {
 
   await db.insert(orderTable).values([
     {
+      workspaceId: "workspace_1",
       id: "order-1001",
       customerId: "2",
       opportunityId: "opp-aurora-platform",
@@ -956,6 +1108,7 @@ export const seed = async () => {
 
   await db.insert(orderItem).values([
     {
+      workspaceId: "workspace_1",
       id: "orderitem-1",
       orderId: "order-1001",
       variantId: "variant-zero-enterprise",
@@ -963,6 +1116,7 @@ export const seed = async () => {
       unitPrice: "8999.00",
     },
     {
+      workspaceId: "workspace_1",
       id: "orderitem-2",
       orderId: "order-1001",
       variantId: "variant-onboarding-std",
@@ -973,6 +1127,7 @@ export const seed = async () => {
 
   await db.insert(payment).values([
     {
+      workspaceId: "workspace_1",
       id: "payment-1",
       externalRef: "PAY-789",
       status: "captured",
@@ -982,6 +1137,7 @@ export const seed = async () => {
       receivedById: "4",
     },
     {
+      workspaceId: "workspace_1",
       id: "payment-2",
       externalRef: "PAY-790",
       status: "pending",
@@ -993,6 +1149,7 @@ export const seed = async () => {
 
   await db.insert(orderPayment).values([
     {
+      workspaceId: "workspace_1",
       id: "orderpayment-1",
       orderId: "order-1001",
       paymentId: "payment-1",
@@ -1000,6 +1157,7 @@ export const seed = async () => {
       status: "captured",
     },
     {
+      workspaceId: "workspace_1",
       id: "orderpayment-2",
       orderId: "order-1001",
       paymentId: "payment-2",
@@ -1010,6 +1168,7 @@ export const seed = async () => {
 
   await db.insert(shipment).values([
     {
+      workspaceId: "workspace_1",
       id: "shipment-1",
       orderId: "order-1001",
       shippedAt: new Date("2024-05-20T08:00:00Z"),
@@ -1022,12 +1181,14 @@ export const seed = async () => {
 
   await db.insert(shipmentItem).values([
     {
+      workspaceId: "workspace_1",
       id: "shipmentitem-1",
       shipmentId: "shipment-1",
       orderItemId: "orderitem-1",
       quantity: 2,
     },
     {
+      workspaceId: "workspace_1",
       id: "shipmentitem-2",
       shipmentId: "shipment-1",
       orderItemId: "orderitem-2",
@@ -1037,6 +1198,7 @@ export const seed = async () => {
 
   await db.insert(billingInvoice).values([
     {
+      workspaceId: "workspace_1",
       id: "invoice-1001",
       accountId: "acct-aurora",
       contactId: "contact-alana",
@@ -1051,6 +1213,7 @@ export const seed = async () => {
 
   await db.insert(billingInvoiceLine).values([
     {
+      workspaceId: "workspace_1",
       id: "invoiceline-1",
       invoiceId: "invoice-1001",
       orderItemId: "orderitem-1",
@@ -1059,6 +1222,7 @@ export const seed = async () => {
       unitPrice: "8999.00",
     },
     {
+      workspaceId: "workspace_1",
       id: "invoiceline-2",
       invoiceId: "invoice-1001",
       orderItemId: "orderitem-2",
@@ -1070,12 +1234,14 @@ export const seed = async () => {
 
   await db.insert(department).values([
     {
+      workspaceId: "workspace_1",
       id: "dept-ops",
       name: "Operations",
       description: "Keeps the business running smoothly.",
       managerId: "1",
     },
     {
+      workspaceId: "workspace_1",
       id: "dept-gtm",
       name: "Go-To-Market",
       description: "Marketing and sales alignment team.",
@@ -1085,12 +1251,14 @@ export const seed = async () => {
 
   await db.insert(team).values([
     {
+      workspaceId: "workspace_1",
       id: "team-ops",
       departmentId: "dept-ops",
       leadId: "4",
       name: "Ops Excellence",
     },
     {
+      workspaceId: "workspace_1",
       id: "team-marketing",
       departmentId: "dept-gtm",
       leadId: "5",
@@ -1100,18 +1268,21 @@ export const seed = async () => {
 
   await db.insert(documentSharing).values([
     {
+      workspaceId: "workspace_1",
       id: "share-brief-team",
       fileId: "file-brief",
       sharedWithTeamId: "team-ops",
       permission: "edit",
     },
     {
+      workspaceId: "workspace_1",
       id: "share-notes-james",
       fileId: "file-notes",
       sharedWithUserId: "1",
       permission: "view",
     },
     {
+      workspaceId: "workspace_1",
       id: "share-notes-marketing",
       fileId: "file-notes",
       sharedWithTeamId: "team-marketing",
@@ -1121,6 +1292,7 @@ export const seed = async () => {
 
   await db.insert(employeeProfile).values([
     {
+      workspaceId: "workspace_1",
       id: "employee-thomas",
       userId: "4",
       departmentId: "dept-ops",
@@ -1130,6 +1302,7 @@ export const seed = async () => {
       employmentType: "full_time",
     },
     {
+      workspaceId: "workspace_1",
       id: "employee-priya",
       userId: "5",
       departmentId: "dept-gtm",
@@ -1139,6 +1312,7 @@ export const seed = async () => {
       employmentType: "full_time",
     },
     {
+      workspaceId: "workspace_1",
       id: "employee-amelia",
       userId: "7",
       departmentId: "dept-gtm",
@@ -1151,6 +1325,7 @@ export const seed = async () => {
 
   await db.insert(employmentHistory).values([
     {
+      workspaceId: "workspace_1",
       id: "employment-thomas-1",
       employeeId: "employee-thomas",
       company: "Forward Logistics",
@@ -1162,6 +1337,7 @@ export const seed = async () => {
 
   await db.insert(employeeDocument).values([
     {
+      workspaceId: "workspace_1",
       id: "employeedoc-thomas-offer",
       employeeId: "employee-thomas",
       fileName: "thomas-offer-letter.pdf",
@@ -1169,6 +1345,7 @@ export const seed = async () => {
       uploadedById: "1",
     },
     {
+      workspaceId: "workspace_1",
       id: "employeedoc-priya-cert",
       employeeId: "employee-priya",
       fileName: "priya-brand-certification.pdf",
@@ -1179,6 +1356,7 @@ export const seed = async () => {
 
   await db.insert(benefitPlan).values([
     {
+      workspaceId: "workspace_1",
       id: "benefit-health",
       name: "Comprehensive Health",
       provider: "Wellness Co",
@@ -1189,6 +1367,7 @@ export const seed = async () => {
 
   await db.insert(benefitEnrollment).values([
     {
+      workspaceId: "workspace_1",
       id: "benefitenroll-thomas",
       benefitPlanId: "benefit-health",
       employeeId: "employee-thomas",
@@ -1196,6 +1375,7 @@ export const seed = async () => {
       coverageLevel: "family",
     },
     {
+      workspaceId: "workspace_1",
       id: "benefitenroll-priya",
       benefitPlanId: "benefit-health",
       employeeId: "employee-priya",
@@ -1206,6 +1386,7 @@ export const seed = async () => {
 
   await db.insert(timesheet).values([
     {
+      workspaceId: "workspace_1",
       id: "timesheet-thomas-week12",
       employeeId: "employee-thomas",
       periodStart: "2024-03-04",
@@ -1214,6 +1395,7 @@ export const seed = async () => {
       status: "submitted",
     },
     {
+      workspaceId: "workspace_1",
       id: "timesheet-amelia-week12",
       employeeId: "employee-amelia",
       periodStart: "2024-03-04",
@@ -1225,6 +1407,7 @@ export const seed = async () => {
 
   await db.insert(timeEntry).values([
     {
+      workspaceId: "workspace_1",
       id: "timeentry-thomas-1",
       timesheetId: "timesheet-thomas-week12",
       taskId: "task-automation",
@@ -1233,6 +1416,7 @@ export const seed = async () => {
       entryDate: "2024-03-06",
     },
     {
+      workspaceId: "workspace_1",
       id: "timeentry-amelia-1",
       timesheetId: "timesheet-amelia-week12",
       taskId: "task-launch-plan",
@@ -1244,6 +1428,7 @@ export const seed = async () => {
 
   await db.insert(expenseReport).values([
     {
+      workspaceId: "workspace_1",
       id: "expense-ops-travel",
       ownerId: "4",
       departmentId: "dept-ops",
@@ -1254,6 +1439,7 @@ export const seed = async () => {
 
   await db.insert(expenseItem).values([
     {
+      workspaceId: "workspace_1",
       id: "expenseitem-flight",
       reportId: "expense-ops-travel",
       amount: "425.50",
@@ -1263,6 +1449,7 @@ export const seed = async () => {
       notes: "Flight to customer onsite.",
     },
     {
+      workspaceId: "workspace_1",
       id: "expenseitem-hotel",
       reportId: "expense-ops-travel",
       amount: "612.75",
@@ -1275,12 +1462,14 @@ export const seed = async () => {
 
   await db.insert(ledgerAccount).values([
     {
+      workspaceId: "workspace_1",
       id: "ledger-root",
       name: "Root Account",
       code: "1000",
       accountType: "equity",
     },
     {
+      workspaceId: "workspace_1",
       id: "ledger-revenue",
       name: "Revenue",
       code: "4000",
@@ -1288,6 +1477,7 @@ export const seed = async () => {
       parentAccountId: "ledger-root",
     },
     {
+      workspaceId: "workspace_1",
       id: "ledger-expense",
       name: "Travel Expense",
       code: "6100",
@@ -1298,6 +1488,7 @@ export const seed = async () => {
 
   await db.insert(ledgerTransaction).values([
     {
+      workspaceId: "workspace_1",
       id: "ledger-txn-1",
       reference: "INV-1001",
       transactionDate: "2024-05-16",
@@ -1308,6 +1499,7 @@ export const seed = async () => {
 
   await db.insert(ledgerEntry).values([
     {
+      workspaceId: "workspace_1",
       id: "ledgerentry-1",
       transactionId: "ledger-txn-1",
       accountId: "ledger-revenue",
@@ -1315,6 +1507,7 @@ export const seed = async () => {
       memo: "Aurora invoice revenue",
     },
     {
+      workspaceId: "workspace_1",
       id: "ledgerentry-2",
       transactionId: "ledger-txn-1",
       accountId: "ledger-expense",
@@ -1325,6 +1518,7 @@ export const seed = async () => {
 
   await db.insert(budget).values([
     {
+      workspaceId: "workspace_1",
       id: "budget-ops-2024",
       departmentId: "dept-ops",
       fiscalYear: 2024,
@@ -1335,6 +1529,7 @@ export const seed = async () => {
 
   await db.insert(budgetLine).values([
     {
+      workspaceId: "workspace_1",
       id: "budgetline-ops-travel",
       budgetId: "budget-ops-2024",
       accountId: "ledger-expense",
@@ -1344,6 +1539,7 @@ export const seed = async () => {
 
   await db.insert(supportTicket).values([
     {
+      workspaceId: "workspace_1",
       id: "ticket-aurora-001",
       customerId: "3",
       assignedTeamId: "team-ops",
@@ -1356,6 +1552,7 @@ export const seed = async () => {
 
   await db.insert(supportTicketMessage).values([
     {
+      workspaceId: "workspace_1",
       id: "ticketmsg-1",
       ticketId: "ticket-aurora-001",
       authorId: "3",
@@ -1363,6 +1560,7 @@ export const seed = async () => {
       visibility: "customer",
     },
     {
+      workspaceId: "workspace_1",
       id: "ticketmsg-2",
       ticketId: "ticket-aurora-001",
       authorId: "4",
@@ -1373,11 +1571,13 @@ export const seed = async () => {
 
   await db.insert(supportTicketTag).values([
     {
+      workspaceId: "workspace_1",
       id: "tickettag-urgent",
       label: "Urgent",
       description: "Needs immediate attention",
     },
     {
+      workspaceId: "workspace_1",
       id: "tickettag-sync",
       label: "Sync",
       description: "Replication or sync related",
@@ -1386,11 +1586,13 @@ export const seed = async () => {
 
   await db.insert(supportTicketTagLink).values([
     {
+      workspaceId: "workspace_1",
       id: "tickettaglink-1",
       ticketId: "ticket-aurora-001",
       tagId: "tickettag-urgent",
     },
     {
+      workspaceId: "workspace_1",
       id: "tickettaglink-2",
       ticketId: "ticket-aurora-001",
       tagId: "tickettag-sync",
@@ -1399,6 +1601,7 @@ export const seed = async () => {
 
   await db.insert(supportTicketAssignment).values([
     {
+      workspaceId: "workspace_1",
       id: "ticketassign-1",
       ticketId: "ticket-aurora-001",
       assigneeId: "6",
@@ -1409,6 +1612,7 @@ export const seed = async () => {
 
   await db.insert(supportTicketAudit).values([
     {
+      workspaceId: "workspace_1",
       id: "ticketaudit-1",
       ticketId: "ticket-aurora-001",
       actorId: "4",
@@ -1419,6 +1623,7 @@ export const seed = async () => {
 
   await db.insert(marketingCampaign).values([
     {
+      workspaceId: "workspace_1",
       id: "campaign-q4",
       ownerId: "5",
       name: "Q4 Launch",
@@ -1431,12 +1636,14 @@ export const seed = async () => {
 
   await db.insert(marketingChannel).values([
     {
+      workspaceId: "workspace_1",
       id: "channel-email",
       name: "Email",
       channelType: "owned",
       costModel: "per_send",
     },
     {
+      workspaceId: "workspace_1",
       id: "channel-social",
       name: "Paid Social",
       channelType: "paid",
@@ -1446,12 +1653,14 @@ export const seed = async () => {
 
   await db.insert(marketingCampaignChannel).values([
     {
+      workspaceId: "workspace_1",
       id: "campaignchannel-email",
       campaignId: "campaign-q4",
       channelId: "channel-email",
       allocation: "45000.00",
     },
     {
+      workspaceId: "workspace_1",
       id: "campaignchannel-social",
       campaignId: "campaign-q4",
       channelId: "channel-social",
@@ -1461,6 +1670,7 @@ export const seed = async () => {
 
   await db.insert(marketingAudience).values([
     {
+      workspaceId: "workspace_1",
       id: "audience-enterprise",
       name: "Enterprise Ops Leaders",
       segmentType: "dynamic",
@@ -1470,6 +1680,7 @@ export const seed = async () => {
 
   await db.insert(marketingCampaignAudience).values([
     {
+      workspaceId: "workspace_1",
       id: "campaignaudience-1",
       campaignId: "campaign-q4",
       audienceId: "audience-enterprise",
@@ -1478,6 +1689,7 @@ export const seed = async () => {
 
   await db.insert(analyticsDashboard).values([
     {
+      workspaceId: "workspace_1",
       id: "dashboard-revenue",
       ownerId: "1",
       title: "Revenue Pulse",
@@ -1494,6 +1706,7 @@ export const seed = async () => {
 
   await db.insert(analyticsWidget).values([
     {
+      workspaceId: "workspace_1",
       id: "widget-pipeline",
       dashboardId: "dashboard-revenue",
       title: "Pipeline by Stage",
@@ -1501,6 +1714,7 @@ export const seed = async () => {
       position: 1,
     },
     {
+      workspaceId: "workspace_1",
       id: "widget-bookings",
       dashboardId: "dashboard-revenue",
       title: "Bookings Trend",
@@ -1511,6 +1725,7 @@ export const seed = async () => {
 
   await db.insert(analyticsWidgetQuery).values([
     {
+      workspaceId: "workspace_1",
       id: "widgetquery-pipeline",
       widgetId: "widget-pipeline",
       dataSource: "warehouse",
@@ -1518,6 +1733,7 @@ export const seed = async () => {
       refreshIntervalSeconds: 900,
     },
     {
+      workspaceId: "workspace_1",
       id: "widgetquery-bookings",
       widgetId: "widget-bookings",
       dataSource: "warehouse",
@@ -1528,6 +1744,7 @@ export const seed = async () => {
 
   await db.insert(integrationWebhook).values([
     {
+      workspaceId: "workspace_1",
       id: "webhook-ops",
       projectId: "project-ops",
       accountId: "acct-aurora",
@@ -1540,6 +1757,7 @@ export const seed = async () => {
 
   await db.insert(integrationEvent).values([
     {
+      workspaceId: "workspace_1",
       id: "event-ops-1",
       webhookId: "webhook-ops",
       payload: { orderId: "order-1001", status: "processing" },
@@ -1551,6 +1769,7 @@ export const seed = async () => {
 
   await db.insert(integrationCredential).values([
     {
+      workspaceId: "workspace_1",
       id: "credential-ops",
       webhookId: "webhook-ops",
       provider: "OpsBridge",
@@ -1561,6 +1780,7 @@ export const seed = async () => {
   ]);
 
   await db.insert(allTypes).values({
+    workspaceId: "workspace_1",
     id: "1",
     smallintField: 1,
     integerField: 2,
@@ -1613,9 +1833,294 @@ export const seed = async () => {
   });
 
   await db.insert(friendship).values({
+    workspaceId: "workspace_1",
     requestingId: "1",
     acceptingId: "2",
     accepted: true,
+  });
+
+  await db.insert(workspaceMembership).values([
+    {
+      id: "wm_1",
+      workspaceId: "workspace_1",
+      userId: "1",
+      role: "owner",
+      joinedAt: new Date(),
+    },
+    {
+      id: "wm_2",
+      workspaceId: "workspace_1",
+      userId: "2",
+      role: "admin",
+      joinedAt: new Date(),
+    },
+    {
+      id: "wm_3",
+      workspaceId: "workspace_2",
+      userId: "3",
+      role: "owner",
+      joinedAt: new Date(),
+    },
+  ]);
+
+  await db.insert(workspaceApiKey).values({
+    id: "api_key_1",
+    workspaceId: "workspace_1",
+    name: "Production API Key",
+    keyHash: "hashed_key_123",
+    createdBy: "1",
+    lastUsedAt: new Date(),
+  });
+
+  // ====== NEW CRM EXPANSION DATA ======
+  await db.insert(crmLeadSource).values([
+    {
+      id: "source_1",
+      workspaceId: "workspace_1",
+      name: "Website",
+      type: "inbound",
+    },
+    {
+      id: "source_2",
+      workspaceId: "workspace_1",
+      name: "Referral",
+      type: "inbound",
+    },
+  ]);
+
+  await db.insert(crmLead).values([
+    {
+      id: "lead_1",
+      workspaceId: "workspace_1",
+      firstName: "Alice",
+      lastName: "Johnson",
+      email: "alice@prospect.com",
+      company: "Prospect Co",
+      sourceId: "source_1",
+      ownerId: "1",
+      status: "new",
+      score: 75,
+    },
+    {
+      id: "lead_2",
+      workspaceId: "workspace_1",
+      firstName: "Bob",
+      lastName: "Smith",
+      email: "bob@startup.com",
+      company: "Startup Inc",
+      sourceId: "source_2",
+      ownerId: "2",
+      status: "qualified",
+      score: 85,
+    },
+  ]);
+
+  await db.insert(crmLeadActivity).values({
+    id: "activity_1",
+    workspaceId: "workspace_1",
+    leadId: "lead_1",
+    userId: "1",
+    activityType: "email",
+    description: "Sent introduction email",
+    activityDate: new Date(),
+  });
+
+  await db.insert(crmSalesSequence).values({
+    id: "seq_1",
+    workspaceId: "workspace_1",
+    name: "Welcome Sequence",
+    description: "New lead onboarding",
+    isActive: true,
+    createdBy: "1",
+  });
+
+  await db.insert(crmSalesSequenceStep).values([
+    {
+      id: "step_1",
+      workspaceId: "workspace_1",
+      sequenceId: "seq_1",
+      stepOrder: 1,
+      stepType: "email",
+      content: "Welcome email",
+      delayDays: 0,
+    },
+    {
+      id: "step_2",
+      workspaceId: "workspace_1",
+      sequenceId: "seq_1",
+      stepOrder: 2,
+      stepType: "task",
+      content: "Follow-up call",
+      delayDays: 3,
+    },
+  ]);
+
+  // ====== NEW HR DATA ======
+  await db.insert(hrDepartment).values([
+    {
+      id: "dept_1",
+      workspaceId: "workspace_1",
+      name: "Engineering",
+      description: "Software development team",
+    },
+    {
+      id: "dept_2",
+      workspaceId: "workspace_1",
+      name: "Sales",
+      description: "Sales team",
+    },
+  ]);
+
+  await db.insert(hrEmployee).values([
+    {
+      id: "emp_1",
+      workspaceId: "workspace_1",
+      userId: "1",
+      employeeNumber: "EMP001",
+      firstName: "James",
+      lastName: "Developer",
+      email: "james@example.com",
+      hireDate: new Date("2023-01-01"),
+      departmentId: "dept_1",
+      status: "active",
+    },
+    {
+      id: "emp_2",
+      workspaceId: "workspace_1",
+      userId: "2",
+      employeeNumber: "EMP002",
+      firstName: "Sarah",
+      lastName: "Sales",
+      email: "sarah@example.com",
+      hireDate: new Date("2023-03-15"),
+      departmentId: "dept_2",
+      managerId: "emp_1",
+      status: "active",
+    },
+  ]);
+
+  await db.insert(hrTimeOffPolicy).values({
+    id: "policy_1",
+    workspaceId: "workspace_1",
+    name: "Annual Leave",
+    policyType: "vacation",
+    daysPerYear: 20,
+    carryoverDays: 5,
+  });
+
+  await db.insert(hrTimeOffRequest).values({
+    id: "timeoff_1",
+    workspaceId: "workspace_1",
+    employeeId: "emp_1",
+    policyId: "policy_1",
+    startDate: "2024-06-01",
+    endDate: "2024-06-05",
+    days: "5.00",
+    status: "approved",
+    approverId: "emp_2",
+    approvedAt: new Date(),
+  });
+
+  // ====== NEW FINANCE DATA ======
+  await db.insert(apVendor).values([
+    {
+      id: "vendor_1",
+      workspaceId: "workspace_1",
+      name: "Office Supplies Co",
+      email: "sales@officesupplies.com",
+      paymentTerms: "Net 30",
+    },
+    {
+      id: "vendor_2",
+      workspaceId: "workspace_1",
+      name: "Cloud Services Inc",
+      email: "billing@cloudservices.com",
+      paymentTerms: "Net 15",
+    },
+  ]);
+
+  await db.insert(apInvoice).values({
+    id: "ap_inv_1",
+    workspaceId: "workspace_1",
+    vendorId: "vendor_1",
+    invoiceNumber: "INV-2024-001",
+    invoiceDate: "2024-01-15",
+    dueDate: "2024-02-15",
+    totalAmount: "1500.00",
+    paidAmount: "1500.00",
+    status: "paid",
+  });
+
+  await db.insert(arCustomer).values([
+    {
+      id: "customer_1",
+      workspaceId: "workspace_1",
+      name: "Big Client Corp",
+      email: "ap@bigclient.com",
+      billingAddress: "123 Business St",
+    },
+    {
+      id: "customer_2",
+      workspaceId: "workspace_1",
+      name: "Small Business LLC",
+      email: "finance@smallbiz.com",
+      billingAddress: "456 Main Ave",
+    },
+  ]);
+
+  await db.insert(arInvoice).values({
+    id: "ar_inv_1",
+    workspaceId: "workspace_1",
+    customerId: "customer_1",
+    invoiceNumber: "INV-OUT-2024-001",
+    invoiceDate: "2024-02-01",
+    dueDate: "2024-03-01",
+    totalAmount: "5000.00",
+    paidAmount: "5000.00",
+    status: "paid",
+  });
+
+  await db.insert(bankAccount).values({
+    id: "bank_1",
+    workspaceId: "workspace_1",
+    accountName: "Operating Account",
+    accountNumber: "****1234",
+    bankName: "Business Bank",
+    accountType: "checking",
+    currency: "USD",
+    balance: "50000.00",
+  });
+
+  await db.insert(bankTransaction).values([
+    {
+      id: "txn_1",
+      workspaceId: "workspace_1",
+      accountId: "bank_1",
+      transactionDate: "2024-01-15",
+      description: "Payment from Big Client Corp",
+      amount: "5000.00",
+      transactionType: "credit",
+      reconciled: true,
+    },
+    {
+      id: "txn_2",
+      workspaceId: "workspace_1",
+      accountId: "bank_1",
+      transactionDate: "2024-01-20",
+      description: "Office supplies payment",
+      amount: "-1500.00",
+      transactionType: "debit",
+      reconciled: true,
+    },
+  ]);
+
+  // ====== NEW PRODUCT & INVENTORY DATA ======
+  await db.insert(productCatalog).values({
+    id: "catalog_1",
+    workspaceId: "workspace_1",
+    name: "Main Catalog",
+    description: "Primary product catalog",
+    isActive: true,
   });
 };
 

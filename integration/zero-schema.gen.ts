@@ -31,6 +31,12 @@ const allTypesTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     smallintField: {
       type: "number",
       optional: false,
@@ -328,6 +334,12 @@ const analyticsDashboardTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     ownerId: {
       type: "string",
       optional: true,
@@ -392,6 +404,12 @@ const analyticsWidgetTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     dashboardId: {
       type: "string",
       optional: false,
@@ -436,6 +454,12 @@ const analyticsWidgetQueryTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     widgetId: {
       type: "string",
       optional: false,
@@ -463,6 +487,863 @@ const analyticsWidgetQueryTable = {
   primaryKey: ["id"],
   serverName: "analytics_widget_query",
 } as const;
+const apInvoiceTable = {
+  name: "apInvoice",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    vendorId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "vendor_id",
+    },
+    invoiceNumber: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "invoice_number",
+    },
+    invoiceDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "invoice_date",
+    },
+    dueDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "due_date",
+    },
+    totalAmount: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "total_amount",
+    },
+    paidAmount: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "paid_amount",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "ap_invoice",
+} as const;
+const apInvoiceLineItemTable = {
+  name: "apInvoiceLineItem",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    invoiceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "invoice_id",
+    },
+    description: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    quantity: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    unitPrice: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "unit_price",
+    },
+    totalPrice: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "total_price",
+    },
+    accountCode: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "account_code",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "ap_invoice_line_item",
+} as const;
+const apPaymentTable = {
+  name: "apPayment",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    invoiceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "invoice_id",
+    },
+    paymentDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "payment_date",
+    },
+    amount: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    paymentMethodId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "payment_method_id",
+    },
+    referenceNumber: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "reference_number",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "ap_payment",
+} as const;
+const apPaymentMethodTable = {
+  name: "apPaymentMethod",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    methodType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "method_type",
+    },
+    isDefault: {
+      type: "boolean",
+      optional: true,
+      customType: null as unknown as boolean,
+      serverName: "is_default",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "ap_payment_method",
+} as const;
+const apVendorTable = {
+  name: "apVendor",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    contactName: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "contact_name",
+    },
+    email: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as `${string}@${string}`,
+    },
+    phone: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    address: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    paymentTerms: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "payment_terms",
+    },
+    taxId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "tax_id",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "ap_vendor",
+} as const;
+const arCustomerTable = {
+  name: "arCustomer",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    contactName: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "contact_name",
+    },
+    email: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as `${string}@${string}`,
+    },
+    phone: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    billingAddress: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "billing_address",
+    },
+    shippingAddress: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "shipping_address",
+    },
+    paymentTermsId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "payment_terms_id",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "ar_customer",
+} as const;
+const arInvoiceTable = {
+  name: "arInvoice",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    customerId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "customer_id",
+    },
+    invoiceNumber: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "invoice_number",
+    },
+    invoiceDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "invoice_date",
+    },
+    dueDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "due_date",
+    },
+    totalAmount: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "total_amount",
+    },
+    paidAmount: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "paid_amount",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "ar_invoice",
+} as const;
+const arInvoiceLineItemTable = {
+  name: "arInvoiceLineItem",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    invoiceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "invoice_id",
+    },
+    description: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    quantity: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    unitPrice: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "unit_price",
+    },
+    totalPrice: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "total_price",
+    },
+    taxAmount: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "tax_amount",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "ar_invoice_line_item",
+} as const;
+const arPaymentReceivedTable = {
+  name: "arPaymentReceived",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    invoiceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "invoice_id",
+    },
+    paymentDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "payment_date",
+    },
+    amount: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    paymentMethod: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "payment_method",
+    },
+    referenceNumber: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "reference_number",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "ar_payment_received",
+} as const;
+const arPaymentTermTable = {
+  name: "arPaymentTerm",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    dueDays: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "due_days",
+    },
+    discountPercent: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "discount_percent",
+    },
+    discountDays: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "discount_days",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "ar_payment_term",
+} as const;
+const bankAccountTable = {
+  name: "bankAccount",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    accountName: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "account_name",
+    },
+    accountNumber: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "account_number",
+    },
+    bankName: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "bank_name",
+    },
+    accountType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "account_type",
+    },
+    currency: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    balance: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "bank_account",
+} as const;
+const bankReconciliationTable = {
+  name: "bankReconciliation",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    accountId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "account_id",
+    },
+    statementDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "statement_date",
+    },
+    statementBalance: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "statement_balance",
+    },
+    bookBalance: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "book_balance",
+    },
+    difference: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    reconciledBy: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "reconciled_by",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "bank_reconciliation",
+} as const;
+const bankReconciliationItemTable = {
+  name: "bankReconciliationItem",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    reconciliationId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "reconciliation_id",
+    },
+    transactionId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "transaction_id",
+    },
+    amount: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    itemType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "item_type",
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "bank_reconciliation_item",
+} as const;
+const bankTransactionTable = {
+  name: "bankTransaction",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    accountId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "account_id",
+    },
+    transactionDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "transaction_date",
+    },
+    description: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    amount: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    transactionType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "transaction_type",
+    },
+    category: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    reconciled: {
+      type: "boolean",
+      optional: true,
+      customType: null as unknown as boolean,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "bank_transaction",
+} as const;
 const benefitEnrollmentTable = {
   name: "benefitEnrollment",
   columns: {
@@ -480,6 +1361,12 @@ const benefitEnrollmentTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     benefitPlanId: {
       type: "string",
@@ -527,6 +1414,12 @@ const benefitPlanTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     name: {
       type: "string",
       optional: false,
@@ -569,6 +1462,12 @@ const billingInvoiceTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     accountId: {
       type: "string",
@@ -638,6 +1537,12 @@ const billingInvoiceLineTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     invoiceId: {
       type: "string",
       optional: false,
@@ -688,6 +1593,12 @@ const budgetTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     departmentId: {
       type: "string",
       optional: true,
@@ -732,6 +1643,12 @@ const budgetLineTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     budgetId: {
       type: "string",
       optional: false,
@@ -770,6 +1687,12 @@ const crmAccountTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     ownerId: {
       type: "string",
@@ -1052,6 +1975,7 @@ const crmAccountTable = {
       type: "string",
       optional: true,
       customType: null as unknown as
+        | "USD"
         | "AED"
         | "AFN"
         | "ALL"
@@ -1199,7 +2123,6 @@ const crmAccountTable = {
         | "TZS"
         | "UAH"
         | "UGX"
-        | "USD"
         | "USN"
         | "UYI"
         | "UYU"
@@ -1228,6 +2151,142 @@ const crmAccountTable = {
   primaryKey: ["id"],
   serverName: "crm_account",
 } as const;
+const crmAccountHierarchyTable = {
+  name: "crmAccountHierarchy",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    parentAccountId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "parent_account_id",
+    },
+    childAccountId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "child_account_id",
+    },
+    relationshipType: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "relationship_type",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_account_hierarchy",
+} as const;
+const crmAccountIndustryTable = {
+  name: "crmAccountIndustry",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    accountId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "account_id",
+    },
+    industryName: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "industry_name",
+    },
+    subIndustry: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "sub_industry",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_account_industry",
+} as const;
+const crmAccountTerritoryTable = {
+  name: "crmAccountTerritory",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    region: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    managerId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "manager_id",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_account_territory",
+} as const;
 const crmActivityTable = {
   name: "crmActivity",
   columns: {
@@ -1245,6 +2304,12 @@ const crmActivityTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     accountId: {
       type: "string",
@@ -1303,6 +2368,12 @@ const crmActivityTypeTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     name: {
       type: "string",
       optional: false,
@@ -1334,6 +2405,12 @@ const crmContactTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     accountId: {
       type: "string",
@@ -1681,6 +2758,609 @@ const crmContactTable = {
   primaryKey: ["id"],
   serverName: "crm_contact",
 } as const;
+const crmContactDuplicatesTable = {
+  name: "crmContactDuplicates",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    contact1Id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "contact_1_id",
+    },
+    contact2Id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "contact_2_id",
+    },
+    similarityScore: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "similarity_score",
+    },
+    resolvedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "resolved_at",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_contact_duplicates",
+} as const;
+const crmContactEngagementTable = {
+  name: "crmContactEngagement",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    contactId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "contact_id",
+    },
+    engagementType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "engagement_type",
+    },
+    engagementScore: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "engagement_score",
+    },
+    lastEngagement: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "last_engagement",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_contact_engagement",
+} as const;
+const crmContactPreferenceTable = {
+  name: "crmContactPreference",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    contactId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "contact_id",
+    },
+    preferenceKey: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "preference_key",
+    },
+    preferenceValue: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "preference_value",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_contact_preference",
+} as const;
+const crmContactRoleTable = {
+  name: "crmContactRole",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    contactId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "contact_id",
+    },
+    roleName: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "role_name",
+    },
+    isPrimary: {
+      type: "boolean",
+      optional: true,
+      customType: null as unknown as boolean,
+      serverName: "is_primary",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_contact_role",
+} as const;
+const crmContactSocialProfileTable = {
+  name: "crmContactSocialProfile",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    contactId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "contact_id",
+    },
+    platform: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    profileUrl: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "profile_url",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_contact_social_profile",
+} as const;
+const crmLeadTable = {
+  name: "crmLead",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    firstName: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "first_name",
+    },
+    lastName: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "last_name",
+    },
+    email: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as `${string}@${string}`,
+    },
+    phone: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    company: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    title: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    sourceId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "source_id",
+    },
+    ownerId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "owner_id",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    score: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_lead",
+} as const;
+const crmLeadActivityTable = {
+  name: "crmLeadActivity",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    leadId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "lead_id",
+    },
+    userId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "user_id",
+    },
+    activityType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "activity_type",
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    activityDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "activity_date",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_lead_activity",
+} as const;
+const crmLeadAssignmentTable = {
+  name: "crmLeadAssignment",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    leadId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "lead_id",
+    },
+    userId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "user_id",
+    },
+    assignedAt: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "assigned_at",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_lead_assignment",
+} as const;
+const crmLeadCustomFieldTable = {
+  name: "crmLeadCustomField",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    fieldType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "field_type",
+    },
+    options: {
+      type: "json",
+      optional: true,
+      customType: null as unknown as string[],
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_lead_custom_field",
+} as const;
+const crmLeadCustomFieldValueTable = {
+  name: "crmLeadCustomFieldValue",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    leadId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "lead_id",
+    },
+    fieldId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "field_id",
+    },
+    value: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_lead_custom_field_value",
+} as const;
+const crmLeadScoreTable = {
+  name: "crmLeadScore",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    leadId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "lead_id",
+    },
+    score: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    reason: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    scoredAt: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "scored_at",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_lead_score",
+} as const;
+const crmLeadSourceTable = {
+  name: "crmLeadSource",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    type: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_lead_source",
+} as const;
 const crmNoteTable = {
   name: "crmNote",
   columns: {
@@ -1698,6 +3378,12 @@ const crmNoteTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     accountId: {
       type: "string",
@@ -1743,6 +3429,12 @@ const crmOpportunityTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     accountId: {
       type: "string",
@@ -1794,6 +3486,12 @@ const crmOpportunityStageHistoryTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     opportunityId: {
       type: "string",
       optional: false,
@@ -1840,6 +3538,12 @@ const crmPipelineStageTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     name: {
       type: "string",
       optional: false,
@@ -1859,6 +3563,283 @@ const crmPipelineStageTable = {
   primaryKey: ["id"],
   serverName: "crm_pipeline_stage",
 } as const;
+const crmSalesSequenceTable = {
+  name: "crmSalesSequence",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    isActive: {
+      type: "boolean",
+      optional: true,
+      customType: null as unknown as boolean,
+      serverName: "is_active",
+    },
+    createdBy: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "created_by",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_sales_sequence",
+} as const;
+const crmSalesSequenceEnrollmentTable = {
+  name: "crmSalesSequenceEnrollment",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    sequenceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "sequence_id",
+    },
+    contactId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "contact_id",
+    },
+    enrolledBy: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "enrolled_by",
+    },
+    enrolledAt: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "enrolled_at",
+    },
+    currentStepId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "current_step_id",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_sales_sequence_enrollment",
+} as const;
+const crmSalesSequenceEventTable = {
+  name: "crmSalesSequenceEvent",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    enrollmentId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "enrollment_id",
+    },
+    stepId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "step_id",
+    },
+    eventType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "event_type",
+    },
+    eventDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "event_date",
+    },
+    metadata: {
+      type: "json",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "crmSalesSequenceEvent",
+        "metadata"
+      >,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_sales_sequence_event",
+} as const;
+const crmSalesSequenceStepTable = {
+  name: "crmSalesSequenceStep",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    sequenceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "sequence_id",
+    },
+    stepOrder: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "step_order",
+    },
+    stepType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "step_type",
+    },
+    content: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    delayDays: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "delay_days",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_sales_sequence_step",
+} as const;
+const crmTerritoryAssignmentTable = {
+  name: "crmTerritoryAssignment",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    territoryId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "territory_id",
+    },
+    accountId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "account_id",
+    },
+    assignedAt: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "assigned_at",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_territory_assignment",
+} as const;
 const departmentTable = {
   name: "department",
   columns: {
@@ -1876,6 +3857,12 @@ const departmentTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     name: {
       type: "string",
@@ -1913,6 +3900,12 @@ const documentFileTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     folderId: {
       type: "string",
@@ -1971,6 +3964,12 @@ const documentFileVersionTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     fileId: {
       type: "string",
       optional: false,
@@ -2022,6 +4021,12 @@ const documentFolderTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     libraryId: {
       type: "string",
       optional: false,
@@ -2060,6 +4065,12 @@ const documentLibraryTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     projectId: {
       type: "string",
@@ -2103,6 +4114,12 @@ const documentSharingTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     fileId: {
       type: "string",
@@ -2149,6 +4166,12 @@ const employeeDocumentTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     employeeId: {
       type: "string",
       optional: false,
@@ -2194,6 +4217,12 @@ const employeeProfileTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     userId: {
       type: "string",
@@ -2252,6 +4281,12 @@ const employmentHistoryTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     employeeId: {
       type: "string",
       optional: false,
@@ -2301,6 +4336,12 @@ const expenseItemTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     reportId: {
       type: "string",
@@ -2356,6 +4397,12 @@ const expenseReportTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     ownerId: {
       type: "string",
       optional: false,
@@ -2383,6 +4430,72 @@ const expenseReportTable = {
   primaryKey: ["id"],
   serverName: "expense_report",
 } as const;
+const featureFlagTable = {
+  name: "featureFlag",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    key: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    ownerId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "owner_id",
+    },
+    definition: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "featureFlag",
+        "definition"
+      >,
+    },
+    metadata: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "featureFlag",
+        "metadata"
+      >,
+    },
+    snapshot: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "featureFlag",
+        "snapshot"
+      >,
+    },
+    releaseTrack: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as "alpha" | "beta" | "ga" | "sunset",
+      serverName: "release_track",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "feature_flag",
+} as const;
 const filtersTable = {
   name: "filters",
   columns: {
@@ -2390,6 +4503,12 @@ const filtersTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     name: {
       type: "string",
@@ -2408,6 +4527,12 @@ const filtersTable = {
 const friendshipTable = {
   name: "friendship",
   columns: {
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     requestingId: {
       type: "string",
       optional: false,
@@ -2426,6 +4551,1289 @@ const friendshipTable = {
   },
   primaryKey: ["requestingId", "acceptingId"],
 } as const;
+const hrAttendanceTable = {
+  name: "hrAttendance",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    employeeId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "employee_id",
+    },
+    date: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    checkIn: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "check_in",
+    },
+    checkOut: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "check_out",
+    },
+    totalHours: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "total_hours",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_attendance",
+} as const;
+const hrAttendanceExceptionTable = {
+  name: "hrAttendanceException",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    attendanceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "attendance_id",
+    },
+    exceptionType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "exception_type",
+    },
+    reason: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    resolvedBy: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "resolved_by",
+    },
+    resolvedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "resolved_at",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_attendance_exception",
+} as const;
+const hrBenefitTable = {
+  name: "hrBenefit",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    benefitType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "benefit_type",
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    provider: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    cost: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_benefit",
+} as const;
+const hrBonusTable = {
+  name: "hrBonus",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    employeeId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "employee_id",
+    },
+    bonusType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "bonus_type",
+    },
+    amount: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    currency: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    bonusDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "bonus_date",
+    },
+    reason: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_bonus",
+} as const;
+const hrDepartmentTable = {
+  name: "hrDepartment",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrDepartment",
+        "createdAt"
+      >,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrDepartment",
+        "updatedAt"
+      >,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrDepartment",
+        "id"
+      >,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrDepartment",
+        "workspaceId"
+      >,
+      serverName: "workspace_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrDepartment",
+        "name"
+      >,
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrDepartment",
+        "description"
+      >,
+    },
+    headId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrDepartment",
+        "headId"
+      >,
+      serverName: "head_id",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_department",
+} as const;
+const hrEmployeeTable = {
+  name: "hrEmployee",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrEmployee",
+        "createdAt"
+      >,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrEmployee",
+        "updatedAt"
+      >,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrEmployee",
+        "id"
+      >,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrEmployee",
+        "workspaceId"
+      >,
+      serverName: "workspace_id",
+    },
+    userId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrEmployee",
+        "userId"
+      >,
+      serverName: "user_id",
+    },
+    employeeNumber: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrEmployee",
+        "employeeNumber"
+      >,
+      serverName: "employee_number",
+    },
+    firstName: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrEmployee",
+        "firstName"
+      >,
+      serverName: "first_name",
+    },
+    lastName: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrEmployee",
+        "lastName"
+      >,
+      serverName: "last_name",
+    },
+    email: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrEmployee",
+        "email"
+      >,
+    },
+    phone: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrEmployee",
+        "phone"
+      >,
+    },
+    hireDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrEmployee",
+        "hireDate"
+      >,
+      serverName: "hire_date",
+    },
+    departmentId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrEmployee",
+        "departmentId"
+      >,
+      serverName: "department_id",
+    },
+    managerId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrEmployee",
+        "managerId"
+      >,
+      serverName: "manager_id",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "hrEmployee",
+        "status"
+      >,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_employee",
+} as const;
+const hrEmployeeBenefitTable = {
+  name: "hrEmployeeBenefit",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    employeeId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "employee_id",
+    },
+    benefitId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "benefit_id",
+    },
+    enrollmentDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "enrollment_date",
+    },
+    endDate: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "end_date",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_employee_benefit",
+} as const;
+const hrEmployeePositionTable = {
+  name: "hrEmployeePosition",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    employeeId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "employee_id",
+    },
+    positionId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "position_id",
+    },
+    startDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "start_date",
+    },
+    endDate: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "end_date",
+    },
+    isCurrent: {
+      type: "boolean",
+      optional: true,
+      customType: null as unknown as boolean,
+      serverName: "is_current",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_employee_position",
+} as const;
+const hrOrganizationChartTable = {
+  name: "hrOrganizationChart",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    employeeId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "employee_id",
+    },
+    parentEmployeeId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "parent_employee_id",
+    },
+    level: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    path: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_organization_chart",
+} as const;
+const hrPerformanceFeedbackTable = {
+  name: "hrPerformanceFeedback",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    reviewId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "review_id",
+    },
+    givenBy: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "given_by",
+    },
+    feedbackType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "feedback_type",
+    },
+    content: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    rating: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_performance_feedback",
+} as const;
+const hrPerformanceGoalTable = {
+  name: "hrPerformanceGoal",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    reviewId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "review_id",
+    },
+    employeeId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "employee_id",
+    },
+    title: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    targetDate: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "target_date",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    progress: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_performance_goal",
+} as const;
+const hrPerformanceImprovementTable = {
+  name: "hrPerformanceImprovement",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    employeeId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "employee_id",
+    },
+    reviewId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "review_id",
+    },
+    startDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "start_date",
+    },
+    endDate: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "end_date",
+    },
+    reason: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    objectives: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    outcome: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_performance_improvement",
+} as const;
+const hrPerformanceReviewTable = {
+  name: "hrPerformanceReview",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    employeeId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "employee_id",
+    },
+    reviewerId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "reviewer_id",
+    },
+    cycleId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "cycle_id",
+    },
+    reviewDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "review_date",
+    },
+    overallRating: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "overall_rating",
+    },
+    comments: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_performance_review",
+} as const;
+const hrPerformanceReviewCycleTable = {
+  name: "hrPerformanceReviewCycle",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    startDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "start_date",
+    },
+    endDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "end_date",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_performance_review_cycle",
+} as const;
+const hrPositionTable = {
+  name: "hrPosition",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    title: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    level: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    departmentId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "department_id",
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_position",
+} as const;
+const hrSalaryHistoryTable = {
+  name: "hrSalaryHistory",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    employeeId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "employee_id",
+    },
+    effectiveDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "effective_date",
+    },
+    salary: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    currency: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    changeReason: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "change_reason",
+    },
+    approvedBy: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "approved_by",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_salary_history",
+} as const;
+const hrTeamTable = {
+  name: "hrTeam",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    departmentId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "department_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    leadId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "lead_id",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_team",
+} as const;
+const hrTimeOffBalanceTable = {
+  name: "hrTimeOffBalance",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    employeeId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "employee_id",
+    },
+    policyId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "policy_id",
+    },
+    year: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    totalDays: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "total_days",
+    },
+    usedDays: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "used_days",
+    },
+    remainingDays: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "remaining_days",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_time_off_balance",
+} as const;
+const hrTimeOffPolicyTable = {
+  name: "hrTimeOffPolicy",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    policyType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "policy_type",
+    },
+    daysPerYear: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "days_per_year",
+    },
+    carryoverDays: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "carryover_days",
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_time_off_policy",
+} as const;
+const hrTimeOffRequestTable = {
+  name: "hrTimeOffRequest",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    employeeId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "employee_id",
+    },
+    policyId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "policy_id",
+    },
+    startDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "start_date",
+    },
+    endDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "end_date",
+    },
+    days: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    reason: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    approverId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "approver_id",
+    },
+    approvedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "approved_at",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "hr_time_off_request",
+} as const;
 const integrationCredentialTable = {
   name: "integrationCredential",
   columns: {
@@ -2443,6 +5851,12 @@ const integrationCredentialTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     webhookId: {
       type: "string",
@@ -2498,6 +5912,12 @@ const integrationEventTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     webhookId: {
       type: "string",
       optional: false,
@@ -2551,6 +5971,12 @@ const integrationWebhookTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     projectId: {
       type: "string",
@@ -2607,6 +6033,12 @@ const inventoryItemTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     variantId: {
       type: "string",
       optional: false,
@@ -2649,6 +6081,12 @@ const inventoryLevelTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     locationId: {
       type: "string",
@@ -2693,6 +6131,12 @@ const inventoryLocationTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     name: {
       type: "string",
@@ -2987,6 +6431,12 @@ const ledgerAccountTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     name: {
       type: "string",
       optional: false,
@@ -3030,6 +6480,12 @@ const ledgerEntryTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     transactionId: {
       type: "string",
@@ -3080,6 +6536,12 @@ const ledgerTransactionTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     reference: {
       type: "string",
       optional: true,
@@ -3124,6 +6586,12 @@ const marketingAudienceTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     name: {
       type: "string",
       optional: false,
@@ -3165,6 +6633,12 @@ const marketingCampaignTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     ownerId: {
       type: "string",
@@ -3222,6 +6696,12 @@ const marketingCampaignAudienceTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     campaignId: {
       type: "string",
       optional: false,
@@ -3255,6 +6735,12 @@ const marketingCampaignChannelTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     campaignId: {
       type: "string",
@@ -3295,6 +6781,12 @@ const marketingChannelTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     name: {
       type: "string",
       optional: false,
@@ -3334,6 +6826,12 @@ const mediumTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     name: {
       type: "string",
       optional: false,
@@ -3359,6 +6857,12 @@ const messageTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     senderId: {
       type: "string",
@@ -3397,6 +6901,12 @@ const omittedTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     name: {
       type: "string",
       optional: false,
@@ -3405,6 +6915,283 @@ const omittedTable = {
   },
   primaryKey: ["id"],
   serverName: "omitted_table",
+} as const;
+const opportunityCompetitorTable = {
+  name: "opportunityCompetitor",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    opportunityId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "opportunity_id",
+    },
+    competitorName: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "competitor_name",
+    },
+    strengths: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    weaknesses: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    notes: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "opportunity_competitor",
+} as const;
+const opportunityDocumentTable = {
+  name: "opportunityDocument",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    opportunityId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "opportunity_id",
+    },
+    documentName: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "document_name",
+    },
+    documentUrl: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "document_url",
+    },
+    uploadedBy: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "uploaded_by",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "opportunity_document",
+} as const;
+const opportunityLineItemTable = {
+  name: "opportunityLineItem",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    opportunityId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "opportunity_id",
+    },
+    productName: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "product_name",
+    },
+    quantity: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    unitPrice: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "unit_price",
+    },
+    discount: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    totalPrice: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "total_price",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "opportunity_line_item",
+} as const;
+const opportunityStakeholderTable = {
+  name: "opportunityStakeholder",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    opportunityId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "opportunity_id",
+    },
+    contactId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "contact_id",
+    },
+    role: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    influence: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "opportunity_stakeholder",
+} as const;
+const opportunityTimelineTable = {
+  name: "opportunityTimeline",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    opportunityId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "opportunity_id",
+    },
+    eventType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "event_type",
+    },
+    eventDescription: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "event_description",
+    },
+    userId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "user_id",
+    },
+    eventDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "event_date",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "opportunity_timeline",
 } as const;
 const orderItemTable = {
   name: "orderItem",
@@ -3423,6 +7210,12 @@ const orderItemTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     orderId: {
       type: "string",
@@ -3469,6 +7262,12 @@ const orderPaymentTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     orderId: {
       type: "string",
       optional: false,
@@ -3513,6 +7312,12 @@ const orderTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     customerId: {
       type: "string",
       optional: true,
@@ -3539,6 +7344,7 @@ const orderTable = {
       type: "string",
       optional: false,
       customType: null as unknown as
+        | "USD"
         | "AED"
         | "AFN"
         | "ALL"
@@ -3686,7 +7492,6 @@ const orderTable = {
         | "TZS"
         | "UAH"
         | "UGX"
-        | "USD"
         | "USN"
         | "UYI"
         | "UYU"
@@ -4261,6 +8066,12 @@ const paymentTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     externalRef: {
       type: "string",
       optional: true,
@@ -4281,6 +8092,7 @@ const paymentTable = {
       type: "string",
       optional: false,
       customType: null as unknown as
+        | "USD"
         | "AED"
         | "AFN"
         | "ALL"
@@ -4428,7 +8240,6 @@ const paymentTable = {
         | "TZS"
         | "UAH"
         | "UGX"
-        | "USD"
         | "USN"
         | "UYI"
         | "UYU"
@@ -4484,6 +8295,12 @@ const productTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     categoryId: {
       type: "string",
       optional: false,
@@ -4508,6 +8325,50 @@ const productTable = {
   },
   primaryKey: ["id"],
 } as const;
+const productCatalogTable = {
+  name: "productCatalog",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    isActive: {
+      type: "boolean",
+      optional: true,
+      customType: null as unknown as boolean,
+      serverName: "is_active",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "product_catalog",
+} as const;
 const productCategoryTable = {
   name: "productCategory",
   columns: {
@@ -4525,6 +8386,12 @@ const productCategoryTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     name: {
       type: "string",
@@ -4563,6 +8430,12 @@ const productMediaTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     productId: {
       type: "string",
@@ -4975,6 +8848,12 @@ const productVariantTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     productId: {
       type: "string",
       optional: false,
@@ -4995,6 +8874,7 @@ const productVariantTable = {
       type: "string",
       optional: false,
       customType: null as unknown as
+        | "USD"
         | "AED"
         | "AFN"
         | "ALL"
@@ -5142,7 +9022,6 @@ const productVariantTable = {
         | "TZS"
         | "UAH"
         | "UGX"
-        | "USD"
         | "USN"
         | "UYI"
         | "UYU"
@@ -5192,6 +9071,12 @@ const projectTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     ownerId: {
       type: "string",
@@ -5245,6 +9130,12 @@ const projectAssignmentTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     taskId: {
       type: "string",
       optional: false,
@@ -5290,6 +9181,12 @@ const projectAttachmentTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     taskId: {
       type: "string",
       optional: false,
@@ -5330,6 +9227,12 @@ const projectAuditTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     projectId: {
       type: "string",
       optional: false,
@@ -5360,6 +9263,226 @@ const projectAuditTable = {
   primaryKey: ["id"],
   serverName: "project_audit",
 } as const;
+const projectBacklogTable = {
+  name: "projectBacklog",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    projectId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "project_id",
+    },
+    title: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    priority: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    estimatedEffort: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "estimated_effort",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_backlog",
+} as const;
+const projectBillableRateTable = {
+  name: "projectBillableRate",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    projectId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "project_id",
+    },
+    userId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "user_id",
+    },
+    role: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    rate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    effectiveDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "effective_date",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_billable_rate",
+} as const;
+const projectBurndownTable = {
+  name: "projectBurndown",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    sprintId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "sprint_id",
+    },
+    date: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    remainingPoints: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "remaining_points",
+    },
+    idealPoints: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "ideal_points",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_burndown",
+} as const;
+const projectCapacityPlanningTable = {
+  name: "projectCapacityPlanning",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    resourceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "resource_id",
+    },
+    periodStart: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "period_start",
+    },
+    periodEnd: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "period_end",
+    },
+    plannedCapacity: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "planned_capacity",
+    },
+    actualCapacity: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "actual_capacity",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_capacity_planning",
+} as const;
 const projectCommentTable = {
   name: "projectComment",
   columns: {
@@ -5377,6 +9500,12 @@ const projectCommentTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     taskId: {
       type: "string",
@@ -5399,6 +9528,230 @@ const projectCommentTable = {
   primaryKey: ["id"],
   serverName: "project_comment",
 } as const;
+const projectDependencyTable = {
+  name: "projectDependency",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    predecessorTaskId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "predecessor_task_id",
+    },
+    successorTaskId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "successor_task_id",
+    },
+    dependencyType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "dependency_type",
+    },
+    lag: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_dependency",
+} as const;
+const projectEpicTable = {
+  name: "projectEpic",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    projectId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "project_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    ownerId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "owner_id",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_epic",
+} as const;
+const projectGanttDataTable = {
+  name: "projectGanttData",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    taskId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "task_id",
+    },
+    startDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "start_date",
+    },
+    endDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "end_date",
+    },
+    progress: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    criticalPath: {
+      type: "boolean",
+      optional: true,
+      customType: null as unknown as boolean,
+      serverName: "critical_path",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_gantt_data",
+} as const;
+const projectMilestoneTable = {
+  name: "projectMilestone",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    projectId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "project_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    dueDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "due_date",
+    },
+    completedDate: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "completed_date",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_milestone",
+} as const;
 const projectNoteTable = {
   name: "projectNote",
   columns: {
@@ -5416,6 +9769,12 @@ const projectNoteTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     projectId: {
       type: "string",
@@ -5456,6 +9815,12 @@ const projectPhaseTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     projectId: {
       type: "string",
       optional: false,
@@ -5476,6 +9841,423 @@ const projectPhaseTable = {
   primaryKey: ["id"],
   serverName: "project_phase",
 } as const;
+const projectResourceTable = {
+  name: "projectResource",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    userId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "user_id",
+    },
+    skillSet: {
+      type: "json",
+      optional: true,
+      customType: null as unknown as string[],
+      serverName: "skill_set",
+    },
+    availability: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    costPerHour: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "cost_per_hour",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_resource",
+} as const;
+const projectResourceAllocationTable = {
+  name: "projectResourceAllocation",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    resourceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "resource_id",
+    },
+    projectId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "project_id",
+    },
+    allocationPercent: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "allocation_percent",
+    },
+    startDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "start_date",
+    },
+    endDate: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "end_date",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_resource_allocation",
+} as const;
+const projectResourceRequestTable = {
+  name: "projectResourceRequest",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    projectId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "project_id",
+    },
+    requestedBy: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "requested_by",
+    },
+    skillsRequired: {
+      type: "json",
+      optional: true,
+      customType: null as unknown as string[],
+      serverName: "skills_required",
+    },
+    quantity: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    priority: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_resource_request",
+} as const;
+const projectRiskTable = {
+  name: "projectRisk",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    projectId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "project_id",
+    },
+    riskTitle: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "risk_title",
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    probability: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    impact: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    ownerId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "owner_id",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_risk",
+} as const;
+const projectRiskMitigationTable = {
+  name: "projectRiskMitigation",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    riskId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "risk_id",
+    },
+    strategy: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    action: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    responsible: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    dueDate: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "due_date",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_risk_mitigation",
+} as const;
+const projectSprintTable = {
+  name: "projectSprint",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    projectId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "project_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    goal: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    startDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "start_date",
+    },
+    endDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "end_date",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_sprint",
+} as const;
+const projectStoryTable = {
+  name: "projectStory",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    epicId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "epic_id",
+    },
+    title: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    storyPoints: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "story_points",
+    },
+    priority: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_story",
+} as const;
 const projectTagTable = {
   name: "projectTag",
   columns: {
@@ -5493,6 +10275,12 @@ const projectTagTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     label: {
       type: "string",
@@ -5525,6 +10313,12 @@ const projectTaskTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     projectId: {
       type: "string",
@@ -5575,6 +10369,12 @@ const projectTaskTagTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     taskId: {
       type: "string",
       optional: false,
@@ -5590,6 +10390,288 @@ const projectTaskTagTable = {
   },
   primaryKey: ["id"],
   serverName: "project_task_tag",
+} as const;
+const projectTimeEntryTable = {
+  name: "projectTimeEntry",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    taskId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "task_id",
+    },
+    userId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "user_id",
+    },
+    hours: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    date: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    billable: {
+      type: "boolean",
+      optional: true,
+      customType: null as unknown as boolean,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_time_entry",
+} as const;
+const projectTimesheetTable = {
+  name: "projectTimesheet",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    userId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "user_id",
+    },
+    weekStarting: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "week_starting",
+    },
+    totalHours: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "total_hours",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    submittedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "submitted_at",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_timesheet",
+} as const;
+const projectTimesheetApprovalTable = {
+  name: "projectTimesheetApproval",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    timesheetId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "timesheet_id",
+    },
+    approverId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "approver_id",
+    },
+    approvalStatus: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "approval_status",
+    },
+    approvedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "approved_at",
+    },
+    comments: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_timesheet_approval",
+} as const;
+const projectUtilizationReportTable = {
+  name: "projectUtilizationReport",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    resourceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "resource_id",
+    },
+    reportDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "report_date",
+    },
+    utilization: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    billableHours: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "billable_hours",
+    },
+    nonBillableHours: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "non_billable_hours",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_utilization_report",
+} as const;
+const projectVelocityTrackingTable = {
+  name: "projectVelocityTracking",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    sprintId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "sprint_id",
+    },
+    completedPoints: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "completed_points",
+    },
+    committedPoints: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "committed_points",
+    },
+    velocity: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_velocity_tracking",
 } as const;
 const shipmentTable = {
   name: "shipment",
@@ -5608,6 +10690,12 @@ const shipmentTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     orderId: {
       type: "string",
@@ -5972,6 +11060,12 @@ const shipmentItemTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     shipmentId: {
       type: "string",
       optional: false,
@@ -6010,6 +11104,12 @@ const supportTicketTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     customerId: {
       type: "string",
@@ -6065,6 +11165,12 @@ const supportTicketAssignmentTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     ticketId: {
       type: "string",
       optional: false,
@@ -6110,6 +11216,12 @@ const supportTicketAuditTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     ticketId: {
       type: "string",
@@ -6159,6 +11271,12 @@ const supportTicketMessageTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     ticketId: {
       type: "string",
       optional: false,
@@ -6203,6 +11321,12 @@ const supportTicketTagTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     label: {
       type: "string",
       optional: false,
@@ -6235,6 +11359,12 @@ const supportTicketTagLinkTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     ticketId: {
       type: "string",
       optional: false,
@@ -6250,6 +11380,218 @@ const supportTicketTagLinkTable = {
   },
   primaryKey: ["id"],
   serverName: "support_ticket_tag_link",
+} as const;
+const taxJurisdictionTable = {
+  name: "taxJurisdiction",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    jurisdictionType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "jurisdiction_type",
+    },
+    code: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "tax_jurisdiction",
+} as const;
+const taxLineItemTable = {
+  name: "taxLineItem",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    returnId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "return_id",
+    },
+    description: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    amount: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    category: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "tax_line_item",
+} as const;
+const taxRateTable = {
+  name: "taxRate",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    rate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    jurisdictionId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "jurisdiction_id",
+    },
+    taxType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "tax_type",
+    },
+    effectiveDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "effective_date",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "tax_rate",
+} as const;
+const taxReturnTable = {
+  name: "taxReturn",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    taxYear: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "tax_year",
+    },
+    returnType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "return_type",
+    },
+    filingDate: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "filing_date",
+    },
+    dueDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "due_date",
+    },
+    totalTax: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "total_tax",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "tax_return",
 } as const;
 const teamTable = {
   name: "team",
@@ -6268,6 +11610,12 @@ const teamTable = {
       type: "string",
       optional: false,
       customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
     },
     departmentId: {
       type: "string",
@@ -6288,6 +11636,49 @@ const teamTable = {
     },
   },
   primaryKey: ["id"],
+} as const;
+const telemetryRollupTable = {
+  name: "telemetryRollup",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    projectId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "project_id",
+    },
+    metric: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    windowedStats: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "telemetryRollup",
+        "windowedStats"
+      >,
+      serverName: "windowed_stats",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "telemetry_rollup",
 } as const;
 const testBigSerialPkTable = {
   name: "testBigSerialPk",
@@ -6471,6 +11862,12 @@ const timeEntryTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     timesheetId: {
       type: "string",
       optional: false,
@@ -6521,6 +11918,12 @@ const timesheetTable = {
       optional: false,
       customType: null as unknown as string,
     },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
     employeeId: {
       type: "string",
       optional: false,
@@ -6559,32 +11962,66 @@ const userTable = {
     createdAt: {
       type: "number",
       optional: true,
-      customType: null as unknown as number,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "user",
+        "createdAt"
+      >,
     },
     updatedAt: {
       type: "number",
       optional: true,
-      customType: null as unknown as number,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "user",
+        "updatedAt"
+      >,
     },
     id: {
       type: "string",
       optional: false,
-      customType: null as unknown as string,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "user",
+        "id"
+      >,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "user",
+        "workspaceId"
+      >,
+      serverName: "workspace_id",
     },
     name: {
       type: "string",
       optional: false,
-      customType: null as unknown as string,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "user",
+        "name"
+      >,
     },
     partner: {
       type: "boolean",
       optional: false,
-      customType: null as unknown as boolean,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "user",
+        "partner"
+      >,
     },
     email: {
       type: "string",
       optional: false,
-      customType: null as unknown as `${string}@${string}`,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "user",
+        "email"
+      >,
     },
     customTypeJson: {
       type: "json",
@@ -6649,498 +12086,446 @@ const userTable = {
     countryIso: {
       type: "string",
       optional: false,
-      customType: null as unknown as
-        | "US"
-        | "MX"
-        | "CA"
-        | "AF"
-        | "AX"
-        | "AL"
-        | "DZ"
-        | "AS"
-        | "AD"
-        | "AO"
-        | "AI"
-        | "AQ"
-        | "AG"
-        | "AR"
-        | "AM"
-        | "AW"
-        | "AU"
-        | "AT"
-        | "AZ"
-        | "BS"
-        | "BH"
-        | "BD"
-        | "BB"
-        | "BY"
-        | "BE"
-        | "BZ"
-        | "BJ"
-        | "BM"
-        | "BT"
-        | "BO"
-        | "BQ"
-        | "BA"
-        | "BW"
-        | "BV"
-        | "BR"
-        | "IO"
-        | "BN"
-        | "BG"
-        | "BF"
-        | "BI"
-        | "CV"
-        | "KH"
-        | "CM"
-        | "KY"
-        | "CF"
-        | "TD"
-        | "CL"
-        | "CN"
-        | "CX"
-        | "CC"
-        | "CO"
-        | "KM"
-        | "CG"
-        | "CD"
-        | "CK"
-        | "CR"
-        | "CI"
-        | "HR"
-        | "CU"
-        | "CW"
-        | "CY"
-        | "CZ"
-        | "DK"
-        | "DJ"
-        | "DM"
-        | "DO"
-        | "EC"
-        | "EG"
-        | "SV"
-        | "GQ"
-        | "ER"
-        | "EE"
-        | "SZ"
-        | "ET"
-        | "FK"
-        | "FO"
-        | "FJ"
-        | "FI"
-        | "FR"
-        | "GF"
-        | "PF"
-        | "TF"
-        | "GA"
-        | "GM"
-        | "GE"
-        | "DE"
-        | "GH"
-        | "GI"
-        | "GR"
-        | "GL"
-        | "GD"
-        | "GP"
-        | "GU"
-        | "GT"
-        | "GG"
-        | "GN"
-        | "GW"
-        | "GY"
-        | "HT"
-        | "HM"
-        | "VA"
-        | "HN"
-        | "HK"
-        | "HU"
-        | "IS"
-        | "IN"
-        | "ID"
-        | "IR"
-        | "IQ"
-        | "IE"
-        | "IM"
-        | "IL"
-        | "IT"
-        | "JM"
-        | "JP"
-        | "JE"
-        | "JO"
-        | "KZ"
-        | "KE"
-        | "KI"
-        | "KP"
-        | "KR"
-        | "KW"
-        | "KG"
-        | "LA"
-        | "LV"
-        | "LB"
-        | "LS"
-        | "LR"
-        | "LY"
-        | "LI"
-        | "LT"
-        | "LU"
-        | "MO"
-        | "MG"
-        | "MW"
-        | "MY"
-        | "MV"
-        | "ML"
-        | "MT"
-        | "MH"
-        | "MQ"
-        | "MR"
-        | "MU"
-        | "YT"
-        | "FM"
-        | "MD"
-        | "MC"
-        | "MN"
-        | "ME"
-        | "MS"
-        | "MA"
-        | "MZ"
-        | "MM"
-        | "NA"
-        | "NR"
-        | "NP"
-        | "NL"
-        | "NC"
-        | "NZ"
-        | "NI"
-        | "NE"
-        | "NG"
-        | "NU"
-        | "NF"
-        | "MK"
-        | "MP"
-        | "NO"
-        | "OM"
-        | "PK"
-        | "PW"
-        | "PS"
-        | "PA"
-        | "PG"
-        | "PY"
-        | "PE"
-        | "PH"
-        | "PN"
-        | "PL"
-        | "PT"
-        | "PR"
-        | "QA"
-        | "RE"
-        | "RO"
-        | "RU"
-        | "RW"
-        | "BL"
-        | "SH"
-        | "KN"
-        | "LC"
-        | "MF"
-        | "PM"
-        | "VC"
-        | "WS"
-        | "SM"
-        | "ST"
-        | "SA"
-        | "SN"
-        | "RS"
-        | "SC"
-        | "SL"
-        | "SG"
-        | "SX"
-        | "SK"
-        | "SI"
-        | "SB"
-        | "SO"
-        | "ZA"
-        | "GS"
-        | "SS"
-        | "ES"
-        | "LK"
-        | "SD"
-        | "SR"
-        | "SJ"
-        | "SE"
-        | "CH"
-        | "SY"
-        | "TW"
-        | "TJ"
-        | "TZ"
-        | "TH"
-        | "TL"
-        | "TG"
-        | "TK"
-        | "TO"
-        | "TT"
-        | "TN"
-        | "TR"
-        | "TM"
-        | "TC"
-        | "TV"
-        | "UG"
-        | "UA"
-        | "AE"
-        | "GB"
-        | "UY"
-        | "UZ"
-        | "VU"
-        | "VE"
-        | "VN"
-        | "VG"
-        | "VI"
-        | "WF"
-        | "EH"
-        | "YE"
-        | "ZM"
-        | "ZW"
-        | "XK",
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "user",
+        "countryIso"
+      >,
       serverName: "country_iso",
     },
     regionCode: {
       type: "string",
       optional: true,
-      customType: null as unknown as
-        | "CA"
-        | "AL"
-        | "AR"
-        | "AZ"
-        | "KY"
-        | "CO"
-        | "GA"
-        | "DE"
-        | "VA"
-        | "IN"
-        | "ID"
-        | "IL"
-        | "LA"
-        | "MO"
-        | "MT"
-        | "MD"
-        | "MN"
-        | "ME"
-        | "MS"
-        | "MA"
-        | "NC"
-        | "NE"
-        | "PA"
-        | "SC"
-        | "SD"
-        | "TN"
-        | "AK"
-        | "CT"
-        | "DC"
-        | "FL"
-        | "HI"
-        | "IA"
-        | "KS"
-        | "MI"
-        | "NV"
-        | "NH"
-        | "NJ"
-        | "NM"
-        | "NY"
-        | "ND"
-        | "OH"
-        | "OK"
-        | "OR"
-        | "RI"
-        | "TX"
-        | "UT"
-        | "VT"
-        | "WA"
-        | "WV"
-        | "WI"
-        | "WY"
-        | null,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "user",
+        "regionCode"
+      >,
       serverName: "region_code",
     },
     preferredCurrency: {
       type: "string",
       optional: false,
-      customType: null as unknown as
-        | "AED"
-        | "AFN"
-        | "ALL"
-        | "AMD"
-        | "ANG"
-        | "AOA"
-        | "ARS"
-        | "AUD"
-        | "AWG"
-        | "AZN"
-        | "BAM"
-        | "BBD"
-        | "BDT"
-        | "BGN"
-        | "BHD"
-        | "BIF"
-        | "BMD"
-        | "BND"
-        | "BOB"
-        | "BOV"
-        | "BRL"
-        | "BSD"
-        | "BTN"
-        | "BWP"
-        | "BYN"
-        | "BZD"
-        | "CAD"
-        | "CDF"
-        | "CHE"
-        | "CHF"
-        | "CHW"
-        | "CLF"
-        | "CLP"
-        | "CNY"
-        | "COP"
-        | "COU"
-        | "CRC"
-        | "CUC"
-        | "CUP"
-        | "CVE"
-        | "CZK"
-        | "DJF"
-        | "DKK"
-        | "DOP"
-        | "DZD"
-        | "EGP"
-        | "ERN"
-        | "ETB"
-        | "EUR"
-        | "FJD"
-        | "FKP"
-        | "GBP"
-        | "GEL"
-        | "GHS"
-        | "GIP"
-        | "GMD"
-        | "GNF"
-        | "GTQ"
-        | "GYD"
-        | "HKD"
-        | "HNL"
-        | "HTG"
-        | "HUF"
-        | "IDR"
-        | "ILS"
-        | "INR"
-        | "IQD"
-        | "IRR"
-        | "ISK"
-        | "JMD"
-        | "JOD"
-        | "JPY"
-        | "KES"
-        | "KGS"
-        | "KHR"
-        | "KMF"
-        | "KPW"
-        | "KRW"
-        | "KWD"
-        | "KYD"
-        | "KZT"
-        | "LAK"
-        | "LBP"
-        | "LKR"
-        | "LRD"
-        | "LSL"
-        | "LYD"
-        | "MAD"
-        | "MDL"
-        | "MGA"
-        | "MKD"
-        | "MMK"
-        | "MNT"
-        | "MOP"
-        | "MRU"
-        | "MUR"
-        | "MVR"
-        | "MWK"
-        | "MXN"
-        | "MXV"
-        | "MYR"
-        | "MZN"
-        | "NAD"
-        | "NGN"
-        | "NIO"
-        | "NOK"
-        | "NPR"
-        | "NZD"
-        | "OMR"
-        | "PAB"
-        | "PEN"
-        | "PGK"
-        | "PHP"
-        | "PKR"
-        | "PLN"
-        | "PYG"
-        | "QAR"
-        | "RON"
-        | "RSD"
-        | "RUB"
-        | "RWF"
-        | "SAR"
-        | "SBD"
-        | "SCR"
-        | "SDG"
-        | "SEK"
-        | "SGD"
-        | "SHP"
-        | "SLE"
-        | "SOS"
-        | "SRD"
-        | "SSP"
-        | "STN"
-        | "SVC"
-        | "SYP"
-        | "SZL"
-        | "THB"
-        | "TJS"
-        | "TMT"
-        | "TND"
-        | "TOP"
-        | "TRY"
-        | "TTD"
-        | "TWD"
-        | "TZS"
-        | "UAH"
-        | "UGX"
-        | "USD"
-        | "USN"
-        | "UYI"
-        | "UYU"
-        | "UYW"
-        | "UZS"
-        | "VED"
-        | "VES"
-        | "VND"
-        | "VUV"
-        | "WST"
-        | "XAF"
-        | "XCD"
-        | "XDR"
-        | "XOF"
-        | "XPF"
-        | "XSU"
-        | "XUA"
-        | "YER"
-        | "ZAR"
-        | "ZMW"
-        | "ZWG",
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "user",
+        "preferredCurrency"
+      >,
       serverName: "preferred_currency",
     },
     status: {
       type: "string",
       optional: true,
-      customType: null as unknown as "ASSIGNED" | "COMPLETED",
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "user",
+        "status"
+      >,
     },
   },
   primaryKey: ["id"],
+} as const;
+const webhookSubscriptionTable = {
+  name: "webhookSubscription",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    projectId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "project_id",
+    },
+    config: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "webhookSubscription",
+        "config"
+      >,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "webhook_subscription",
+} as const;
+const workspaceTable = {
+  name: "workspace",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "workspace",
+        "createdAt"
+      >,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "workspace",
+        "updatedAt"
+      >,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "workspace",
+        "id"
+      >,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "workspace",
+        "name"
+      >,
+    },
+    slug: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "workspace",
+        "slug"
+      >,
+    },
+    subscriptionTier: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "workspace",
+        "subscriptionTier"
+      >,
+      serverName: "subscription_tier",
+    },
+    billingEmail: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "workspace",
+        "billingEmail"
+      >,
+      serverName: "billing_email",
+    },
+    settings: {
+      type: "json",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "workspace",
+        "settings"
+      >,
+    },
+    ownerId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "workspace",
+        "ownerId"
+      >,
+      serverName: "owner_id",
+    },
+    timezone: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "workspace",
+        "timezone"
+      >,
+    },
+    logoUrl: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "workspace",
+        "logoUrl"
+      >,
+      serverName: "logo_url",
+    },
+    currency: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "workspace",
+        "currency"
+      >,
+    },
+    language: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "workspace",
+        "language"
+      >,
+    },
+    dateFormat: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "workspace",
+        "dateFormat"
+      >,
+      serverName: "date_format",
+    },
+    timeFormat: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "workspace",
+        "timeFormat"
+      >,
+      serverName: "time_format",
+    },
+  },
+  primaryKey: ["id"],
+} as const;
+const workspaceApiKeyTable = {
+  name: "workspaceApiKey",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    keyHash: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "key_hash",
+    },
+    createdBy: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "created_by",
+    },
+    lastUsedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "last_used_at",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "workspace_api_key",
+} as const;
+const workspaceAuditLogTable = {
+  name: "workspaceAuditLog",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    userId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "user_id",
+    },
+    action: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    resourceType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "resource_type",
+    },
+    resourceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "resource_id",
+    },
+    metadata: {
+      type: "json",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "workspaceAuditLog",
+        "metadata"
+      >,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "workspace_audit_log",
+} as const;
+const workspaceInvitationTable = {
+  name: "workspaceInvitation",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    email: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as `${string}@${string}`,
+    },
+    role: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    invitedBy: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "invited_by",
+    },
+    expiresAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "expires_at",
+    },
+    acceptedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "accepted_at",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "workspace_invitation",
+} as const;
+const workspaceMembershipTable = {
+  name: "workspaceMembership",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    workspaceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "workspace_id",
+    },
+    userId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "user_id",
+    },
+    role: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    invitedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "invited_at",
+    },
+    joinedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "joined_at",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "workspace_membership",
 } as const;
 const userRelationships = {
   mediums: [
@@ -7171,6 +12556,14 @@ const userRelationships = {
       cardinality: "many",
     },
   ],
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   messages: [
     {
       sourceField: ["id"],
@@ -7181,6 +12574,14 @@ const userRelationships = {
   ],
 } as const;
 const analyticsDashboardRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   owner: [
     {
       sourceField: ["ownerId"],
@@ -7199,6 +12600,14 @@ const analyticsDashboardRelationships = {
   ],
 } as const;
 const analyticsWidgetQueryRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   widget: [
     {
       sourceField: ["widgetId"],
@@ -7209,6 +12618,14 @@ const analyticsWidgetQueryRelationships = {
   ],
 } as const;
 const analyticsWidgetRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   dashboard: [
     {
       sourceField: ["dashboardId"],
@@ -7223,6 +12640,338 @@ const analyticsWidgetRelationships = {
       destField: ["widgetId"],
       destSchema: "analyticsWidgetQuery",
       cardinality: "many",
+    },
+  ],
+} as const;
+const apInvoiceLineItemRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  invoice: [
+    {
+      sourceField: ["invoiceId"],
+      destField: ["id"],
+      destSchema: "apInvoice",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const apInvoiceRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  vendor: [
+    {
+      sourceField: ["vendorId"],
+      destField: ["id"],
+      destSchema: "apVendor",
+      cardinality: "one",
+    },
+  ],
+  lineItems: [
+    {
+      sourceField: ["id"],
+      destField: ["invoiceId"],
+      destSchema: "apInvoiceLineItem",
+      cardinality: "many",
+    },
+  ],
+  payments: [
+    {
+      sourceField: ["id"],
+      destField: ["invoiceId"],
+      destSchema: "apPayment",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const apPaymentMethodRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  payments: [
+    {
+      sourceField: ["id"],
+      destField: ["paymentMethodId"],
+      destSchema: "apPayment",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const apPaymentRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  invoice: [
+    {
+      sourceField: ["invoiceId"],
+      destField: ["id"],
+      destSchema: "apInvoice",
+      cardinality: "one",
+    },
+  ],
+  paymentMethod: [
+    {
+      sourceField: ["paymentMethodId"],
+      destField: ["id"],
+      destSchema: "apPaymentMethod",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const apVendorRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  invoices: [
+    {
+      sourceField: ["id"],
+      destField: ["vendorId"],
+      destSchema: "apInvoice",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const arCustomerRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  paymentTerms: [
+    {
+      sourceField: ["paymentTermsId"],
+      destField: ["id"],
+      destSchema: "arPaymentTerm",
+      cardinality: "one",
+    },
+  ],
+  invoices: [
+    {
+      sourceField: ["id"],
+      destField: ["customerId"],
+      destSchema: "arInvoice",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const arInvoiceLineItemRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  invoice: [
+    {
+      sourceField: ["invoiceId"],
+      destField: ["id"],
+      destSchema: "arInvoice",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const arInvoiceRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  customer: [
+    {
+      sourceField: ["customerId"],
+      destField: ["id"],
+      destSchema: "arCustomer",
+      cardinality: "one",
+    },
+  ],
+  lineItems: [
+    {
+      sourceField: ["id"],
+      destField: ["invoiceId"],
+      destSchema: "arInvoiceLineItem",
+      cardinality: "many",
+    },
+  ],
+  payments: [
+    {
+      sourceField: ["id"],
+      destField: ["invoiceId"],
+      destSchema: "arPaymentReceived",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const arPaymentReceivedRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  invoice: [
+    {
+      sourceField: ["invoiceId"],
+      destField: ["id"],
+      destSchema: "arInvoice",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const arPaymentTermRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  customers: [
+    {
+      sourceField: ["id"],
+      destField: ["paymentTermsId"],
+      destSchema: "arCustomer",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const bankAccountRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  transactions: [
+    {
+      sourceField: ["id"],
+      destField: ["accountId"],
+      destSchema: "bankTransaction",
+      cardinality: "many",
+    },
+  ],
+  reconciliations: [
+    {
+      sourceField: ["id"],
+      destField: ["accountId"],
+      destSchema: "bankReconciliation",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const bankReconciliationItemRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  reconciliation: [
+    {
+      sourceField: ["reconciliationId"],
+      destField: ["id"],
+      destSchema: "bankReconciliation",
+      cardinality: "one",
+    },
+  ],
+  transaction: [
+    {
+      sourceField: ["transactionId"],
+      destField: ["id"],
+      destSchema: "bankTransaction",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const bankReconciliationRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  account: [
+    {
+      sourceField: ["accountId"],
+      destField: ["id"],
+      destSchema: "bankAccount",
+      cardinality: "one",
+    },
+  ],
+  reconciledByUser: [
+    {
+      sourceField: ["reconciledBy"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  items: [
+    {
+      sourceField: ["id"],
+      destField: ["reconciliationId"],
+      destSchema: "bankReconciliationItem",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const bankTransactionRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  account: [
+    {
+      sourceField: ["accountId"],
+      destField: ["id"],
+      destSchema: "bankAccount",
+      cardinality: "one",
     },
   ],
 } as const;
@@ -7245,6 +12994,14 @@ const benefitEnrollmentRelationships = {
   ],
 } as const;
 const benefitPlanRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   administrator: [
     {
       sourceField: ["administratorId"],
@@ -7263,6 +13020,14 @@ const benefitPlanRelationships = {
   ],
 } as const;
 const billingInvoiceLineRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   invoice: [
     {
       sourceField: ["invoiceId"],
@@ -7281,6 +13046,14 @@ const billingInvoiceLineRelationships = {
   ],
 } as const;
 const billingInvoiceRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   account: [
     {
       sourceField: ["accountId"],
@@ -7315,6 +13088,14 @@ const billingInvoiceRelationships = {
   ],
 } as const;
 const budgetLineRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   budget: [
     {
       sourceField: ["budgetId"],
@@ -7333,6 +13114,14 @@ const budgetLineRelationships = {
   ],
 } as const;
 const budgetRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   department: [
     {
       sourceField: ["departmentId"],
@@ -7350,7 +13139,59 @@ const budgetRelationships = {
     },
   ],
 } as const;
+const crmAccountHierarchyRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  parentAccount: [
+    {
+      sourceField: ["parentAccountId"],
+      destField: ["id"],
+      destSchema: "crmAccount",
+      cardinality: "one",
+    },
+  ],
+  childAccount: [
+    {
+      sourceField: ["childAccountId"],
+      destField: ["id"],
+      destSchema: "crmAccount",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const crmAccountIndustryRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  account: [
+    {
+      sourceField: ["accountId"],
+      destField: ["id"],
+      destSchema: "crmAccount",
+      cardinality: "one",
+    },
+  ],
+} as const;
 const crmAccountRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   owner: [
     {
       sourceField: ["ownerId"],
@@ -7392,7 +13233,41 @@ const crmAccountRelationships = {
     },
   ],
 } as const;
+const crmAccountTerritoryRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  manager: [
+    {
+      sourceField: ["managerId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  assignments: [
+    {
+      sourceField: ["id"],
+      destField: ["territoryId"],
+      destSchema: "crmTerritoryAssignment",
+      cardinality: "many",
+    },
+  ],
+} as const;
 const crmActivityRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   account: [
     {
       sourceField: ["accountId"],
@@ -7444,7 +13319,77 @@ const crmActivityTypeRelationships = {
     },
   ],
 } as const;
+const crmContactDuplicatesRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  contact1: [
+    {
+      sourceField: ["contact1Id"],
+      destField: ["id"],
+      destSchema: "crmContact",
+      cardinality: "one",
+    },
+  ],
+  contact2: [
+    {
+      sourceField: ["contact2Id"],
+      destField: ["id"],
+      destSchema: "crmContact",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const crmContactEngagementRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  contact: [
+    {
+      sourceField: ["contactId"],
+      destField: ["id"],
+      destSchema: "crmContact",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const crmContactPreferenceRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  contact: [
+    {
+      sourceField: ["contactId"],
+      destField: ["id"],
+      destSchema: "crmContact",
+      cardinality: "one",
+    },
+  ],
+} as const;
 const crmContactRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   account: [
     {
       sourceField: ["accountId"],
@@ -7470,7 +13415,233 @@ const crmContactRelationships = {
     },
   ],
 } as const;
+const crmContactRoleRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  contact: [
+    {
+      sourceField: ["contactId"],
+      destField: ["id"],
+      destSchema: "crmContact",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const crmContactSocialProfileRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  contact: [
+    {
+      sourceField: ["contactId"],
+      destField: ["id"],
+      destSchema: "crmContact",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const crmLeadActivityRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  lead: [
+    {
+      sourceField: ["leadId"],
+      destField: ["id"],
+      destSchema: "crmLead",
+      cardinality: "one",
+    },
+  ],
+  user: [
+    {
+      sourceField: ["userId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const crmLeadAssignmentRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  lead: [
+    {
+      sourceField: ["leadId"],
+      destField: ["id"],
+      destSchema: "crmLead",
+      cardinality: "one",
+    },
+  ],
+  user: [
+    {
+      sourceField: ["userId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const crmLeadCustomFieldRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  values: [
+    {
+      sourceField: ["id"],
+      destField: ["fieldId"],
+      destSchema: "crmLeadCustomFieldValue",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const crmLeadCustomFieldValueRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  lead: [
+    {
+      sourceField: ["leadId"],
+      destField: ["id"],
+      destSchema: "crmLead",
+      cardinality: "one",
+    },
+  ],
+  field: [
+    {
+      sourceField: ["fieldId"],
+      destField: ["id"],
+      destSchema: "crmLeadCustomField",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const crmLeadRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  source: [
+    {
+      sourceField: ["sourceId"],
+      destField: ["id"],
+      destSchema: "crmLeadSource",
+      cardinality: "one",
+    },
+  ],
+  owner: [
+    {
+      sourceField: ["ownerId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  activities: [
+    {
+      sourceField: ["id"],
+      destField: ["leadId"],
+      destSchema: "crmLeadActivity",
+      cardinality: "many",
+    },
+  ],
+  assignments: [
+    {
+      sourceField: ["id"],
+      destField: ["leadId"],
+      destSchema: "crmLeadAssignment",
+      cardinality: "many",
+    },
+  ],
+  customFieldValues: [
+    {
+      sourceField: ["id"],
+      destField: ["leadId"],
+      destSchema: "crmLeadCustomFieldValue",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const crmLeadScoreRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  lead: [
+    {
+      sourceField: ["leadId"],
+      destField: ["id"],
+      destSchema: "crmLead",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const crmLeadSourceRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  leads: [
+    {
+      sourceField: ["id"],
+      destField: ["sourceId"],
+      destSchema: "crmLead",
+      cardinality: "many",
+    },
+  ],
+} as const;
 const crmNoteRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   account: [
     {
       sourceField: ["accountId"],
@@ -7574,7 +13745,169 @@ const crmPipelineStageRelationships = {
     },
   ],
 } as const;
+const crmSalesSequenceEnrollmentRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  sequence: [
+    {
+      sourceField: ["sequenceId"],
+      destField: ["id"],
+      destSchema: "crmSalesSequence",
+      cardinality: "one",
+    },
+  ],
+  contact: [
+    {
+      sourceField: ["contactId"],
+      destField: ["id"],
+      destSchema: "crmContact",
+      cardinality: "one",
+    },
+  ],
+  enrolledByUser: [
+    {
+      sourceField: ["enrolledBy"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  currentStep: [
+    {
+      sourceField: ["currentStepId"],
+      destField: ["id"],
+      destSchema: "crmSalesSequenceStep",
+      cardinality: "one",
+    },
+  ],
+  events: [
+    {
+      sourceField: ["id"],
+      destField: ["enrollmentId"],
+      destSchema: "crmSalesSequenceEvent",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const crmSalesSequenceEventRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  enrollment: [
+    {
+      sourceField: ["enrollmentId"],
+      destField: ["id"],
+      destSchema: "crmSalesSequenceEnrollment",
+      cardinality: "one",
+    },
+  ],
+  step: [
+    {
+      sourceField: ["stepId"],
+      destField: ["id"],
+      destSchema: "crmSalesSequenceStep",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const crmSalesSequenceRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  creator: [
+    {
+      sourceField: ["createdBy"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  steps: [
+    {
+      sourceField: ["id"],
+      destField: ["sequenceId"],
+      destSchema: "crmSalesSequenceStep",
+      cardinality: "many",
+    },
+  ],
+  enrollments: [
+    {
+      sourceField: ["id"],
+      destField: ["sequenceId"],
+      destSchema: "crmSalesSequenceEnrollment",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const crmSalesSequenceStepRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  sequence: [
+    {
+      sourceField: ["sequenceId"],
+      destField: ["id"],
+      destSchema: "crmSalesSequence",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const crmTerritoryAssignmentRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  territory: [
+    {
+      sourceField: ["territoryId"],
+      destField: ["id"],
+      destSchema: "crmAccountTerritory",
+      cardinality: "one",
+    },
+  ],
+  account: [
+    {
+      sourceField: ["accountId"],
+      destField: ["id"],
+      destSchema: "crmAccount",
+      cardinality: "one",
+    },
+  ],
+} as const;
 const departmentRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   manager: [
     {
       sourceField: ["managerId"],
@@ -7653,6 +13986,14 @@ const documentFileVersionRelationships = {
   ],
 } as const;
 const documentFolderRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   library: [
     {
       sourceField: ["libraryId"],
@@ -7687,6 +14028,14 @@ const documentFolderRelationships = {
   ],
 } as const;
 const documentLibraryRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   project: [
     {
       sourceField: ["projectId"],
@@ -7817,6 +14166,14 @@ const employmentHistoryRelationships = {
   ],
 } as const;
 const expenseItemRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   report: [
     {
       sourceField: ["reportId"],
@@ -7827,6 +14184,14 @@ const expenseItemRelationships = {
   ],
 } as const;
 const expenseReportRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   owner: [
     {
       sourceField: ["ownerId"],
@@ -7852,7 +14217,25 @@ const expenseReportRelationships = {
     },
   ],
 } as const;
+const featureFlagRelationships = {
+  owner: [
+    {
+      sourceField: ["ownerId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
 const filtersRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   parent: [
     {
       sourceField: ["parentId"],
@@ -7870,7 +14253,617 @@ const filtersRelationships = {
     },
   ],
 } as const;
+const friendshipRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  requesting: [
+    {
+      sourceField: ["requestingId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  accepting: [
+    {
+      sourceField: ["acceptingId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const hrAttendanceExceptionRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  attendance: [
+    {
+      sourceField: ["attendanceId"],
+      destField: ["id"],
+      destSchema: "hrAttendance",
+      cardinality: "one",
+    },
+  ],
+  resolver: [
+    {
+      sourceField: ["resolvedBy"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const hrAttendanceRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  employee: [
+    {
+      sourceField: ["employeeId"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+  exceptions: [
+    {
+      sourceField: ["id"],
+      destField: ["attendanceId"],
+      destSchema: "hrAttendanceException",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const hrBenefitRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  employeeBenefits: [
+    {
+      sourceField: ["id"],
+      destField: ["benefitId"],
+      destSchema: "hrEmployeeBenefit",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const hrBonusRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  employee: [
+    {
+      sourceField: ["employeeId"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const hrDepartmentRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  head: [
+    {
+      sourceField: ["headId"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+  employees: [
+    {
+      sourceField: ["headId"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "many",
+    },
+  ],
+  teams: [
+    {
+      sourceField: ["id"],
+      destField: ["departmentId"],
+      destSchema: "hrTeam",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const hrEmployeeBenefitRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  employee: [
+    {
+      sourceField: ["employeeId"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+  benefit: [
+    {
+      sourceField: ["benefitId"],
+      destField: ["id"],
+      destSchema: "hrBenefit",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const hrEmployeePositionRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  employee: [
+    {
+      sourceField: ["employeeId"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+  position: [
+    {
+      sourceField: ["positionId"],
+      destField: ["id"],
+      destSchema: "hrPosition",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const hrEmployeeRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  user: [
+    {
+      sourceField: ["userId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  department: [
+    {
+      sourceField: ["departmentId"],
+      destField: ["id"],
+      destSchema: "hrDepartment",
+      cardinality: "one",
+    },
+  ],
+  manager: [
+    {
+      sourceField: ["managerId"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+  positions: [
+    {
+      sourceField: ["id"],
+      destField: ["employeeId"],
+      destSchema: "hrEmployeePosition",
+      cardinality: "many",
+    },
+  ],
+  timeOffRequests: [
+    {
+      sourceField: ["id"],
+      destField: ["employeeId"],
+      destSchema: "hrTimeOffRequest",
+      cardinality: "many",
+    },
+  ],
+  reviews: [
+    {
+      sourceField: ["id"],
+      destField: ["employeeId"],
+      destSchema: "hrPerformanceReview",
+      cardinality: "many",
+    },
+  ],
+  salaryHistory: [
+    {
+      sourceField: ["id"],
+      destField: ["employeeId"],
+      destSchema: "hrSalaryHistory",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const hrOrganizationChartRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  employee: [
+    {
+      sourceField: ["employeeId"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+  parentEmployee: [
+    {
+      sourceField: ["parentEmployeeId"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const hrPerformanceFeedbackRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  review: [
+    {
+      sourceField: ["reviewId"],
+      destField: ["id"],
+      destSchema: "hrPerformanceReview",
+      cardinality: "one",
+    },
+  ],
+  giver: [
+    {
+      sourceField: ["givenBy"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const hrPerformanceGoalRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  review: [
+    {
+      sourceField: ["reviewId"],
+      destField: ["id"],
+      destSchema: "hrPerformanceReview",
+      cardinality: "one",
+    },
+  ],
+  employee: [
+    {
+      sourceField: ["employeeId"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const hrPerformanceImprovementRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  employee: [
+    {
+      sourceField: ["employeeId"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+  review: [
+    {
+      sourceField: ["reviewId"],
+      destField: ["id"],
+      destSchema: "hrPerformanceReview",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const hrPerformanceReviewCycleRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  reviews: [
+    {
+      sourceField: ["id"],
+      destField: ["cycleId"],
+      destSchema: "hrPerformanceReview",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const hrPerformanceReviewRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  employee: [
+    {
+      sourceField: ["employeeId"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+  reviewer: [
+    {
+      sourceField: ["reviewerId"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+  cycle: [
+    {
+      sourceField: ["cycleId"],
+      destField: ["id"],
+      destSchema: "hrPerformanceReviewCycle",
+      cardinality: "one",
+    },
+  ],
+  goals: [
+    {
+      sourceField: ["id"],
+      destField: ["reviewId"],
+      destSchema: "hrPerformanceGoal",
+      cardinality: "many",
+    },
+  ],
+  feedback: [
+    {
+      sourceField: ["id"],
+      destField: ["reviewId"],
+      destSchema: "hrPerformanceFeedback",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const hrPositionRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  department: [
+    {
+      sourceField: ["departmentId"],
+      destField: ["id"],
+      destSchema: "hrDepartment",
+      cardinality: "one",
+    },
+  ],
+  employeePositions: [
+    {
+      sourceField: ["id"],
+      destField: ["positionId"],
+      destSchema: "hrEmployeePosition",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const hrSalaryHistoryRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  employee: [
+    {
+      sourceField: ["employeeId"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+  approver: [
+    {
+      sourceField: ["approvedBy"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const hrTeamRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  department: [
+    {
+      sourceField: ["departmentId"],
+      destField: ["id"],
+      destSchema: "hrDepartment",
+      cardinality: "one",
+    },
+  ],
+  lead: [
+    {
+      sourceField: ["leadId"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const hrTimeOffBalanceRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  employee: [
+    {
+      sourceField: ["employeeId"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+  policy: [
+    {
+      sourceField: ["policyId"],
+      destField: ["id"],
+      destSchema: "hrTimeOffPolicy",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const hrTimeOffPolicyRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  requests: [
+    {
+      sourceField: ["id"],
+      destField: ["policyId"],
+      destSchema: "hrTimeOffRequest",
+      cardinality: "many",
+    },
+  ],
+  balances: [
+    {
+      sourceField: ["id"],
+      destField: ["policyId"],
+      destSchema: "hrTimeOffBalance",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const hrTimeOffRequestRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  employee: [
+    {
+      sourceField: ["employeeId"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+  policy: [
+    {
+      sourceField: ["policyId"],
+      destField: ["id"],
+      destSchema: "hrTimeOffPolicy",
+      cardinality: "one",
+    },
+  ],
+  approver: [
+    {
+      sourceField: ["approverId"],
+      destField: ["id"],
+      destSchema: "hrEmployee",
+      cardinality: "one",
+    },
+  ],
+} as const;
 const integrationCredentialRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   webhook: [
     {
       sourceField: ["webhookId"],
@@ -7881,6 +14874,14 @@ const integrationCredentialRelationships = {
   ],
 } as const;
 const integrationEventRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   webhook: [
     {
       sourceField: ["webhookId"],
@@ -7891,6 +14892,14 @@ const integrationEventRelationships = {
   ],
 } as const;
 const integrationWebhookRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   project: [
     {
       sourceField: ["projectId"],
@@ -7917,6 +14926,14 @@ const integrationWebhookRelationships = {
   ],
 } as const;
 const inventoryItemRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   variant: [
     {
       sourceField: ["variantId"],
@@ -7927,6 +14944,14 @@ const inventoryItemRelationships = {
   ],
 } as const;
 const inventoryLevelRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   location: [
     {
       sourceField: ["locationId"],
@@ -7955,6 +14980,14 @@ const inventoryLocationRelationships = {
   ],
 } as const;
 const ledgerAccountRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   parent: [
     {
       sourceField: ["parentAccountId"],
@@ -7989,6 +15022,14 @@ const ledgerAccountRelationships = {
   ],
 } as const;
 const ledgerEntryRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   transaction: [
     {
       sourceField: ["transactionId"],
@@ -8007,6 +15048,14 @@ const ledgerEntryRelationships = {
   ],
 } as const;
 const ledgerTransactionRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   creator: [
     {
       sourceField: ["createdById"],
@@ -8025,6 +15074,14 @@ const ledgerTransactionRelationships = {
   ],
 } as const;
 const marketingAudienceRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   campaignAudiences: [
     {
       sourceField: ["id"],
@@ -8035,6 +15092,14 @@ const marketingAudienceRelationships = {
   ],
 } as const;
 const marketingCampaignAudienceRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   campaign: [
     {
       sourceField: ["campaignId"],
@@ -8053,6 +15118,14 @@ const marketingCampaignAudienceRelationships = {
   ],
 } as const;
 const marketingCampaignChannelRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   campaign: [
     {
       sourceField: ["campaignId"],
@@ -8071,6 +15144,14 @@ const marketingCampaignChannelRelationships = {
   ],
 } as const;
 const marketingCampaignRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   owner: [
     {
       sourceField: ["ownerId"],
@@ -8097,6 +15178,14 @@ const marketingCampaignRelationships = {
   ],
 } as const;
 const marketingChannelRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   campaignChannels: [
     {
       sourceField: ["id"],
@@ -8107,6 +15196,14 @@ const marketingChannelRelationships = {
   ],
 } as const;
 const mediumRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   messages: [
     {
       sourceField: ["id"],
@@ -8117,6 +15214,14 @@ const mediumRelationships = {
   ],
 } as const;
 const messageRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   medium: [
     {
       sourceField: ["mediumId"],
@@ -8134,7 +15239,139 @@ const messageRelationships = {
     },
   ],
 } as const;
+const omittedTableRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const opportunityCompetitorRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  opportunity: [
+    {
+      sourceField: ["opportunityId"],
+      destField: ["id"],
+      destSchema: "crmOpportunity",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const opportunityDocumentRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  opportunity: [
+    {
+      sourceField: ["opportunityId"],
+      destField: ["id"],
+      destSchema: "crmOpportunity",
+      cardinality: "one",
+    },
+  ],
+  uploader: [
+    {
+      sourceField: ["uploadedBy"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const opportunityLineItemRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  opportunity: [
+    {
+      sourceField: ["opportunityId"],
+      destField: ["id"],
+      destSchema: "crmOpportunity",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const opportunityStakeholderRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  opportunity: [
+    {
+      sourceField: ["opportunityId"],
+      destField: ["id"],
+      destSchema: "crmOpportunity",
+      cardinality: "one",
+    },
+  ],
+  contact: [
+    {
+      sourceField: ["contactId"],
+      destField: ["id"],
+      destSchema: "crmContact",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const opportunityTimelineRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  opportunity: [
+    {
+      sourceField: ["opportunityId"],
+      destField: ["id"],
+      destSchema: "crmOpportunity",
+      cardinality: "one",
+    },
+  ],
+  user: [
+    {
+      sourceField: ["userId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
 const orderItemRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   order: [
     {
       sourceField: ["orderId"],
@@ -8153,6 +15390,14 @@ const orderItemRelationships = {
   ],
 } as const;
 const orderPaymentRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   order: [
     {
       sourceField: ["orderId"],
@@ -8171,6 +15416,14 @@ const orderPaymentRelationships = {
   ],
 } as const;
 const orderTableRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   customer: [
     {
       sourceField: ["customerId"],
@@ -8212,6 +15465,34 @@ const orderTableRelationships = {
     },
   ],
 } as const;
+const paymentRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  receivedBy: [
+    {
+      sourceField: ["receivedById"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const productCatalogRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+} as const;
 const productCategoryRelationships = {
   parent: [
     {
@@ -8239,6 +15520,14 @@ const productCategoryRelationships = {
   ],
 } as const;
 const productMediaRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   product: [
     {
       sourceField: ["productId"],
@@ -8249,6 +15538,14 @@ const productMediaRelationships = {
   ],
 } as const;
 const productRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   category: [
     {
       sourceField: ["categoryId"],
@@ -8337,6 +15634,14 @@ const projectAttachmentRelationships = {
   ],
 } as const;
 const projectAuditRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   project: [
     {
       sourceField: ["projectId"],
@@ -8354,7 +15659,95 @@ const projectAuditRelationships = {
     },
   ],
 } as const;
+const projectBacklogRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  project: [
+    {
+      sourceField: ["projectId"],
+      destField: ["id"],
+      destSchema: "project",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const projectBillableRateRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  project: [
+    {
+      sourceField: ["projectId"],
+      destField: ["id"],
+      destSchema: "project",
+      cardinality: "one",
+    },
+  ],
+  user: [
+    {
+      sourceField: ["userId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const projectBurndownRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  sprint: [
+    {
+      sourceField: ["sprintId"],
+      destField: ["id"],
+      destSchema: "projectSprint",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const projectCapacityPlanningRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  resource: [
+    {
+      sourceField: ["resourceId"],
+      destField: ["id"],
+      destSchema: "projectResource",
+      cardinality: "one",
+    },
+  ],
+} as const;
 const projectCommentRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   task: [
     {
       sourceField: ["taskId"],
@@ -8372,7 +15765,111 @@ const projectCommentRelationships = {
     },
   ],
 } as const;
+const projectDependencyRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  predecessorTask: [
+    {
+      sourceField: ["predecessorTaskId"],
+      destField: ["id"],
+      destSchema: "projectTask",
+      cardinality: "one",
+    },
+  ],
+  successorTask: [
+    {
+      sourceField: ["successorTaskId"],
+      destField: ["id"],
+      destSchema: "projectTask",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const projectEpicRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  project: [
+    {
+      sourceField: ["projectId"],
+      destField: ["id"],
+      destSchema: "project",
+      cardinality: "one",
+    },
+  ],
+  owner: [
+    {
+      sourceField: ["ownerId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  stories: [
+    {
+      sourceField: ["id"],
+      destField: ["epicId"],
+      destSchema: "projectStory",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const projectGanttDataRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  task: [
+    {
+      sourceField: ["taskId"],
+      destField: ["id"],
+      destSchema: "projectTask",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const projectMilestoneRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  project: [
+    {
+      sourceField: ["projectId"],
+      destField: ["id"],
+      destSchema: "project",
+      cardinality: "one",
+    },
+  ],
+} as const;
 const projectNoteRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   project: [
     {
       sourceField: ["projectId"],
@@ -8409,6 +15906,14 @@ const projectPhaseRelationships = {
   ],
 } as const;
 const projectRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   owner: [
     {
       sourceField: ["ownerId"],
@@ -8450,7 +15955,189 @@ const projectRelationships = {
     },
   ],
 } as const;
+const projectResourceAllocationRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  resource: [
+    {
+      sourceField: ["resourceId"],
+      destField: ["id"],
+      destSchema: "projectResource",
+      cardinality: "one",
+    },
+  ],
+  project: [
+    {
+      sourceField: ["projectId"],
+      destField: ["id"],
+      destSchema: "project",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const projectResourceRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  user: [
+    {
+      sourceField: ["userId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  allocations: [
+    {
+      sourceField: ["id"],
+      destField: ["resourceId"],
+      destSchema: "projectResourceAllocation",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const projectResourceRequestRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  project: [
+    {
+      sourceField: ["projectId"],
+      destField: ["id"],
+      destSchema: "project",
+      cardinality: "one",
+    },
+  ],
+  requester: [
+    {
+      sourceField: ["requestedBy"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const projectRiskMitigationRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  risk: [
+    {
+      sourceField: ["riskId"],
+      destField: ["id"],
+      destSchema: "projectRisk",
+      cardinality: "one",
+    },
+  ],
+  responsibleUser: [
+    {
+      sourceField: ["responsible"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const projectRiskRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  project: [
+    {
+      sourceField: ["projectId"],
+      destField: ["id"],
+      destSchema: "project",
+      cardinality: "one",
+    },
+  ],
+  owner: [
+    {
+      sourceField: ["ownerId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  mitigations: [
+    {
+      sourceField: ["id"],
+      destField: ["riskId"],
+      destSchema: "projectRiskMitigation",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const projectSprintRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  project: [
+    {
+      sourceField: ["projectId"],
+      destField: ["id"],
+      destSchema: "project",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const projectStoryRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  epic: [
+    {
+      sourceField: ["epicId"],
+      destField: ["id"],
+      destSchema: "projectEpic",
+      cardinality: "one",
+    },
+  ],
+} as const;
 const projectTagRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   taskLinks: [
     {
       sourceField: ["id"],
@@ -8461,6 +16148,14 @@ const projectTagRelationships = {
   ],
 } as const;
 const projectTaskRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   project: [
     {
       sourceField: ["projectId"],
@@ -8511,6 +16206,14 @@ const projectTaskRelationships = {
   ],
 } as const;
 const projectTaskTagRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   task: [
     {
       sourceField: ["taskId"],
@@ -8528,7 +16231,129 @@ const projectTaskTagRelationships = {
     },
   ],
 } as const;
+const projectTimeEntryRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  task: [
+    {
+      sourceField: ["taskId"],
+      destField: ["id"],
+      destSchema: "projectTask",
+      cardinality: "one",
+    },
+  ],
+  user: [
+    {
+      sourceField: ["userId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const projectTimesheetApprovalRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  timesheet: [
+    {
+      sourceField: ["timesheetId"],
+      destField: ["id"],
+      destSchema: "projectTimesheet",
+      cardinality: "one",
+    },
+  ],
+  approver: [
+    {
+      sourceField: ["approverId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const projectTimesheetRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  user: [
+    {
+      sourceField: ["userId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  approvals: [
+    {
+      sourceField: ["id"],
+      destField: ["timesheetId"],
+      destSchema: "projectTimesheetApproval",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const projectUtilizationReportRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  resource: [
+    {
+      sourceField: ["resourceId"],
+      destField: ["id"],
+      destSchema: "projectResource",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const projectVelocityTrackingRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  sprint: [
+    {
+      sourceField: ["sprintId"],
+      destField: ["id"],
+      destSchema: "projectSprint",
+      cardinality: "one",
+    },
+  ],
+} as const;
 const shipmentItemRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   shipment: [
     {
       sourceField: ["shipmentId"],
@@ -8547,6 +16372,14 @@ const shipmentItemRelationships = {
   ],
 } as const;
 const shipmentRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   order: [
     {
       sourceField: ["orderId"],
@@ -8565,6 +16398,14 @@ const shipmentRelationships = {
   ],
 } as const;
 const supportTicketAssignmentRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   ticket: [
     {
       sourceField: ["ticketId"],
@@ -8583,6 +16424,14 @@ const supportTicketAssignmentRelationships = {
   ],
 } as const;
 const supportTicketAuditRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   ticket: [
     {
       sourceField: ["ticketId"],
@@ -8601,6 +16450,14 @@ const supportTicketAuditRelationships = {
   ],
 } as const;
 const supportTicketMessageRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   ticket: [
     {
       sourceField: ["ticketId"],
@@ -8619,6 +16476,14 @@ const supportTicketMessageRelationships = {
   ],
 } as const;
 const supportTicketRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   customer: [
     {
       sourceField: ["customerId"],
@@ -8669,6 +16534,14 @@ const supportTicketRelationships = {
   ],
 } as const;
 const supportTicketTagLinkRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   ticket: [
     {
       sourceField: ["ticketId"],
@@ -8687,6 +16560,14 @@ const supportTicketTagLinkRelationships = {
   ],
 } as const;
 const supportTicketTagRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   ticketLinks: [
     {
       sourceField: ["id"],
@@ -8696,7 +16577,87 @@ const supportTicketTagRelationships = {
     },
   ],
 } as const;
+const taxJurisdictionRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  taxRates: [
+    {
+      sourceField: ["id"],
+      destField: ["jurisdictionId"],
+      destSchema: "taxRate",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const taxLineItemRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  taxReturn: [
+    {
+      sourceField: ["returnId"],
+      destField: ["id"],
+      destSchema: "taxReturn",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const taxRateRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  jurisdiction: [
+    {
+      sourceField: ["jurisdictionId"],
+      destField: ["id"],
+      destSchema: "taxJurisdiction",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const taxReturnRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  lineItems: [
+    {
+      sourceField: ["id"],
+      destField: ["returnId"],
+      destSchema: "taxLineItem",
+      cardinality: "many",
+    },
+  ],
+} as const;
 const teamRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   department: [
     {
       sourceField: ["departmentId"],
@@ -8722,7 +16683,25 @@ const teamRelationships = {
     },
   ],
 } as const;
+const telemetryRollupRelationships = {
+  project: [
+    {
+      sourceField: ["projectId"],
+      destField: ["id"],
+      destSchema: "project",
+      cardinality: "one",
+    },
+  ],
+} as const;
 const timeEntryRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   timesheet: [
     {
       sourceField: ["timesheetId"],
@@ -8741,6 +16720,14 @@ const timeEntryRelationships = {
   ],
 } as const;
 const timesheetRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
   employee: [
     {
       sourceField: ["employeeId"],
@@ -8766,6 +16753,338 @@ const timesheetRelationships = {
     },
   ],
 } as const;
+const webhookSubscriptionRelationships = {
+  project: [
+    {
+      sourceField: ["projectId"],
+      destField: ["id"],
+      destSchema: "project",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const workspaceApiKeyRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  creator: [
+    {
+      sourceField: ["createdBy"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const workspaceAuditLogRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  user: [
+    {
+      sourceField: ["userId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const workspaceInvitationRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  inviter: [
+    {
+      sourceField: ["invitedBy"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const workspaceMembershipRelationships = {
+  workspace: [
+    {
+      sourceField: ["workspaceId"],
+      destField: ["id"],
+      destSchema: "workspace",
+      cardinality: "one",
+    },
+  ],
+  user: [
+    {
+      sourceField: ["userId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const workspaceRelationships = {
+  memberships: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "workspaceMembership",
+      cardinality: "many",
+    },
+  ],
+  invitations: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "workspaceInvitation",
+      cardinality: "many",
+    },
+  ],
+  apiKeys: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "workspaceApiKey",
+      cardinality: "many",
+    },
+  ],
+  auditLogs: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "workspaceAuditLog",
+      cardinality: "many",
+    },
+  ],
+  owner: [
+    {
+      sourceField: ["ownerId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  supportTickets: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "supportTicket",
+      cardinality: "many",
+    },
+  ],
+  crmLeads: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "crmLead",
+      cardinality: "many",
+    },
+  ],
+  crmLeadSources: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "crmLeadSource",
+      cardinality: "many",
+    },
+  ],
+  crmLeadScores: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "crmLeadScore",
+      cardinality: "many",
+    },
+  ],
+  crmLeadActivities: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "crmLeadActivity",
+      cardinality: "many",
+    },
+  ],
+  crmLeadAssignments: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "crmLeadAssignment",
+      cardinality: "many",
+    },
+  ],
+  crmLeadCustomFieldValues: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "crmLeadCustomFieldValue",
+      cardinality: "many",
+    },
+  ],
+  crmAccounts: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "crmAccount",
+      cardinality: "many",
+    },
+  ],
+  crmContacts: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "crmContact",
+      cardinality: "many",
+    },
+  ],
+  crmActivities: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "crmActivity",
+      cardinality: "many",
+    },
+  ],
+  crmNotes: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "crmNote",
+      cardinality: "many",
+    },
+  ],
+  crmSalesSequences: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "crmSalesSequence",
+      cardinality: "many",
+    },
+  ],
+  crmSalesSequenceSteps: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "crmSalesSequenceStep",
+      cardinality: "many",
+    },
+  ],
+  crmSalesSequenceEnrollments: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "crmSalesSequenceEnrollment",
+      cardinality: "many",
+    },
+  ],
+  inventoryItems: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "inventoryItem",
+      cardinality: "many",
+    },
+  ],
+  inventoryLevels: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "inventoryLevel",
+      cardinality: "many",
+    },
+  ],
+  taxRates: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "taxRate",
+      cardinality: "many",
+    },
+  ],
+  taxLineItem: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "taxLineItem",
+      cardinality: "many",
+    },
+  ],
+  taxReturns: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "taxReturn",
+      cardinality: "many",
+    },
+  ],
+  taxJurisdictions: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "taxJurisdiction",
+      cardinality: "many",
+    },
+  ],
+  projectBacklog: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "projectBacklog",
+      cardinality: "many",
+    },
+  ],
+  projectAudits: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "projectAudit",
+      cardinality: "many",
+    },
+  ],
+  projectComments: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "projectComment",
+      cardinality: "many",
+    },
+  ],
+  projectNotes: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "projectNote",
+      cardinality: "many",
+    },
+  ],
+  projectTasks: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "projectTask",
+      cardinality: "many",
+    },
+  ],
+  projectTaskTags: [
+    {
+      sourceField: ["id"],
+      destField: ["workspaceId"],
+      destSchema: "projectTaskTag",
+      cardinality: "many",
+    },
+  ],
+} as const;
 /**
  * The Zero schema object.
  * This type is auto-generated from your Drizzle schema definition.
@@ -8776,6 +17095,20 @@ export const schema = {
     analyticsDashboard: analyticsDashboardTable,
     analyticsWidget: analyticsWidgetTable,
     analyticsWidgetQuery: analyticsWidgetQueryTable,
+    apInvoice: apInvoiceTable,
+    apInvoiceLineItem: apInvoiceLineItemTable,
+    apPayment: apPaymentTable,
+    apPaymentMethod: apPaymentMethodTable,
+    apVendor: apVendorTable,
+    arCustomer: arCustomerTable,
+    arInvoice: arInvoiceTable,
+    arInvoiceLineItem: arInvoiceLineItemTable,
+    arPaymentReceived: arPaymentReceivedTable,
+    arPaymentTerm: arPaymentTermTable,
+    bankAccount: bankAccountTable,
+    bankReconciliation: bankReconciliationTable,
+    bankReconciliationItem: bankReconciliationItemTable,
+    bankTransaction: bankTransactionTable,
     benefitEnrollment: benefitEnrollmentTable,
     benefitPlan: benefitPlanTable,
     billingInvoice: billingInvoiceTable,
@@ -8783,13 +17116,33 @@ export const schema = {
     budget: budgetTable,
     budgetLine: budgetLineTable,
     crmAccount: crmAccountTable,
+    crmAccountHierarchy: crmAccountHierarchyTable,
+    crmAccountIndustry: crmAccountIndustryTable,
+    crmAccountTerritory: crmAccountTerritoryTable,
     crmActivity: crmActivityTable,
     crmActivityType: crmActivityTypeTable,
     crmContact: crmContactTable,
+    crmContactDuplicates: crmContactDuplicatesTable,
+    crmContactEngagement: crmContactEngagementTable,
+    crmContactPreference: crmContactPreferenceTable,
+    crmContactRole: crmContactRoleTable,
+    crmContactSocialProfile: crmContactSocialProfileTable,
+    crmLead: crmLeadTable,
+    crmLeadActivity: crmLeadActivityTable,
+    crmLeadAssignment: crmLeadAssignmentTable,
+    crmLeadCustomField: crmLeadCustomFieldTable,
+    crmLeadCustomFieldValue: crmLeadCustomFieldValueTable,
+    crmLeadScore: crmLeadScoreTable,
+    crmLeadSource: crmLeadSourceTable,
     crmNote: crmNoteTable,
     crmOpportunity: crmOpportunityTable,
     crmOpportunityStageHistory: crmOpportunityStageHistoryTable,
     crmPipelineStage: crmPipelineStageTable,
+    crmSalesSequence: crmSalesSequenceTable,
+    crmSalesSequenceEnrollment: crmSalesSequenceEnrollmentTable,
+    crmSalesSequenceEvent: crmSalesSequenceEventTable,
+    crmSalesSequenceStep: crmSalesSequenceStepTable,
+    crmTerritoryAssignment: crmTerritoryAssignmentTable,
     department: departmentTable,
     documentFile: documentFileTable,
     documentFileVersion: documentFileVersionTable,
@@ -8801,8 +17154,29 @@ export const schema = {
     employmentHistory: employmentHistoryTable,
     expenseItem: expenseItemTable,
     expenseReport: expenseReportTable,
+    featureFlag: featureFlagTable,
     filters: filtersTable,
     friendship: friendshipTable,
+    hrAttendance: hrAttendanceTable,
+    hrAttendanceException: hrAttendanceExceptionTable,
+    hrBenefit: hrBenefitTable,
+    hrBonus: hrBonusTable,
+    hrDepartment: hrDepartmentTable,
+    hrEmployee: hrEmployeeTable,
+    hrEmployeeBenefit: hrEmployeeBenefitTable,
+    hrEmployeePosition: hrEmployeePositionTable,
+    hrOrganizationChart: hrOrganizationChartTable,
+    hrPerformanceFeedback: hrPerformanceFeedbackTable,
+    hrPerformanceGoal: hrPerformanceGoalTable,
+    hrPerformanceImprovement: hrPerformanceImprovementTable,
+    hrPerformanceReview: hrPerformanceReviewTable,
+    hrPerformanceReviewCycle: hrPerformanceReviewCycleTable,
+    hrPosition: hrPositionTable,
+    hrSalaryHistory: hrSalaryHistoryTable,
+    hrTeam: hrTeamTable,
+    hrTimeOffBalance: hrTimeOffBalanceTable,
+    hrTimeOffPolicy: hrTimeOffPolicyTable,
+    hrTimeOffRequest: hrTimeOffRequestTable,
     integrationCredential: integrationCredentialTable,
     integrationEvent: integrationEventTable,
     integrationWebhook: integrationWebhookTable,
@@ -8820,11 +17194,17 @@ export const schema = {
     medium: mediumTable,
     message: messageTable,
     omittedTable: omittedTable,
+    opportunityCompetitor: opportunityCompetitorTable,
+    opportunityDocument: opportunityDocumentTable,
+    opportunityLineItem: opportunityLineItemTable,
+    opportunityStakeholder: opportunityStakeholderTable,
+    opportunityTimeline: opportunityTimelineTable,
     orderItem: orderItemTable,
     orderPayment: orderPaymentTable,
     orderTable: orderTable,
     payment: paymentTable,
     product: productTable,
+    productCatalog: productCatalogTable,
     productCategory: productCategoryTable,
     productMedia: productMediaTable,
     productVariant: productVariantTable,
@@ -8832,12 +17212,32 @@ export const schema = {
     projectAssignment: projectAssignmentTable,
     projectAttachment: projectAttachmentTable,
     projectAudit: projectAuditTable,
+    projectBacklog: projectBacklogTable,
+    projectBillableRate: projectBillableRateTable,
+    projectBurndown: projectBurndownTable,
+    projectCapacityPlanning: projectCapacityPlanningTable,
     projectComment: projectCommentTable,
+    projectDependency: projectDependencyTable,
+    projectEpic: projectEpicTable,
+    projectGanttData: projectGanttDataTable,
+    projectMilestone: projectMilestoneTable,
     projectNote: projectNoteTable,
     projectPhase: projectPhaseTable,
+    projectResource: projectResourceTable,
+    projectResourceAllocation: projectResourceAllocationTable,
+    projectResourceRequest: projectResourceRequestTable,
+    projectRisk: projectRiskTable,
+    projectRiskMitigation: projectRiskMitigationTable,
+    projectSprint: projectSprintTable,
+    projectStory: projectStoryTable,
     projectTag: projectTagTable,
     projectTask: projectTaskTable,
     projectTaskTag: projectTaskTagTable,
+    projectTimeEntry: projectTimeEntryTable,
+    projectTimesheet: projectTimesheetTable,
+    projectTimesheetApproval: projectTimesheetApprovalTable,
+    projectUtilizationReport: projectUtilizationReportTable,
+    projectVelocityTracking: projectVelocityTrackingTable,
     shipment: shipmentTable,
     shipmentItem: shipmentItemTable,
     supportTicket: supportTicketTable,
@@ -8846,7 +17246,12 @@ export const schema = {
     supportTicketMessage: supportTicketMessageTable,
     supportTicketTag: supportTicketTagTable,
     supportTicketTagLink: supportTicketTagLinkTable,
+    taxJurisdiction: taxJurisdictionTable,
+    taxLineItem: taxLineItemTable,
+    taxRate: taxRateTable,
+    taxReturn: taxReturnTable,
     team: teamTable,
+    telemetryRollup: telemetryRollupTable,
     testBigSerialPk: testBigSerialPkTable,
     testCompositePkBothDefaults: testCompositePkBothDefaultsTable,
     testCompositePkOneDefault: testCompositePkOneDefaultTable,
@@ -8859,26 +17264,66 @@ export const schema = {
     timeEntry: timeEntryTable,
     timesheet: timesheetTable,
     user: userTable,
+    webhookSubscription: webhookSubscriptionTable,
+    workspace: workspaceTable,
+    workspaceApiKey: workspaceApiKeyTable,
+    workspaceAuditLog: workspaceAuditLogTable,
+    workspaceInvitation: workspaceInvitationTable,
+    workspaceMembership: workspaceMembershipTable,
   },
   relationships: {
     user: userRelationships,
     analyticsDashboard: analyticsDashboardRelationships,
     analyticsWidgetQuery: analyticsWidgetQueryRelationships,
     analyticsWidget: analyticsWidgetRelationships,
+    apInvoiceLineItem: apInvoiceLineItemRelationships,
+    apInvoice: apInvoiceRelationships,
+    apPaymentMethod: apPaymentMethodRelationships,
+    apPayment: apPaymentRelationships,
+    apVendor: apVendorRelationships,
+    arCustomer: arCustomerRelationships,
+    arInvoiceLineItem: arInvoiceLineItemRelationships,
+    arInvoice: arInvoiceRelationships,
+    arPaymentReceived: arPaymentReceivedRelationships,
+    arPaymentTerm: arPaymentTermRelationships,
+    bankAccount: bankAccountRelationships,
+    bankReconciliationItem: bankReconciliationItemRelationships,
+    bankReconciliation: bankReconciliationRelationships,
+    bankTransaction: bankTransactionRelationships,
     benefitEnrollment: benefitEnrollmentRelationships,
     benefitPlan: benefitPlanRelationships,
     billingInvoiceLine: billingInvoiceLineRelationships,
     billingInvoice: billingInvoiceRelationships,
     budgetLine: budgetLineRelationships,
     budget: budgetRelationships,
+    crmAccountHierarchy: crmAccountHierarchyRelationships,
+    crmAccountIndustry: crmAccountIndustryRelationships,
     crmAccount: crmAccountRelationships,
+    crmAccountTerritory: crmAccountTerritoryRelationships,
     crmActivity: crmActivityRelationships,
     crmActivityType: crmActivityTypeRelationships,
+    crmContactDuplicates: crmContactDuplicatesRelationships,
+    crmContactEngagement: crmContactEngagementRelationships,
+    crmContactPreference: crmContactPreferenceRelationships,
     crmContact: crmContactRelationships,
+    crmContactRole: crmContactRoleRelationships,
+    crmContactSocialProfile: crmContactSocialProfileRelationships,
+    crmLeadActivity: crmLeadActivityRelationships,
+    crmLeadAssignment: crmLeadAssignmentRelationships,
+    crmLeadCustomField: crmLeadCustomFieldRelationships,
+    crmLeadCustomFieldValue: crmLeadCustomFieldValueRelationships,
+    crmLead: crmLeadRelationships,
+    crmLeadScore: crmLeadScoreRelationships,
+    crmLeadSource: crmLeadSourceRelationships,
     crmNote: crmNoteRelationships,
     crmOpportunity: crmOpportunityRelationships,
     crmOpportunityStageHistory: crmOpportunityStageHistoryRelationships,
     crmPipelineStage: crmPipelineStageRelationships,
+    crmSalesSequenceEnrollment: crmSalesSequenceEnrollmentRelationships,
+    crmSalesSequenceEvent: crmSalesSequenceEventRelationships,
+    crmSalesSequence: crmSalesSequenceRelationships,
+    crmSalesSequenceStep: crmSalesSequenceStepRelationships,
+    crmTerritoryAssignment: crmTerritoryAssignmentRelationships,
     department: departmentRelationships,
     documentFile: documentFileRelationships,
     documentFileVersion: documentFileVersionRelationships,
@@ -8890,7 +17335,29 @@ export const schema = {
     employmentHistory: employmentHistoryRelationships,
     expenseItem: expenseItemRelationships,
     expenseReport: expenseReportRelationships,
+    featureFlag: featureFlagRelationships,
     filters: filtersRelationships,
+    friendship: friendshipRelationships,
+    hrAttendanceException: hrAttendanceExceptionRelationships,
+    hrAttendance: hrAttendanceRelationships,
+    hrBenefit: hrBenefitRelationships,
+    hrBonus: hrBonusRelationships,
+    hrDepartment: hrDepartmentRelationships,
+    hrEmployeeBenefit: hrEmployeeBenefitRelationships,
+    hrEmployeePosition: hrEmployeePositionRelationships,
+    hrEmployee: hrEmployeeRelationships,
+    hrOrganizationChart: hrOrganizationChartRelationships,
+    hrPerformanceFeedback: hrPerformanceFeedbackRelationships,
+    hrPerformanceGoal: hrPerformanceGoalRelationships,
+    hrPerformanceImprovement: hrPerformanceImprovementRelationships,
+    hrPerformanceReviewCycle: hrPerformanceReviewCycleRelationships,
+    hrPerformanceReview: hrPerformanceReviewRelationships,
+    hrPosition: hrPositionRelationships,
+    hrSalaryHistory: hrSalaryHistoryRelationships,
+    hrTeam: hrTeamRelationships,
+    hrTimeOffBalance: hrTimeOffBalanceRelationships,
+    hrTimeOffPolicy: hrTimeOffPolicyRelationships,
+    hrTimeOffRequest: hrTimeOffRequestRelationships,
     integrationCredential: integrationCredentialRelationships,
     integrationEvent: integrationEventRelationships,
     integrationWebhook: integrationWebhookRelationships,
@@ -8907,9 +17374,17 @@ export const schema = {
     marketingChannel: marketingChannelRelationships,
     medium: mediumRelationships,
     message: messageRelationships,
+    omittedTable: omittedTableRelationships,
+    opportunityCompetitor: opportunityCompetitorRelationships,
+    opportunityDocument: opportunityDocumentRelationships,
+    opportunityLineItem: opportunityLineItemRelationships,
+    opportunityStakeholder: opportunityStakeholderRelationships,
+    opportunityTimeline: opportunityTimelineRelationships,
     orderItem: orderItemRelationships,
     orderPayment: orderPaymentRelationships,
     orderTable: orderTableRelationships,
+    payment: paymentRelationships,
+    productCatalog: productCatalogRelationships,
     productCategory: productCategoryRelationships,
     productMedia: productMediaRelationships,
     product: productRelationships,
@@ -8917,13 +17392,33 @@ export const schema = {
     projectAssignment: projectAssignmentRelationships,
     projectAttachment: projectAttachmentRelationships,
     projectAudit: projectAuditRelationships,
+    projectBacklog: projectBacklogRelationships,
+    projectBillableRate: projectBillableRateRelationships,
+    projectBurndown: projectBurndownRelationships,
+    projectCapacityPlanning: projectCapacityPlanningRelationships,
     projectComment: projectCommentRelationships,
+    projectDependency: projectDependencyRelationships,
+    projectEpic: projectEpicRelationships,
+    projectGanttData: projectGanttDataRelationships,
+    projectMilestone: projectMilestoneRelationships,
     projectNote: projectNoteRelationships,
     projectPhase: projectPhaseRelationships,
     project: projectRelationships,
+    projectResourceAllocation: projectResourceAllocationRelationships,
+    projectResource: projectResourceRelationships,
+    projectResourceRequest: projectResourceRequestRelationships,
+    projectRiskMitigation: projectRiskMitigationRelationships,
+    projectRisk: projectRiskRelationships,
+    projectSprint: projectSprintRelationships,
+    projectStory: projectStoryRelationships,
     projectTag: projectTagRelationships,
     projectTask: projectTaskRelationships,
     projectTaskTag: projectTaskTagRelationships,
+    projectTimeEntry: projectTimeEntryRelationships,
+    projectTimesheetApproval: projectTimesheetApprovalRelationships,
+    projectTimesheet: projectTimesheetRelationships,
+    projectUtilizationReport: projectUtilizationReportRelationships,
+    projectVelocityTracking: projectVelocityTrackingRelationships,
     shipmentItem: shipmentItemRelationships,
     shipment: shipmentRelationships,
     supportTicketAssignment: supportTicketAssignmentRelationships,
@@ -8932,9 +17427,20 @@ export const schema = {
     supportTicket: supportTicketRelationships,
     supportTicketTagLink: supportTicketTagLinkRelationships,
     supportTicketTag: supportTicketTagRelationships,
+    taxJurisdiction: taxJurisdictionRelationships,
+    taxLineItem: taxLineItemRelationships,
+    taxRate: taxRateRelationships,
+    taxReturn: taxReturnRelationships,
     team: teamRelationships,
+    telemetryRollup: telemetryRollupRelationships,
     timeEntry: timeEntryRelationships,
     timesheet: timesheetRelationships,
+    webhookSubscription: webhookSubscriptionRelationships,
+    workspaceApiKey: workspaceApiKeyRelationships,
+    workspaceAuditLog: workspaceAuditLogRelationships,
+    workspaceInvitation: workspaceInvitationRelationships,
+    workspaceMembership: workspaceMembershipRelationships,
+    workspace: workspaceRelationships,
   },
   enableLegacyQueries: false,
   enableLegacyMutators: false,
@@ -8965,6 +17471,76 @@ export type AnalyticsWidget = Row<typeof analyticsWidgetTable>;
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type AnalyticsWidgetQuery = Row<typeof analyticsWidgetQueryTable>;
+/**
+ * Represents a row from the "apInvoice" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ApInvoice = Row<typeof apInvoiceTable>;
+/**
+ * Represents a row from the "apInvoiceLineItem" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ApInvoiceLineItem = Row<typeof apInvoiceLineItemTable>;
+/**
+ * Represents a row from the "apPayment" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ApPayment = Row<typeof apPaymentTable>;
+/**
+ * Represents a row from the "apPaymentMethod" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ApPaymentMethod = Row<typeof apPaymentMethodTable>;
+/**
+ * Represents a row from the "apVendor" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ApVendor = Row<typeof apVendorTable>;
+/**
+ * Represents a row from the "arCustomer" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ArCustomer = Row<typeof arCustomerTable>;
+/**
+ * Represents a row from the "arInvoice" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ArInvoice = Row<typeof arInvoiceTable>;
+/**
+ * Represents a row from the "arInvoiceLineItem" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ArInvoiceLineItem = Row<typeof arInvoiceLineItemTable>;
+/**
+ * Represents a row from the "arPaymentReceived" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ArPaymentReceived = Row<typeof arPaymentReceivedTable>;
+/**
+ * Represents a row from the "arPaymentTerm" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ArPaymentTerm = Row<typeof arPaymentTermTable>;
+/**
+ * Represents a row from the "bankAccount" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type BankAccount = Row<typeof bankAccountTable>;
+/**
+ * Represents a row from the "bankReconciliation" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type BankReconciliation = Row<typeof bankReconciliationTable>;
+/**
+ * Represents a row from the "bankReconciliationItem" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type BankReconciliationItem = Row<typeof bankReconciliationItemTable>;
+/**
+ * Represents a row from the "bankTransaction" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type BankTransaction = Row<typeof bankTransactionTable>;
 /**
  * Represents a row from the "benefitEnrollment" table.
  * This type is auto-generated from your Drizzle schema definition.
@@ -9001,6 +17577,21 @@ export type BudgetLine = Row<typeof budgetLineTable>;
  */
 export type CrmAccount = Row<typeof crmAccountTable>;
 /**
+ * Represents a row from the "crmAccountHierarchy" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmAccountHierarchy = Row<typeof crmAccountHierarchyTable>;
+/**
+ * Represents a row from the "crmAccountIndustry" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmAccountIndustry = Row<typeof crmAccountIndustryTable>;
+/**
+ * Represents a row from the "crmAccountTerritory" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmAccountTerritory = Row<typeof crmAccountTerritoryTable>;
+/**
  * Represents a row from the "crmActivity" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
@@ -9015,6 +17606,66 @@ export type CrmActivityType = Row<typeof crmActivityTypeTable>;
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type CrmContact = Row<typeof crmContactTable>;
+/**
+ * Represents a row from the "crmContactDuplicates" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmContactDuplicate = Row<typeof crmContactDuplicatesTable>;
+/**
+ * Represents a row from the "crmContactEngagement" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmContactEngagement = Row<typeof crmContactEngagementTable>;
+/**
+ * Represents a row from the "crmContactPreference" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmContactPreference = Row<typeof crmContactPreferenceTable>;
+/**
+ * Represents a row from the "crmContactRole" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmContactRole = Row<typeof crmContactRoleTable>;
+/**
+ * Represents a row from the "crmContactSocialProfile" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmContactSocialProfile = Row<typeof crmContactSocialProfileTable>;
+/**
+ * Represents a row from the "crmLead" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmLead = Row<typeof crmLeadTable>;
+/**
+ * Represents a row from the "crmLeadActivity" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmLeadActivity = Row<typeof crmLeadActivityTable>;
+/**
+ * Represents a row from the "crmLeadAssignment" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmLeadAssignment = Row<typeof crmLeadAssignmentTable>;
+/**
+ * Represents a row from the "crmLeadCustomField" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmLeadCustomField = Row<typeof crmLeadCustomFieldTable>;
+/**
+ * Represents a row from the "crmLeadCustomFieldValue" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmLeadCustomFieldValue = Row<typeof crmLeadCustomFieldValueTable>;
+/**
+ * Represents a row from the "crmLeadScore" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmLeadScore = Row<typeof crmLeadScoreTable>;
+/**
+ * Represents a row from the "crmLeadSource" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmLeadSource = Row<typeof crmLeadSourceTable>;
 /**
  * Represents a row from the "crmNote" table.
  * This type is auto-generated from your Drizzle schema definition.
@@ -9037,6 +17688,33 @@ export type CrmOpportunityStageHistory = Row<
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type CrmPipelineStage = Row<typeof crmPipelineStageTable>;
+/**
+ * Represents a row from the "crmSalesSequence" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmSalesSequence = Row<typeof crmSalesSequenceTable>;
+/**
+ * Represents a row from the "crmSalesSequenceEnrollment" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmSalesSequenceEnrollment = Row<
+  typeof crmSalesSequenceEnrollmentTable
+>;
+/**
+ * Represents a row from the "crmSalesSequenceEvent" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmSalesSequenceEvent = Row<typeof crmSalesSequenceEventTable>;
+/**
+ * Represents a row from the "crmSalesSequenceStep" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmSalesSequenceStep = Row<typeof crmSalesSequenceStepTable>;
+/**
+ * Represents a row from the "crmTerritoryAssignment" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmTerritoryAssignment = Row<typeof crmTerritoryAssignmentTable>;
 /**
  * Represents a row from the "department" table.
  * This type is auto-generated from your Drizzle schema definition.
@@ -9093,6 +17771,11 @@ export type ExpenseItem = Row<typeof expenseItemTable>;
  */
 export type ExpenseReport = Row<typeof expenseReportTable>;
 /**
+ * Represents a row from the "featureFlag" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type FeatureFlag = Row<typeof featureFlagTable>;
+/**
  * Represents a row from the "filters" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
@@ -9102,6 +17785,110 @@ export type Filter = Row<typeof filtersTable>;
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type Friendship = Row<typeof friendshipTable>;
+/**
+ * Represents a row from the "hrAttendance" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrAttendance = Row<typeof hrAttendanceTable>;
+/**
+ * Represents a row from the "hrAttendanceException" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrAttendanceException = Row<typeof hrAttendanceExceptionTable>;
+/**
+ * Represents a row from the "hrBenefit" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrBenefit = Row<typeof hrBenefitTable>;
+/**
+ * Represents a row from the "hrBonus" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrBonus = Row<typeof hrBonusTable>;
+/**
+ * Represents a row from the "hrDepartment" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrDepartment = Row<typeof hrDepartmentTable>;
+/**
+ * Represents a row from the "hrEmployee" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrEmployee = Row<typeof hrEmployeeTable>;
+/**
+ * Represents a row from the "hrEmployeeBenefit" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrEmployeeBenefit = Row<typeof hrEmployeeBenefitTable>;
+/**
+ * Represents a row from the "hrEmployeePosition" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrEmployeePosition = Row<typeof hrEmployeePositionTable>;
+/**
+ * Represents a row from the "hrOrganizationChart" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrOrganizationChart = Row<typeof hrOrganizationChartTable>;
+/**
+ * Represents a row from the "hrPerformanceFeedback" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrPerformanceFeedback = Row<typeof hrPerformanceFeedbackTable>;
+/**
+ * Represents a row from the "hrPerformanceGoal" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrPerformanceGoal = Row<typeof hrPerformanceGoalTable>;
+/**
+ * Represents a row from the "hrPerformanceImprovement" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrPerformanceImprovement = Row<
+  typeof hrPerformanceImprovementTable
+>;
+/**
+ * Represents a row from the "hrPerformanceReview" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrPerformanceReview = Row<typeof hrPerformanceReviewTable>;
+/**
+ * Represents a row from the "hrPerformanceReviewCycle" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrPerformanceReviewCycle = Row<
+  typeof hrPerformanceReviewCycleTable
+>;
+/**
+ * Represents a row from the "hrPosition" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrPosition = Row<typeof hrPositionTable>;
+/**
+ * Represents a row from the "hrSalaryHistory" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrSalaryHistory = Row<typeof hrSalaryHistoryTable>;
+/**
+ * Represents a row from the "hrTeam" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrTeam = Row<typeof hrTeamTable>;
+/**
+ * Represents a row from the "hrTimeOffBalance" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrTimeOffBalance = Row<typeof hrTimeOffBalanceTable>;
+/**
+ * Represents a row from the "hrTimeOffPolicy" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrTimeOffPolicy = Row<typeof hrTimeOffPolicyTable>;
+/**
+ * Represents a row from the "hrTimeOffRequest" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type HrTimeOffRequest = Row<typeof hrTimeOffRequestTable>;
 /**
  * Represents a row from the "integrationCredential" table.
  * This type is auto-generated from your Drizzle schema definition.
@@ -9192,6 +17979,31 @@ export type Message = Row<typeof messageTable>;
  */
 export type OmittedTable = Row<typeof omittedTable>;
 /**
+ * Represents a row from the "opportunityCompetitor" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type OpportunityCompetitor = Row<typeof opportunityCompetitorTable>;
+/**
+ * Represents a row from the "opportunityDocument" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type OpportunityDocument = Row<typeof opportunityDocumentTable>;
+/**
+ * Represents a row from the "opportunityLineItem" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type OpportunityLineItem = Row<typeof opportunityLineItemTable>;
+/**
+ * Represents a row from the "opportunityStakeholder" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type OpportunityStakeholder = Row<typeof opportunityStakeholderTable>;
+/**
+ * Represents a row from the "opportunityTimeline" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type OpportunityTimeline = Row<typeof opportunityTimelineTable>;
+/**
  * Represents a row from the "orderItem" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
@@ -9216,6 +18028,11 @@ export type Payment = Row<typeof paymentTable>;
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type Product = Row<typeof productTable>;
+/**
+ * Represents a row from the "productCatalog" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProductCatalog = Row<typeof productCatalogTable>;
 /**
  * Represents a row from the "productCategory" table.
  * This type is auto-generated from your Drizzle schema definition.
@@ -9252,10 +18069,50 @@ export type ProjectAttachment = Row<typeof projectAttachmentTable>;
  */
 export type ProjectAudit = Row<typeof projectAuditTable>;
 /**
+ * Represents a row from the "projectBacklog" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectBacklog = Row<typeof projectBacklogTable>;
+/**
+ * Represents a row from the "projectBillableRate" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectBillableRate = Row<typeof projectBillableRateTable>;
+/**
+ * Represents a row from the "projectBurndown" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectBurndown = Row<typeof projectBurndownTable>;
+/**
+ * Represents a row from the "projectCapacityPlanning" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectCapacityPlanning = Row<typeof projectCapacityPlanningTable>;
+/**
  * Represents a row from the "projectComment" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type ProjectComment = Row<typeof projectCommentTable>;
+/**
+ * Represents a row from the "projectDependency" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectDependency = Row<typeof projectDependencyTable>;
+/**
+ * Represents a row from the "projectEpic" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectEpic = Row<typeof projectEpicTable>;
+/**
+ * Represents a row from the "projectGanttData" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectGanttDatum = Row<typeof projectGanttDataTable>;
+/**
+ * Represents a row from the "projectMilestone" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectMilestone = Row<typeof projectMilestoneTable>;
 /**
  * Represents a row from the "projectNote" table.
  * This type is auto-generated from your Drizzle schema definition.
@@ -9266,6 +18123,43 @@ export type ProjectNote = Row<typeof projectNoteTable>;
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type ProjectPhase = Row<typeof projectPhaseTable>;
+/**
+ * Represents a row from the "projectResource" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectResource = Row<typeof projectResourceTable>;
+/**
+ * Represents a row from the "projectResourceAllocation" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectResourceAllocation = Row<
+  typeof projectResourceAllocationTable
+>;
+/**
+ * Represents a row from the "projectResourceRequest" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectResourceRequest = Row<typeof projectResourceRequestTable>;
+/**
+ * Represents a row from the "projectRisk" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectRisk = Row<typeof projectRiskTable>;
+/**
+ * Represents a row from the "projectRiskMitigation" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectRiskMitigation = Row<typeof projectRiskMitigationTable>;
+/**
+ * Represents a row from the "projectSprint" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectSprint = Row<typeof projectSprintTable>;
+/**
+ * Represents a row from the "projectStory" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectStory = Row<typeof projectStoryTable>;
 /**
  * Represents a row from the "projectTag" table.
  * This type is auto-generated from your Drizzle schema definition.
@@ -9281,6 +18175,35 @@ export type ProjectTask = Row<typeof projectTaskTable>;
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type ProjectTaskTag = Row<typeof projectTaskTagTable>;
+/**
+ * Represents a row from the "projectTimeEntry" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectTimeEntry = Row<typeof projectTimeEntryTable>;
+/**
+ * Represents a row from the "projectTimesheet" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectTimesheet = Row<typeof projectTimesheetTable>;
+/**
+ * Represents a row from the "projectTimesheetApproval" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectTimesheetApproval = Row<
+  typeof projectTimesheetApprovalTable
+>;
+/**
+ * Represents a row from the "projectUtilizationReport" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectUtilizationReport = Row<
+  typeof projectUtilizationReportTable
+>;
+/**
+ * Represents a row from the "projectVelocityTracking" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectVelocityTracking = Row<typeof projectVelocityTrackingTable>;
 /**
  * Represents a row from the "shipment" table.
  * This type is auto-generated from your Drizzle schema definition.
@@ -9322,10 +18245,35 @@ export type SupportTicketTag = Row<typeof supportTicketTagTable>;
  */
 export type SupportTicketTagLink = Row<typeof supportTicketTagLinkTable>;
 /**
+ * Represents a row from the "taxJurisdiction" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type TaxJurisdiction = Row<typeof taxJurisdictionTable>;
+/**
+ * Represents a row from the "taxLineItem" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type TaxLineItem = Row<typeof taxLineItemTable>;
+/**
+ * Represents a row from the "taxRate" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type TaxRate = Row<typeof taxRateTable>;
+/**
+ * Represents a row from the "taxReturn" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type TaxReturn = Row<typeof taxReturnTable>;
+/**
  * Represents a row from the "team" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type Team = Row<typeof teamTable>;
+/**
+ * Represents a row from the "telemetryRollup" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type TelemetryRollup = Row<typeof telemetryRollupTable>;
 /**
  * Represents a row from the "testBigSerialPk" table.
  * This type is auto-generated from your Drizzle schema definition.
@@ -9390,6 +18338,36 @@ export type Timesheet = Row<typeof timesheetTable>;
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type User = Row<typeof userTable>;
+/**
+ * Represents a row from the "webhookSubscription" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type WebhookSubscription = Row<typeof webhookSubscriptionTable>;
+/**
+ * Represents a row from the "workspace" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type Workspace = Row<typeof workspaceTable>;
+/**
+ * Represents a row from the "workspaceApiKey" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type WorkspaceApiKey = Row<typeof workspaceApiKeyTable>;
+/**
+ * Represents a row from the "workspaceAuditLog" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type WorkspaceAuditLog = Row<typeof workspaceAuditLogTable>;
+/**
+ * Represents a row from the "workspaceInvitation" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type WorkspaceInvitation = Row<typeof workspaceInvitationTable>;
+/**
+ * Represents a row from the "workspaceMembership" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type WorkspaceMembership = Row<typeof workspaceMembershipTable>;
 
 /**
  * Represents the Zero schema query builder.

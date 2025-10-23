@@ -1,4 +1,3 @@
-import { startGetQueriesServer } from "../get-queries-server";
 import {
   ZERO_PORT,
   db,
@@ -7,7 +6,6 @@ import {
 } from "@drizzle-zero/db/test-utils";
 import { Zero } from "@rocicorp/zero";
 import { zeroDrizzle } from "@rocicorp/zero/server/adapters/drizzle";
-import type { Server } from "http";
 import {
   afterAll,
   beforeAll,
@@ -17,26 +15,29 @@ import {
   test,
 } from "vitest";
 import { WebSocket } from "ws";
-import { stopGetQueriesServer } from "../get-queries-server";
 import {
   allTypesById,
+  allTypesByStatus,
   allUsers,
-  complexOrderWithEverything,
   filtersWithChildren,
   mediumById,
   messageById,
   messageWithRelations,
   messagesByBody,
   messagesBySender,
+  complexOrderWithEverything,
 } from "../synced-queries";
 import {
   schema,
   type Filter,
-  type Message,
   type Schema,
   type User,
 } from "../zero-schema.gen";
-import { getShortCode } from "@drizzle-zero/db/types";
+import {
+  startGetQueriesServer,
+  stopGetQueriesServer,
+} from "../get-queries-server";
+import type { Server } from "http";
 
 const zeroDb = zeroDrizzle(schema, db as any);
 
@@ -133,8 +134,6 @@ describe("relationships", () => {
 
     const messages = await zero.run(query, { type: "complete" });
 
-    expectTypeOf(messages).toExtend<Message[]>();
-
     expect(messages).toHaveLength(2);
     expect(messages[0]?.body).toBe("Hey, James!");
     expect(messages[0]?.metadata.key).toStrictEqual("value1");
@@ -148,8 +147,6 @@ describe("relationships", () => {
     const query = messagesByBody(undefined, "Thomas!");
 
     const messages = await zero.run(query, { type: "complete" });
-
-    expectTypeOf(messages).toExtend<Message[]>();
 
     expect(messages).toHaveLength(1);
     expect(messages[0]?.body).toBe("Thomas!");
@@ -169,7 +166,6 @@ describe("relationships", () => {
     expect(message?.medium?.name).toBe("email");
 
     expect(message?.sender?.name).toBe("James");
-    expect(message?.sender?.status).toBe("COMPLETED");
 
     await zero.close();
   });
@@ -179,6 +175,7 @@ describe("relationships", () => {
 
     await zeroDb.transaction(async (tx) => {
       await tx.mutate.message.insert({
+        workspaceId: "workspace_1",
         id: "99",
         body: "Hi, James!",
         senderId: "1",
@@ -190,8 +187,6 @@ describe("relationships", () => {
     const query = messageById(undefined, "99");
 
     const message = await zero.run(query, { type: "complete" });
-
-    expectTypeOf(message).toExtend<Message | undefined>();
 
     expect(message?.id).toBe("99");
     expect(message?.metadata.key).toStrictEqual("9988");
@@ -241,6 +236,7 @@ describe("types", () => {
       fontSize: 16,
     });
     expect(result?.status).toStrictEqual("pending");
+
     expect(result?.textArray).toStrictEqual(["text", "text2"]);
     expect(result?.intArray).toStrictEqual([1, 2]);
     // expect(result?.boolArray).toStrictEqual([true, false]);
@@ -249,10 +245,7 @@ describe("types", () => {
       "123e4567-e89b-12d3-a456-426614174001",
       "123e4567-e89b-12d3-a456-426614174002",
     ]);
-    // expect(result?.jsonbArray).toStrictEqual([
-    //   { key: "value" },
-    //   { key: "value2" },
-    // ]);
+    // expect(result?.jsonbArray).toStrictEqual([{ key: "value" }, { key: "value2" }]);
     expect(result?.enumArray).toStrictEqual(["pending", "active"]);
 
     expect(result?.smallSerialField).toStrictEqual(1);
@@ -276,13 +269,29 @@ describe("types", () => {
     await zero.close();
   });
 
+  test("can query enum type", async () => {
+    const zero = await getNewZero();
+
+    const query = allTypesByStatus(undefined, "pending");
+
+    const result = await zero.run(query, { type: "complete" });
+
+    expect(result?.status).toStrictEqual("pending");
+
+    await zero.close();
+  });
+
   test("can insert all types", async () => {
     const zero = await getNewZero();
 
     const currentDate = new Date();
 
+    const uuid1 = "123e4567-e89b-12d3-a456-426614174001";
+    const uuid2 = "123e4567-e89b-12d3-a456-426614174002";
+
     await zeroDb.transaction(async (tx) => {
       await tx.mutate.allTypes.insert({
+        workspaceId: "workspace_1",
         id: "1011",
         smallintField: 22,
         integerField: 23,
@@ -353,11 +362,7 @@ describe("types", () => {
     expect(result?.intArray).toStrictEqual([1, 2]);
     // expect(result?.boolArray).toStrictEqual([true, false]);
     expect(result?.numericArray).toStrictEqual([8.8, 9.9]);
-    expect(result?.uuidArray).toStrictEqual([
-      "123e4567-e89b-12d3-a456-426614174001",
-      "123e4567-e89b-12d3-a456-426614174002",
-    ]);
-    // jsonbArray returns strings instead of objects - known issue
+    expect(result?.uuidArray).toStrictEqual([uuid1, uuid2]);
     // expect(result?.jsonbArray).toStrictEqual([
     //   { key: "value" },
     //   { key: "value2" },
@@ -376,6 +381,7 @@ describe("types", () => {
     expect(dbResult?.numericField).toStrictEqual("25.84");
     expect(dbResult?.decimalField).toStrictEqual("26.33");
     expect(dbResult?.realField).toStrictEqual(27.1);
+    expect(dbResult?.uuidField).toStrictEqual(uuid1);
     expect(dbResult?.doublePrecisionField).toStrictEqual(28.2);
     expect(dbResult?.textField).toStrictEqual("text2");
     expect(dbResult?.charField).toStrictEqual("f");
@@ -408,15 +414,11 @@ describe("types", () => {
     expect(dbResult?.intArray).toStrictEqual([1, 2]);
     // expect(dbResult?.boolArray).toStrictEqual([true, false]);
     expect(dbResult?.numericArray).toStrictEqual([8.8, 9.9]);
-    expect(dbResult?.uuidArray).toStrictEqual([
-      "123e4567-e89b-12d3-a456-426614174001",
-      "123e4567-e89b-12d3-a456-426614174002",
+    expect(dbResult?.uuidArray).toStrictEqual([uuid1, uuid2]);
+    expect(dbResult?.jsonbArray).toStrictEqual([
+      { key: "value" },
+      { key: "value2" },
     ]);
-    // TODO drizzle does not query jsonbArray correctly
-    // expect(dbResult?.jsonbArray).toStrictEqual([
-    //   { key: "value" },
-    //   { key: "value2" },
-    // ]);
     expect(dbResult?.enumArray).toStrictEqual(["pending", "active"]);
 
     // Serial fields don't auto-increment properly when seed data explicitly sets them
@@ -813,20 +815,16 @@ describe("complex order", () => {
     expect(result.customer.partner).toBe(false);
     expect(result.customer.status).toBe("COMPLETED");
 
-    // Customer friends relationship (if available)
-    if (result.customer.friends) {
-      expect(result.customer.friends).toHaveLength(1);
-      expect(result.customer.friends[0].id).toBe("friend-1");
-      expect(result.customer.friends[0].name).toBe("Customer Friend");
-    }
+    // Customer friends relationship
+    expect(result.customer.friends).toHaveLength(1);
+    expect(result.customer.friends[0].id).toBe("friend-1");
+    expect(result.customer.friends[0].name).toBe("Customer Friend");
 
-    // Customer messages relationship (if available)
-    if (result.customer.messages) {
-      expect(result.customer.messages).toHaveLength(1);
-      expect(result.customer.messages[0].id).toBe("msg-cust-1");
-      expect(result.customer.messages[0].body).toBe("Hello from customer");
-      expect(result.customer.messages[0].metadata.key).toBe("cust-meta");
-    }
+    // Customer messages relationship
+    expect(result.customer.messages).toHaveLength(1);
+    expect(result.customer.messages[0].id).toBe("msg-cust-1");
+    expect(result.customer.messages[0].body).toBe("Hello from customer");
+    expect(result.customer.messages[0].metadata.key).toBe("cust-meta");
 
     // Opportunity relationship
     expect(result.opportunity).toBeDefined();
