@@ -1602,12 +1602,16 @@ export const testUuidPk = pgTable("test_uuid_pk", {
 });
 
 export const testUuidSqlDefaultPk = pgTable("test_uuid_sql_default_pk", {
-  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
   name: text("name").notNull(),
 });
 
 export const testTextDefaultPk = pgTable("test_text_default_pk", {
-  id: text("id").primaryKey().default(sql`gen_random_uuid()::text`),
+  id: text("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()::text`),
   name: text("name").notNull(),
 });
 
@@ -1617,7 +1621,9 @@ export const testTimestampDefaultPk = pgTable("test_timestamp_default_pk", {
 });
 
 export const testIntegerDefaultPk = pgTable("test_integer_default_pk", {
-  id: integer("id").primaryKey().default(sql`floor(random() * 1000000)`),
+  id: integer("id")
+    .primaryKey()
+    .default(sql`floor(random() * 1000000)`),
   name: text("name").notNull(),
 });
 
