@@ -6001,6 +6001,190 @@ exports[`getConfigFromFile > should successfully load and parse a valid config f
         "id",
       ],
     },
+    "testBigSerialPk": {
+      "columns": {
+        "id": {
+          "customType": null,
+          "optional": false,
+          "type": "number",
+        },
+        "name": {
+          "customType": null,
+          "optional": false,
+          "type": "string",
+        },
+      },
+      "name": "testBigSerialPk",
+      "primaryKey": [
+        "id",
+      ],
+      "serverName": "test_bigserial_pk",
+    },
+    "testCompositePkBothDefaults": {
+      "columns": {
+        "id1": {
+          "customType": null,
+          "optional": false,
+          "type": "string",
+        },
+        "id2": {
+          "customType": null,
+          "optional": false,
+          "type": "number",
+        },
+        "name": {
+          "customType": null,
+          "optional": false,
+          "type": "string",
+        },
+      },
+      "name": "testCompositePkBothDefaults",
+      "primaryKey": [
+        "id1",
+        "id2",
+      ],
+      "serverName": "test_composite_pk_both_defaults",
+    },
+    "testCompositePkOneDefault": {
+      "columns": {
+        "id": {
+          "customType": null,
+          "optional": false,
+          "type": "number",
+        },
+        "name": {
+          "customType": null,
+          "optional": false,
+          "type": "string",
+        },
+        "tenantId": {
+          "customType": null,
+          "optional": false,
+          "serverName": "tenant_id",
+          "type": "string",
+        },
+      },
+      "name": "testCompositePkOneDefault",
+      "primaryKey": [
+        "tenantId",
+        "id",
+      ],
+      "serverName": "test_composite_pk_one_default",
+    },
+    "testIntegerDefaultPk": {
+      "columns": {
+        "id": {
+          "customType": null,
+          "optional": false,
+          "type": "number",
+        },
+        "name": {
+          "customType": null,
+          "optional": false,
+          "type": "string",
+        },
+      },
+      "name": "testIntegerDefaultPk",
+      "primaryKey": [
+        "id",
+      ],
+      "serverName": "test_integer_default_pk",
+    },
+    "testSerialPk": {
+      "columns": {
+        "id": {
+          "customType": null,
+          "optional": false,
+          "type": "number",
+        },
+        "name": {
+          "customType": null,
+          "optional": false,
+          "type": "string",
+        },
+      },
+      "name": "testSerialPk",
+      "primaryKey": [
+        "id",
+      ],
+      "serverName": "test_serial_pk",
+    },
+    "testTextDefaultPk": {
+      "columns": {
+        "id": {
+          "customType": null,
+          "optional": false,
+          "type": "string",
+        },
+        "name": {
+          "customType": null,
+          "optional": false,
+          "type": "string",
+        },
+      },
+      "name": "testTextDefaultPk",
+      "primaryKey": [
+        "id",
+      ],
+      "serverName": "test_text_default_pk",
+    },
+    "testTimestampDefaultPk": {
+      "columns": {
+        "id": {
+          "customType": null,
+          "optional": false,
+          "type": "number",
+        },
+        "name": {
+          "customType": null,
+          "optional": false,
+          "type": "string",
+        },
+      },
+      "name": "testTimestampDefaultPk",
+      "primaryKey": [
+        "id",
+      ],
+      "serverName": "test_timestamp_default_pk",
+    },
+    "testUuidPk": {
+      "columns": {
+        "id": {
+          "customType": null,
+          "optional": false,
+          "type": "string",
+        },
+        "name": {
+          "customType": null,
+          "optional": false,
+          "type": "string",
+        },
+      },
+      "name": "testUuidPk",
+      "primaryKey": [
+        "id",
+      ],
+      "serverName": "test_uuid_pk",
+    },
+    "testUuidSqlDefaultPk": {
+      "columns": {
+        "id": {
+          "customType": null,
+          "optional": false,
+          "type": "string",
+        },
+        "name": {
+          "customType": null,
+          "optional": false,
+          "type": "string",
+        },
+      },
+      "name": "testUuidSqlDefaultPk",
+      "primaryKey": [
+        "id",
+      ],
+      "serverName": "test_uuid_sql_default_pk",
+    },
     "timeEntry": {
       "columns": {
         "createdAt": {

@@ -111,10 +111,8 @@ import { useZero } from "@rocicorp/zero/react";
 import { syncedQuery } from "@rocicorp/zero";
 import { builder } from "../zero-schema.gen.ts";
 
-const postsQuery = syncedQuery(
-  'allPosts',
-  z.tuple([]),
-  () => builder.posts.related("author").limit(10),
+const postsQuery = syncedQuery("allPosts", z.tuple([]), () =>
+  builder.posts.related("author").limit(10),
 );
 
 function PostList() {
@@ -227,7 +225,9 @@ export default drizzleZeroConfig(drizzleSchema, {
 Then query as usual, skipping the junction table:
 
 ```tsx
-const userQuery = syncedQuery(z.query.user.where("id", "=", "1").related("groups").one());
+const userQuery = syncedQuery(
+  z.query.user.where("id", "=", "1").related("groups").one(),
+);
 
 const [user] = useQuery(userQuery());
 

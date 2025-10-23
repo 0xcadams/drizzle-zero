@@ -479,7 +479,8 @@ export const seed = async () => {
       id: "attachment-1",
       taskId: "task-user-research",
       fileName: "interview-script.docx",
-      fileType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      fileType:
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     },
     {
       id: "attachment-2",
@@ -640,9 +641,19 @@ export const seed = async () => {
   ]);
 
   await db.insert(crmPipelineStage).values([
-    { id: "stage-qualify", name: "Qualification", sequence: 1, probability: 20 },
+    {
+      id: "stage-qualify",
+      name: "Qualification",
+      sequence: 1,
+      probability: 20,
+    },
     { id: "stage-proposal", name: "Proposal", sequence: 2, probability: 45 },
-    { id: "stage-negotiation", name: "Negotiation", sequence: 3, probability: 70 },
+    {
+      id: "stage-negotiation",
+      name: "Negotiation",
+      sequence: 3,
+      probability: 70,
+    },
   ]);
 
   await db.insert(crmOpportunity).values([
@@ -672,8 +683,16 @@ export const seed = async () => {
   ]);
 
   await db.insert(crmActivityType).values([
-    { id: "activity-call", name: "Call", description: "Phone or VoIP conversations." },
-    { id: "activity-demo", name: "Product Demo", description: "Live product walkthrough." },
+    {
+      id: "activity-call",
+      name: "Call",
+      description: "Phone or VoIP conversations.",
+    },
+    {
+      id: "activity-demo",
+      name: "Product Demo",
+      description: "Live product walkthrough.",
+    },
   ]);
 
   await db.insert(crmActivity).values([
@@ -1547,7 +1566,9 @@ export const startZero = async (options: { getQueriesUrl: string }) => {
       ZERO_ADMIN_PASSWORD: "password",
       ZERO_GET_QUERIES_URL: options.getQueriesUrl,
     })
-    .withExtraHosts([{ host: "host.docker.internal", ipAddress: "host-gateway" }])
+    .withExtraHosts([
+      { host: "host.docker.internal", ipAddress: "host-gateway" },
+    ])
     .withStartupTimeout(60000)
     .withPullPolicy(PullPolicy.alwaysPull())
     .start();

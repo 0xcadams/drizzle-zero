@@ -5706,6 +5706,250 @@ export const schema = {
       },
       primaryKey: ["id"],
     },
+    testBigSerialPk: {
+      name: "testBigSerialPk",
+      columns: {
+        id: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testBigSerialPk",
+            "id"
+          >,
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testBigSerialPk",
+            "name"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "test_bigserial_pk",
+    },
+    testCompositePkBothDefaults: {
+      name: "testCompositePkBothDefaults",
+      columns: {
+        id1: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testCompositePkBothDefaults",
+            "id1"
+          >,
+        },
+        id2: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testCompositePkBothDefaults",
+            "id2"
+          >,
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testCompositePkBothDefaults",
+            "name"
+          >,
+        },
+      },
+      primaryKey: ["id1", "id2"],
+      serverName: "test_composite_pk_both_defaults",
+    },
+    testCompositePkOneDefault: {
+      name: "testCompositePkOneDefault",
+      columns: {
+        tenantId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testCompositePkOneDefault",
+            "tenantId"
+          >,
+          serverName: "tenant_id",
+        },
+        id: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testCompositePkOneDefault",
+            "id"
+          >,
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testCompositePkOneDefault",
+            "name"
+          >,
+        },
+      },
+      primaryKey: ["tenantId", "id"],
+      serverName: "test_composite_pk_one_default",
+    },
+    testIntegerDefaultPk: {
+      name: "testIntegerDefaultPk",
+      columns: {
+        id: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testIntegerDefaultPk",
+            "id"
+          >,
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testIntegerDefaultPk",
+            "name"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "test_integer_default_pk",
+    },
+    testSerialPk: {
+      name: "testSerialPk",
+      columns: {
+        id: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testSerialPk",
+            "id"
+          >,
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testSerialPk",
+            "name"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "test_serial_pk",
+    },
+    testTextDefaultPk: {
+      name: "testTextDefaultPk",
+      columns: {
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testTextDefaultPk",
+            "id"
+          >,
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testTextDefaultPk",
+            "name"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "test_text_default_pk",
+    },
+    testTimestampDefaultPk: {
+      name: "testTimestampDefaultPk",
+      columns: {
+        id: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testTimestampDefaultPk",
+            "id"
+          >,
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testTimestampDefaultPk",
+            "name"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "test_timestamp_default_pk",
+    },
+    testUuidPk: {
+      name: "testUuidPk",
+      columns: {
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testUuidPk",
+            "id"
+          >,
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testUuidPk",
+            "name"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "test_uuid_pk",
+    },
+    testUuidSqlDefaultPk: {
+      name: "testUuidSqlDefaultPk",
+      columns: {
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testUuidSqlDefaultPk",
+            "id"
+          >,
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "testUuidSqlDefaultPk",
+            "name"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "test_uuid_sql_default_pk",
+    },
     timeEntry: {
       name: "timeEntry",
       columns: {
@@ -8016,6 +8260,61 @@ export type SupportTicketTagLink = Row<
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type Team = Row<Schema["tables"]["team"]>;
+/**
+ * Represents a row from the "testBigSerialPk" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type TestBigSerialPk = Row<Schema["tables"]["testBigSerialPk"]>;
+/**
+ * Represents a row from the "testCompositePkBothDefaults" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type TestCompositePkBothDefault = Row<
+  Schema["tables"]["testCompositePkBothDefaults"]
+>;
+/**
+ * Represents a row from the "testCompositePkOneDefault" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type TestCompositePkOneDefault = Row<
+  Schema["tables"]["testCompositePkOneDefault"]
+>;
+/**
+ * Represents a row from the "testIntegerDefaultPk" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type TestIntegerDefaultPk = Row<
+  Schema["tables"]["testIntegerDefaultPk"]
+>;
+/**
+ * Represents a row from the "testSerialPk" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type TestSerialPk = Row<Schema["tables"]["testSerialPk"]>;
+/**
+ * Represents a row from the "testTextDefaultPk" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type TestTextDefaultPk = Row<Schema["tables"]["testTextDefaultPk"]>;
+/**
+ * Represents a row from the "testTimestampDefaultPk" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type TestTimestampDefaultPk = Row<
+  Schema["tables"]["testTimestampDefaultPk"]
+>;
+/**
+ * Represents a row from the "testUuidPk" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type TestUuidPk = Row<Schema["tables"]["testUuidPk"]>;
+/**
+ * Represents a row from the "testUuidSqlDefaultPk" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type TestUuidSqlDefaultPk = Row<
+  Schema["tables"]["testUuidSqlDefaultPk"]
+>;
 /**
  * Represents a row from the "timeEntry" table.
  * This type is auto-generated from your Drizzle schema definition.

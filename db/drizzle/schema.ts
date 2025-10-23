@@ -1585,6 +1585,70 @@ export const marketingCampaignAudienceRelations = relations(
   }),
 );
 
+// Test tables for PK with default value issue
+export const testSerialPk = pgTable("test_serial_pk", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+});
+
+export const testBigSerialPk = pgTable("test_bigserial_pk", {
+  id: bigserial("id", { mode: "number" }).primaryKey(),
+  name: text("name").notNull(),
+});
+
+export const testUuidPk = pgTable("test_uuid_pk", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  name: text("name").notNull(),
+});
+
+export const testUuidSqlDefaultPk = pgTable("test_uuid_sql_default_pk", {
+  id: uuid("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+});
+
+export const testTextDefaultPk = pgTable("test_text_default_pk", {
+  id: text("id")
+    .primaryKey()
+    .default(sql`gen_random_uuid()::text`),
+  name: text("name").notNull(),
+});
+
+export const testTimestampDefaultPk = pgTable("test_timestamp_default_pk", {
+  id: timestamp("id").primaryKey().defaultNow(),
+  name: text("name").notNull(),
+});
+
+export const testIntegerDefaultPk = pgTable("test_integer_default_pk", {
+  id: integer("id")
+    .primaryKey()
+    .default(sql`floor(random() * 1000000)`),
+  name: text("name").notNull(),
+});
+
+// Composite PK with both columns having defaults
+export const testCompositePkBothDefaults = pgTable(
+  "test_composite_pk_both_defaults",
+  {
+    id1: uuid("id1").defaultRandom().notNull(),
+    id2: timestamp("id2").defaultNow().notNull(),
+    name: text("name").notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.id1, t.id2] })],
+);
+
+// Composite PK with one column having a default
+export const testCompositePkOneDefault = pgTable(
+  "test_composite_pk_one_default",
+  {
+    tenantId: text("tenant_id").notNull(),
+    id: serial("id").notNull(),
+    name: text("name").notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.tenantId, t.id] })],
+);
+
 export const analyticsDashboard = pgTable("analytics_dashboard", {
   ...sharedColumns,
   id: text("id").primaryKey(),

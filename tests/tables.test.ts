@@ -1842,6 +1842,120 @@ describe("tables", () => {
     consoleSpy.mockRestore();
   });
 
+  test("pg - primary key with serial default should not be optional", () => {
+    const testTable = pgTable("test", {
+      id: serial("id").primaryKey(),
+      name: text().notNull(),
+    });
+
+    const result = createZeroTableBuilder("test", testTable, {
+      id: true,
+      name: true,
+    });
+
+    const expected = table("test")
+      .columns({
+        id: number(),
+        name: string(),
+      })
+      .primaryKey("id");
+
+    expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
+  });
+
+  test("pg - primary key with uuid defaultRandom should not be optional", () => {
+    const testTable = pgTable("test", {
+      id: uuid("id").primaryKey().defaultRandom(),
+      name: text().notNull(),
+    });
+
+    const result = createZeroTableBuilder("test", testTable, {
+      id: true,
+      name: true,
+    });
+
+    const expected = table("test")
+      .columns({
+        id: string(),
+        name: string(),
+      })
+      .primaryKey("id");
+
+    expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
+  });
+
+  test("pg - primary key with sql default should not be optional", () => {
+    const testTable = pgTable("test", {
+      id: uuid("id")
+        .primaryKey()
+        .default(sql`gen_random_uuid()`),
+      name: text().notNull(),
+    });
+
+    const result = createZeroTableBuilder("test", testTable, {
+      id: true,
+      name: true,
+    });
+
+    const expected = table("test")
+      .columns({
+        id: string(),
+        name: string(),
+      })
+      .primaryKey("id");
+
+    expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
+  });
+
+  test("pg - composite primary key with defaults should not be optional", () => {
+    const testTable = pgTable(
+      "test",
+      {
+        tenantId: text("tenant_id").notNull(),
+        id: serial("id").notNull(),
+        name: text().notNull(),
+      },
+      (t) => [primaryKey({ columns: [t.tenantId, t.id] })],
+    );
+
+    const result = createZeroTableBuilder("test", testTable, {
+      tenantId: true,
+      id: true,
+      name: true,
+    });
+
+    const expected = table("test")
+      .columns({
+        tenantId: string().from("tenant_id"),
+        id: number(),
+        name: string(),
+      })
+      .primaryKey("tenantId", "id");
+
+    expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
+  });
+
+  test("pg - timestamp primary key with defaultNow should not be optional", () => {
+    const testTable = pgTable("test", {
+      id: timestamp("id").primaryKey().defaultNow(),
+      name: text().notNull(),
+    });
+
+    const result = createZeroTableBuilder("test", testTable, {
+      id: true,
+      name: true,
+    });
+
+    const expected = table("test")
+      .columns({
+        id: number(),
+        name: string(),
+      })
+      .primaryKey("id");
+
+    expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
+  });
+
   test("pg - no primary key", ({ expect }) => {
     const testTable = pgTable("test", {
       id: text(),
