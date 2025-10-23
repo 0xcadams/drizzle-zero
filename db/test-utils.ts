@@ -1547,6 +1547,7 @@ export const startZero = async (options: { getQueriesUrl: string }) => {
       ZERO_ADMIN_PASSWORD: "password",
       ZERO_GET_QUERIES_URL: options.getQueriesUrl,
     })
+    .withExtraHosts([{ host: "host.docker.internal", ipAddress: "host-gateway" }])
     .withStartupTimeout(60000)
     .withPullPolicy(PullPolicy.alwaysPull())
     .start();

@@ -21,6 +21,7 @@ export default defineConfig({
         branches: 85,
       },
     },
+    fileParallelism: true,
   },
   plugins: [tsconfigPaths()],
 });
