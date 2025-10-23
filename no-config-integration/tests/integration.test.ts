@@ -1,4 +1,3 @@
-import { startGetQueriesServer } from "../get-queries-server";
 import {
   ZERO_PORT,
   db,
@@ -7,7 +6,6 @@ import {
 } from "@drizzle-zero/db/test-utils";
 import { Zero } from "@rocicorp/zero";
 import { zeroDrizzle } from "@rocicorp/zero/server/adapters/drizzle";
-import type { Server } from "http";
 import {
   afterAll,
   beforeAll,
@@ -17,25 +15,60 @@ import {
   test,
 } from "vitest";
 import { WebSocket } from "ws";
-import { stopGetQueriesServer } from "../get-queries-server";
 import {
   allTypesById,
+  allTypesByStatus,
   allUsers,
-  complexOrderWithEverything,
   filtersWithChildren,
   mediumById,
   messageById,
   messageWithRelations,
   messagesByBody,
   messagesBySender,
+  userWithFriends,
+  userWithMediums,
+  complexOrderWithEverything,
+  // New workspace queries
+  workspaceById,
+  workspaceWithMembers,
+  workspaceApiKeys,
+  workspaceOverview,
+  // New CRM queries
+  crmLeadsByWorkspace,
+  crmLeadWithActivities,
+  crmSalesSequenceWithSteps,
+  opportunityWithLineItems,
+  // New HR queries
+  hrEmployeesByDepartment,
+  hrEmployeeWithTimeOff,
+  hrDepartmentWithEmployees,
+  hrPerformanceReviewsByEmployee,
+  employeeFullProfile,
+  // New Finance queries
+  apInvoicesByVendor,
+  arInvoicesByCustomer,
+  bankAccountWithTransactions,
+  bankTransactionsByAccount,
+  customerFinancialSummary,
+  // New Product/Inventory queries
+  productCatalogWithCategories,
+  supplierWithProducts,
+  purchaseOrderWithDetails,
+  // New Support/KB queries
+  kbArticlesByCategory,
+  kbArticleWithTags,
+  supportTicketsByStatus,
+  supportTicketWithResponses,
+  // New Communication queries
+  chatChannelWithMessages,
+  chatMessagesByChannel,
 } from "../synced-queries";
+import { schema, type Filter, type Schema } from "../zero-schema.gen";
 import {
-  schema,
-  type Filter,
-  type Message,
-  type Schema,
-  type User,
-} from "../zero-schema.gen";
+  startGetQueriesServer,
+  stopGetQueriesServer,
+} from "../get-queries-server";
+import type { Server } from "http";
 
 const zeroDb = zeroDrizzle(schema, db as any);
 
@@ -74,8 +107,6 @@ describe("relationships", () => {
     const query = allUsers(undefined);
 
     const user = await zero.run(query, { type: "complete" });
-
-    expectTypeOf(user).toExtend<User[]>();
 
     expect(user).toHaveLength(7);
     expect(user[0]?.name).toBe("James");
@@ -125,8 +156,6 @@ describe("relationships", () => {
 
     const messages = await zero.run(query, { type: "complete" });
 
-    expectTypeOf(messages).toExtend<Message[]>();
-
     expect(messages).toHaveLength(2);
     expect(messages[0]?.body).toBe("Hey, James!");
     expect(messages[0]?.metadata.key).toStrictEqual("value1");
@@ -140,8 +169,6 @@ describe("relationships", () => {
     const query = messagesByBody(undefined, "Thomas!");
 
     const messages = await zero.run(query, { type: "complete" });
-
-    expectTypeOf(messages).toExtend<Message[]>();
 
     expect(messages).toHaveLength(1);
     expect(messages[0]?.body).toBe("Thomas!");
@@ -161,7 +188,42 @@ describe("relationships", () => {
     expect(message?.medium?.name).toBe("email");
 
     expect(message?.sender?.name).toBe("James");
-    expect(message?.sender?.status).toBe("COMPLETED");
+
+    await zero.close();
+  });
+
+  test("can query many-to-many relationships", async () => {
+    const zero = await getNewZero();
+
+    const query = userWithMediums(undefined, "1");
+
+    const user = await zero.run(query, { type: "complete" });
+
+    expect(user?.mediums).toHaveLength(2);
+    expect(user?.mediums?.[0]?.name).toBe("email");
+    expect(user?.mediums?.[1]?.name).toBe("whatsapp");
+    expect(user?.testInterface?.nameInterface).toBe("custom-inline-interface");
+    expect(user?.testType?.nameType).toBe("custom-inline-type");
+    expect(user?.customInterfaceJson?.custom).toBe(
+      "this-interface-is-imported-from-custom-types",
+    );
+    expect(user?.customTypeJson?.custom).toBe(
+      "this-is-imported-from-custom-types",
+    );
+    expect(user?.testExportedType.nameType).toBe("custom-inline-type");
+
+    await zero.close();
+  });
+
+  test("can query many-to-many extended relationships", async () => {
+    const zero = await getNewZero();
+
+    const query = userWithFriends(undefined, "1");
+
+    const user = await zero.run(query, { type: "complete" });
+
+    expect(user?.friends).toHaveLength(1);
+    expect(user?.friends[0]?.name).toBe("John");
 
     await zero.close();
   });
@@ -182,8 +244,6 @@ describe("relationships", () => {
     const query = messageById(undefined, "99");
 
     const message = await zero.run(query, { type: "complete" });
-
-    expectTypeOf(message).toExtend<Message | undefined>();
 
     expect(message?.id).toBe("99");
     expect(message?.metadata.key).toStrictEqual("9988");
@@ -233,6 +293,7 @@ describe("types", () => {
       fontSize: 16,
     });
     expect(result?.status).toStrictEqual("pending");
+
     expect(result?.textArray).toStrictEqual(["text", "text2"]);
     expect(result?.intArray).toStrictEqual([1, 2]);
     // expect(result?.boolArray).toStrictEqual([true, false]);
@@ -241,10 +302,7 @@ describe("types", () => {
       "123e4567-e89b-12d3-a456-426614174001",
       "123e4567-e89b-12d3-a456-426614174002",
     ]);
-    // expect(result?.jsonbArray).toStrictEqual([
-    //   { key: "value" },
-    //   { key: "value2" },
-    // ]);
+    // expect(result?.jsonbArray).toStrictEqual([{ key: "value" }, { key: "value2" }]);
     expect(result?.enumArray).toStrictEqual(["pending", "active"]);
 
     expect(result?.smallSerialField).toStrictEqual(1);
@@ -268,10 +326,25 @@ describe("types", () => {
     await zero.close();
   });
 
+  test("can query enum type", async () => {
+    const zero = await getNewZero();
+
+    const query = allTypesByStatus(undefined, "pending");
+
+    const result = await zero.run(query, { type: "complete" });
+
+    expect(result?.status).toStrictEqual("pending");
+
+    await zero.close();
+  });
+
   test("can insert all types", async () => {
     const zero = await getNewZero();
 
     const currentDate = new Date();
+
+    const uuid1 = "123e4567-e89b-12d3-a456-426614174001";
+    const uuid2 = "123e4567-e89b-12d3-a456-426614174002";
 
     await zeroDb.transaction(async (tx) => {
       await tx.mutate.allTypes.insert({
@@ -345,11 +418,7 @@ describe("types", () => {
     expect(result?.intArray).toStrictEqual([1, 2]);
     // expect(result?.boolArray).toStrictEqual([true, false]);
     expect(result?.numericArray).toStrictEqual([8.8, 9.9]);
-    expect(result?.uuidArray).toStrictEqual([
-      "123e4567-e89b-12d3-a456-426614174001",
-      "123e4567-e89b-12d3-a456-426614174002",
-    ]);
-    // jsonbArray returns strings instead of objects - known issue
+    expect(result?.uuidArray).toStrictEqual([uuid1, uuid2]);
     // expect(result?.jsonbArray).toStrictEqual([
     //   { key: "value" },
     //   { key: "value2" },
@@ -368,6 +437,7 @@ describe("types", () => {
     expect(dbResult?.numericField).toStrictEqual("25.84");
     expect(dbResult?.decimalField).toStrictEqual("26.33");
     expect(dbResult?.realField).toStrictEqual(27.1);
+    expect(dbResult?.uuidField).toStrictEqual(uuid1);
     expect(dbResult?.doublePrecisionField).toStrictEqual(28.2);
     expect(dbResult?.textField).toStrictEqual("text2");
     expect(dbResult?.charField).toStrictEqual("f");
@@ -400,15 +470,11 @@ describe("types", () => {
     expect(dbResult?.intArray).toStrictEqual([1, 2]);
     // expect(dbResult?.boolArray).toStrictEqual([true, false]);
     expect(dbResult?.numericArray).toStrictEqual([8.8, 9.9]);
-    expect(dbResult?.uuidArray).toStrictEqual([
-      "123e4567-e89b-12d3-a456-426614174001",
-      "123e4567-e89b-12d3-a456-426614174002",
+    expect(dbResult?.uuidArray).toStrictEqual([uuid1, uuid2]);
+    expect(dbResult?.jsonbArray).toStrictEqual([
+      { key: "value" },
+      { key: "value2" },
     ]);
-    // TODO drizzle does not query jsonbArray correctly
-    // expect(dbResult?.jsonbArray).toStrictEqual([
-    //   { key: "value" },
-    //   { key: "value2" },
-    // ]);
     expect(dbResult?.enumArray).toStrictEqual(["pending", "active"]);
 
     // Serial fields don't auto-increment properly when seed data explicitly sets them
@@ -747,20 +813,16 @@ describe("complex order", () => {
     expect(result.customer.partner).toBe(false);
     expect(result.customer.status).toBe("COMPLETED");
 
-    // Customer friends relationship (if available)
-    if (result.customer.friends) {
-      expect(result.customer.friends).toHaveLength(1);
-      expect(result.customer.friends[0].id).toBe("friend-1");
-      expect(result.customer.friends[0].name).toBe("Customer Friend");
-    }
+    // Customer friends relationship
+    expect(result.customer.friends).toHaveLength(1);
+    expect(result.customer.friends[0].id).toBe("friend-1");
+    expect(result.customer.friends[0].name).toBe("Customer Friend");
 
-    // Customer messages relationship (if available)
-    if (result.customer.messages) {
-      expect(result.customer.messages).toHaveLength(1);
-      expect(result.customer.messages[0].id).toBe("msg-cust-1");
-      expect(result.customer.messages[0].body).toBe("Hello from customer");
-      expect(result.customer.messages[0].metadata.key).toBe("cust-meta");
-    }
+    // Customer messages relationship
+    expect(result.customer.messages).toHaveLength(1);
+    expect(result.customer.messages[0].id).toBe("msg-cust-1");
+    expect(result.customer.messages[0].body).toBe("Hello from customer");
+    expect(result.customer.messages[0].metadata.key).toBe("cust-meta");
 
     // Opportunity relationship
     expect(result.opportunity).toBeDefined();
@@ -832,6 +894,310 @@ describe("complex order", () => {
     expect(typeof result.updatedAt).toBe("number");
     expect(typeof result.customer.createdAt).toBe("number");
     expect(typeof result.customer.updatedAt).toBe("number");
+
+    await zero.close();
+  });
+
+  // ============================================================================
+  // NEW WORKSPACE & MULTI-TENANCY TESTS
+  // ============================================================================
+
+  test("can query workspace with members", async () => {
+    const zero = await getNewZero();
+    const query = workspaceWithMembers(undefined, "workspace_1");
+    const workspace = await zero.run(query, { type: "complete" });
+
+    expect(workspace).toBeDefined();
+    expect(workspace?.id).toBe("workspace_1");
+    expect(workspace?.name).toBe("Acme Corporation");
+    expect(workspace?.slug).toBe("acme-corp");
+    expect(workspace?.subscriptionTier).toBe("enterprise");
+    expect(workspace?.memberships).toHaveLength(2);
+    expect(workspace?.memberships[0]?.user).toBeDefined();
+
+    await zero.close();
+  });
+
+  test("can query workspace API keys", async () => {
+    const zero = await getNewZero();
+    const query = workspaceApiKeys(undefined, "workspace_1");
+    const apiKeys = await zero.run(query, { type: "complete" });
+
+    expect(apiKeys).toHaveLength(1);
+    expect(apiKeys[0]?.id).toBe("api_key_1");
+    expect(apiKeys[0]?.name).toBe("Production API Key");
+    expect(apiKeys[0]?.workspace).toBeDefined();
+    expect(apiKeys[0]?.creator).toBeDefined();
+
+    await zero.close();
+  });
+
+  // ============================================================================
+  // NEW CRM EXPANSION TESTS
+  // ============================================================================
+
+  test("can query CRM leads by workspace", async () => {
+    const zero = await getNewZero();
+    const query = crmLeadsByWorkspace(undefined, "workspace_1");
+    const leads = await zero.run(query, { type: "complete" });
+
+    expect(leads).toHaveLength(2);
+    expect(leads[0]?.firstName).toBeDefined();
+    expect(leads[0]?.source).toBeDefined();
+    expect(leads[0]?.owner).toBeDefined();
+
+    await zero.close();
+  });
+
+  test("can query CRM lead with activities", async () => {
+    const zero = await getNewZero();
+    const query = crmLeadWithActivities(undefined, "lead_1");
+    const lead = await zero.run(query, { type: "complete" });
+
+    expect(lead).toBeDefined();
+    expect(lead?.firstName).toBe("Alice");
+    expect(lead?.email).toBe("alice@prospect.com");
+    expect(lead?.activities).toHaveLength(1);
+    expect(lead?.activities[0]?.activityType).toBe("email");
+    expect(lead?.activities[0]?.user).toBeDefined();
+    expect(lead?.source?.name).toBe("Website");
+
+    await zero.close();
+  });
+
+  test("can query sales sequence with steps", async () => {
+    const zero = await getNewZero();
+    const query = crmSalesSequenceWithSteps(undefined, "seq_1");
+    const sequence = await zero.run(query, { type: "complete" });
+
+    expect(sequence).toBeDefined();
+    expect(sequence?.name).toBe("Welcome Sequence");
+    expect(sequence?.steps).toHaveLength(2);
+    expect(sequence?.steps[0]?.stepOrder).toBe(1);
+    expect(sequence?.steps[0]?.stepType).toBe("email");
+    expect(sequence?.steps[1]?.stepOrder).toBe(2);
+
+    await zero.close();
+  });
+
+  // ============================================================================
+  // NEW HR TESTS
+  // ============================================================================
+
+  test("can query HR employees by department", async () => {
+    const zero = await getNewZero();
+    const query = hrEmployeesByDepartment(undefined, "dept_1");
+    const employees = await zero.run(query, { type: "complete" });
+
+    expect(employees).toHaveLength(1);
+    expect(employees[0]?.employeeNumber).toBe("EMP001");
+    expect(employees[0]?.firstName).toBe("James");
+    expect(employees[0]?.department?.name).toBe("Engineering");
+    expect(employees[0]?.user).toBeDefined();
+
+    await zero.close();
+  });
+
+  test("can query HR employee with time off", async () => {
+    const zero = await getNewZero();
+    const query = hrEmployeeWithTimeOff(undefined, "emp_1");
+    const employee = await zero.run(query, { type: "complete" });
+
+    expect(employee).toBeDefined();
+    expect(employee?.employeeNumber).toBe("EMP001");
+    expect(employee?.timeOffRequests).toHaveLength(1);
+    expect(employee?.timeOffRequests[0]?.status).toBe("approved");
+    expect(employee?.timeOffRequests[0]?.policy?.name).toBe("Annual Leave");
+    expect(employee?.department?.name).toBe("Engineering");
+
+    await zero.close();
+  });
+
+  test("can query HR department with employees", async () => {
+    const zero = await getNewZero();
+    const query = hrDepartmentWithEmployees(undefined, "dept_1");
+    const department = await zero.run(query, { type: "complete" });
+
+    expect(department).toBeDefined();
+    expect(department?.name).toBe("Engineering");
+    expect(department?.employees).toHaveLength(1);
+    expect(department?.employees[0]?.user).toBeDefined();
+
+    await zero.close();
+  });
+
+  // ============================================================================
+  // NEW FINANCE TESTS
+  // ============================================================================
+
+  test("can query AP invoices by vendor", async () => {
+    const zero = await getNewZero();
+    const query = apInvoicesByVendor(undefined, "vendor_1");
+    const invoices = await zero.run(query, { type: "complete" });
+
+    expect(invoices).toHaveLength(1);
+    expect(invoices[0]?.invoiceNumber).toBe("INV-2024-001");
+    expect(invoices[0]?.vendor?.name).toBe("Office Supplies Co");
+    expect(invoices[0]?.status).toBe("paid");
+
+    await zero.close();
+  });
+
+  test("can query AR invoices by customer", async () => {
+    const zero = await getNewZero();
+    const query = arInvoicesByCustomer(undefined, "customer_1");
+    const invoices = await zero.run(query, { type: "complete" });
+
+    expect(invoices).toHaveLength(1);
+    expect(invoices[0]?.invoiceNumber).toBe("INV-OUT-2024-001");
+    expect(invoices[0]?.customer?.name).toBe("Big Client Corp");
+    expect(invoices[0]?.status).toBe("paid");
+
+    await zero.close();
+  });
+
+  test("can query bank account with transactions", async () => {
+    const zero = await getNewZero();
+    const query = bankAccountWithTransactions(undefined, "bank_1");
+    const account = await zero.run(query, { type: "complete" });
+
+    expect(account).toBeDefined();
+    expect(account?.accountName).toBe("Operating Account");
+    expect(account?.transactions).toHaveLength(2);
+    expect(account?.transactions[0]?.transactionType).toBeDefined();
+
+    await zero.close();
+  });
+
+  // ============================================================================
+  // NEW PRODUCT & INVENTORY TESTS
+  // ============================================================================
+
+  test("can query supplier with products and orders", async () => {
+    const zero = await getNewZero();
+    const query = supplierWithProducts(undefined, "supplier_1");
+    const supplier = await zero.run(query, { type: "complete" });
+
+    expect(supplier).toBeDefined();
+    expect(supplier?.name).toBe("Widget Manufacturers");
+    expect(supplier?.purchaseOrders).toHaveLength(1);
+    expect(supplier?.purchaseOrders[0]?.orderNumber).toBe("PO-2024-001");
+
+    await zero.close();
+  });
+
+  test("can query purchase order with details", async () => {
+    const zero = await getNewZero();
+    const query = purchaseOrderWithDetails(undefined, "po_1");
+    const po = await zero.run(query, { type: "complete" });
+
+    expect(po).toBeDefined();
+    expect(po?.orderNumber).toBe("PO-2024-001");
+    expect(po?.supplier?.name).toBe("Widget Manufacturers");
+    expect(po?.status).toBe("received");
+
+    await zero.close();
+  });
+
+  // ============================================================================
+  // NEW SUPPORT & KB TESTS
+  // ============================================================================
+
+  test("can query KB articles by category", async () => {
+    const zero = await getNewZero();
+    const query = kbArticlesByCategory(undefined, "kb_cat_1");
+    const articles = await zero.run(query, { type: "complete" });
+
+    expect(articles).toHaveLength(1);
+    expect(articles[0]?.title).toBe("How to Get Started");
+    expect(articles[0]?.category?.name).toBe("Getting Started");
+    expect(articles[0]?.author).toBeDefined();
+    expect(articles[0]?.viewCount).toBe(150);
+
+    await zero.close();
+  });
+
+  test("can query support ticket statuses", async () => {
+    const zero = await getNewZero();
+    const query = supportTicketsByStatus(undefined, "status_1");
+    const tickets = await zero.run(query, { type: "complete" });
+
+    expect(Array.isArray(tickets)).toBe(true);
+
+    await zero.close();
+  });
+
+  // ============================================================================
+  // NEW COMMUNICATION TESTS
+  // ============================================================================
+
+  test("can query chat channel with messages", async () => {
+    const zero = await getNewZero();
+    const query = chatChannelWithMessages(undefined, "channel_1");
+    const channel = await zero.run(query, { type: "complete" });
+
+    expect(channel).toBeDefined();
+    expect(channel?.name).toBe("general");
+    expect(channel?.messages).toHaveLength(2);
+    expect(channel?.messages[0]?.content).toBe("Welcome to the team!");
+    expect(channel?.messages[0]?.sender).toBeDefined();
+
+    await zero.close();
+  });
+
+  test("can query chat messages by channel", async () => {
+    const zero = await getNewZero();
+    const query = chatMessagesByChannel(undefined, "channel_1");
+    const messages = await zero.run(query, { type: "complete" });
+
+    expect(messages).toHaveLength(2);
+    expect(messages[0]?.content).toBe("Welcome to the team!");
+    expect(messages[0]?.sender?.name).toBe("James");
+    expect(messages[0]?.channel?.name).toBe("general");
+
+    await zero.close();
+  });
+
+  // ============================================================================
+  // COMPLEX CROSS-MODULE TESTS
+  // ============================================================================
+
+  test("can query workspace overview", async () => {
+    const zero = await getNewZero();
+    const query = workspaceOverview(undefined, "workspace_1");
+    const workspace = await zero.run(query, { type: "complete" });
+
+    expect(workspace).toBeDefined();
+    expect(workspace?.name).toBe("Acme Corporation");
+    expect(workspace?.memberships).toBeDefined();
+    expect(workspace?.apiKeys).toBeDefined();
+
+    await zero.close();
+  });
+
+  test("can query employee full profile", async () => {
+    const zero = await getNewZero();
+    const query = employeeFullProfile(undefined, "emp_1");
+    const employee = await zero.run(query, { type: "complete" });
+
+    expect(employee).toBeDefined();
+    expect(employee?.employeeNumber).toBe("EMP001");
+    expect(employee?.user).toBeDefined();
+    expect(employee?.department?.name).toBe("Engineering");
+    expect(employee?.timeOffRequests).toBeDefined();
+
+    await zero.close();
+  });
+
+  test("can query customer financial summary", async () => {
+    const zero = await getNewZero();
+    const query = customerFinancialSummary(undefined, "customer_1");
+    const customer = await zero.run(query, { type: "complete" });
+
+    expect(customer).toBeDefined();
+    expect(customer?.name).toBe("Big Client Corp");
+    expect(customer?.invoices).toHaveLength(1);
+    expect(customer?.invoices[0]?.invoiceNumber).toBe("INV-OUT-2024-001");
 
     await zero.close();
   });

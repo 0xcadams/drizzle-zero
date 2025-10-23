@@ -92,6 +92,43 @@ import {
   timeEntry,
   timesheet,
   user,
+  // New tables
+  workspace,
+  workspaceMembership,
+  workspaceApiKey,
+  crmLead,
+  crmLeadSource,
+  crmLeadActivity,
+  opportunityLineItem,
+  opportunityDocument,
+  crmSalesSequence,
+  crmSalesSequenceStep,
+  crmSalesSequenceEnrollment,
+  hrEmployee,
+  hrDepartment,
+  hrTeam,
+  hrPosition,
+  hrTimeOffPolicy,
+  hrTimeOffRequest,
+  hrPerformanceReview,
+  apVendor,
+  apInvoice,
+  arCustomer,
+  arInvoice,
+  bankAccount,
+  bankTransaction,
+  productCatalog,
+  inventoryLocation as newInventoryLocation,
+  inventoryItem as newInventoryItem,
+  supplier,
+  purchaseOrder,
+  kbArticle,
+  kbCategory,
+  supportTicket as newSupportTicket,
+  supportTicketStatus,
+  supportTicketPriority,
+  chatChannel,
+  chatMessage,
 } from "./schema";
 import postgres from "postgres";
 
@@ -1470,6 +1507,425 @@ export const seed = async () => {
     acceptingId: "2",
     accepted: true,
   });
+
+  // ====== NEW WORKSPACE & MULTI-TENANCY DATA ======
+  await db.insert(workspace).values([
+    {
+      id: "workspace_1",
+      name: "Acme Corporation",
+      slug: "acme-corp",
+      subscriptionTier: "enterprise",
+      billingEmail: "billing@acme.com",
+      settings: { theme: "dark", notifications: true },
+    },
+    {
+      id: "workspace_2",
+      name: "TechStart Inc",
+      slug: "techstart",
+      subscriptionTier: "pro",
+      billingEmail: "admin@techstart.com",
+      settings: { theme: "light", notifications: false },
+    },
+  ]);
+
+  await db.insert(workspaceMembership).values([
+    {
+      id: "wm_1",
+      workspaceId: "workspace_1",
+      userId: "1",
+      role: "owner",
+      joinedAt: new Date(),
+    },
+    {
+      id: "wm_2",
+      workspaceId: "workspace_1",
+      userId: "2",
+      role: "admin",
+      joinedAt: new Date(),
+    },
+    {
+      id: "wm_3",
+      workspaceId: "workspace_2",
+      userId: "3",
+      role: "owner",
+      joinedAt: new Date(),
+    },
+  ]);
+
+  await db.insert(workspaceApiKey).values({
+    id: "api_key_1",
+    workspaceId: "workspace_1",
+    name: "Production API Key",
+    keyHash: "hashed_key_123",
+    createdBy: "1",
+    lastUsedAt: new Date(),
+  });
+
+  // ====== NEW CRM EXPANSION DATA ======
+  await db.insert(crmLeadSource).values([
+    { id: "source_1", workspaceId: "workspace_1", name: "Website", type: "inbound" },
+    { id: "source_2", workspaceId: "workspace_1", name: "Referral", type: "inbound" },
+  ]);
+
+  await db.insert(crmLead).values([
+    {
+      id: "lead_1",
+      workspaceId: "workspace_1",
+      firstName: "Alice",
+      lastName: "Johnson",
+      email: "alice@prospect.com",
+      company: "Prospect Co",
+      sourceId: "source_1",
+      ownerId: "1",
+      status: "new",
+      score: 75,
+    },
+    {
+      id: "lead_2",
+      workspaceId: "workspace_1",
+      firstName: "Bob",
+      lastName: "Smith",
+      email: "bob@startup.com",
+      company: "Startup Inc",
+      sourceId: "source_2",
+      ownerId: "2",
+      status: "qualified",
+      score: 85,
+    },
+  ]);
+
+  await db.insert(crmLeadActivity).values({
+    id: "activity_1",
+    workspaceId: "workspace_1",
+    leadId: "lead_1",
+    userId: "1",
+    activityType: "email",
+    description: "Sent introduction email",
+    activityDate: new Date(),
+  });
+
+  await db.insert(crmSalesSequence).values({
+    id: "seq_1",
+    workspaceId: "workspace_1",
+    name: "Welcome Sequence",
+    description: "New lead onboarding",
+    isActive: true,
+    createdBy: "1",
+  });
+
+  await db.insert(crmSalesSequenceStep).values([
+    {
+      id: "step_1",
+      workspaceId: "workspace_1",
+      sequenceId: "seq_1",
+      stepOrder: 1,
+      stepType: "email",
+      content: "Welcome email",
+      delayDays: 0,
+    },
+    {
+      id: "step_2",
+      workspaceId: "workspace_1",
+      sequenceId: "seq_1",
+      stepOrder: 2,
+      stepType: "task",
+      content: "Follow-up call",
+      delayDays: 3,
+    },
+  ]);
+
+  // ====== NEW HR DATA ======
+  await db.insert(hrDepartment).values([
+    {
+      id: "dept_1",
+      workspaceId: "workspace_1",
+      name: "Engineering",
+      description: "Software development team",
+    },
+    {
+      id: "dept_2",
+      workspaceId: "workspace_1",
+      name: "Sales",
+      description: "Sales team",
+    },
+  ]);
+
+  await db.insert(hrEmployee).values([
+    {
+      id: "emp_1",
+      workspaceId: "workspace_1",
+      userId: "1",
+      employeeNumber: "EMP001",
+      firstName: "James",
+      lastName: "Developer",
+      email: "james@example.com",
+      hireDate: new Date("2023-01-01"),
+      departmentId: "dept_1",
+      status: "active",
+    },
+    {
+      id: "emp_2",
+      workspaceId: "workspace_1",
+      userId: "2",
+      employeeNumber: "EMP002",
+      firstName: "Sarah",
+      lastName: "Sales",
+      email: "sarah@example.com",
+      hireDate: new Date("2023-03-15"),
+      departmentId: "dept_2",
+      managerId: "emp_1",
+      status: "active",
+    },
+  ]);
+
+  await db.insert(hrTimeOffPolicy).values({
+    id: "policy_1",
+    workspaceId: "workspace_1",
+    name: "Annual Leave",
+    policyType: "vacation",
+    daysPerYear: 20,
+    carryoverDays: 5,
+  });
+
+  await db.insert(hrTimeOffRequest).values({
+    id: "timeoff_1",
+    workspaceId: "workspace_1",
+    employeeId: "emp_1",
+    policyId: "policy_1",
+    startDate: new Date("2024-06-01"),
+    endDate: new Date("2024-06-05"),
+    days: 5,
+    status: "approved",
+    approverId: "emp_2",
+    approvedAt: new Date(),
+  });
+
+  // ====== NEW FINANCE DATA ======
+  await db.insert(apVendor).values([
+    {
+      id: "vendor_1",
+      workspaceId: "workspace_1",
+      name: "Office Supplies Co",
+      email: "sales@officesupplies.com",
+      paymentTerms: "Net 30",
+    },
+    {
+      id: "vendor_2",
+      workspaceId: "workspace_1",
+      name: "Cloud Services Inc",
+      email: "billing@cloudservices.com",
+      paymentTerms: "Net 15",
+    },
+  ]);
+
+  await db.insert(apInvoice).values({
+    id: "ap_inv_1",
+    workspaceId: "workspace_1",
+    vendorId: "vendor_1",
+    invoiceNumber: "INV-2024-001",
+    invoiceDate: new Date("2024-01-15"),
+    dueDate: new Date("2024-02-15"),
+    totalAmount: "1500.00",
+    paidAmount: "1500.00",
+    status: "paid",
+  });
+
+  await db.insert(arCustomer).values([
+    {
+      id: "customer_1",
+      workspaceId: "workspace_1",
+      name: "Big Client Corp",
+      email: "ap@bigclient.com",
+      billingAddress: "123 Business St",
+    },
+    {
+      id: "customer_2",
+      workspaceId: "workspace_1",
+      name: "Small Business LLC",
+      email: "finance@smallbiz.com",
+      billingAddress: "456 Main Ave",
+    },
+  ]);
+
+  await db.insert(arInvoice).values({
+    id: "ar_inv_1",
+    workspaceId: "workspace_1",
+    customerId: "customer_1",
+    invoiceNumber: "INV-OUT-2024-001",
+    invoiceDate: new Date("2024-02-01"),
+    dueDate: new Date("2024-03-01"),
+    totalAmount: "5000.00",
+    paidAmount: "5000.00",
+    status: "paid",
+  });
+
+  await db.insert(bankAccount).values({
+    id: "bank_1",
+    workspaceId: "workspace_1",
+    accountName: "Operating Account",
+    accountNumber: "****1234",
+    bankName: "Business Bank",
+    accountType: "checking",
+    currency: "USD",
+    balance: "50000.00",
+  });
+
+  await db.insert(bankTransaction).values([
+    {
+      id: "txn_1",
+      workspaceId: "workspace_1",
+      accountId: "bank_1",
+      transactionDate: new Date("2024-01-15"),
+      description: "Payment from Big Client Corp",
+      amount: "5000.00",
+      transactionType: "credit",
+      reconciled: true,
+    },
+    {
+      id: "txn_2",
+      workspaceId: "workspace_1",
+      accountId: "bank_1",
+      transactionDate: new Date("2024-01-20"),
+      description: "Office supplies payment",
+      amount: "-1500.00",
+      transactionType: "debit",
+      reconciled: true,
+    },
+  ]);
+
+  // ====== NEW PRODUCT & INVENTORY DATA ======
+  await db.insert(productCatalog).values({
+    id: "catalog_1",
+    workspaceId: "workspace_1",
+    name: "Main Catalog",
+    description: "Primary product catalog",
+    isActive: true,
+  });
+
+  await db.insert(supplier).values([
+    {
+      id: "supplier_1",
+      workspaceId: "workspace_1",
+      name: "Widget Manufacturers",
+      email: "sales@widgets.com",
+      rating: 5,
+    },
+    {
+      id: "supplier_2",
+      workspaceId: "workspace_1",
+      name: "Gadget Suppliers",
+      email: "orders@gadgets.com",
+      rating: 4,
+    },
+  ]);
+
+  await db.insert(purchaseOrder).values({
+    id: "po_1",
+    workspaceId: "workspace_1",
+    supplierId: "supplier_1",
+    orderNumber: "PO-2024-001",
+    orderDate: new Date("2024-01-10"),
+    expectedDate: new Date("2024-01-25"),
+    totalAmount: "10000.00",
+    status: "received",
+    approvedBy: "1",
+  });
+
+  // ====== NEW SUPPORT & KB DATA ======
+  await db.insert(kbCategory).values([
+    {
+      id: "kb_cat_1",
+      workspaceId: "workspace_1",
+      name: "Getting Started",
+      description: "Introduction and setup guides",
+      displayOrder: 1,
+    },
+    {
+      id: "kb_cat_2",
+      workspaceId: "workspace_1",
+      name: "Troubleshooting",
+      description: "Common issues and solutions",
+      displayOrder: 2,
+    },
+  ]);
+
+  await db.insert(kbArticle).values([
+    {
+      id: "kb_1",
+      workspaceId: "workspace_1",
+      categoryId: "kb_cat_1",
+      title: "How to Get Started",
+      content: "This guide will help you get started with our platform...",
+      authorId: "1",
+      viewCount: 150,
+      isPublished: true,
+      publishedAt: new Date(),
+    },
+    {
+      id: "kb_2",
+      workspaceId: "workspace_1",
+      categoryId: "kb_cat_2",
+      title: "Fixing Connection Issues",
+      content: "If you're experiencing connection problems...",
+      authorId: "2",
+      viewCount: 75,
+      isPublished: true,
+      publishedAt: new Date(),
+    },
+  ]);
+
+  await db.insert(supportTicketStatus).values([
+    { id: "status_1", workspaceId: "workspace_1", name: "Open", isDefault: true, isClosed: false },
+    { id: "status_2", workspaceId: "workspace_1", name: "In Progress", isClosed: false },
+    { id: "status_3", workspaceId: "workspace_1", name: "Resolved", isClosed: true },
+  ]);
+
+  await db.insert(supportTicketPriority).values([
+    { id: "priority_1", workspaceId: "workspace_1", name: "Low", level: 1, responseTimeHours: 48 },
+    { id: "priority_2", workspaceId: "workspace_1", name: "Medium", level: 2, responseTimeHours: 24 },
+    { id: "priority_3", workspaceId: "workspace_1", name: "High", level: 3, responseTimeHours: 4 },
+  ]);
+
+  // ====== NEW COMMUNICATION DATA ======
+  await db.insert(chatChannel).values([
+    {
+      id: "channel_1",
+      workspaceId: "workspace_1",
+      name: "general",
+      description: "General discussion",
+      channelType: "public",
+      createdBy: "1",
+      isPrivate: false,
+    },
+    {
+      id: "channel_2",
+      workspaceId: "workspace_1",
+      name: "engineering",
+      description: "Engineering team",
+      channelType: "private",
+      createdBy: "1",
+      isPrivate: true,
+    },
+  ]);
+
+  await db.insert(chatMessage).values([
+    {
+      id: "chat_msg_1",
+      workspaceId: "workspace_1",
+      channelId: "channel_1",
+      senderId: "1",
+      content: "Welcome to the team!",
+      messageType: "text",
+    },
+    {
+      id: "chat_msg_2",
+      workspaceId: "workspace_1",
+      channelId: "channel_1",
+      senderId: "2",
+      content: "Thanks! Excited to be here.",
+      messageType: "text",
+    },
+  ]);
 };
 
 export const shutdown = async () => {
