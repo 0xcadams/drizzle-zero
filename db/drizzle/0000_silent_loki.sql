@@ -777,6 +777,55 @@ CREATE TABLE "team" (
 	"name" text NOT NULL
 );
 --> statement-breakpoint
+CREATE TABLE "test_bigserial_pk" (
+	"id" bigserial PRIMARY KEY NOT NULL,
+	"name" text NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "test_composite_pk_both_defaults" (
+	"id1" uuid DEFAULT gen_random_uuid() NOT NULL,
+	"id2" timestamp DEFAULT now() NOT NULL,
+	"name" text NOT NULL,
+	CONSTRAINT "test_composite_pk_both_defaults_id1_id2_pk" PRIMARY KEY("id1","id2")
+);
+--> statement-breakpoint
+CREATE TABLE "test_composite_pk_one_default" (
+	"tenant_id" text NOT NULL,
+	"id" serial NOT NULL,
+	"name" text NOT NULL,
+	CONSTRAINT "test_composite_pk_one_default_tenant_id_id_pk" PRIMARY KEY("tenant_id","id")
+);
+--> statement-breakpoint
+CREATE TABLE "test_integer_default_pk" (
+	"id" integer PRIMARY KEY DEFAULT floor(random() * 1000000) NOT NULL,
+	"name" text NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "test_serial_pk" (
+	"id" serial PRIMARY KEY NOT NULL,
+	"name" text NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "test_text_default_pk" (
+	"id" text PRIMARY KEY DEFAULT gen_random_uuid()::text NOT NULL,
+	"name" text NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "test_timestamp_default_pk" (
+	"id" timestamp PRIMARY KEY DEFAULT now() NOT NULL,
+	"name" text NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "test_uuid_pk" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"name" text NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "test_uuid_sql_default_pk" (
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"name" text NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "time_entry" (
 	"createdAt" timestamp(3) with time zone DEFAULT now() NOT NULL,
 	"updatedAt" timestamp(3) with time zone DEFAULT now() NOT NULL,

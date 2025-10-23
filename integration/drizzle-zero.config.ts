@@ -82,6 +82,16 @@ export const schema = drizzleZeroConfig(drizzleSchema, {
     timeEntry: true,
     timesheet: true,
     user: true,
+
+    testSerialPk: true,
+    testBigSerialPk: true,
+    testUuidPk: true,
+    testUuidSqlDefaultPk: true,
+    testTextDefaultPk: true,
+    testTimestampDefaultPk: true,
+    testIntegerDefaultPk: true,
+    testCompositePkBothDefaults: true,
+    testCompositePkOneDefault: true,
   },
   manyToMany: {
     user: {

@@ -6001,6 +6001,44 @@ exports[`getConfigFromFile > should successfully load and parse a valid config f
         "id",
       ],
     },
+    "testSerialPk": {
+      "columns": {
+        "id": {
+          "customType": null,
+          "optional": false,
+          "type": "number",
+        },
+        "name": {
+          "customType": null,
+          "optional": false,
+          "type": "string",
+        },
+      },
+      "name": "testSerialPk",
+      "primaryKey": [
+        "id",
+      ],
+      "serverName": "test_serial_pk",
+    },
+    "testUuidPk": {
+      "columns": {
+        "id": {
+          "customType": null,
+          "optional": false,
+          "type": "string",
+        },
+        "name": {
+          "customType": null,
+          "optional": false,
+          "type": "string",
+        },
+      },
+      "name": "testUuidPk",
+      "primaryKey": [
+        "id",
+      ],
+      "serverName": "test_uuid_pk",
+    },
     "timeEntry": {
       "columns": {
         "createdAt": {

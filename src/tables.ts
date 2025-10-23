@@ -303,11 +303,15 @@ const createZeroTableBuilder = <
         return acc;
       }
 
+      const isPrimaryKey = primaryKeys.has(String(key));
+
       const isColumnOptional =
         typeof columnConfig === "boolean" || typeof columnConfig === "undefined"
-          ? column.hasDefault && column.defaultFn === undefined
-            ? true
-            : !column.notNull
+          ? isPrimaryKey
+            ? false // Primary keys are NEVER optional, even with defaults
+            : column.hasDefault && column.defaultFn === undefined
+              ? true
+              : !column.notNull
           : isColumnConfigOverride
             ? columnConfig.schema.optional
             : false;
