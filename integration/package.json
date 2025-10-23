@@ -3,13 +3,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "drizzle-zero:generate": "drizzle-zero generate -f",
+    "build": "tsc",
+    "drizzle-zero:generate": "drizzle-zero generate -f --disable-legacy-mutators --disable-legacy-queries",
     "pretest": "pnpm drizzle-zero:generate",
-    "test": "vitest run"
+    "test": "pnpm build && vitest run"
   },
   "dependencies": {
     "@drizzle-zero/custom-types": "workspace:*",
     "@drizzle-zero/db": "workspace:*",
-    "drizzle-zero": "workspace:*"
+    "@hono/node-server": "^1.19.5",
+    "drizzle-zero": "workspace:*",
+    "hono": "^4.10.2",
+    "zod": "^4.1.12"
   }
 }

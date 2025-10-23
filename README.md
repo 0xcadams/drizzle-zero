@@ -103,39 +103,24 @@ type resolution to work. If they are not included, there will be an error simila
 
 ### Define Zero schema file
 
-You can then import the `zero-schema.gen.ts` schema from your Zero `schema.ts`
-and define permissions on top of it.
-
-```ts
-import { type Row, definePermissions } from "@rocicorp/zero";
-import { schema, type Schema } from "./zero-schema.gen";
-
-export { schema, type Schema };
-
-export type User = Row<typeof schema.tables.user>;
-//            ^ {
-//                readonly id: string;
-//                readonly name: string;
-//                readonly email: `${string}@${string}`;
-//              }
-
-export const permissions = definePermissions<{}, Schema>(schema, () => {
-  // ...further permissions definitions
-});
-```
-
 Use the generated Zero schema:
 
 ```tsx
-import { useQuery, useZero } from "@rocicorp/zero/react";
+import { useEffect, useState } from "react";
+import { useZero } from "@rocicorp/zero/react";
+import { syncedQuery } from "@rocicorp/zero";
+import { builder } from "../zero-schema.gen.ts";
+
+const postsQuery = syncedQuery(
+  'allPosts',
+  z.tuple([]),
+  () => builder.posts.related("author").limit(10),
+);
 
 function PostList() {
   const z = useZero();
 
-  // Build a query for posts with their authors
-  const postsQuery = z.query.post.related("author").limit(10);
-
-  const [posts] = useQuery(postsQuery);
+  const [posts] = useQuery(postsQuery());
 
   return (
     <div>
@@ -157,6 +142,9 @@ function PostList() {
 If you want to customize the tables/columns that are synced by Zero, you can optionally
 create a new config file at `drizzle-zero.config.ts` specifying the tables and/or columns you want to
 include in the CLI output:
+
+> **Important:** The config file currently struggles with types for large schemas. In those cases,
+> stick with the default CLI behavior.
 
 ```ts
 import { drizzleZeroConfig } from "drizzle-zero";
@@ -239,9 +227,9 @@ export default drizzleZeroConfig(drizzleSchema, {
 Then query as usual, skipping the junction table:
 
 ```tsx
-const userQuery = z.query.user.where("id", "=", "1").related("groups").one();
+const userQuery = syncedQuery(z.query.user.where("id", "=", "1").related("groups").one());
 
-const [user] = useQuery(userQuery);
+const [user] = useQuery(userQuery());
 
 console.log(user);
 // {

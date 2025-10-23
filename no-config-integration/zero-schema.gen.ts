@@ -10,10 +10,8 @@
 
 import type { Row } from "@rocicorp/zero";
 import { createBuilder } from "@rocicorp/zero";
-import type { DrizzleToZeroSchema, ZeroCustomType } from "drizzle-zero";
+import type { CustomType } from "drizzle-zero";
 import type * as drizzleSchema from "./drizzle";
-
-type ZeroSchema = DrizzleToZeroSchema<typeof drizzleSchema>;
 
 /**
  * The Zero schema object.
@@ -27,8 +25,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "createdAt"
           >,
@@ -36,8 +34,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "updatedAt"
           >,
@@ -45,8 +43,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "id"
           >,
@@ -54,8 +52,8 @@ export const schema = {
         smallintField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "smallintField"
           >,
@@ -64,8 +62,8 @@ export const schema = {
         integerField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "integerField"
           >,
@@ -74,8 +72,8 @@ export const schema = {
         bigintField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "bigintField"
           >,
@@ -84,8 +82,8 @@ export const schema = {
         bigintNumberField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "bigintNumberField"
           >,
@@ -94,8 +92,8 @@ export const schema = {
         smallSerialField: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "smallSerialField"
           >,
@@ -104,8 +102,8 @@ export const schema = {
         serialField: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "serialField"
           >,
@@ -114,8 +112,8 @@ export const schema = {
         bigSerialField: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "bigSerialField"
           >,
@@ -124,8 +122,8 @@ export const schema = {
         numericField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "numericField"
           >,
@@ -134,8 +132,8 @@ export const schema = {
         decimalField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "decimalField"
           >,
@@ -144,8 +142,8 @@ export const schema = {
         realField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "realField"
           >,
@@ -154,8 +152,8 @@ export const schema = {
         doublePrecisionField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "doublePrecisionField"
           >,
@@ -164,8 +162,8 @@ export const schema = {
         textField: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "textField"
           >,
@@ -174,8 +172,8 @@ export const schema = {
         charField: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "charField"
           >,
@@ -184,8 +182,8 @@ export const schema = {
         uuidField: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "uuidField"
           >,
@@ -194,8 +192,8 @@ export const schema = {
         varcharField: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "varcharField"
           >,
@@ -204,8 +202,8 @@ export const schema = {
         booleanField: {
           type: "boolean",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "booleanField"
           >,
@@ -214,8 +212,8 @@ export const schema = {
         timestampField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "timestampField"
           >,
@@ -224,8 +222,8 @@ export const schema = {
         timestampTzField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "timestampTzField"
           >,
@@ -234,8 +232,8 @@ export const schema = {
         timestampModeString: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "timestampModeString"
           >,
@@ -244,8 +242,8 @@ export const schema = {
         timestampModeDate: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "timestampModeDate"
           >,
@@ -254,8 +252,8 @@ export const schema = {
         dateField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "dateField"
           >,
@@ -264,8 +262,8 @@ export const schema = {
         jsonField: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "jsonField"
           >,
@@ -274,8 +272,8 @@ export const schema = {
         jsonbField: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "jsonbField"
           >,
@@ -284,8 +282,8 @@ export const schema = {
         typedJsonField: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "typedJsonField"
           >,
@@ -294,8 +292,8 @@ export const schema = {
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "status"
           >,
@@ -303,8 +301,8 @@ export const schema = {
         textArray: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "textArray"
           >,
@@ -313,8 +311,8 @@ export const schema = {
         intArray: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "intArray"
           >,
@@ -323,8 +321,8 @@ export const schema = {
         numericArray: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "numericArray"
           >,
@@ -333,8 +331,8 @@ export const schema = {
         uuidArray: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "uuidArray"
           >,
@@ -343,8 +341,8 @@ export const schema = {
         jsonbArray: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "jsonbArray"
           >,
@@ -353,27 +351,18 @@ export const schema = {
         enumArray: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "enumArray"
           >,
           serverName: "enum_array",
         },
-        matrix: {
-          type: "json",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
-            "allTypes",
-            "matrix"
-          >,
-        },
         optionalSmallint: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalSmallint"
           >,
@@ -382,8 +371,8 @@ export const schema = {
         optionalInteger: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalInteger"
           >,
@@ -392,8 +381,8 @@ export const schema = {
         optionalBigint: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalBigint"
           >,
@@ -402,8 +391,8 @@ export const schema = {
         optionalNumeric: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalNumeric"
           >,
@@ -412,8 +401,8 @@ export const schema = {
         optionalReal: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalReal"
           >,
@@ -422,8 +411,8 @@ export const schema = {
         optionalDoublePrecision: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalDoublePrecision"
           >,
@@ -432,8 +421,8 @@ export const schema = {
         optionalText: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalText"
           >,
@@ -442,8 +431,8 @@ export const schema = {
         optionalBoolean: {
           type: "boolean",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalBoolean"
           >,
@@ -452,8 +441,8 @@ export const schema = {
         optionalTimestamp: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalTimestamp"
           >,
@@ -462,8 +451,8 @@ export const schema = {
         optionalJson: {
           type: "json",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalJson"
           >,
@@ -472,8 +461,8 @@ export const schema = {
         optionalEnum: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalEnum"
           >,
@@ -482,8 +471,8 @@ export const schema = {
         optionalVarchar: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalVarchar"
           >,
@@ -492,8 +481,8 @@ export const schema = {
         optionalUuid: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "allTypes",
             "optionalUuid"
           >,
@@ -503,14 +492,2139 @@ export const schema = {
       primaryKey: ["id"],
       serverName: "all_types",
     },
+    analyticsDashboard: {
+      name: "analyticsDashboard",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsDashboard",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsDashboard",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsDashboard",
+            "id"
+          >,
+        },
+        ownerId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsDashboard",
+            "ownerId"
+          >,
+          serverName: "owner_id",
+        },
+        title: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsDashboard",
+            "title"
+          >,
+        },
+        description: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsDashboard",
+            "description"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "analytics_dashboard",
+    },
+    analyticsWidget: {
+      name: "analyticsWidget",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsWidget",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsWidget",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsWidget",
+            "id"
+          >,
+        },
+        dashboardId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsWidget",
+            "dashboardId"
+          >,
+          serverName: "dashboard_id",
+        },
+        title: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsWidget",
+            "title"
+          >,
+        },
+        widgetType: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsWidget",
+            "widgetType"
+          >,
+          serverName: "widget_type",
+        },
+        position: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsWidget",
+            "position"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "analytics_widget",
+    },
+    analyticsWidgetQuery: {
+      name: "analyticsWidgetQuery",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsWidgetQuery",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsWidgetQuery",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsWidgetQuery",
+            "id"
+          >,
+        },
+        widgetId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsWidgetQuery",
+            "widgetId"
+          >,
+          serverName: "widget_id",
+        },
+        dataSource: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsWidgetQuery",
+            "dataSource"
+          >,
+          serverName: "data_source",
+        },
+        query: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsWidgetQuery",
+            "query"
+          >,
+        },
+        refreshIntervalSeconds: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "analyticsWidgetQuery",
+            "refreshIntervalSeconds"
+          >,
+          serverName: "refresh_interval_seconds",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "analytics_widget_query",
+    },
+    benefitEnrollment: {
+      name: "benefitEnrollment",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "benefitEnrollment",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "benefitEnrollment",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "benefitEnrollment",
+            "id"
+          >,
+        },
+        benefitPlanId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "benefitEnrollment",
+            "benefitPlanId"
+          >,
+          serverName: "benefit_plan_id",
+        },
+        employeeId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "benefitEnrollment",
+            "employeeId"
+          >,
+          serverName: "employee_id",
+        },
+        enrolledAt: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "benefitEnrollment",
+            "enrolledAt"
+          >,
+          serverName: "enrolled_at",
+        },
+        coverageLevel: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "benefitEnrollment",
+            "coverageLevel"
+          >,
+          serverName: "coverage_level",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "benefit_enrollment",
+    },
+    benefitPlan: {
+      name: "benefitPlan",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "benefitPlan",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "benefitPlan",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "benefitPlan",
+            "id"
+          >,
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "benefitPlan",
+            "name"
+          >,
+        },
+        provider: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "benefitPlan",
+            "provider"
+          >,
+        },
+        description: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "benefitPlan",
+            "description"
+          >,
+        },
+        administratorId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "benefitPlan",
+            "administratorId"
+          >,
+          serverName: "administrator_id",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "benefit_plan",
+    },
+    billingInvoice: {
+      name: "billingInvoice",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "billingInvoice",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "billingInvoice",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "billingInvoice",
+            "id"
+          >,
+        },
+        accountId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "billingInvoice",
+            "accountId"
+          >,
+          serverName: "account_id",
+        },
+        contactId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "billingInvoice",
+            "contactId"
+          >,
+          serverName: "contact_id",
+        },
+        issuedById: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "billingInvoice",
+            "issuedById"
+          >,
+          serverName: "issued_by_id",
+        },
+        status: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "billingInvoice",
+            "status"
+          >,
+        },
+        invoiceDate: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "billingInvoice",
+            "invoiceDate"
+          >,
+          serverName: "invoice_date",
+        },
+        dueDate: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "billingInvoice",
+            "dueDate"
+          >,
+          serverName: "due_date",
+        },
+        totalAmount: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "billingInvoice",
+            "totalAmount"
+          >,
+          serverName: "total_amount",
+        },
+        currency: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "billingInvoice",
+            "currency"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "billing_invoice",
+    },
+    billingInvoiceLine: {
+      name: "billingInvoiceLine",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "billingInvoiceLine",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "billingInvoiceLine",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "billingInvoiceLine",
+            "id"
+          >,
+        },
+        invoiceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "billingInvoiceLine",
+            "invoiceId"
+          >,
+          serverName: "invoice_id",
+        },
+        orderItemId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "billingInvoiceLine",
+            "orderItemId"
+          >,
+          serverName: "order_item_id",
+        },
+        description: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "billingInvoiceLine",
+            "description"
+          >,
+        },
+        quantity: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "billingInvoiceLine",
+            "quantity"
+          >,
+        },
+        unitPrice: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "billingInvoiceLine",
+            "unitPrice"
+          >,
+          serverName: "unit_price",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "billing_invoice_line",
+    },
+    budget: {
+      name: "budget",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "budget",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "budget",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "budget",
+            "id"
+          >,
+        },
+        departmentId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "budget",
+            "departmentId"
+          >,
+          serverName: "department_id",
+        },
+        fiscalYear: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "budget",
+            "fiscalYear"
+          >,
+          serverName: "fiscal_year",
+        },
+        totalAmount: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "budget",
+            "totalAmount"
+          >,
+          serverName: "total_amount",
+        },
+        currency: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "budget",
+            "currency"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+    },
+    budgetLine: {
+      name: "budgetLine",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "budgetLine",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "budgetLine",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "budgetLine",
+            "id"
+          >,
+        },
+        budgetId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "budgetLine",
+            "budgetId"
+          >,
+          serverName: "budget_id",
+        },
+        accountId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "budgetLine",
+            "accountId"
+          >,
+          serverName: "account_id",
+        },
+        amount: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "budgetLine",
+            "amount"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "budget_line",
+    },
+    crmAccount: {
+      name: "crmAccount",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmAccount",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmAccount",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmAccount",
+            "id"
+          >,
+        },
+        ownerId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmAccount",
+            "ownerId"
+          >,
+          serverName: "owner_id",
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmAccount",
+            "name"
+          >,
+        },
+        industry: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmAccount",
+            "industry"
+          >,
+        },
+        status: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmAccount",
+            "status"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "crm_account",
+    },
+    crmActivity: {
+      name: "crmActivity",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmActivity",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmActivity",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmActivity",
+            "id"
+          >,
+        },
+        accountId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmActivity",
+            "accountId"
+          >,
+          serverName: "account_id",
+        },
+        contactId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmActivity",
+            "contactId"
+          >,
+          serverName: "contact_id",
+        },
+        opportunityId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmActivity",
+            "opportunityId"
+          >,
+          serverName: "opportunity_id",
+        },
+        typeId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmActivity",
+            "typeId"
+          >,
+          serverName: "type_id",
+        },
+        performedById: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmActivity",
+            "performedById"
+          >,
+          serverName: "performed_by_id",
+        },
+        notes: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmActivity",
+            "notes"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "crm_activity",
+    },
+    crmActivityType: {
+      name: "crmActivityType",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmActivityType",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmActivityType",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmActivityType",
+            "id"
+          >,
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmActivityType",
+            "name"
+          >,
+        },
+        description: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmActivityType",
+            "description"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "crm_activity_type",
+    },
+    crmContact: {
+      name: "crmContact",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmContact",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmContact",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmContact",
+            "id"
+          >,
+        },
+        accountId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmContact",
+            "accountId"
+          >,
+          serverName: "account_id",
+        },
+        firstName: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmContact",
+            "firstName"
+          >,
+          serverName: "first_name",
+        },
+        lastName: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmContact",
+            "lastName"
+          >,
+          serverName: "last_name",
+        },
+        email: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmContact",
+            "email"
+          >,
+        },
+        phone: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmContact",
+            "phone"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "crm_contact",
+    },
+    crmNote: {
+      name: "crmNote",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmNote",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmNote",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmNote",
+            "id"
+          >,
+        },
+        accountId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmNote",
+            "accountId"
+          >,
+          serverName: "account_id",
+        },
+        contactId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmNote",
+            "contactId"
+          >,
+          serverName: "contact_id",
+        },
+        authorId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmNote",
+            "authorId"
+          >,
+          serverName: "author_id",
+        },
+        body: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmNote",
+            "body"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "crm_note",
+    },
+    crmOpportunity: {
+      name: "crmOpportunity",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmOpportunity",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmOpportunity",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmOpportunity",
+            "id"
+          >,
+        },
+        accountId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmOpportunity",
+            "accountId"
+          >,
+          serverName: "account_id",
+        },
+        stageId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmOpportunity",
+            "stageId"
+          >,
+          serverName: "stage_id",
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmOpportunity",
+            "name"
+          >,
+        },
+        amount: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmOpportunity",
+            "amount"
+          >,
+        },
+        closeDate: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmOpportunity",
+            "closeDate"
+          >,
+          serverName: "close_date",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "crm_opportunity",
+    },
+    crmOpportunityStageHistory: {
+      name: "crmOpportunityStageHistory",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmOpportunityStageHistory",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmOpportunityStageHistory",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmOpportunityStageHistory",
+            "id"
+          >,
+        },
+        opportunityId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmOpportunityStageHistory",
+            "opportunityId"
+          >,
+          serverName: "opportunity_id",
+        },
+        stageId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmOpportunityStageHistory",
+            "stageId"
+          >,
+          serverName: "stage_id",
+        },
+        changedById: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmOpportunityStageHistory",
+            "changedById"
+          >,
+          serverName: "changed_by_id",
+        },
+        changedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmOpportunityStageHistory",
+            "changedAt"
+          >,
+          serverName: "changed_at",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "crm_opportunity_stage_history",
+    },
+    crmPipelineStage: {
+      name: "crmPipelineStage",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmPipelineStage",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmPipelineStage",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmPipelineStage",
+            "id"
+          >,
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmPipelineStage",
+            "name"
+          >,
+        },
+        sequence: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmPipelineStage",
+            "sequence"
+          >,
+        },
+        probability: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "crmPipelineStage",
+            "probability"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "crm_pipeline_stage",
+    },
+    department: {
+      name: "department",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "department",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "department",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "department",
+            "id"
+          >,
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "department",
+            "name"
+          >,
+        },
+        description: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "department",
+            "description"
+          >,
+        },
+        managerId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "department",
+            "managerId"
+          >,
+          serverName: "manager_id",
+        },
+      },
+      primaryKey: ["id"],
+    },
+    documentFile: {
+      name: "documentFile",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFile",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFile",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFile",
+            "id"
+          >,
+        },
+        folderId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFile",
+            "folderId"
+          >,
+          serverName: "folder_id",
+        },
+        uploadedById: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFile",
+            "uploadedById"
+          >,
+          serverName: "uploaded_by_id",
+        },
+        fileName: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFile",
+            "fileName"
+          >,
+          serverName: "file_name",
+        },
+        mimeType: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFile",
+            "mimeType"
+          >,
+          serverName: "mime_type",
+        },
+        sizeBytes: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFile",
+            "sizeBytes"
+          >,
+          serverName: "size_bytes",
+        },
+        version: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFile",
+            "version"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "document_file",
+    },
+    documentFileVersion: {
+      name: "documentFileVersion",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFileVersion",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFileVersion",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFileVersion",
+            "id"
+          >,
+        },
+        fileId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFileVersion",
+            "fileId"
+          >,
+          serverName: "file_id",
+        },
+        uploadedById: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFileVersion",
+            "uploadedById"
+          >,
+          serverName: "uploaded_by_id",
+        },
+        version: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFileVersion",
+            "version"
+          >,
+        },
+        changeLog: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFileVersion",
+            "changeLog"
+          >,
+          serverName: "change_log",
+        },
+        fileSizeBytes: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFileVersion",
+            "fileSizeBytes"
+          >,
+          serverName: "file_size_bytes",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "document_file_version",
+    },
+    documentFolder: {
+      name: "documentFolder",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFolder",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFolder",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFolder",
+            "id"
+          >,
+        },
+        libraryId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFolder",
+            "libraryId"
+          >,
+          serverName: "library_id",
+        },
+        parentId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFolder",
+            "parentId"
+          >,
+          serverName: "parent_id",
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentFolder",
+            "name"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "document_folder",
+    },
+    documentLibrary: {
+      name: "documentLibrary",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentLibrary",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentLibrary",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentLibrary",
+            "id"
+          >,
+        },
+        projectId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentLibrary",
+            "projectId"
+          >,
+          serverName: "project_id",
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentLibrary",
+            "name"
+          >,
+        },
+        description: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentLibrary",
+            "description"
+          >,
+        },
+        visibility: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentLibrary",
+            "visibility"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "document_library",
+    },
+    documentSharing: {
+      name: "documentSharing",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentSharing",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentSharing",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentSharing",
+            "id"
+          >,
+        },
+        fileId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentSharing",
+            "fileId"
+          >,
+          serverName: "file_id",
+        },
+        sharedWithUserId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentSharing",
+            "sharedWithUserId"
+          >,
+          serverName: "shared_with_user_id",
+        },
+        sharedWithTeamId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentSharing",
+            "sharedWithTeamId"
+          >,
+          serverName: "shared_with_team_id",
+        },
+        permission: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "documentSharing",
+            "permission"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "document_sharing",
+    },
+    employeeDocument: {
+      name: "employeeDocument",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employeeDocument",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employeeDocument",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employeeDocument",
+            "id"
+          >,
+        },
+        employeeId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employeeDocument",
+            "employeeId"
+          >,
+          serverName: "employee_id",
+        },
+        fileName: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employeeDocument",
+            "fileName"
+          >,
+          serverName: "file_name",
+        },
+        documentType: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employeeDocument",
+            "documentType"
+          >,
+          serverName: "document_type",
+        },
+        uploadedById: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employeeDocument",
+            "uploadedById"
+          >,
+          serverName: "uploaded_by_id",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "employee_document",
+    },
+    employeeProfile: {
+      name: "employeeProfile",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employeeProfile",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employeeProfile",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employeeProfile",
+            "id"
+          >,
+        },
+        userId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employeeProfile",
+            "userId"
+          >,
+          serverName: "user_id",
+        },
+        departmentId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employeeProfile",
+            "departmentId"
+          >,
+          serverName: "department_id",
+        },
+        teamId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employeeProfile",
+            "teamId"
+          >,
+          serverName: "team_id",
+        },
+        title: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employeeProfile",
+            "title"
+          >,
+        },
+        startDate: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employeeProfile",
+            "startDate"
+          >,
+          serverName: "start_date",
+        },
+        employmentType: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employeeProfile",
+            "employmentType"
+          >,
+          serverName: "employment_type",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "employee_profile",
+    },
+    employmentHistory: {
+      name: "employmentHistory",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employmentHistory",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employmentHistory",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employmentHistory",
+            "id"
+          >,
+        },
+        employeeId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employmentHistory",
+            "employeeId"
+          >,
+          serverName: "employee_id",
+        },
+        company: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employmentHistory",
+            "company"
+          >,
+        },
+        title: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employmentHistory",
+            "title"
+          >,
+        },
+        startDate: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employmentHistory",
+            "startDate"
+          >,
+          serverName: "start_date",
+        },
+        endDate: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "employmentHistory",
+            "endDate"
+          >,
+          serverName: "end_date",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "employment_history",
+    },
+    expenseItem: {
+      name: "expenseItem",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "expenseItem",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "expenseItem",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "expenseItem",
+            "id"
+          >,
+        },
+        reportId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "expenseItem",
+            "reportId"
+          >,
+          serverName: "report_id",
+        },
+        amount: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "expenseItem",
+            "amount"
+          >,
+        },
+        category: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "expenseItem",
+            "category"
+          >,
+        },
+        incurredAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "expenseItem",
+            "incurredAt"
+          >,
+          serverName: "incurred_at",
+        },
+        merchant: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "expenseItem",
+            "merchant"
+          >,
+        },
+        notes: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "expenseItem",
+            "notes"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "expense_item",
+    },
+    expenseReport: {
+      name: "expenseReport",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "expenseReport",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "expenseReport",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "expenseReport",
+            "id"
+          >,
+        },
+        ownerId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "expenseReport",
+            "ownerId"
+          >,
+          serverName: "owner_id",
+        },
+        departmentId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "expenseReport",
+            "departmentId"
+          >,
+          serverName: "department_id",
+        },
+        status: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "expenseReport",
+            "status"
+          >,
+        },
+        submittedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "expenseReport",
+            "submittedAt"
+          >,
+          serverName: "submitted_at",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "expense_report",
+    },
     filters: {
       name: "filters",
       columns: {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "filters",
             "id"
           >,
@@ -518,8 +2632,8 @@ export const schema = {
         name: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "filters",
             "name"
           >,
@@ -527,8 +2641,8 @@ export const schema = {
         parentId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "filters",
             "parentId"
           >,
@@ -543,8 +2657,8 @@ export const schema = {
         requestingId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "friendship",
             "requestingId"
           >,
@@ -552,8 +2666,8 @@ export const schema = {
         acceptingId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "friendship",
             "acceptingId"
           >,
@@ -561,8 +2675,8 @@ export const schema = {
         accepted: {
           type: "boolean",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "friendship",
             "accepted"
           >,
@@ -570,14 +2684,1024 @@ export const schema = {
       },
       primaryKey: ["requestingId", "acceptingId"],
     },
+    integrationCredential: {
+      name: "integrationCredential",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationCredential",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationCredential",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationCredential",
+            "id"
+          >,
+        },
+        webhookId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationCredential",
+            "webhookId"
+          >,
+          serverName: "webhook_id",
+        },
+        provider: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationCredential",
+            "provider"
+          >,
+        },
+        clientId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationCredential",
+            "clientId"
+          >,
+          serverName: "client_id",
+        },
+        clientSecret: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationCredential",
+            "clientSecret"
+          >,
+          serverName: "client_secret",
+        },
+        metadata: {
+          type: "json",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationCredential",
+            "metadata"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "integration_credential",
+    },
+    integrationEvent: {
+      name: "integrationEvent",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationEvent",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationEvent",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationEvent",
+            "id"
+          >,
+        },
+        webhookId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationEvent",
+            "webhookId"
+          >,
+          serverName: "webhook_id",
+        },
+        payload: {
+          type: "json",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationEvent",
+            "payload"
+          >,
+        },
+        eventType: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationEvent",
+            "eventType"
+          >,
+          serverName: "event_type",
+        },
+        deliveredAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationEvent",
+            "deliveredAt"
+          >,
+          serverName: "delivered_at",
+        },
+        status: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationEvent",
+            "status"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "integration_event",
+    },
+    integrationWebhook: {
+      name: "integrationWebhook",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationWebhook",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationWebhook",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationWebhook",
+            "id"
+          >,
+        },
+        projectId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationWebhook",
+            "projectId"
+          >,
+          serverName: "project_id",
+        },
+        accountId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationWebhook",
+            "accountId"
+          >,
+          serverName: "account_id",
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationWebhook",
+            "name"
+          >,
+        },
+        url: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationWebhook",
+            "url"
+          >,
+        },
+        secret: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationWebhook",
+            "secret"
+          >,
+        },
+        isActive: {
+          type: "boolean",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "integrationWebhook",
+            "isActive"
+          >,
+          serverName: "is_active",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "integration_webhook",
+    },
+    inventoryItem: {
+      name: "inventoryItem",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "inventoryItem",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "inventoryItem",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "inventoryItem",
+            "id"
+          >,
+        },
+        variantId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "inventoryItem",
+            "variantId"
+          >,
+          serverName: "variant_id",
+        },
+        serialNumber: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "inventoryItem",
+            "serialNumber"
+          >,
+          serverName: "serial_number",
+        },
+        metadata: {
+          type: "json",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "inventoryItem",
+            "metadata"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "inventory_item",
+    },
+    inventoryLevel: {
+      name: "inventoryLevel",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "inventoryLevel",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "inventoryLevel",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "inventoryLevel",
+            "id"
+          >,
+        },
+        locationId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "inventoryLevel",
+            "locationId"
+          >,
+          serverName: "location_id",
+        },
+        variantId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "inventoryLevel",
+            "variantId"
+          >,
+          serverName: "variant_id",
+        },
+        quantity: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "inventoryLevel",
+            "quantity"
+          >,
+        },
+        reserved: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "inventoryLevel",
+            "reserved"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "inventory_level",
+    },
+    inventoryLocation: {
+      name: "inventoryLocation",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "inventoryLocation",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "inventoryLocation",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "inventoryLocation",
+            "id"
+          >,
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "inventoryLocation",
+            "name"
+          >,
+        },
+        address: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "inventoryLocation",
+            "address"
+          >,
+        },
+        region: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "inventoryLocation",
+            "region"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "inventory_location",
+    },
+    ledgerAccount: {
+      name: "ledgerAccount",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerAccount",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerAccount",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerAccount",
+            "id"
+          >,
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerAccount",
+            "name"
+          >,
+        },
+        code: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerAccount",
+            "code"
+          >,
+        },
+        accountType: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerAccount",
+            "accountType"
+          >,
+          serverName: "account_type",
+        },
+        parentAccountId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerAccount",
+            "parentAccountId"
+          >,
+          serverName: "parent_account_id",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "ledger_account",
+    },
+    ledgerEntry: {
+      name: "ledgerEntry",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerEntry",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerEntry",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerEntry",
+            "id"
+          >,
+        },
+        transactionId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerEntry",
+            "transactionId"
+          >,
+          serverName: "transaction_id",
+        },
+        accountId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerEntry",
+            "accountId"
+          >,
+          serverName: "account_id",
+        },
+        debit: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerEntry",
+            "debit"
+          >,
+        },
+        credit: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerEntry",
+            "credit"
+          >,
+        },
+        memo: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerEntry",
+            "memo"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "ledger_entry",
+    },
+    ledgerTransaction: {
+      name: "ledgerTransaction",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerTransaction",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerTransaction",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerTransaction",
+            "id"
+          >,
+        },
+        reference: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerTransaction",
+            "reference"
+          >,
+        },
+        transactionDate: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerTransaction",
+            "transactionDate"
+          >,
+          serverName: "transaction_date",
+        },
+        createdById: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerTransaction",
+            "createdById"
+          >,
+          serverName: "created_by_id",
+        },
+        description: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "ledgerTransaction",
+            "description"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "ledger_transaction",
+    },
+    marketingAudience: {
+      name: "marketingAudience",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingAudience",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingAudience",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingAudience",
+            "id"
+          >,
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingAudience",
+            "name"
+          >,
+        },
+        segmentType: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingAudience",
+            "segmentType"
+          >,
+          serverName: "segment_type",
+        },
+        definition: {
+          type: "json",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingAudience",
+            "definition"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "marketing_audience",
+    },
+    marketingCampaign: {
+      name: "marketingCampaign",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaign",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaign",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaign",
+            "id"
+          >,
+        },
+        ownerId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaign",
+            "ownerId"
+          >,
+          serverName: "owner_id",
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaign",
+            "name"
+          >,
+        },
+        status: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaign",
+            "status"
+          >,
+        },
+        startDate: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaign",
+            "startDate"
+          >,
+          serverName: "start_date",
+        },
+        endDate: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaign",
+            "endDate"
+          >,
+          serverName: "end_date",
+        },
+        budgetAmount: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaign",
+            "budgetAmount"
+          >,
+          serverName: "budget_amount",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "marketing_campaign",
+    },
+    marketingCampaignAudience: {
+      name: "marketingCampaignAudience",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaignAudience",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaignAudience",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaignAudience",
+            "id"
+          >,
+        },
+        campaignId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaignAudience",
+            "campaignId"
+          >,
+          serverName: "campaign_id",
+        },
+        audienceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaignAudience",
+            "audienceId"
+          >,
+          serverName: "audience_id",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "marketing_campaign_audience",
+    },
+    marketingCampaignChannel: {
+      name: "marketingCampaignChannel",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaignChannel",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaignChannel",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaignChannel",
+            "id"
+          >,
+        },
+        campaignId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaignChannel",
+            "campaignId"
+          >,
+          serverName: "campaign_id",
+        },
+        channelId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaignChannel",
+            "channelId"
+          >,
+          serverName: "channel_id",
+        },
+        allocation: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingCampaignChannel",
+            "allocation"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "marketing_campaign_channel",
+    },
+    marketingChannel: {
+      name: "marketingChannel",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingChannel",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingChannel",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingChannel",
+            "id"
+          >,
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingChannel",
+            "name"
+          >,
+        },
+        channelType: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingChannel",
+            "channelType"
+          >,
+          serverName: "channel_type",
+        },
+        costModel: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "marketingChannel",
+            "costModel"
+          >,
+          serverName: "cost_model",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "marketing_channel",
+    },
     medium: {
       name: "medium",
       columns: {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "medium",
             "createdAt"
           >,
@@ -585,8 +3709,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "medium",
             "updatedAt"
           >,
@@ -594,8 +3718,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "medium",
             "id"
           >,
@@ -603,8 +3727,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "medium",
             "name"
           >,
@@ -618,8 +3742,8 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "message",
             "createdAt"
           >,
@@ -627,8 +3751,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "message",
             "updatedAt"
           >,
@@ -636,8 +3760,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "message",
             "id"
           >,
@@ -645,8 +3769,8 @@ export const schema = {
         senderId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "message",
             "senderId"
           >,
@@ -654,8 +3778,8 @@ export const schema = {
         mediumId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "message",
             "mediumId"
           >,
@@ -663,8 +3787,8 @@ export const schema = {
         body: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "message",
             "body"
           >,
@@ -672,8 +3796,8 @@ export const schema = {
         metadata: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "message",
             "metadata"
           >,
@@ -681,8 +3805,8 @@ export const schema = {
         omittedColumn: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "message",
             "omittedColumn"
           >,
@@ -697,8 +3821,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "omittedTable",
             "id"
           >,
@@ -706,8 +3830,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "omittedTable",
             "name"
           >,
@@ -716,14 +3840,2044 @@ export const schema = {
       primaryKey: ["id"],
       serverName: "omitted_table",
     },
+    orderItem: {
+      name: "orderItem",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderItem",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderItem",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderItem",
+            "id"
+          >,
+        },
+        orderId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderItem",
+            "orderId"
+          >,
+          serverName: "order_id",
+        },
+        variantId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderItem",
+            "variantId"
+          >,
+          serverName: "variant_id",
+        },
+        quantity: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderItem",
+            "quantity"
+          >,
+        },
+        unitPrice: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderItem",
+            "unitPrice"
+          >,
+          serverName: "unit_price",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "order_item",
+    },
+    orderPayment: {
+      name: "orderPayment",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderPayment",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderPayment",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderPayment",
+            "id"
+          >,
+        },
+        orderId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderPayment",
+            "orderId"
+          >,
+          serverName: "order_id",
+        },
+        paymentId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderPayment",
+            "paymentId"
+          >,
+          serverName: "payment_id",
+        },
+        amount: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderPayment",
+            "amount"
+          >,
+        },
+        status: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderPayment",
+            "status"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "order_payment",
+    },
+    orderTable: {
+      name: "orderTable",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderTable",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderTable",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderTable",
+            "id"
+          >,
+        },
+        customerId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderTable",
+            "customerId"
+          >,
+          serverName: "customer_id",
+        },
+        opportunityId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderTable",
+            "opportunityId"
+          >,
+          serverName: "opportunity_id",
+        },
+        status: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderTable",
+            "status"
+          >,
+        },
+        total: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderTable",
+            "total"
+          >,
+        },
+        currency: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "orderTable",
+            "currency"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "order",
+    },
+    payment: {
+      name: "payment",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "payment",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "payment",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "payment",
+            "id"
+          >,
+        },
+        externalRef: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "payment",
+            "externalRef"
+          >,
+          serverName: "external_ref",
+        },
+        status: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "payment",
+            "status"
+          >,
+        },
+        amount: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "payment",
+            "amount"
+          >,
+        },
+        currency: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "payment",
+            "currency"
+          >,
+        },
+        receivedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "payment",
+            "receivedAt"
+          >,
+          serverName: "received_at",
+        },
+        receivedById: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "payment",
+            "receivedById"
+          >,
+          serverName: "received_by_id",
+        },
+      },
+      primaryKey: ["id"],
+    },
+    product: {
+      name: "product",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "product",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "product",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "product",
+            "id"
+          >,
+        },
+        categoryId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "product",
+            "categoryId"
+          >,
+          serverName: "category_id",
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "product",
+            "name"
+          >,
+        },
+        description: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "product",
+            "description"
+          >,
+        },
+        status: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "product",
+            "status"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+    },
+    productCategory: {
+      name: "productCategory",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productCategory",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productCategory",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productCategory",
+            "id"
+          >,
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productCategory",
+            "name"
+          >,
+        },
+        description: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productCategory",
+            "description"
+          >,
+        },
+        parentId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productCategory",
+            "parentId"
+          >,
+          serverName: "parent_id",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "product_category",
+    },
+    productMedia: {
+      name: "productMedia",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productMedia",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productMedia",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productMedia",
+            "id"
+          >,
+        },
+        productId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productMedia",
+            "productId"
+          >,
+          serverName: "product_id",
+        },
+        url: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productMedia",
+            "url"
+          >,
+        },
+        type: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productMedia",
+            "type"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "product_media",
+    },
+    productVariant: {
+      name: "productVariant",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productVariant",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productVariant",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productVariant",
+            "id"
+          >,
+        },
+        productId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productVariant",
+            "productId"
+          >,
+          serverName: "product_id",
+        },
+        sku: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productVariant",
+            "sku"
+          >,
+        },
+        price: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productVariant",
+            "price"
+          >,
+        },
+        currency: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productVariant",
+            "currency"
+          >,
+        },
+        isActive: {
+          type: "boolean",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "productVariant",
+            "isActive"
+          >,
+          serverName: "is_active",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "product_variant",
+    },
+    project: {
+      name: "project",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "project",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "project",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "project",
+            "id"
+          >,
+        },
+        ownerId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "project",
+            "ownerId"
+          >,
+          serverName: "owner_id",
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "project",
+            "name"
+          >,
+        },
+        description: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "project",
+            "description"
+          >,
+        },
+        status: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "project",
+            "status"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+    },
+    projectAssignment: {
+      name: "projectAssignment",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAssignment",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAssignment",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAssignment",
+            "id"
+          >,
+        },
+        taskId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAssignment",
+            "taskId"
+          >,
+          serverName: "task_id",
+        },
+        userId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAssignment",
+            "userId"
+          >,
+          serverName: "user_id",
+        },
+        assignedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAssignment",
+            "assignedAt"
+          >,
+          serverName: "assigned_at",
+        },
+        role: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAssignment",
+            "role"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "project_assignment",
+    },
+    projectAttachment: {
+      name: "projectAttachment",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAttachment",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAttachment",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAttachment",
+            "id"
+          >,
+        },
+        taskId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAttachment",
+            "taskId"
+          >,
+          serverName: "task_id",
+        },
+        fileName: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAttachment",
+            "fileName"
+          >,
+          serverName: "file_name",
+        },
+        fileType: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAttachment",
+            "fileType"
+          >,
+          serverName: "file_type",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "project_attachment",
+    },
+    projectAudit: {
+      name: "projectAudit",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAudit",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAudit",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAudit",
+            "id"
+          >,
+        },
+        projectId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAudit",
+            "projectId"
+          >,
+          serverName: "project_id",
+        },
+        actorId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAudit",
+            "actorId"
+          >,
+          serverName: "actor_id",
+        },
+        action: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAudit",
+            "action"
+          >,
+        },
+        details: {
+          type: "json",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectAudit",
+            "details"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "project_audit",
+    },
+    projectComment: {
+      name: "projectComment",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectComment",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectComment",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectComment",
+            "id"
+          >,
+        },
+        taskId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectComment",
+            "taskId"
+          >,
+          serverName: "task_id",
+        },
+        authorId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectComment",
+            "authorId"
+          >,
+          serverName: "author_id",
+        },
+        body: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectComment",
+            "body"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "project_comment",
+    },
+    projectNote: {
+      name: "projectNote",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectNote",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectNote",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectNote",
+            "id"
+          >,
+        },
+        projectId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectNote",
+            "projectId"
+          >,
+          serverName: "project_id",
+        },
+        authorId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectNote",
+            "authorId"
+          >,
+          serverName: "author_id",
+        },
+        note: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectNote",
+            "note"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "project_note",
+    },
+    projectPhase: {
+      name: "projectPhase",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectPhase",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectPhase",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectPhase",
+            "id"
+          >,
+        },
+        projectId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectPhase",
+            "projectId"
+          >,
+          serverName: "project_id",
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectPhase",
+            "name"
+          >,
+        },
+        sequence: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectPhase",
+            "sequence"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "project_phase",
+    },
+    projectTag: {
+      name: "projectTag",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectTag",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectTag",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectTag",
+            "id"
+          >,
+        },
+        label: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectTag",
+            "label"
+          >,
+        },
+        color: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectTag",
+            "color"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "project_tag",
+    },
+    projectTask: {
+      name: "projectTask",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectTask",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectTask",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectTask",
+            "id"
+          >,
+        },
+        projectId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectTask",
+            "projectId"
+          >,
+          serverName: "project_id",
+        },
+        phaseId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectTask",
+            "phaseId"
+          >,
+          serverName: "phase_id",
+        },
+        title: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectTask",
+            "title"
+          >,
+        },
+        status: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectTask",
+            "status"
+          >,
+        },
+        priority: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectTask",
+            "priority"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "project_task",
+    },
+    projectTaskTag: {
+      name: "projectTaskTag",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectTaskTag",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectTaskTag",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectTaskTag",
+            "id"
+          >,
+        },
+        taskId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectTaskTag",
+            "taskId"
+          >,
+          serverName: "task_id",
+        },
+        tagId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "projectTaskTag",
+            "tagId"
+          >,
+          serverName: "tag_id",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "project_task_tag",
+    },
+    shipment: {
+      name: "shipment",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "shipment",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "shipment",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "shipment",
+            "id"
+          >,
+        },
+        orderId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "shipment",
+            "orderId"
+          >,
+          serverName: "order_id",
+        },
+        shippedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "shipment",
+            "shippedAt"
+          >,
+          serverName: "shipped_at",
+        },
+        deliveredAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "shipment",
+            "deliveredAt"
+          >,
+          serverName: "delivered_at",
+        },
+        carrier: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "shipment",
+            "carrier"
+          >,
+        },
+        trackingNumber: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "shipment",
+            "trackingNumber"
+          >,
+          serverName: "tracking_number",
+        },
+      },
+      primaryKey: ["id"],
+    },
+    shipmentItem: {
+      name: "shipmentItem",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "shipmentItem",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "shipmentItem",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "shipmentItem",
+            "id"
+          >,
+        },
+        shipmentId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "shipmentItem",
+            "shipmentId"
+          >,
+          serverName: "shipment_id",
+        },
+        orderItemId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "shipmentItem",
+            "orderItemId"
+          >,
+          serverName: "order_item_id",
+        },
+        quantity: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "shipmentItem",
+            "quantity"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "shipment_item",
+    },
+    supportTicket: {
+      name: "supportTicket",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicket",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicket",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicket",
+            "id"
+          >,
+        },
+        customerId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicket",
+            "customerId"
+          >,
+          serverName: "customer_id",
+        },
+        assignedTeamId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicket",
+            "assignedTeamId"
+          >,
+          serverName: "assigned_team_id",
+        },
+        subject: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicket",
+            "subject"
+          >,
+        },
+        status: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicket",
+            "status"
+          >,
+        },
+        priority: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicket",
+            "priority"
+          >,
+        },
+        source: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicket",
+            "source"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "support_ticket",
+    },
+    supportTicketAssignment: {
+      name: "supportTicketAssignment",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketAssignment",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketAssignment",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketAssignment",
+            "id"
+          >,
+        },
+        ticketId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketAssignment",
+            "ticketId"
+          >,
+          serverName: "ticket_id",
+        },
+        assigneeId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketAssignment",
+            "assigneeId"
+          >,
+          serverName: "assignee_id",
+        },
+        assignedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketAssignment",
+            "assignedAt"
+          >,
+          serverName: "assigned_at",
+        },
+        assignmentType: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketAssignment",
+            "assignmentType"
+          >,
+          serverName: "assignment_type",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "support_ticket_assignment",
+    },
+    supportTicketAudit: {
+      name: "supportTicketAudit",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketAudit",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketAudit",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketAudit",
+            "id"
+          >,
+        },
+        ticketId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketAudit",
+            "ticketId"
+          >,
+          serverName: "ticket_id",
+        },
+        actorId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketAudit",
+            "actorId"
+          >,
+          serverName: "actor_id",
+        },
+        action: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketAudit",
+            "action"
+          >,
+        },
+        details: {
+          type: "json",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketAudit",
+            "details"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "support_ticket_audit",
+    },
+    supportTicketMessage: {
+      name: "supportTicketMessage",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketMessage",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketMessage",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketMessage",
+            "id"
+          >,
+        },
+        ticketId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketMessage",
+            "ticketId"
+          >,
+          serverName: "ticket_id",
+        },
+        authorId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketMessage",
+            "authorId"
+          >,
+          serverName: "author_id",
+        },
+        body: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketMessage",
+            "body"
+          >,
+        },
+        visibility: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketMessage",
+            "visibility"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "support_ticket_message",
+    },
+    supportTicketTag: {
+      name: "supportTicketTag",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketTag",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketTag",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketTag",
+            "id"
+          >,
+        },
+        label: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketTag",
+            "label"
+          >,
+        },
+        description: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketTag",
+            "description"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "support_ticket_tag",
+    },
+    supportTicketTagLink: {
+      name: "supportTicketTagLink",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketTagLink",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketTagLink",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketTagLink",
+            "id"
+          >,
+        },
+        ticketId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketTagLink",
+            "ticketId"
+          >,
+          serverName: "ticket_id",
+        },
+        tagId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "supportTicketTagLink",
+            "tagId"
+          >,
+          serverName: "tag_id",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "support_ticket_tag_link",
+    },
+    team: {
+      name: "team",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "team",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "team",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "team",
+            "id"
+          >,
+        },
+        departmentId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "team",
+            "departmentId"
+          >,
+          serverName: "department_id",
+        },
+        leadId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "team",
+            "leadId"
+          >,
+          serverName: "lead_id",
+        },
+        name: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "team",
+            "name"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+    },
+    timeEntry: {
+      name: "timeEntry",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "timeEntry",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "timeEntry",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "timeEntry",
+            "id"
+          >,
+        },
+        timesheetId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "timeEntry",
+            "timesheetId"
+          >,
+          serverName: "timesheet_id",
+        },
+        taskId: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "timeEntry",
+            "taskId"
+          >,
+          serverName: "task_id",
+        },
+        hours: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "timeEntry",
+            "hours"
+          >,
+        },
+        notes: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "timeEntry",
+            "notes"
+          >,
+        },
+        entryDate: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "timeEntry",
+            "entryDate"
+          >,
+          serverName: "entry_date",
+        },
+      },
+      primaryKey: ["id"],
+      serverName: "time_entry",
+    },
+    timesheet: {
+      name: "timesheet",
+      columns: {
+        createdAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "timesheet",
+            "createdAt"
+          >,
+        },
+        updatedAt: {
+          type: "number",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "timesheet",
+            "updatedAt"
+          >,
+        },
+        id: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "timesheet",
+            "id"
+          >,
+        },
+        employeeId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "timesheet",
+            "employeeId"
+          >,
+          serverName: "employee_id",
+        },
+        periodStart: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "timesheet",
+            "periodStart"
+          >,
+          serverName: "period_start",
+        },
+        periodEnd: {
+          type: "number",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "timesheet",
+            "periodEnd"
+          >,
+          serverName: "period_end",
+        },
+        submittedById: {
+          type: "string",
+          optional: true,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "timesheet",
+            "submittedById"
+          >,
+          serverName: "submitted_by_id",
+        },
+        status: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
+            "timesheet",
+            "status"
+          >,
+        },
+      },
+      primaryKey: ["id"],
+    },
     user: {
       name: "user",
       columns: {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "user",
             "createdAt"
           >,
@@ -731,8 +5885,8 @@ export const schema = {
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "user",
             "updatedAt"
           >,
@@ -740,8 +5894,8 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "user",
             "id"
           >,
@@ -749,8 +5903,8 @@ export const schema = {
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "user",
             "name"
           >,
@@ -758,8 +5912,8 @@ export const schema = {
         partner: {
           type: "boolean",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "user",
             "partner"
           >,
@@ -767,8 +5921,8 @@ export const schema = {
         email: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "user",
             "email"
           >,
@@ -776,8 +5930,8 @@ export const schema = {
         customTypeJson: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "user",
             "customTypeJson"
           >,
@@ -786,8 +5940,8 @@ export const schema = {
         customInterfaceJson: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "user",
             "customInterfaceJson"
           >,
@@ -796,8 +5950,8 @@ export const schema = {
         testInterface: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "user",
             "testInterface"
           >,
@@ -806,8 +5960,8 @@ export const schema = {
         testType: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "user",
             "testType"
           >,
@@ -816,8 +5970,8 @@ export const schema = {
         testExportedType: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "user",
             "testExportedType"
           >,
@@ -826,8 +5980,8 @@ export const schema = {
         status: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            ZeroSchema,
+          customType: null as unknown as CustomType<
+            typeof drizzleSchema,
             "user",
             "status"
           >,
@@ -837,6 +5991,678 @@ export const schema = {
     },
   },
   relationships: {
+    analyticsDashboard: {
+      owner: [
+        {
+          sourceField: ["ownerId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+      widgets: [
+        {
+          sourceField: ["id"],
+          destField: ["dashboardId"],
+          destSchema: "analyticsWidget",
+          cardinality: "many",
+        },
+      ],
+    },
+    analyticsWidgetQuery: {
+      widget: [
+        {
+          sourceField: ["widgetId"],
+          destField: ["id"],
+          destSchema: "analyticsWidget",
+          cardinality: "one",
+        },
+      ],
+    },
+    analyticsWidget: {
+      dashboard: [
+        {
+          sourceField: ["dashboardId"],
+          destField: ["id"],
+          destSchema: "analyticsDashboard",
+          cardinality: "one",
+        },
+      ],
+      queries: [
+        {
+          sourceField: ["id"],
+          destField: ["widgetId"],
+          destSchema: "analyticsWidgetQuery",
+          cardinality: "many",
+        },
+      ],
+    },
+    benefitEnrollment: {
+      benefitPlan: [
+        {
+          sourceField: ["benefitPlanId"],
+          destField: ["id"],
+          destSchema: "benefitPlan",
+          cardinality: "one",
+        },
+      ],
+      employee: [
+        {
+          sourceField: ["employeeId"],
+          destField: ["id"],
+          destSchema: "employeeProfile",
+          cardinality: "one",
+        },
+      ],
+    },
+    benefitPlan: {
+      administrator: [
+        {
+          sourceField: ["administratorId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+      enrollments: [
+        {
+          sourceField: ["id"],
+          destField: ["benefitPlanId"],
+          destSchema: "benefitEnrollment",
+          cardinality: "many",
+        },
+      ],
+    },
+    billingInvoiceLine: {
+      invoice: [
+        {
+          sourceField: ["invoiceId"],
+          destField: ["id"],
+          destSchema: "billingInvoice",
+          cardinality: "one",
+        },
+      ],
+      orderItem: [
+        {
+          sourceField: ["orderItemId"],
+          destField: ["id"],
+          destSchema: "orderItem",
+          cardinality: "one",
+        },
+      ],
+    },
+    billingInvoice: {
+      account: [
+        {
+          sourceField: ["accountId"],
+          destField: ["id"],
+          destSchema: "crmAccount",
+          cardinality: "one",
+        },
+      ],
+      contact: [
+        {
+          sourceField: ["contactId"],
+          destField: ["id"],
+          destSchema: "crmContact",
+          cardinality: "one",
+        },
+      ],
+      issuer: [
+        {
+          sourceField: ["issuedById"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+      lines: [
+        {
+          sourceField: ["id"],
+          destField: ["invoiceId"],
+          destSchema: "billingInvoiceLine",
+          cardinality: "many",
+        },
+      ],
+    },
+    budgetLine: {
+      budget: [
+        {
+          sourceField: ["budgetId"],
+          destField: ["id"],
+          destSchema: "budget",
+          cardinality: "one",
+        },
+      ],
+      account: [
+        {
+          sourceField: ["accountId"],
+          destField: ["id"],
+          destSchema: "ledgerAccount",
+          cardinality: "one",
+        },
+      ],
+    },
+    budget: {
+      department: [
+        {
+          sourceField: ["departmentId"],
+          destField: ["id"],
+          destSchema: "department",
+          cardinality: "one",
+        },
+      ],
+      lines: [
+        {
+          sourceField: ["id"],
+          destField: ["budgetId"],
+          destSchema: "budgetLine",
+          cardinality: "many",
+        },
+      ],
+    },
+    crmAccount: {
+      owner: [
+        {
+          sourceField: ["ownerId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+      contacts: [
+        {
+          sourceField: ["id"],
+          destField: ["accountId"],
+          destSchema: "crmContact",
+          cardinality: "many",
+        },
+      ],
+      opportunities: [
+        {
+          sourceField: ["id"],
+          destField: ["accountId"],
+          destSchema: "crmOpportunity",
+          cardinality: "many",
+        },
+      ],
+      activities: [
+        {
+          sourceField: ["id"],
+          destField: ["accountId"],
+          destSchema: "crmActivity",
+          cardinality: "many",
+        },
+      ],
+      notes: [
+        {
+          sourceField: ["id"],
+          destField: ["accountId"],
+          destSchema: "crmNote",
+          cardinality: "many",
+        },
+      ],
+    },
+    crmActivity: {
+      account: [
+        {
+          sourceField: ["accountId"],
+          destField: ["id"],
+          destSchema: "crmAccount",
+          cardinality: "one",
+        },
+      ],
+      contact: [
+        {
+          sourceField: ["contactId"],
+          destField: ["id"],
+          destSchema: "crmContact",
+          cardinality: "one",
+        },
+      ],
+      opportunity: [
+        {
+          sourceField: ["opportunityId"],
+          destField: ["id"],
+          destSchema: "crmOpportunity",
+          cardinality: "one",
+        },
+      ],
+      type: [
+        {
+          sourceField: ["typeId"],
+          destField: ["id"],
+          destSchema: "crmActivityType",
+          cardinality: "one",
+        },
+      ],
+      performer: [
+        {
+          sourceField: ["performedById"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+    },
+    crmActivityType: {
+      activities: [
+        {
+          sourceField: ["id"],
+          destField: ["typeId"],
+          destSchema: "crmActivity",
+          cardinality: "many",
+        },
+      ],
+    },
+    crmContact: {
+      account: [
+        {
+          sourceField: ["accountId"],
+          destField: ["id"],
+          destSchema: "crmAccount",
+          cardinality: "one",
+        },
+      ],
+      activities: [
+        {
+          sourceField: ["id"],
+          destField: ["contactId"],
+          destSchema: "crmActivity",
+          cardinality: "many",
+        },
+      ],
+      notes: [
+        {
+          sourceField: ["id"],
+          destField: ["contactId"],
+          destSchema: "crmNote",
+          cardinality: "many",
+        },
+      ],
+    },
+    crmNote: {
+      account: [
+        {
+          sourceField: ["accountId"],
+          destField: ["id"],
+          destSchema: "crmAccount",
+          cardinality: "one",
+        },
+      ],
+      contact: [
+        {
+          sourceField: ["contactId"],
+          destField: ["id"],
+          destSchema: "crmContact",
+          cardinality: "one",
+        },
+      ],
+      author: [
+        {
+          sourceField: ["authorId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+    },
+    crmOpportunity: {
+      account: [
+        {
+          sourceField: ["accountId"],
+          destField: ["id"],
+          destSchema: "crmAccount",
+          cardinality: "one",
+        },
+      ],
+      stage: [
+        {
+          sourceField: ["stageId"],
+          destField: ["id"],
+          destSchema: "crmPipelineStage",
+          cardinality: "one",
+        },
+      ],
+      activities: [
+        {
+          sourceField: ["id"],
+          destField: ["opportunityId"],
+          destSchema: "crmActivity",
+          cardinality: "many",
+        },
+      ],
+      historyEntries: [
+        {
+          sourceField: ["id"],
+          destField: ["opportunityId"],
+          destSchema: "crmOpportunityStageHistory",
+          cardinality: "many",
+        },
+      ],
+    },
+    crmOpportunityStageHistory: {
+      opportunity: [
+        {
+          sourceField: ["opportunityId"],
+          destField: ["id"],
+          destSchema: "crmOpportunity",
+          cardinality: "one",
+        },
+      ],
+      stage: [
+        {
+          sourceField: ["stageId"],
+          destField: ["id"],
+          destSchema: "crmPipelineStage",
+          cardinality: "one",
+        },
+      ],
+      changedBy: [
+        {
+          sourceField: ["changedById"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+    },
+    crmPipelineStage: {
+      opportunities: [
+        {
+          sourceField: ["id"],
+          destField: ["stageId"],
+          destSchema: "crmOpportunity",
+          cardinality: "many",
+        },
+      ],
+      historyEntries: [
+        {
+          sourceField: ["id"],
+          destField: ["stageId"],
+          destSchema: "crmOpportunityStageHistory",
+          cardinality: "many",
+        },
+      ],
+    },
+    department: {
+      manager: [
+        {
+          sourceField: ["managerId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+      teams: [
+        {
+          sourceField: ["id"],
+          destField: ["departmentId"],
+          destSchema: "team",
+          cardinality: "many",
+        },
+      ],
+      employees: [
+        {
+          sourceField: ["id"],
+          destField: ["departmentId"],
+          destSchema: "employeeProfile",
+          cardinality: "many",
+        },
+      ],
+    },
+    documentFile: {
+      folder: [
+        {
+          sourceField: ["folderId"],
+          destField: ["id"],
+          destSchema: "documentFolder",
+          cardinality: "one",
+        },
+      ],
+      uploader: [
+        {
+          sourceField: ["uploadedById"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+      versions: [
+        {
+          sourceField: ["id"],
+          destField: ["fileId"],
+          destSchema: "documentFileVersion",
+          cardinality: "many",
+        },
+      ],
+      sharings: [
+        {
+          sourceField: ["id"],
+          destField: ["fileId"],
+          destSchema: "documentSharing",
+          cardinality: "many",
+        },
+      ],
+    },
+    documentFileVersion: {
+      file: [
+        {
+          sourceField: ["fileId"],
+          destField: ["id"],
+          destSchema: "documentFile",
+          cardinality: "one",
+        },
+      ],
+      uploader: [
+        {
+          sourceField: ["uploadedById"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+    },
+    documentFolder: {
+      library: [
+        {
+          sourceField: ["libraryId"],
+          destField: ["id"],
+          destSchema: "documentLibrary",
+          cardinality: "one",
+        },
+      ],
+      parent: [
+        {
+          sourceField: ["parentId"],
+          destField: ["id"],
+          destSchema: "documentFolder",
+          cardinality: "one",
+        },
+      ],
+      children: [
+        {
+          sourceField: ["id"],
+          destField: ["parentId"],
+          destSchema: "documentFolder",
+          cardinality: "many",
+        },
+      ],
+      files: [
+        {
+          sourceField: ["id"],
+          destField: ["folderId"],
+          destSchema: "documentFile",
+          cardinality: "many",
+        },
+      ],
+    },
+    documentLibrary: {
+      project: [
+        {
+          sourceField: ["projectId"],
+          destField: ["id"],
+          destSchema: "project",
+          cardinality: "one",
+        },
+      ],
+      folders: [
+        {
+          sourceField: ["id"],
+          destField: ["libraryId"],
+          destSchema: "documentFolder",
+          cardinality: "many",
+        },
+      ],
+    },
+    documentSharing: {
+      file: [
+        {
+          sourceField: ["fileId"],
+          destField: ["id"],
+          destSchema: "documentFile",
+          cardinality: "one",
+        },
+      ],
+      user: [
+        {
+          sourceField: ["sharedWithUserId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+      team: [
+        {
+          sourceField: ["sharedWithTeamId"],
+          destField: ["id"],
+          destSchema: "team",
+          cardinality: "one",
+        },
+      ],
+    },
+    employeeDocument: {
+      employee: [
+        {
+          sourceField: ["employeeId"],
+          destField: ["id"],
+          destSchema: "employeeProfile",
+          cardinality: "one",
+        },
+      ],
+      uploader: [
+        {
+          sourceField: ["uploadedById"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+    },
+    employeeProfile: {
+      user: [
+        {
+          sourceField: ["userId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+      department: [
+        {
+          sourceField: ["departmentId"],
+          destField: ["id"],
+          destSchema: "department",
+          cardinality: "one",
+        },
+      ],
+      team: [
+        {
+          sourceField: ["teamId"],
+          destField: ["id"],
+          destSchema: "team",
+          cardinality: "one",
+        },
+      ],
+      employmentHistory: [
+        {
+          sourceField: ["id"],
+          destField: ["employeeId"],
+          destSchema: "employmentHistory",
+          cardinality: "many",
+        },
+      ],
+      documents: [
+        {
+          sourceField: ["id"],
+          destField: ["employeeId"],
+          destSchema: "employeeDocument",
+          cardinality: "many",
+        },
+      ],
+      timesheets: [
+        {
+          sourceField: ["id"],
+          destField: ["employeeId"],
+          destSchema: "timesheet",
+          cardinality: "many",
+        },
+      ],
+      benefitEnrollments: [
+        {
+          sourceField: ["id"],
+          destField: ["employeeId"],
+          destSchema: "benefitEnrollment",
+          cardinality: "many",
+        },
+      ],
+    },
+    employmentHistory: {
+      employee: [
+        {
+          sourceField: ["employeeId"],
+          destField: ["id"],
+          destSchema: "employeeProfile",
+          cardinality: "one",
+        },
+      ],
+    },
+    expenseItem: {
+      report: [
+        {
+          sourceField: ["reportId"],
+          destField: ["id"],
+          destSchema: "expenseReport",
+          cardinality: "one",
+        },
+      ],
+    },
+    expenseReport: {
+      owner: [
+        {
+          sourceField: ["ownerId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+      department: [
+        {
+          sourceField: ["departmentId"],
+          destField: ["id"],
+          destSchema: "department",
+          cardinality: "one",
+        },
+      ],
+      items: [
+        {
+          sourceField: ["id"],
+          destField: ["reportId"],
+          destSchema: "expenseItem",
+          cardinality: "many",
+        },
+      ],
+    },
     filters: {
       parent: [
         {
@@ -851,6 +6677,242 @@ export const schema = {
           sourceField: ["id"],
           destField: ["parentId"],
           destSchema: "filters",
+          cardinality: "many",
+        },
+      ],
+    },
+    integrationCredential: {
+      webhook: [
+        {
+          sourceField: ["webhookId"],
+          destField: ["id"],
+          destSchema: "integrationWebhook",
+          cardinality: "one",
+        },
+      ],
+    },
+    integrationEvent: {
+      webhook: [
+        {
+          sourceField: ["webhookId"],
+          destField: ["id"],
+          destSchema: "integrationWebhook",
+          cardinality: "one",
+        },
+      ],
+    },
+    integrationWebhook: {
+      project: [
+        {
+          sourceField: ["projectId"],
+          destField: ["id"],
+          destSchema: "project",
+          cardinality: "one",
+        },
+      ],
+      account: [
+        {
+          sourceField: ["accountId"],
+          destField: ["id"],
+          destSchema: "crmAccount",
+          cardinality: "one",
+        },
+      ],
+      events: [
+        {
+          sourceField: ["id"],
+          destField: ["webhookId"],
+          destSchema: "integrationEvent",
+          cardinality: "many",
+        },
+      ],
+    },
+    inventoryItem: {
+      variant: [
+        {
+          sourceField: ["variantId"],
+          destField: ["id"],
+          destSchema: "productVariant",
+          cardinality: "one",
+        },
+      ],
+    },
+    inventoryLevel: {
+      location: [
+        {
+          sourceField: ["locationId"],
+          destField: ["id"],
+          destSchema: "inventoryLocation",
+          cardinality: "one",
+        },
+      ],
+      variant: [
+        {
+          sourceField: ["variantId"],
+          destField: ["id"],
+          destSchema: "productVariant",
+          cardinality: "one",
+        },
+      ],
+    },
+    inventoryLocation: {
+      levels: [
+        {
+          sourceField: ["id"],
+          destField: ["locationId"],
+          destSchema: "inventoryLevel",
+          cardinality: "many",
+        },
+      ],
+    },
+    ledgerAccount: {
+      parent: [
+        {
+          sourceField: ["parentAccountId"],
+          destField: ["id"],
+          destSchema: "ledgerAccount",
+          cardinality: "one",
+        },
+      ],
+      children: [
+        {
+          sourceField: ["id"],
+          destField: ["parentAccountId"],
+          destSchema: "ledgerAccount",
+          cardinality: "many",
+        },
+      ],
+      entries: [
+        {
+          sourceField: ["id"],
+          destField: ["accountId"],
+          destSchema: "ledgerEntry",
+          cardinality: "many",
+        },
+      ],
+      budgetLines: [
+        {
+          sourceField: ["id"],
+          destField: ["accountId"],
+          destSchema: "budgetLine",
+          cardinality: "many",
+        },
+      ],
+    },
+    ledgerEntry: {
+      transaction: [
+        {
+          sourceField: ["transactionId"],
+          destField: ["id"],
+          destSchema: "ledgerTransaction",
+          cardinality: "one",
+        },
+      ],
+      account: [
+        {
+          sourceField: ["accountId"],
+          destField: ["id"],
+          destSchema: "ledgerAccount",
+          cardinality: "one",
+        },
+      ],
+    },
+    ledgerTransaction: {
+      creator: [
+        {
+          sourceField: ["createdById"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+      entries: [
+        {
+          sourceField: ["id"],
+          destField: ["transactionId"],
+          destSchema: "ledgerEntry",
+          cardinality: "many",
+        },
+      ],
+    },
+    marketingAudience: {
+      campaignAudiences: [
+        {
+          sourceField: ["id"],
+          destField: ["audienceId"],
+          destSchema: "marketingCampaignAudience",
+          cardinality: "many",
+        },
+      ],
+    },
+    marketingCampaignAudience: {
+      campaign: [
+        {
+          sourceField: ["campaignId"],
+          destField: ["id"],
+          destSchema: "marketingCampaign",
+          cardinality: "one",
+        },
+      ],
+      audience: [
+        {
+          sourceField: ["audienceId"],
+          destField: ["id"],
+          destSchema: "marketingAudience",
+          cardinality: "one",
+        },
+      ],
+    },
+    marketingCampaignChannel: {
+      campaign: [
+        {
+          sourceField: ["campaignId"],
+          destField: ["id"],
+          destSchema: "marketingCampaign",
+          cardinality: "one",
+        },
+      ],
+      channel: [
+        {
+          sourceField: ["channelId"],
+          destField: ["id"],
+          destSchema: "marketingChannel",
+          cardinality: "one",
+        },
+      ],
+    },
+    marketingCampaign: {
+      owner: [
+        {
+          sourceField: ["ownerId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+      channels: [
+        {
+          sourceField: ["id"],
+          destField: ["campaignId"],
+          destSchema: "marketingCampaignChannel",
+          cardinality: "many",
+        },
+      ],
+      audiences: [
+        {
+          sourceField: ["id"],
+          destField: ["campaignId"],
+          destSchema: "marketingCampaignAudience",
+          cardinality: "many",
+        },
+      ],
+    },
+    marketingChannel: {
+      campaignChannels: [
+        {
+          sourceField: ["id"],
+          destField: ["channelId"],
+          destSchema: "marketingCampaignChannel",
           cardinality: "many",
         },
       ],
@@ -883,6 +6945,638 @@ export const schema = {
         },
       ],
     },
+    orderItem: {
+      order: [
+        {
+          sourceField: ["orderId"],
+          destField: ["id"],
+          destSchema: "orderTable",
+          cardinality: "one",
+        },
+      ],
+      variant: [
+        {
+          sourceField: ["variantId"],
+          destField: ["id"],
+          destSchema: "productVariant",
+          cardinality: "one",
+        },
+      ],
+    },
+    orderPayment: {
+      order: [
+        {
+          sourceField: ["orderId"],
+          destField: ["id"],
+          destSchema: "orderTable",
+          cardinality: "one",
+        },
+      ],
+      payment: [
+        {
+          sourceField: ["paymentId"],
+          destField: ["id"],
+          destSchema: "payment",
+          cardinality: "one",
+        },
+      ],
+    },
+    orderTable: {
+      customer: [
+        {
+          sourceField: ["customerId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+      opportunity: [
+        {
+          sourceField: ["opportunityId"],
+          destField: ["id"],
+          destSchema: "crmOpportunity",
+          cardinality: "one",
+        },
+      ],
+      items: [
+        {
+          sourceField: ["id"],
+          destField: ["orderId"],
+          destSchema: "orderItem",
+          cardinality: "many",
+        },
+      ],
+      payments: [
+        {
+          sourceField: ["id"],
+          destField: ["orderId"],
+          destSchema: "orderPayment",
+          cardinality: "many",
+        },
+      ],
+      shipments: [
+        {
+          sourceField: ["id"],
+          destField: ["orderId"],
+          destSchema: "shipment",
+          cardinality: "many",
+        },
+      ],
+    },
+    productCategory: {
+      parent: [
+        {
+          sourceField: ["parentId"],
+          destField: ["id"],
+          destSchema: "productCategory",
+          cardinality: "one",
+        },
+      ],
+      children: [
+        {
+          sourceField: ["id"],
+          destField: ["parentId"],
+          destSchema: "productCategory",
+          cardinality: "many",
+        },
+      ],
+      products: [
+        {
+          sourceField: ["id"],
+          destField: ["categoryId"],
+          destSchema: "product",
+          cardinality: "many",
+        },
+      ],
+    },
+    productMedia: {
+      product: [
+        {
+          sourceField: ["productId"],
+          destField: ["id"],
+          destSchema: "product",
+          cardinality: "one",
+        },
+      ],
+    },
+    product: {
+      category: [
+        {
+          sourceField: ["categoryId"],
+          destField: ["id"],
+          destSchema: "productCategory",
+          cardinality: "one",
+        },
+      ],
+      variants: [
+        {
+          sourceField: ["id"],
+          destField: ["productId"],
+          destSchema: "productVariant",
+          cardinality: "many",
+        },
+      ],
+      media: [
+        {
+          sourceField: ["id"],
+          destField: ["productId"],
+          destSchema: "productMedia",
+          cardinality: "many",
+        },
+      ],
+    },
+    productVariant: {
+      product: [
+        {
+          sourceField: ["productId"],
+          destField: ["id"],
+          destSchema: "product",
+          cardinality: "one",
+        },
+      ],
+      inventoryItems: [
+        {
+          sourceField: ["id"],
+          destField: ["variantId"],
+          destSchema: "inventoryItem",
+          cardinality: "many",
+        },
+      ],
+      inventoryLevels: [
+        {
+          sourceField: ["id"],
+          destField: ["variantId"],
+          destSchema: "inventoryLevel",
+          cardinality: "many",
+        },
+      ],
+      orderItems: [
+        {
+          sourceField: ["id"],
+          destField: ["variantId"],
+          destSchema: "orderItem",
+          cardinality: "many",
+        },
+      ],
+    },
+    projectAssignment: {
+      task: [
+        {
+          sourceField: ["taskId"],
+          destField: ["id"],
+          destSchema: "projectTask",
+          cardinality: "one",
+        },
+      ],
+      user: [
+        {
+          sourceField: ["userId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+    },
+    projectAttachment: {
+      task: [
+        {
+          sourceField: ["taskId"],
+          destField: ["id"],
+          destSchema: "projectTask",
+          cardinality: "one",
+        },
+      ],
+    },
+    projectAudit: {
+      project: [
+        {
+          sourceField: ["projectId"],
+          destField: ["id"],
+          destSchema: "project",
+          cardinality: "one",
+        },
+      ],
+      actor: [
+        {
+          sourceField: ["actorId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+    },
+    projectComment: {
+      task: [
+        {
+          sourceField: ["taskId"],
+          destField: ["id"],
+          destSchema: "projectTask",
+          cardinality: "one",
+        },
+      ],
+      author: [
+        {
+          sourceField: ["authorId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+    },
+    projectNote: {
+      project: [
+        {
+          sourceField: ["projectId"],
+          destField: ["id"],
+          destSchema: "project",
+          cardinality: "one",
+        },
+      ],
+      author: [
+        {
+          sourceField: ["authorId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+    },
+    projectPhase: {
+      project: [
+        {
+          sourceField: ["projectId"],
+          destField: ["id"],
+          destSchema: "project",
+          cardinality: "one",
+        },
+      ],
+      tasks: [
+        {
+          sourceField: ["id"],
+          destField: ["phaseId"],
+          destSchema: "projectTask",
+          cardinality: "many",
+        },
+      ],
+    },
+    project: {
+      owner: [
+        {
+          sourceField: ["ownerId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+      phases: [
+        {
+          sourceField: ["id"],
+          destField: ["projectId"],
+          destSchema: "projectPhase",
+          cardinality: "many",
+        },
+      ],
+      tasks: [
+        {
+          sourceField: ["id"],
+          destField: ["projectId"],
+          destSchema: "projectTask",
+          cardinality: "many",
+        },
+      ],
+      notes: [
+        {
+          sourceField: ["id"],
+          destField: ["projectId"],
+          destSchema: "projectNote",
+          cardinality: "many",
+        },
+      ],
+      audits: [
+        {
+          sourceField: ["id"],
+          destField: ["projectId"],
+          destSchema: "projectAudit",
+          cardinality: "many",
+        },
+      ],
+    },
+    projectTag: {
+      taskLinks: [
+        {
+          sourceField: ["id"],
+          destField: ["tagId"],
+          destSchema: "projectTaskTag",
+          cardinality: "many",
+        },
+      ],
+    },
+    projectTask: {
+      project: [
+        {
+          sourceField: ["projectId"],
+          destField: ["id"],
+          destSchema: "project",
+          cardinality: "one",
+        },
+      ],
+      phase: [
+        {
+          sourceField: ["phaseId"],
+          destField: ["id"],
+          destSchema: "projectPhase",
+          cardinality: "one",
+        },
+      ],
+      assignments: [
+        {
+          sourceField: ["id"],
+          destField: ["taskId"],
+          destSchema: "projectAssignment",
+          cardinality: "many",
+        },
+      ],
+      comments: [
+        {
+          sourceField: ["id"],
+          destField: ["taskId"],
+          destSchema: "projectComment",
+          cardinality: "many",
+        },
+      ],
+      attachments: [
+        {
+          sourceField: ["id"],
+          destField: ["taskId"],
+          destSchema: "projectAttachment",
+          cardinality: "many",
+        },
+      ],
+      tags: [
+        {
+          sourceField: ["id"],
+          destField: ["taskId"],
+          destSchema: "projectTaskTag",
+          cardinality: "many",
+        },
+      ],
+    },
+    projectTaskTag: {
+      task: [
+        {
+          sourceField: ["taskId"],
+          destField: ["id"],
+          destSchema: "projectTask",
+          cardinality: "one",
+        },
+      ],
+      tag: [
+        {
+          sourceField: ["tagId"],
+          destField: ["id"],
+          destSchema: "projectTag",
+          cardinality: "one",
+        },
+      ],
+    },
+    shipmentItem: {
+      shipment: [
+        {
+          sourceField: ["shipmentId"],
+          destField: ["id"],
+          destSchema: "shipment",
+          cardinality: "one",
+        },
+      ],
+      orderItem: [
+        {
+          sourceField: ["orderItemId"],
+          destField: ["id"],
+          destSchema: "orderItem",
+          cardinality: "one",
+        },
+      ],
+    },
+    shipment: {
+      order: [
+        {
+          sourceField: ["orderId"],
+          destField: ["id"],
+          destSchema: "orderTable",
+          cardinality: "one",
+        },
+      ],
+      items: [
+        {
+          sourceField: ["id"],
+          destField: ["shipmentId"],
+          destSchema: "shipmentItem",
+          cardinality: "many",
+        },
+      ],
+    },
+    supportTicketAssignment: {
+      ticket: [
+        {
+          sourceField: ["ticketId"],
+          destField: ["id"],
+          destSchema: "supportTicket",
+          cardinality: "one",
+        },
+      ],
+      assignee: [
+        {
+          sourceField: ["assigneeId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+    },
+    supportTicketAudit: {
+      ticket: [
+        {
+          sourceField: ["ticketId"],
+          destField: ["id"],
+          destSchema: "supportTicket",
+          cardinality: "one",
+        },
+      ],
+      actor: [
+        {
+          sourceField: ["actorId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+    },
+    supportTicketMessage: {
+      ticket: [
+        {
+          sourceField: ["ticketId"],
+          destField: ["id"],
+          destSchema: "supportTicket",
+          cardinality: "one",
+        },
+      ],
+      author: [
+        {
+          sourceField: ["authorId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+    },
+    supportTicket: {
+      customer: [
+        {
+          sourceField: ["customerId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+      assignedTeam: [
+        {
+          sourceField: ["assignedTeamId"],
+          destField: ["id"],
+          destSchema: "team",
+          cardinality: "one",
+        },
+      ],
+      messages: [
+        {
+          sourceField: ["id"],
+          destField: ["ticketId"],
+          destSchema: "supportTicketMessage",
+          cardinality: "many",
+        },
+      ],
+      tags: [
+        {
+          sourceField: ["id"],
+          destField: ["ticketId"],
+          destSchema: "supportTicketTagLink",
+          cardinality: "many",
+        },
+      ],
+      assignments: [
+        {
+          sourceField: ["id"],
+          destField: ["ticketId"],
+          destSchema: "supportTicketAssignment",
+          cardinality: "many",
+        },
+      ],
+      audits: [
+        {
+          sourceField: ["id"],
+          destField: ["ticketId"],
+          destSchema: "supportTicketAudit",
+          cardinality: "many",
+        },
+      ],
+    },
+    supportTicketTagLink: {
+      ticket: [
+        {
+          sourceField: ["ticketId"],
+          destField: ["id"],
+          destSchema: "supportTicket",
+          cardinality: "one",
+        },
+      ],
+      tag: [
+        {
+          sourceField: ["tagId"],
+          destField: ["id"],
+          destSchema: "supportTicketTag",
+          cardinality: "one",
+        },
+      ],
+    },
+    supportTicketTag: {
+      ticketLinks: [
+        {
+          sourceField: ["id"],
+          destField: ["tagId"],
+          destSchema: "supportTicketTagLink",
+          cardinality: "many",
+        },
+      ],
+    },
+    team: {
+      department: [
+        {
+          sourceField: ["departmentId"],
+          destField: ["id"],
+          destSchema: "department",
+          cardinality: "one",
+        },
+      ],
+      lead: [
+        {
+          sourceField: ["leadId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+      employees: [
+        {
+          sourceField: ["id"],
+          destField: ["teamId"],
+          destSchema: "employeeProfile",
+          cardinality: "many",
+        },
+      ],
+    },
+    timeEntry: {
+      timesheet: [
+        {
+          sourceField: ["timesheetId"],
+          destField: ["id"],
+          destSchema: "timesheet",
+          cardinality: "one",
+        },
+      ],
+      task: [
+        {
+          sourceField: ["taskId"],
+          destField: ["id"],
+          destSchema: "projectTask",
+          cardinality: "one",
+        },
+      ],
+    },
+    timesheet: {
+      employee: [
+        {
+          sourceField: ["employeeId"],
+          destField: ["id"],
+          destSchema: "employeeProfile",
+          cardinality: "one",
+        },
+      ],
+      submittedBy: [
+        {
+          sourceField: ["submittedById"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+      entries: [
+        {
+          sourceField: ["id"],
+          destField: ["timesheetId"],
+          destSchema: "timeEntry",
+          cardinality: "many",
+        },
+      ],
+    },
     user: {
       messages: [
         {
@@ -894,8 +7588,8 @@ export const schema = {
       ],
     },
   },
-  enableLegacyQueries: true,
-  enableLegacyMutators: true,
+  enableLegacyQueries: false,
+  enableLegacyMutators: false,
 } as const;
 
 /**
@@ -909,6 +7603,150 @@ export type Schema = typeof schema;
  */
 export type AllType = Row<Schema["tables"]["allTypes"]>;
 /**
+ * Represents a row from the "analyticsDashboard" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type AnalyticsDashboard = Row<Schema["tables"]["analyticsDashboard"]>;
+/**
+ * Represents a row from the "analyticsWidget" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type AnalyticsWidget = Row<Schema["tables"]["analyticsWidget"]>;
+/**
+ * Represents a row from the "analyticsWidgetQuery" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type AnalyticsWidgetQuery = Row<
+  Schema["tables"]["analyticsWidgetQuery"]
+>;
+/**
+ * Represents a row from the "benefitEnrollment" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type BenefitEnrollment = Row<Schema["tables"]["benefitEnrollment"]>;
+/**
+ * Represents a row from the "benefitPlan" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type BenefitPlan = Row<Schema["tables"]["benefitPlan"]>;
+/**
+ * Represents a row from the "billingInvoice" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type BillingInvoice = Row<Schema["tables"]["billingInvoice"]>;
+/**
+ * Represents a row from the "billingInvoiceLine" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type BillingInvoiceLine = Row<Schema["tables"]["billingInvoiceLine"]>;
+/**
+ * Represents a row from the "budget" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type Budget = Row<Schema["tables"]["budget"]>;
+/**
+ * Represents a row from the "budgetLine" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type BudgetLine = Row<Schema["tables"]["budgetLine"]>;
+/**
+ * Represents a row from the "crmAccount" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmAccount = Row<Schema["tables"]["crmAccount"]>;
+/**
+ * Represents a row from the "crmActivity" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmActivity = Row<Schema["tables"]["crmActivity"]>;
+/**
+ * Represents a row from the "crmActivityType" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmActivityType = Row<Schema["tables"]["crmActivityType"]>;
+/**
+ * Represents a row from the "crmContact" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmContact = Row<Schema["tables"]["crmContact"]>;
+/**
+ * Represents a row from the "crmNote" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmNote = Row<Schema["tables"]["crmNote"]>;
+/**
+ * Represents a row from the "crmOpportunity" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmOpportunity = Row<Schema["tables"]["crmOpportunity"]>;
+/**
+ * Represents a row from the "crmOpportunityStageHistory" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmOpportunityStageHistory = Row<
+  Schema["tables"]["crmOpportunityStageHistory"]
+>;
+/**
+ * Represents a row from the "crmPipelineStage" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type CrmPipelineStage = Row<Schema["tables"]["crmPipelineStage"]>;
+/**
+ * Represents a row from the "department" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type Department = Row<Schema["tables"]["department"]>;
+/**
+ * Represents a row from the "documentFile" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type DocumentFile = Row<Schema["tables"]["documentFile"]>;
+/**
+ * Represents a row from the "documentFileVersion" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type DocumentFileVersion = Row<Schema["tables"]["documentFileVersion"]>;
+/**
+ * Represents a row from the "documentFolder" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type DocumentFolder = Row<Schema["tables"]["documentFolder"]>;
+/**
+ * Represents a row from the "documentLibrary" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type DocumentLibrary = Row<Schema["tables"]["documentLibrary"]>;
+/**
+ * Represents a row from the "documentSharing" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type DocumentSharing = Row<Schema["tables"]["documentSharing"]>;
+/**
+ * Represents a row from the "employeeDocument" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type EmployeeDocument = Row<Schema["tables"]["employeeDocument"]>;
+/**
+ * Represents a row from the "employeeProfile" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type EmployeeProfile = Row<Schema["tables"]["employeeProfile"]>;
+/**
+ * Represents a row from the "employmentHistory" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type EmploymentHistory = Row<Schema["tables"]["employmentHistory"]>;
+/**
+ * Represents a row from the "expenseItem" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ExpenseItem = Row<Schema["tables"]["expenseItem"]>;
+/**
+ * Represents a row from the "expenseReport" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ExpenseReport = Row<Schema["tables"]["expenseReport"]>;
+/**
  * Represents a row from the "filters" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
@@ -918,6 +7756,82 @@ export type Filter = Row<Schema["tables"]["filters"]>;
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type Friendship = Row<Schema["tables"]["friendship"]>;
+/**
+ * Represents a row from the "integrationCredential" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type IntegrationCredential = Row<
+  Schema["tables"]["integrationCredential"]
+>;
+/**
+ * Represents a row from the "integrationEvent" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type IntegrationEvent = Row<Schema["tables"]["integrationEvent"]>;
+/**
+ * Represents a row from the "integrationWebhook" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type IntegrationWebhook = Row<Schema["tables"]["integrationWebhook"]>;
+/**
+ * Represents a row from the "inventoryItem" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type InventoryItem = Row<Schema["tables"]["inventoryItem"]>;
+/**
+ * Represents a row from the "inventoryLevel" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type InventoryLevel = Row<Schema["tables"]["inventoryLevel"]>;
+/**
+ * Represents a row from the "inventoryLocation" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type InventoryLocation = Row<Schema["tables"]["inventoryLocation"]>;
+/**
+ * Represents a row from the "ledgerAccount" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type LedgerAccount = Row<Schema["tables"]["ledgerAccount"]>;
+/**
+ * Represents a row from the "ledgerEntry" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type LedgerEntry = Row<Schema["tables"]["ledgerEntry"]>;
+/**
+ * Represents a row from the "ledgerTransaction" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type LedgerTransaction = Row<Schema["tables"]["ledgerTransaction"]>;
+/**
+ * Represents a row from the "marketingAudience" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type MarketingAudience = Row<Schema["tables"]["marketingAudience"]>;
+/**
+ * Represents a row from the "marketingCampaign" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type MarketingCampaign = Row<Schema["tables"]["marketingCampaign"]>;
+/**
+ * Represents a row from the "marketingCampaignAudience" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type MarketingCampaignAudience = Row<
+  Schema["tables"]["marketingCampaignAudience"]
+>;
+/**
+ * Represents a row from the "marketingCampaignChannel" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type MarketingCampaignChannel = Row<
+  Schema["tables"]["marketingCampaignChannel"]
+>;
+/**
+ * Represents a row from the "marketingChannel" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type MarketingChannel = Row<Schema["tables"]["marketingChannel"]>;
 /**
  * Represents a row from the "medium" table.
  * This type is auto-generated from your Drizzle schema definition.
@@ -933,6 +7847,157 @@ export type Message = Row<Schema["tables"]["message"]>;
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type OmittedTable = Row<Schema["tables"]["omittedTable"]>;
+/**
+ * Represents a row from the "orderItem" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type OrderItem = Row<Schema["tables"]["orderItem"]>;
+/**
+ * Represents a row from the "orderPayment" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type OrderPayment = Row<Schema["tables"]["orderPayment"]>;
+/**
+ * Represents a row from the "orderTable" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type OrderTable = Row<Schema["tables"]["orderTable"]>;
+/**
+ * Represents a row from the "payment" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type Payment = Row<Schema["tables"]["payment"]>;
+/**
+ * Represents a row from the "product" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type Product = Row<Schema["tables"]["product"]>;
+/**
+ * Represents a row from the "productCategory" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProductCategory = Row<Schema["tables"]["productCategory"]>;
+/**
+ * Represents a row from the "productMedia" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProductMedia = Row<Schema["tables"]["productMedia"]>;
+/**
+ * Represents a row from the "productVariant" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProductVariant = Row<Schema["tables"]["productVariant"]>;
+/**
+ * Represents a row from the "project" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type Project = Row<Schema["tables"]["project"]>;
+/**
+ * Represents a row from the "projectAssignment" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectAssignment = Row<Schema["tables"]["projectAssignment"]>;
+/**
+ * Represents a row from the "projectAttachment" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectAttachment = Row<Schema["tables"]["projectAttachment"]>;
+/**
+ * Represents a row from the "projectAudit" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectAudit = Row<Schema["tables"]["projectAudit"]>;
+/**
+ * Represents a row from the "projectComment" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectComment = Row<Schema["tables"]["projectComment"]>;
+/**
+ * Represents a row from the "projectNote" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectNote = Row<Schema["tables"]["projectNote"]>;
+/**
+ * Represents a row from the "projectPhase" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectPhase = Row<Schema["tables"]["projectPhase"]>;
+/**
+ * Represents a row from the "projectTag" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectTag = Row<Schema["tables"]["projectTag"]>;
+/**
+ * Represents a row from the "projectTask" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectTask = Row<Schema["tables"]["projectTask"]>;
+/**
+ * Represents a row from the "projectTaskTag" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ProjectTaskTag = Row<Schema["tables"]["projectTaskTag"]>;
+/**
+ * Represents a row from the "shipment" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type Shipment = Row<Schema["tables"]["shipment"]>;
+/**
+ * Represents a row from the "shipmentItem" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type ShipmentItem = Row<Schema["tables"]["shipmentItem"]>;
+/**
+ * Represents a row from the "supportTicket" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type SupportTicket = Row<Schema["tables"]["supportTicket"]>;
+/**
+ * Represents a row from the "supportTicketAssignment" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type SupportTicketAssignment = Row<
+  Schema["tables"]["supportTicketAssignment"]
+>;
+/**
+ * Represents a row from the "supportTicketAudit" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type SupportTicketAudit = Row<Schema["tables"]["supportTicketAudit"]>;
+/**
+ * Represents a row from the "supportTicketMessage" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type SupportTicketMessage = Row<
+  Schema["tables"]["supportTicketMessage"]
+>;
+/**
+ * Represents a row from the "supportTicketTag" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type SupportTicketTag = Row<Schema["tables"]["supportTicketTag"]>;
+/**
+ * Represents a row from the "supportTicketTagLink" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type SupportTicketTagLink = Row<
+  Schema["tables"]["supportTicketTagLink"]
+>;
+/**
+ * Represents a row from the "team" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type Team = Row<Schema["tables"]["team"]>;
+/**
+ * Represents a row from the "timeEntry" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type TimeEntry = Row<Schema["tables"]["timeEntry"]>;
+/**
+ * Represents a row from the "timesheet" table.
+ * This type is auto-generated from your Drizzle schema definition.
+ */
+export type Timesheet = Row<Schema["tables"]["timesheet"]>;
 /**
  * Represents a row from the "user" table.
  * This type is auto-generated from your Drizzle schema definition.
