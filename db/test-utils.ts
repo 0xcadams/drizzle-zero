@@ -6,6 +6,7 @@ import type { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { drizzle } from "drizzle-orm/node-postgres";
 import path from "path";
 import { Pool } from "pg";
+import postgres from "postgres";
 import {
   GenericContainer,
   Network,
@@ -19,20 +20,33 @@ import {
   analyticsDashboard,
   analyticsWidget,
   analyticsWidgetQuery,
+  apInvoice,
+  apVendor,
+  arCustomer,
+  arInvoice,
+  bankAccount,
+  bankTransaction,
   benefitEnrollment,
   benefitPlan,
   billingInvoice,
   billingInvoiceLine,
   budget,
   budgetLine,
+  chatChannel,
+  chatMessage,
   crmAccount,
   crmActivity,
   crmActivityType,
   crmContact,
+  crmLead,
+  crmLeadActivity,
+  crmLeadSource,
   crmNote,
   crmOpportunity,
   crmOpportunityStageHistory,
   crmPipelineStage,
+  crmSalesSequence,
+  crmSalesSequenceStep,
   department,
   documentFile,
   documentFileVersion,
@@ -46,12 +60,18 @@ import {
   expenseReport,
   filters,
   friendship,
+  hrDepartment,
+  hrEmployee,
+  hrTimeOffPolicy,
+  hrTimeOffRequest,
   integrationCredential,
   integrationEvent,
   integrationWebhook,
   inventoryItem,
   inventoryLevel,
   inventoryLocation,
+  kbArticle,
+  kbCategory,
   ledgerAccount,
   ledgerEntry,
   ledgerTransaction,
@@ -67,6 +87,7 @@ import {
   orderTable,
   payment,
   product,
+  productCatalog,
   productCategory,
   productMedia,
   productVariant,
@@ -80,12 +101,16 @@ import {
   projectTag,
   projectTask,
   projectTaskTag,
+  purchaseOrder,
   shipment,
   shipmentItem,
+  supplier,
   supportTicket,
   supportTicketAssignment,
   supportTicketAudit,
   supportTicketMessage,
+  supportTicketPriority,
+  supportTicketStatus,
   supportTicketTag,
   supportTicketTagLink,
   team,
@@ -94,43 +119,9 @@ import {
   user,
   // New tables
   workspace,
-  workspaceMembership,
   workspaceApiKey,
-  crmLead,
-  crmLeadSource,
-  crmLeadActivity,
-  opportunityLineItem,
-  opportunityDocument,
-  crmSalesSequence,
-  crmSalesSequenceStep,
-  crmSalesSequenceEnrollment,
-  hrEmployee,
-  hrDepartment,
-  hrTeam,
-  hrPosition,
-  hrTimeOffPolicy,
-  hrTimeOffRequest,
-  hrPerformanceReview,
-  apVendor,
-  apInvoice,
-  arCustomer,
-  arInvoice,
-  bankAccount,
-  bankTransaction,
-  productCatalog,
-  inventoryLocation as newInventoryLocation,
-  inventoryItem as newInventoryItem,
-  supplier,
-  purchaseOrder,
-  kbArticle,
-  kbCategory,
-  supportTicket as newSupportTicket,
-  supportTicketStatus,
-  supportTicketPriority,
-  chatChannel,
-  chatMessage,
+  workspaceMembership,
 } from "./schema";
-import postgres from "postgres";
 
 const versionInt = parseInt(process.env.PG_VERSION ?? "16");
 const PG_PORT = 5732 + (versionInt - 16);
@@ -157,14 +148,53 @@ export const db: NodePgDatabase<typeof drizzleSchema> = drizzle(pool, {
 });
 
 export const seed = async () => {
-  await db.insert(medium).values({ id: "1", name: "email" });
-  await db.insert(medium).values({ id: "2", name: "teams" });
-  await db.insert(medium).values({ id: "3", name: "sms" });
-  await db.insert(medium).values({ id: "4", name: "whatsapp" });
+  await db.insert(workspace).values([
+    {
+      id: "workspace_1",
+      name: "Acme Corporation",
+      slug: "acme-corp",
+      subscriptionTier: "enterprise",
+      billingEmail: "billing@acme.com",
+      settings: { theme: "dark", notifications: true },
+    },
+    {
+      id: "workspace_2",
+      name: "TechStart Inc",
+      slug: "techstart",
+      subscriptionTier: "pro",
+      billingEmail: "admin@techstart.com",
+      settings: { theme: "light", notifications: false },
+    },
+  ]);
 
-  await db.insert(filters).values({ id: "1", name: "filter1" });
-  await db.insert(filters).values({ id: "2", name: "filter2", parentId: "1" });
-  await db.insert(filters).values({ id: "3", name: "filter3", parentId: "1" });
+  await db
+    .insert(medium)
+    .values({ workspaceId: "workspace_1", id: "1", name: "email" });
+  await db
+    .insert(medium)
+    .values({ workspaceId: "workspace_1", id: "2", name: "teams" });
+  await db
+    .insert(medium)
+    .values({ workspaceId: "workspace_1", id: "3", name: "sms" });
+  await db
+    .insert(medium)
+    .values({ workspaceId: "workspace_1", id: "4", name: "whatsapp" });
+
+  await db
+    .insert(filters)
+    .values({ workspaceId: "workspace_1", id: "1", name: "filter1" });
+  await db.insert(filters).values({
+    workspaceId: "workspace_1",
+    id: "2",
+    name: "filter2",
+    parentId: "1",
+  });
+  await db.insert(filters).values({
+    workspaceId: "workspace_1",
+    id: "3",
+    name: "filter3",
+    parentId: "1",
+  });
 
   await db.insert(user).values({
     workspaceId: "workspace_1",
@@ -418,9 +448,24 @@ export const seed = async () => {
   ]);
 
   await db.insert(projectTag).values([
-    { id: "project-tag-design", label: "Design", color: "#FF8A65" },
-    { id: "project-tag-backlog", label: "Backlog", color: "#4DB6AC" },
-    { id: "project-tag-customer", label: "Customer", color: "#9575CD" },
+    {
+      workspaceId: "workspace_1",
+      id: "project-tag-design",
+      label: "Design",
+      color: "#FF8A65",
+    },
+    {
+      workspaceId: "workspace_1",
+      id: "project-tag-backlog",
+      label: "Backlog",
+      color: "#4DB6AC",
+    },
+    {
+      workspaceId: "workspace_1",
+      id: "project-tag-customer",
+      label: "Customer",
+      color: "#9575CD",
+    },
   ]);
 
   await db.insert(project).values([
@@ -546,7 +591,8 @@ export const seed = async () => {
       id: "attachment-1",
       taskId: "task-user-research",
       fileName: "interview-script.docx",
-      fileType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      fileType:
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     },
     {
       workspaceId: "workspace_1",
@@ -726,9 +772,27 @@ export const seed = async () => {
   ]);
 
   await db.insert(crmPipelineStage).values([
-    { id: "stage-qualify", name: "Qualification", sequence: 1, probability: 20 },
-    { id: "stage-proposal", name: "Proposal", sequence: 2, probability: 45 },
-    { id: "stage-negotiation", name: "Negotiation", sequence: 3, probability: 70 },
+    {
+      workspaceId: "workspace_1",
+      id: "stage-qualify",
+      name: "Qualification",
+      sequence: 1,
+      probability: 20,
+    },
+    {
+      workspaceId: "workspace_1",
+      id: "stage-proposal",
+      name: "Proposal",
+      sequence: 2,
+      probability: 45,
+    },
+    {
+      workspaceId: "workspace_1",
+      id: "stage-negotiation",
+      name: "Negotiation",
+      sequence: 3,
+      probability: 70,
+    },
   ]);
 
   await db.insert(crmOpportunity).values([
@@ -761,8 +825,18 @@ export const seed = async () => {
   ]);
 
   await db.insert(crmActivityType).values([
-    { id: "activity-call", name: "Call", description: "Phone or VoIP conversations." },
-    { id: "activity-demo", name: "Product Demo", description: "Live product walkthrough." },
+    {
+      workspaceId: "workspace_1",
+      id: "activity-call",
+      name: "Call",
+      description: "Phone or VoIP conversations.",
+    },
+    {
+      workspaceId: "workspace_1",
+      id: "activity-demo",
+      name: "Product Demo",
+      description: "Live product walkthrough.",
+    },
   ]);
 
   await db.insert(crmActivity).values([
@@ -1639,30 +1713,11 @@ export const seed = async () => {
   });
 
   await db.insert(friendship).values({
+    workspaceId: "workspace_1",
     requestingId: "1",
     acceptingId: "2",
     accepted: true,
   });
-
-  // ====== NEW WORKSPACE & MULTI-TENANCY DATA ======
-  await db.insert(workspace).values([
-    {
-      id: "workspace_1",
-      name: "Acme Corporation",
-      slug: "acme-corp",
-      subscriptionTier: "enterprise",
-      billingEmail: "billing@acme.com",
-      settings: { theme: "dark", notifications: true },
-    },
-    {
-      id: "workspace_2",
-      name: "TechStart Inc",
-      slug: "techstart",
-      subscriptionTier: "pro",
-      billingEmail: "admin@techstart.com",
-      settings: { theme: "light", notifications: false },
-    },
-  ]);
 
   await db.insert(workspaceMembership).values([
     {
@@ -1699,8 +1754,18 @@ export const seed = async () => {
 
   // ====== NEW CRM EXPANSION DATA ======
   await db.insert(crmLeadSource).values([
-    { id: "source_1", workspaceId: "workspace_1", name: "Website", type: "inbound" },
-    { id: "source_2", workspaceId: "workspace_1", name: "Referral", type: "inbound" },
+    {
+      id: "source_1",
+      workspaceId: "workspace_1",
+      name: "Website",
+      type: "inbound",
+    },
+    {
+      id: "source_2",
+      workspaceId: "workspace_1",
+      name: "Referral",
+      type: "inbound",
+    },
   ]);
 
   await db.insert(crmLead).values([
@@ -1828,9 +1893,9 @@ export const seed = async () => {
     workspaceId: "workspace_1",
     employeeId: "emp_1",
     policyId: "policy_1",
-    startDate: new Date("2024-06-01"),
-    endDate: new Date("2024-06-05"),
-    days: 5,
+    startDate: "2024-06-01",
+    endDate: "2024-06-05",
+    days: "5.00",
     status: "approved",
     approverId: "emp_2",
     approvedAt: new Date(),
@@ -1859,8 +1924,8 @@ export const seed = async () => {
     workspaceId: "workspace_1",
     vendorId: "vendor_1",
     invoiceNumber: "INV-2024-001",
-    invoiceDate: new Date("2024-01-15"),
-    dueDate: new Date("2024-02-15"),
+    invoiceDate: "2024-01-15",
+    dueDate: "2024-02-15",
     totalAmount: "1500.00",
     paidAmount: "1500.00",
     status: "paid",
@@ -1888,8 +1953,8 @@ export const seed = async () => {
     workspaceId: "workspace_1",
     customerId: "customer_1",
     invoiceNumber: "INV-OUT-2024-001",
-    invoiceDate: new Date("2024-02-01"),
-    dueDate: new Date("2024-03-01"),
+    invoiceDate: "2024-02-01",
+    dueDate: "2024-03-01",
     totalAmount: "5000.00",
     paidAmount: "5000.00",
     status: "paid",
@@ -1911,7 +1976,7 @@ export const seed = async () => {
       id: "txn_1",
       workspaceId: "workspace_1",
       accountId: "bank_1",
-      transactionDate: new Date("2024-01-15"),
+      transactionDate: "2024-01-15",
       description: "Payment from Big Client Corp",
       amount: "5000.00",
       transactionType: "credit",
@@ -1921,7 +1986,7 @@ export const seed = async () => {
       id: "txn_2",
       workspaceId: "workspace_1",
       accountId: "bank_1",
-      transactionDate: new Date("2024-01-20"),
+      transactionDate: "2024-01-20",
       description: "Office supplies payment",
       amount: "-1500.00",
       transactionType: "debit",
@@ -1960,8 +2025,8 @@ export const seed = async () => {
     workspaceId: "workspace_1",
     supplierId: "supplier_1",
     orderNumber: "PO-2024-001",
-    orderDate: new Date("2024-01-10"),
-    expectedDate: new Date("2024-01-25"),
+    orderDate: "2024-01-10",
+    expectedDate: "2024-01-25",
     totalAmount: "10000.00",
     status: "received",
     approvedBy: "1",
@@ -2011,15 +2076,49 @@ export const seed = async () => {
   ]);
 
   await db.insert(supportTicketStatus).values([
-    { id: "status_1", workspaceId: "workspace_1", name: "Open", isDefault: true, isClosed: false },
-    { id: "status_2", workspaceId: "workspace_1", name: "In Progress", isClosed: false },
-    { id: "status_3", workspaceId: "workspace_1", name: "Resolved", isClosed: true },
+    {
+      id: "status_1",
+      workspaceId: "workspace_1",
+      name: "Open",
+      isDefault: true,
+      isClosed: false,
+    },
+    {
+      id: "status_2",
+      workspaceId: "workspace_1",
+      name: "In Progress",
+      isClosed: false,
+    },
+    {
+      id: "status_3",
+      workspaceId: "workspace_1",
+      name: "Resolved",
+      isClosed: true,
+    },
   ]);
 
   await db.insert(supportTicketPriority).values([
-    { id: "priority_1", workspaceId: "workspace_1", name: "Low", level: 1, responseTimeHours: 48 },
-    { id: "priority_2", workspaceId: "workspace_1", name: "Medium", level: 2, responseTimeHours: 24 },
-    { id: "priority_3", workspaceId: "workspace_1", name: "High", level: 3, responseTimeHours: 4 },
+    {
+      id: "priority_1",
+      workspaceId: "workspace_1",
+      name: "Low",
+      level: 1,
+      responseTimeHours: 48,
+    },
+    {
+      id: "priority_2",
+      workspaceId: "workspace_1",
+      name: "Medium",
+      level: 2,
+      responseTimeHours: 24,
+    },
+    {
+      id: "priority_3",
+      workspaceId: "workspace_1",
+      name: "High",
+      level: 3,
+      responseTimeHours: 4,
+    },
   ]);
 
   // ====== NEW COMMUNICATION DATA ======
@@ -2139,7 +2238,9 @@ export const startZero = async (options: { getQueriesUrl: string }) => {
       ZERO_ADMIN_PASSWORD: "password",
       ZERO_GET_QUERIES_URL: options.getQueriesUrl,
     })
-    .withExtraHosts([{ host: "host.docker.internal", ipAddress: "host-gateway" }])
+    .withExtraHosts([
+      { host: "host.docker.internal", ipAddress: "host-gateway" },
+    ])
     .withStartupTimeout(60000)
     .withPullPolicy(PullPolicy.alwaysPull())
     .start();

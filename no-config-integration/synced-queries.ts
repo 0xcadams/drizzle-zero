@@ -44,26 +44,6 @@ export const messageWithRelations = syncedQueryWithContext(
       .one(),
 );
 
-export const userWithMediums = syncedQueryWithContext(
-  "integration.userWithMediums",
-  z.tuple([z.string()]),
-  (_ctx, id) =>
-    builder.user
-      .where((q) => q.cmp("id", "=", id))
-      .related("mediums")
-      .one(),
-);
-
-export const userWithFriends = syncedQueryWithContext(
-  "integration.userWithFriends",
-  z.tuple([z.string()]),
-  (_ctx, id) =>
-    builder.user
-      .where((q) => q.cmp("id", "=", id))
-      .related("friends")
-      .one(),
-);
-
 export const messageById = syncedQueryWithContext(
   "integration.messageById",
   z.tuple([z.string()]),
@@ -97,117 +77,90 @@ export const complexOrderWithEverything = syncedQueryWithContext(
       .where((q) => q.cmp("id", "=", orderId))
       .related("workspace", (q) =>
         q
-          .related("members", (q2) =>
+          .related("memberships", (q2) =>
             q2
               .related("user", (q3) =>
                 q3
                   .related("workspace")
                   .related("messages")
-                  .related("friends")
                   .orderBy("id", "asc"),
               )
               .related("workspace", (q3) =>
-                q3.related("apiKeys").related("members").orderBy("id", "asc"),
+                q3
+                  .related("apiKeys")
+                  .related("memberships")
+                  .orderBy("id", "asc"),
               )
               .orderBy("id", "asc"),
           )
           .related("apiKeys", (q2) =>
             q2.related("workspace").orderBy("id", "asc"),
           )
-          .related("leads", (q2) =>
+          .related("invitations", (q2) =>
             q2
-              .related("source", (q3) => q3.related("leads"))
               .related("workspace")
-              .related("activities")
+              .related("inviter", (q3) =>
+                q3.related("messages").related("workspace"),
+              )
+              .orderBy("id", "asc"),
+          )
+          .related("supportTickets", (q2) =>
+            q2
+              .related("workspace")
+              .related("customer", (q3) =>
+                q3.related("messages").related("workspace"),
+              )
+              .orderBy("id", "asc"),
+          )
+          .related("crmAccounts", (q2) =>
+            q2
+              .related("workspace")
+              .related("owner", (q3) =>
+                q3.related("messages").related("workspace"),
+              )
+              .related("contacts", (q3) =>
+                q3
+                  .related("account")
+                  .related("activities")
+                  .orderBy("id", "asc"),
+              )
+              .related("opportunities", (q3) =>
+                q3.related("account").related("stage").orderBy("id", "asc"),
+              )
+              .orderBy("id", "asc"),
+          )
+          // .related("suppliers", (q2) =>
+          //   q2.related("workspace").orderBy("id", "asc"),
+          // )
+          // .related("purchaseOrders", (q2) =>
+          //   q2.related("workspace").orderBy("id", "asc"),
+          // ).related("chatChannels", (q2) =>
+          //   q2
+          //     .related("workspace")
+          //     .related("messages", (q3) =>
+          //       q3.related("channel").orderBy("id", "asc"),
+          //     )
+          //     .orderBy("id", "asc"),
+          // )
+          .related("projectTasks", (q2) =>
+            q2
+              .related("workspace")
+              .related("project", (q3) => q3.related("phases").related("owner"))
+              .related("phase", (q3) => q3.related("project").related("tasks"))
+              .related("assignments", (q3) =>
+                q3.related("task").related("user").orderBy("id", "asc"),
+              )
               .orderBy("id", "asc"),
           ),
       )
       .related("customer", (q) =>
         q
           .related("workspace", (q2) =>
-            q2.related("members").related("apiKeys").related("leads"),
-          )
-          .related("employeeProfile", (q2) =>
-            q2
-              .related("user", (q3) =>
-                q3.related("messages").related("workspace"),
-              )
-              .related("department", (q3) =>
-                q3
-                  .related("manager", (q4) =>
-                    q4.related("employeeProfiles").related("messages"),
-                  )
-                  .related("teams", (q4) =>
-                    q4.related("employees").related("lead"),
-                  )
-                  .related("employees", (q4) =>
-                    q4.related("user").orderBy("id", "asc"),
-                  ),
-              )
-              .related("team", (q3) =>
-                q3
-                  .related("department")
-                  .related("lead")
-                  .related("employees"),
-              )
-              .related("documents", (q3) =>
-                q3.related("employee").related("uploadedBy"),
-              )
-              .related("timesheets", (q3) =>
-                q3
-                  .related("employee")
-                  .related("entries", (q4) =>
-                    q4.related("timesheet").related("task").orderBy("id", "asc"),
-                  )
-                  .orderBy("id", "asc"),
-              ),
-          )
-          .related("ownedProjects", (q2) =>
-            q2
-              .related("owner", (q3) =>
-                q3.related("workspace").related("messages"),
-              )
-              .related("phases", (q3) =>
-                q3
-                  .related("project")
-                  .related("tasks", (q4) =>
-                    q4
-                      .related("phase")
-                      .related("assignments")
-                      .related("comments")
-                      .orderBy("id", "asc"),
-                  )
-                  .orderBy("id", "asc"),
-              )
-              .related("tasks", (q3) =>
-                q3
-                  .related("project")
-                  .related("phase")
-                  .related("assignments", (q4) =>
-                    q4.related("task").related("user").orderBy("id", "asc"),
-                  )
-                  .related("comments", (q4) =>
-                    q4.related("task").related("author").orderBy("id", "asc"),
-                  )
-                  .related("attachments", (q4) =>
-                    q4.related("task").orderBy("id", "asc"),
-                  )
-                  .related("tags", (q4) =>
-                    q4.related("task").related("tag").orderBy("id", "asc"),
-                  )
-                  .orderBy("id", "asc"),
-              )
-              .related("notes", (q3) =>
-                q3.related("project").related("author").orderBy("id", "asc"),
-              )
-              .related("audits", (q3) =>
-                q3.related("project").related("actor").orderBy("id", "asc"),
-              )
-              .orderBy("id", "asc"),
+            q2.related("memberships").related("apiKeys"),
           )
           .related("messages", (q2) =>
             q2
-              .related("workspace", (q3) => q3.related("members"))
+              .related("workspace")
               .related("medium", (q3) =>
                 q3
                   .related("workspace")
@@ -216,28 +169,16 @@ export const complexOrderWithEverything = syncedQueryWithContext(
                   ),
               )
               .related("sender", (q3) =>
-                q3
-                  .related("workspace")
-                  .related("messages")
-                  .related("friends"),
+                q3.related("workspace").related("messages"),
               )
               .orderBy("id", "asc"),
-          )
-          .related("friends", (q2) =>
-            q2
-              .related("messages", (q3) =>
-                q3.related("medium").related("sender").orderBy("id", "asc"),
-              )
-              .related("friends", (q3) => q3.related("messages")),
           ),
       )
       .related("opportunity", (q) =>
         q
           .related("account", (q2) =>
             q2
-              .related("owner", (q3) =>
-                q3.related("messages").related("friends"),
-              )
+              .related("owner", (q3) => q3.related("messages"))
               .related("contacts", (q3) =>
                 q3
                   .related("account", (q4) =>
@@ -256,7 +197,7 @@ export const complexOrderWithEverything = syncedQueryWithContext(
                         q5.related("account").related("stage"),
                       )
                       .related("performer", (q5) =>
-                        q5.related("messages").related("friends"),
+                        q5.related("messages").related("workspace"),
                       )
                       .related("account", (q5) =>
                         q5.related("opportunities").related("contacts"),
@@ -266,7 +207,7 @@ export const complexOrderWithEverything = syncedQueryWithContext(
                   .related("notes", (q4) =>
                     q4
                       .related("author", (q5) =>
-                        q5.related("messages").related("friends"),
+                        q5.related("messages").related("workspace"),
                       )
                       .related("contact", (q5) =>
                         q5.related("account").related("activities"),
@@ -302,7 +243,7 @@ export const complexOrderWithEverything = syncedQueryWithContext(
                     q4
                       .related("type", (q5) => q5.related("activities"))
                       .related("performer", (q5) =>
-                        q5.related("messages").related("friends"),
+                        q5.related("messages").related("workspace"),
                       )
                       .related("account", (q5) => q5.related("opportunities"))
                       .related("contact", (q5) => q5.related("notes"))
@@ -316,7 +257,7 @@ export const complexOrderWithEverything = syncedQueryWithContext(
                       )
                       .related("stage", (q5) => q5.related("opportunities"))
                       .related("changedBy", (q5) =>
-                        q5.related("messages").related("friends"),
+                        q5.related("messages").related("workspace"),
                       )
                       .orderBy("id", "asc"),
                   )
@@ -335,7 +276,7 @@ export const complexOrderWithEverything = syncedQueryWithContext(
                   )
                   .related("type", (q4) => q4.related("activities"))
                   .related("performer", (q4) =>
-                    q4.related("friends").related("messages"),
+                    q4.related("messages").related("workspace"),
                   )
                   .orderBy("id", "asc"),
               )
@@ -348,7 +289,7 @@ export const complexOrderWithEverything = syncedQueryWithContext(
                     q4.related("activities").related("account"),
                   )
                   .related("author", (q4) =>
-                    q4.related("messages").related("friends"),
+                    q4.related("messages").related("workspace"),
                   )
                   .orderBy("id", "asc"),
               ),
@@ -391,7 +332,7 @@ export const complexOrderWithEverything = syncedQueryWithContext(
               .related("stage", (q3) =>
                 q3.related("opportunities").related("historyEntries"),
               )
-              .related("changedBy", (q3) => q3.related("friends"))
+              .related("changedBy", (q3) => q3.related("messages"))
               .orderBy("id", "asc"),
           ),
       )
@@ -400,7 +341,7 @@ export const complexOrderWithEverything = syncedQueryWithContext(
           .related("order", (q2) =>
             q2
               .related("customer", (q3) =>
-                q3.related("messages").related("friends"),
+                q3.related("messages").related("workspace"),
               )
               .related("opportunity", (q3) =>
                 q3.related("account").related("stage").related("activities"),
@@ -507,7 +448,7 @@ export const complexOrderWithEverything = syncedQueryWithContext(
           .related("order", (q2) =>
             q2
               .related("customer", (q3) =>
-                q3.related("messages").related("friends"),
+                q3.related("messages").related("workspace"),
               )
               .related("opportunity", (q3) =>
                 q3.related("account").related("stage"),
@@ -528,7 +469,7 @@ export const complexOrderWithEverything = syncedQueryWithContext(
           .related("order", (q2) =>
             q2
               .related("customer", (q3) =>
-                q3.related("messages").related("friends"),
+                q3.related("messages").related("workspace"),
               )
               .related("opportunity", (q3) =>
                 q3.related("account").related("historyEntries"),
@@ -551,7 +492,7 @@ export const complexOrderWithEverything = syncedQueryWithContext(
                   .related("order", (q4) =>
                     q4
                       .related("customer", (q5) =>
-                        q5.related("messages").related("friends"),
+                        q5.related("messages").related("workspace"),
                       )
                       .related("opportunity", (q5) =>
                         q5.related("account").related("stage"),
@@ -573,169 +514,6 @@ export const complexOrderWithEverything = syncedQueryWithContext(
               .orderBy("id", "asc"),
           )
           .orderBy("id", "asc"),
-      )
-      .related("workspace", (q) =>
-        q
-          .related("members", (q2) =>
-            q2.related("user").related("workspace").orderBy("id", "asc"),
-          )
-          .related("apiKeys", (q2) => q2.orderBy("id", "asc"))
-          .related("leads", (q2) =>
-            q2
-              .related("source", (q3) => q3.related("leads"))
-              .related("activities", (q3) =>
-                q3.related("lead").related("assignedTo").orderBy("id", "asc"),
-              )
-              .orderBy("id", "asc"),
-          )
-          .related("hrDepartments", (q2) =>
-            q2
-              .related("workspace")
-              .related("manager", (q3) =>
-                q3.related("employeeProfiles").related("messages"),
-              )
-              .related("teams", (q3) =>
-                q3
-                  .related("department")
-                  .related("lead")
-                  .related("employees", (q4) =>
-                    q4.related("user").orderBy("id", "asc"),
-                  )
-                  .orderBy("id", "asc"),
-              )
-              .related("employees", (q3) =>
-                q3
-                  .related("department")
-                  .related("team")
-                  .related("user")
-                  .orderBy("id", "asc"),
-              )
-              .orderBy("id", "asc"),
-          )
-          .related("apVendors", (q2) =>
-            q2
-              .related("workspace")
-              .related("invoices", (q3) =>
-                q3
-                  .related("vendor")
-                  .related("payments", (q4) =>
-                    q4.related("invoice").orderBy("id", "asc"),
-                  )
-                  .orderBy("id", "asc"),
-              )
-              .orderBy("id", "asc"),
-          )
-          .related("arCustomers", (q2) =>
-            q2
-              .related("workspace")
-              .related("invoices", (q3) =>
-                q3
-                  .related("customer")
-                  .related("payments", (q4) =>
-                    q4.related("invoice").orderBy("id", "asc"),
-                  )
-                  .orderBy("id", "asc"),
-              )
-              .orderBy("id", "asc"),
-          )
-          .related("bankAccounts", (q2) =>
-            q2
-              .related("workspace")
-              .related("transactions", (q3) =>
-                q3.related("account").orderBy("id", "asc"),
-              )
-              .orderBy("id", "asc"),
-          )
-          .related("productSuppliers", (q2) =>
-            q2
-              .related("workspace")
-              .related("products", (q3) =>
-                q3
-                  .related("supplier")
-                  .related("category", (q4) => q4.related("products"))
-                  .orderBy("id", "asc"),
-              )
-              .orderBy("id", "asc"),
-          )
-          .related("purchaseOrders", (q2) =>
-            q2
-              .related("workspace")
-              .related("vendor")
-              .related("lines", (q3) =>
-                q3
-                  .related("purchaseOrder")
-                  .related("product", (q4) => q4.related("supplier"))
-                  .orderBy("id", "asc"),
-              )
-              .orderBy("id", "asc"),
-          )
-          .related("kbCategories", (q2) =>
-            q2
-              .related("workspace")
-              .related("articles", (q3) =>
-                q3
-                  .related("category")
-                  .related("author")
-                  .related("tags", (q4) =>
-                    q4.related("article").related("tag").orderBy("id", "asc"),
-                  )
-                  .orderBy("id", "asc"),
-              )
-              .orderBy("id", "asc"),
-          )
-          .related("supportTickets", (q2) =>
-            q2
-              .related("workspace")
-              .related("submitter", (q3) =>
-                q3.related("messages").related("workspace"),
-              )
-              .related("assignee", (q3) =>
-                q3.related("employeeProfile").related("workspace"),
-              )
-              .related("status", (q3) => q3.related("tickets"))
-              .related("priority", (q3) => q3.related("tickets"))
-              .related("responses", (q3) =>
-                q3
-                  .related("ticket")
-                  .related("author")
-                  .orderBy("id", "asc"),
-              )
-              .orderBy("id", "asc"),
-          )
-          .related("chatChannels", (q2) =>
-            q2
-              .related("workspace")
-              .related("createdBy", (q3) =>
-                q3.related("messages").related("workspace"),
-              )
-              .related("messages", (q3) =>
-                q3
-                  .related("channel")
-                  .related("author")
-                  .orderBy("id", "asc"),
-              )
-              .orderBy("id", "asc"),
-          )
-          .related("documentLibraries", (q2) =>
-            q2
-              .related("workspace")
-              .related("owner")
-              .related("folders", (q3) =>
-                q3
-                  .related("library")
-                  .related("parent")
-                  .related("files", (q4) =>
-                    q4
-                      .related("folder")
-                      .related("versions", (q5) =>
-                        q5.related("file").orderBy("id", "asc"),
-                      )
-                      .orderBy("id", "asc"),
-                  )
-                  .orderBy("id", "asc"),
-              )
-              .orderBy("id", "asc"),
-          ),
       )
       .one(),
 );

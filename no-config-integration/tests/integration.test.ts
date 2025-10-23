@@ -25,11 +25,14 @@ import {
   messageWithRelations,
   messagesByBody,
   messagesBySender,
-  userWithFriends,
-  userWithMediums,
   complexOrderWithEverything,
 } from "../synced-queries";
-import { schema, type Filter, type Schema } from "../zero-schema.gen";
+import {
+  schema,
+  type Filter,
+  type Schema,
+  type User,
+} from "../zero-schema.gen";
 import {
   startGetQueriesServer,
   stopGetQueriesServer,
@@ -73,6 +76,8 @@ describe("relationships", () => {
     const query = allUsers(undefined);
 
     const user = await zero.run(query, { type: "complete" });
+
+    expectTypeOf(user).toExtend<User[]>();
 
     expect(user).toHaveLength(7);
     expect(user[0]?.name).toBe("James");
@@ -158,47 +163,12 @@ describe("relationships", () => {
     await zero.close();
   });
 
-  test("can query many-to-many relationships", async () => {
-    const zero = await getNewZero();
-
-    const query = userWithMediums(undefined, "1");
-
-    const user = await zero.run(query, { type: "complete" });
-
-    expect(user?.mediums).toHaveLength(2);
-    expect(user?.mediums?.[0]?.name).toBe("email");
-    expect(user?.mediums?.[1]?.name).toBe("whatsapp");
-    expect(user?.testInterface?.nameInterface).toBe("custom-inline-interface");
-    expect(user?.testType?.nameType).toBe("custom-inline-type");
-    expect(user?.customInterfaceJson?.custom).toBe(
-      "this-interface-is-imported-from-custom-types",
-    );
-    expect(user?.customTypeJson?.custom).toBe(
-      "this-is-imported-from-custom-types",
-    );
-    expect(user?.testExportedType.nameType).toBe("custom-inline-type");
-
-    await zero.close();
-  });
-
-  test("can query many-to-many extended relationships", async () => {
-    const zero = await getNewZero();
-
-    const query = userWithFriends(undefined, "1");
-
-    const user = await zero.run(query, { type: "complete" });
-
-    expect(user?.friends).toHaveLength(1);
-    expect(user?.friends[0]?.name).toBe("John");
-
-    await zero.close();
-  });
-
   test("can insert messages", async () => {
     const zero = await getNewZero();
 
     await zeroDb.transaction(async (tx) => {
       await tx.mutate.message.insert({
+        workspaceId: "workspace_1",
         id: "99",
         body: "Hi, James!",
         senderId: "1",
@@ -314,6 +284,7 @@ describe("types", () => {
 
     await zeroDb.transaction(async (tx) => {
       await tx.mutate.allTypes.insert({
+        workspaceId: "workspace_1",
         id: "1011",
         smallintField: 22,
         integerField: 23,
@@ -863,5 +834,4 @@ describe("complex order", () => {
 
     await zero.close();
   });
-
 });

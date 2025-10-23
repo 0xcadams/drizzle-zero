@@ -49,6 +49,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "allTypes",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         smallintField: {
           type: "number",
           optional: false,
@@ -522,6 +532,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "analyticsDashboard",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         ownerId: {
           type: "string",
           optional: true,
@@ -583,6 +603,16 @@ export const schema = {
             "analyticsWidget",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "analyticsWidget",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         dashboardId: {
           type: "string",
@@ -656,6 +686,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "analyticsWidgetQuery",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         widgetId: {
           type: "string",
           optional: false,
@@ -728,6 +768,16 @@ export const schema = {
             "benefitEnrollment",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "benefitEnrollment",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         benefitPlanId: {
           type: "string",
@@ -803,6 +853,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "benefitPlan",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         name: {
           type: "string",
           optional: false,
@@ -873,6 +933,16 @@ export const schema = {
             "billingInvoice",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "billingInvoice",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         accountId: {
           type: "string",
@@ -986,6 +1056,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "billingInvoiceLine",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         invoiceId: {
           type: "string",
           optional: false,
@@ -1068,6 +1148,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "budget",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         departmentId: {
           type: "string",
           optional: true,
@@ -1140,6 +1230,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "budgetLine",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         budgetId: {
           type: "string",
           optional: false,
@@ -1202,6 +1302,16 @@ export const schema = {
             "crmAccount",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "crmAccount",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         ownerId: {
           type: "string",
@@ -1273,6 +1383,16 @@ export const schema = {
             "crmActivity",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "crmActivity",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         accountId: {
           type: "string",
@@ -1367,6 +1487,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "crmActivityType",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         name: {
           type: "string",
           optional: false,
@@ -1418,6 +1548,16 @@ export const schema = {
             "crmContact",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "crmContact",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         accountId: {
           type: "string",
@@ -1501,6 +1641,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "crmNote",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         accountId: {
           type: "string",
           optional: false,
@@ -1573,6 +1723,16 @@ export const schema = {
             "crmOpportunity",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "crmOpportunity",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         accountId: {
           type: "string",
@@ -1656,6 +1816,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "crmOpportunityStageHistory",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         opportunityId: {
           type: "string",
           optional: false,
@@ -1730,6 +1900,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "crmPipelineStage",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         name: {
           type: "string",
           optional: false,
@@ -1791,6 +1971,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "department",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         name: {
           type: "string",
           optional: false,
@@ -1851,6 +2041,16 @@ export const schema = {
             "documentFile",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "documentFile",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         folderId: {
           type: "string",
@@ -1945,6 +2145,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "documentFileVersion",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         fileId: {
           type: "string",
           optional: false,
@@ -2028,6 +2238,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "documentFolder",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         libraryId: {
           type: "string",
           optional: false,
@@ -2090,6 +2310,16 @@ export const schema = {
             "documentLibrary",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "documentLibrary",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         projectId: {
           type: "string",
@@ -2161,6 +2391,16 @@ export const schema = {
             "documentSharing",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "documentSharing",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         fileId: {
           type: "string",
@@ -2235,6 +2475,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "employeeDocument",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         employeeId: {
           type: "string",
           optional: false,
@@ -2308,6 +2558,16 @@ export const schema = {
             "employeeProfile",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "employeeProfile",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         userId: {
           type: "string",
@@ -2402,6 +2662,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "employmentHistory",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         employeeId: {
           type: "string",
           optional: false,
@@ -2483,6 +2753,16 @@ export const schema = {
             "expenseItem",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "expenseItem",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         reportId: {
           type: "string",
@@ -2574,6 +2854,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "expenseReport",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         ownerId: {
           type: "string",
           optional: false,
@@ -2629,6 +2919,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "filters",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         name: {
           type: "string",
           optional: true,
@@ -2654,6 +2954,16 @@ export const schema = {
     friendship: {
       name: "friendship",
       columns: {
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "friendship",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         requestingId: {
           type: "string",
           optional: false,
@@ -2713,6 +3023,16 @@ export const schema = {
             "integrationCredential",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "integrationCredential",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         webhookId: {
           type: "string",
@@ -2796,6 +3116,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "integrationEvent",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         webhookId: {
           type: "string",
           optional: false,
@@ -2877,6 +3207,16 @@ export const schema = {
             "integrationWebhook",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "integrationWebhook",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         projectId: {
           type: "string",
@@ -2969,6 +3309,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "inventoryItem",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         variantId: {
           type: "string",
           optional: false,
@@ -3031,6 +3381,16 @@ export const schema = {
             "inventoryLevel",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "inventoryLevel",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         locationId: {
           type: "string",
@@ -3104,6 +3464,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "inventoryLocation",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         name: {
           type: "string",
           optional: false,
@@ -3164,6 +3534,16 @@ export const schema = {
             "ledgerAccount",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "ledgerAccount",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         name: {
           type: "string",
@@ -3236,6 +3616,16 @@ export const schema = {
             "ledgerEntry",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "ledgerEntry",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         transactionId: {
           type: "string",
@@ -3318,6 +3708,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "ledgerTransaction",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         reference: {
           type: "string",
           optional: true,
@@ -3390,6 +3790,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "marketingAudience",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         name: {
           type: "string",
           optional: false,
@@ -3451,6 +3861,16 @@ export const schema = {
             "marketingCampaign",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "marketingCampaign",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         ownerId: {
           type: "string",
@@ -3544,6 +3964,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "marketingCampaignAudience",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         campaignId: {
           type: "string",
           optional: false,
@@ -3597,6 +4027,16 @@ export const schema = {
             "marketingCampaignChannel",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "marketingCampaignChannel",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         campaignId: {
           type: "string",
@@ -3661,6 +4101,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "marketingChannel",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         name: {
           type: "string",
           optional: false,
@@ -3724,6 +4174,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "medium",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         name: {
           type: "string",
           optional: false,
@@ -3765,6 +4225,16 @@ export const schema = {
             "message",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "message",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         senderId: {
           type: "string",
@@ -3827,6 +4297,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "omittedTable",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         name: {
           type: "string",
           optional: false,
@@ -3869,6 +4349,16 @@ export const schema = {
             "orderItem",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "orderItem",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         orderId: {
           type: "string",
@@ -3943,6 +4433,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "orderPayment",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         orderId: {
           type: "string",
           optional: false,
@@ -4014,6 +4514,16 @@ export const schema = {
             "orderTable",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "orderTable",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         customerId: {
           type: "string",
@@ -4095,6 +4605,16 @@ export const schema = {
             "payment",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "payment",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         externalRef: {
           type: "string",
@@ -4186,6 +4706,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "product",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         categoryId: {
           type: "string",
           optional: false,
@@ -4256,6 +4786,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "productCategory",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         name: {
           type: "string",
           optional: false,
@@ -4318,6 +4858,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "productMedia",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         productId: {
           type: "string",
           optional: false,
@@ -4379,6 +4929,16 @@ export const schema = {
             "productVariant",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "productVariant",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         productId: {
           type: "string",
@@ -4461,6 +5021,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "project",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         ownerId: {
           type: "string",
           optional: true,
@@ -4530,6 +5100,16 @@ export const schema = {
             "projectAssignment",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "projectAssignment",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         taskId: {
           type: "string",
@@ -4604,6 +5184,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "projectAttachment",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         taskId: {
           type: "string",
           optional: false,
@@ -4667,6 +5257,16 @@ export const schema = {
             "projectAudit",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "projectAudit",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         projectId: {
           type: "string",
@@ -4740,6 +5340,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "projectComment",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         taskId: {
           type: "string",
           optional: false,
@@ -4802,6 +5412,16 @@ export const schema = {
             "projectNote",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "projectNote",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         projectId: {
           type: "string",
@@ -4866,6 +5486,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "projectPhase",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         projectId: {
           type: "string",
           optional: false,
@@ -4928,6 +5558,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "projectTag",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         label: {
           type: "string",
           optional: false,
@@ -4979,6 +5619,16 @@ export const schema = {
             "projectTask",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "projectTask",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         projectId: {
           type: "string",
@@ -5061,6 +5711,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "projectTaskTag",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         taskId: {
           type: "string",
           optional: false,
@@ -5114,6 +5774,16 @@ export const schema = {
             "shipment",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "shipment",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         orderId: {
           type: "string",
@@ -5197,6 +5867,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "shipmentItem",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         shipmentId: {
           type: "string",
           optional: false,
@@ -5259,6 +5939,16 @@ export const schema = {
             "supportTicket",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "supportTicket",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         customerId: {
           type: "string",
@@ -5350,6 +6040,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "supportTicketAssignment",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         ticketId: {
           type: "string",
           optional: false,
@@ -5424,6 +6124,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "supportTicketAudit",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         ticketId: {
           type: "string",
           optional: false,
@@ -5495,6 +6205,16 @@ export const schema = {
             "supportTicketMessage",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "supportTicketMessage",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         ticketId: {
           type: "string",
@@ -5568,6 +6288,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "supportTicketTag",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         label: {
           type: "string",
           optional: false,
@@ -5619,6 +6349,16 @@ export const schema = {
             "supportTicketTagLink",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "supportTicketTagLink",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         ticketId: {
           type: "string",
@@ -5673,6 +6413,16 @@ export const schema = {
             "team",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "team",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         departmentId: {
           type: "string",
@@ -5735,6 +6485,16 @@ export const schema = {
             "timeEntry",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "timeEntry",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         timesheetId: {
           type: "string",
@@ -5818,6 +6578,16 @@ export const schema = {
             "id"
           >,
         },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "timesheet",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
+        },
         employeeId: {
           type: "string",
           optional: false,
@@ -5899,6 +6669,16 @@ export const schema = {
             "user",
             "id"
           >,
+        },
+        workspaceId: {
+          type: "string",
+          optional: false,
+          customType: null as unknown as ZeroCustomType<
+            typeof zeroSchema,
+            "user",
+            "workspaceId"
+          >,
+          serverName: "workspace_id",
         },
         name: {
           type: "string",
@@ -6719,6 +7499,24 @@ export const schema = {
         },
       ],
     },
+    friendship: {
+      requesting: [
+        {
+          sourceField: ["requestingId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+      accepting: [
+        {
+          sourceField: ["acceptingId"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
+        },
+      ],
+    },
     integrationCredential: {
       webhook: [
         {
@@ -7058,6 +7856,16 @@ export const schema = {
           destField: ["orderId"],
           destSchema: "shipment",
           cardinality: "many",
+        },
+      ],
+    },
+    payment: {
+      receivedBy: [
+        {
+          sourceField: ["receivedById"],
+          destField: ["id"],
+          destSchema: "user",
+          cardinality: "one",
         },
       ],
     },
