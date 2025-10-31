@@ -1,7 +1,10 @@
 import * as path from "node:path";
 import { Project } from "ts-morph";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { ensureSourceFileInProject } from "../src/cli/ts-project";
+import {
+  addSourceFilesFromTsConfigSafe,
+  ensureSourceFileInProject,
+} from "../src/cli/ts-project";
 
 describe("ensureSourceFileInProject", () => {
   let tsProject: Project;
@@ -113,6 +116,86 @@ describe("ensureSourceFileInProject", () => {
     getSourceFileSpy.mockRestore();
     addSourceFileAtPathIfExistsSpy.mockRestore();
     addSourceFileAtPathSpy.mockRestore();
+    warnSpy.mockRestore();
+  });
+});
+
+describe("addSourceFilesFromTsConfigSafe", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("should call tsProject.addSourceFilesFromTsConfig when no error occurs", () => {
+    const addSourceFilesFromTsConfig = vi.fn();
+    const tsProject = {
+      addSourceFilesFromTsConfig,
+    } as unknown as Project;
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    const result = addSourceFilesFromTsConfigSafe({
+      tsProject,
+      tsConfigPath: "/tmp/tsconfig.json",
+      debug: false,
+    });
+
+    expect(addSourceFilesFromTsConfig).toHaveBeenCalledWith(
+      "/tmp/tsconfig.json",
+    );
+    expect(result).toBe(true);
+    expect(warnSpy).not.toHaveBeenCalled();
+
+    warnSpy.mockRestore();
+  });
+
+  it("should swallow permission errors and warn", () => {
+    const permissionError = Object.assign(new Error("EACCES"), {
+      code: "EACCES",
+      path: "/forbidden",
+    });
+
+    const addSourceFilesFromTsConfig = vi
+      .fn()
+      .mockImplementation(() => {
+        throw permissionError;
+      });
+    const tsProject = {
+      addSourceFilesFromTsConfig,
+    } as unknown as Project;
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    const result = addSourceFilesFromTsConfigSafe({
+      tsProject,
+      tsConfigPath: "/tmp/tsconfig.json",
+      debug: false,
+    });
+
+    expect(result).toBe(false);
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining("permission error"),
+    );
+    expect(addSourceFilesFromTsConfig).toHaveBeenCalledTimes(1);
+
+    warnSpy.mockRestore();
+  });
+
+  it("should rethrow non-permission errors", () => {
+    const addSourceFilesFromTsConfig = vi.fn().mockImplementation(() => {
+      throw new Error("boom");
+    });
+    const tsProject = {
+      addSourceFilesFromTsConfig,
+    } as unknown as Project;
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+
+    expect(() =>
+      addSourceFilesFromTsConfigSafe({
+        tsProject,
+        tsConfigPath: "/tmp/tsconfig.json",
+        debug: false,
+      }),
+    ).toThrow("boom");
+    expect(warnSpy).not.toHaveBeenCalled();
+
     warnSpy.mockRestore();
   });
 });

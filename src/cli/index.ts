@@ -7,7 +7,10 @@ import { getConfigFromFile, getDefaultConfigFilePath } from "./config";
 import { getDefaultConfig } from "./drizzle-kit";
 import { getGeneratedSchema } from "./shared";
 import { discoverAllTsConfigs } from "./tsconfig";
-import { ensureSourceFileInProject } from "./ts-project";
+import {
+  addSourceFilesFromTsConfigSafe,
+  ensureSourceFileInProject,
+} from "./ts-project";
 
 const defaultConfigFile = "./drizzle-zero.config.ts";
 const defaultOutputFile = "./zero-schema.gen.ts";
@@ -91,7 +94,11 @@ async function main(opts: GeneratorOptions = {}) {
     skipAddingFilesFromTsConfig: true,
   });
   for (const tsConfigPath of allTsConfigPaths) {
-    tsProject.addSourceFilesFromTsConfig(tsConfigPath);
+    addSourceFilesFromTsConfigSafe({
+      tsProject,
+      tsConfigPath,
+      debug: Boolean(debug),
+    });
   }
 
   if (configFilePath) {
