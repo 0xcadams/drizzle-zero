@@ -1,8 +1,14 @@
 import camelCase from "camelcase";
 import pluralize from "pluralize";
-import { type Project, VariableDeclarationKind } from "ts-morph";
+import {
+  type CodeBlockWriter,
+  type Project,
+  type SourceFile,
+  VariableDeclarationKind,
+} from "ts-morph";
 import type { getConfigFromFile } from "./config";
 import type { getDefaultConfig } from "./drizzle-kit";
+import { COLUMN_SEPARATOR, resolveCustomTypes } from "./type-resolution";
 
 export async function getGeneratedSchema({
   tsProject,
@@ -56,56 +62,396 @@ export async function getGeneratedSchema({
     overwrite: true,
   });
 
+  let resolverImportHelperFile: SourceFile | undefined;
+  const getResolverImportModuleSpecifier = (sourceFile: SourceFile) => {
+    if (!resolverImportHelperFile) {
+      resolverImportHelperFile = tsProject.createSourceFile(
+        "__drizzle_zero_type_resolver__imports.ts",
+        "",
+        { overwrite: true },
+      );
+    }
+
+    const moduleSpecifier =
+      resolverImportHelperFile.getRelativePathAsModuleSpecifierTo(sourceFile);
+
+    if (needsJsExtension && !moduleSpecifier.endsWith(".js")) {
+      return `${moduleSpecifier}.js`;
+    }
+
+    return moduleSpecifier;
+  };
+
   let customTypeHelper: string;
   let zeroSchemaSpecifier: string | undefined;
+  let schemaTypeExpression: string | undefined;
+  const resolverImports: Parameters<
+    typeof resolveCustomTypes
+  >[0]["schemaImports"] = [];
 
   if (result.type === "config") {
     // For config mode, use ZeroCustomType with the config schema
+    customTypeHelper = "ZeroCustomType";
     zeroSchemaGenerated.addImportDeclaration({
       moduleSpecifier: "drizzle-zero",
-      namedImports: [{ name: "ZeroCustomType" }],
+      namedImports: [{ name: customTypeHelper }],
       isTypeOnly: true,
     });
     const moduleSpecifier =
       zeroSchemaGenerated.getRelativePathAsModuleSpecifierTo(
         result.zeroSchemaTypeDeclarations[1].getSourceFile(),
       );
-
+    const runtimeModuleSpecifier =
+      needsJsExtension && !moduleSpecifier.endsWith(".js")
+        ? `${moduleSpecifier}.js`
+        : moduleSpecifier;
     // Add import for DrizzleConfigSchema
     zeroSchemaGenerated.addImportDeclaration({
-      moduleSpecifier: needsJsExtension
-        ? `${moduleSpecifier}.js`
-        : moduleSpecifier,
+      moduleSpecifier: runtimeModuleSpecifier,
+      namedImports: [{ name: result.exportName, alias: "zeroSchema" }],
+      isTypeOnly: true,
+    });
+
+    resolverImports.push({
+      moduleSpecifier: getResolverImportModuleSpecifier(
+        result.zeroSchemaTypeDeclarations[1].getSourceFile(),
+      ),
       namedImports: [{ name: result.exportName, alias: "zeroSchema" }],
       isTypeOnly: true,
     });
 
     zeroSchemaSpecifier = "typeof zeroSchema";
-    customTypeHelper = "ZeroCustomType";
+    schemaTypeExpression = zeroSchemaSpecifier;
   } else {
     // For no-config mode, use CustomType to avoid expanding entire schema
     const moduleSpecifier =
       zeroSchemaGenerated.getRelativePathAsModuleSpecifierTo(
         result.drizzleSchemaSourceFile,
       );
-
-    zeroSchemaGenerated.addImportDeclaration({
-      moduleSpecifier: needsJsExtension
+    const runtimeModuleSpecifier =
+      needsJsExtension && !moduleSpecifier.endsWith(".js")
         ? `${moduleSpecifier}.js`
-        : moduleSpecifier,
+        : moduleSpecifier;
+    zeroSchemaGenerated.addImportDeclaration({
+      moduleSpecifier: runtimeModuleSpecifier,
       namespaceImport: "drizzleSchema",
       isTypeOnly: true,
     });
 
     // Add import for CustomType - much faster than ZeroCustomType
+    customTypeHelper = "CustomType";
     zeroSchemaGenerated.addImportDeclaration({
       moduleSpecifier: "drizzle-zero",
-      namedImports: [{ name: "CustomType" }],
+      namedImports: [{ name: customTypeHelper }],
       isTypeOnly: true,
     });
-
     zeroSchemaSpecifier = "typeof drizzleSchema";
-    customTypeHelper = "CustomType";
+    schemaTypeExpression = zeroSchemaSpecifier;
+    resolverImports.push({
+      moduleSpecifier: getResolverImportModuleSpecifier(
+        result.drizzleSchemaSourceFile,
+      ),
+      namespaceImport: "drizzleSchema",
+      isTypeOnly: true,
+    });
+  }
+
+  const collectCustomTypeRequests = () => {
+    const requests: { tableName: string; columnName: string }[] = [];
+
+    const tables: Record<string, any> = (result.zeroSchema?.tables ??
+      {}) as Record<string, any>;
+
+    for (const [tableName, tableDef] of Object.entries(tables)) {
+      if (!tableDef || typeof tableDef !== "object") {
+        continue;
+      }
+
+      const columns = tableDef.columns as Record<string, any> | undefined;
+      if (!columns || typeof columns !== "object") {
+        continue;
+      }
+
+      for (const [columnName, columnDef] of Object.entries(columns)) {
+        if (
+          columnDef &&
+          typeof columnDef === "object" &&
+          Object.prototype.hasOwnProperty.call(columnDef, "customType") &&
+          columnDef.customType === null
+        ) {
+          requests.push({ tableName, columnName });
+        }
+      }
+    }
+
+    return requests;
+  };
+
+  const customTypeRequests =
+    schemaTypeExpression !== undefined ? collectCustomTypeRequests() : [];
+
+  resolverImportHelperFile?.delete();
+
+  const resolvedCustomTypes =
+    schemaTypeExpression && customTypeRequests.length > 0
+      ? resolveCustomTypes({
+          project: tsProject,
+          helperName: customTypeHelper as "CustomType" | "ZeroCustomType",
+          schemaTypeExpression,
+          schemaImports: resolverImports,
+          requests: customTypeRequests,
+        })
+      : new Map<string, string>();
+
+  const isRecord = (value: unknown): value is Record<string, unknown> =>
+    typeof value === "object" && value !== null && !Array.isArray(value);
+
+  const usedIdentifiers = new Set<string>([schemaObjectName]);
+  const tableConstNames = new Map<string, string>();
+  const relationshipConstNames = new Map<string, string>();
+
+  const sanitizeIdentifier = (value: string, fallback: string) => {
+    const baseCandidate =
+      camelCase(value, { pascalCase: false }) || value || fallback;
+    const cleaned = baseCandidate.replace(/[^A-Za-z0-9_$]/g, "") || fallback;
+    const startsValid = /^[A-Za-z_$]/.test(cleaned) ? cleaned : `_${cleaned}`;
+    return startsValid.length > 0 ? startsValid : fallback;
+  };
+
+  const ensureSuffix = (identifier: string, suffix: string) =>
+    identifier.toLowerCase().endsWith(suffix.toLowerCase())
+      ? identifier
+      : `${identifier}${suffix}`;
+
+  const getUniqueIdentifier = (identifier: string) => {
+    let candidate = identifier;
+    let counter = 2;
+    while (usedIdentifiers.has(candidate)) {
+      candidate = `${identifier}${counter}`;
+      counter += 1;
+    }
+    usedIdentifiers.add(candidate);
+    return candidate;
+  };
+
+  const createConstName = (name: string, suffix: string, fallback: string) =>
+    getUniqueIdentifier(
+      ensureSuffix(sanitizeIdentifier(name, fallback), suffix),
+    );
+
+  const writeSchemaReferenceCollection = (
+    writer: CodeBlockWriter,
+    collection: Record<string, unknown>,
+    constNameMap: Map<string, string>,
+    indent: number,
+  ) => {
+    const indentStr = " ".repeat(indent);
+    writer.write("{");
+    const entries = Object.entries(collection);
+    if (entries.length > 0) {
+      writer.newLine();
+      for (let i = 0; i < entries.length; i++) {
+        const [key] = entries[i] ?? [];
+        if (!key) {
+          continue;
+        }
+        const identifier = constNameMap.get(key) ?? "undefined";
+        writer.write(
+          indentStr + "  " + JSON.stringify(key) + ": " + identifier,
+        );
+        if (i < entries.length - 1) {
+          writer.write(",");
+        }
+        writer.newLine();
+      }
+      writer.write(indentStr);
+    }
+    writer.write("}");
+  };
+
+  type WriteValueOptions = {
+    keys?: string[];
+    indent?: number;
+    mode?: "default" | "schema";
+  };
+
+  const writeValue = (
+    writer: CodeBlockWriter,
+    value: unknown,
+    { keys = [], indent = 0, mode = "default" }: WriteValueOptions = {},
+  ) => {
+    const indentStr = " ".repeat(indent);
+
+    if (
+      !value ||
+      typeof value === "string" ||
+      typeof value === "number" ||
+      typeof value === "boolean" ||
+      Array.isArray(value)
+    ) {
+      const serialized = JSON.stringify(value);
+      writer.write(serialized ?? "undefined");
+      return;
+    }
+
+    if (typeof value === "object" && value !== null) {
+      writer.write("{");
+
+      const entries = Object.entries(value);
+
+      if (entries.length > 0) {
+        writer.newLine();
+
+        for (let i = 0; i < entries.length; i++) {
+          const [key, propValue] = entries[i] ?? [];
+
+          if (!key) {
+            continue;
+          }
+
+          writer.write(indentStr + "  " + JSON.stringify(key) + ": ");
+
+          if (
+            mode === "schema" &&
+            keys.length === 0 &&
+            key === "tables" &&
+            isRecord(propValue)
+          ) {
+            writeSchemaReferenceCollection(
+              writer,
+              propValue,
+              tableConstNames,
+              indent + 2,
+            );
+          } else if (
+            mode === "schema" &&
+            keys.length === 0 &&
+            key === "relationships" &&
+            isRecord(propValue)
+          ) {
+            writeSchemaReferenceCollection(
+              writer,
+              propValue,
+              relationshipConstNames,
+              indent + 2,
+            );
+          } else if (key === "customType" && propValue === null) {
+            const tableIndex = 1;
+            const columnIndex = 3;
+            const tableName = keys[tableIndex];
+            const columnName = keys[columnIndex];
+            const resolvedType =
+              typeof tableName === "string" && typeof columnName === "string"
+                ? resolvedCustomTypes.get(
+                    `${tableName}${COLUMN_SEPARATOR}${columnName}`,
+                  )
+                : undefined;
+
+            if (resolvedType) {
+              writer.write(`null as unknown as ${resolvedType}`);
+            } else {
+              writer.write(
+                `null as unknown as ${customTypeHelper}<${zeroSchemaSpecifier}, "${keys[tableIndex]}", "${keys[columnIndex]}">`,
+              );
+            }
+          } else if (key === "enableLegacyMutators") {
+            writer.write(disableLegacyMutators ? "false" : "true");
+          } else if (key === "enableLegacyQueries") {
+            writer.write(disableLegacyQueries ? "false" : "true");
+          } else {
+            writeValue(writer, propValue, {
+              keys: [...keys, key],
+              indent: indent + 2,
+              mode,
+            });
+          }
+
+          if (i < entries.length - 1) {
+            writer.write(",");
+          }
+
+          writer.newLine();
+        }
+
+        writer.write(indentStr);
+      }
+
+      writer.write("}");
+      return;
+    }
+
+    const serialized = JSON.stringify(value);
+    writer.write(serialized ?? "undefined");
+  };
+
+  let tableConstCount = 0;
+  if (isRecord(result.zeroSchema?.tables)) {
+    for (const [tableName, tableDef] of Object.entries(
+      result.zeroSchema.tables as Record<string, unknown>,
+    )) {
+      const constName = createConstName(tableName, "Table", "table");
+      tableConstNames.set(tableName, constName);
+
+      if (tableConstCount > 0) {
+        zeroSchemaGenerated.addStatements((writer) => writer.blankLine());
+      }
+
+      zeroSchemaGenerated.addVariableStatement({
+        declarationKind: VariableDeclarationKind.Const,
+        declarations: [
+          {
+            name: constName,
+            initializer: (writer) => {
+              writeValue(writer, tableDef, {
+                keys: ["tables", tableName],
+              });
+              writer.write(" as const");
+            },
+          },
+        ],
+      });
+
+      tableConstCount += 1;
+    }
+  }
+
+  let relationshipConstCount = 0;
+  if (isRecord(result.zeroSchema?.relationships)) {
+    for (const [relationshipName, relationshipDef] of Object.entries(
+      result.zeroSchema.relationships as Record<string, unknown>,
+    )) {
+      const constName = createConstName(
+        relationshipName,
+        "Relationships",
+        "relationships",
+      );
+      relationshipConstNames.set(relationshipName, constName);
+
+      if (relationshipConstCount === 0) {
+        if (tableConstCount > 0) {
+          zeroSchemaGenerated.addStatements((writer) => writer.blankLine());
+        }
+      } else {
+        zeroSchemaGenerated.addStatements((writer) => writer.blankLine());
+      }
+
+      zeroSchemaGenerated.addVariableStatement({
+        declarationKind: VariableDeclarationKind.Const,
+        declarations: [
+          {
+            name: constName,
+            initializer: (writer) => {
+              writeValue(writer, relationshipDef, {
+                keys: ["relationships", relationshipName],
+              });
+              writer.write(" as const");
+            },
+          },
+        ],
+      });
+
+      relationshipConstCount += 1;
+    }
   }
 
   const schemaVariable = zeroSchemaGenerated.addVariableStatement({
@@ -115,69 +461,7 @@ export async function getGeneratedSchema({
       {
         name: schemaObjectName,
         initializer: (writer) => {
-          const writeValue = (
-            value: unknown,
-            keys: string[] = [],
-            indent = 0,
-          ) => {
-            const indentStr = " ".repeat(indent);
-
-            if (
-              !value ||
-              typeof value === "string" ||
-              typeof value === "number" ||
-              typeof value === "boolean" ||
-              Array.isArray(value)
-            ) {
-              writer.write(JSON.stringify(value));
-            } else if (typeof value === "object" && value !== null) {
-              writer.write("{");
-
-              const entries = Object.entries(value);
-
-              if (entries.length > 0) {
-                writer.newLine();
-
-                for (let i = 0; i < entries.length; i++) {
-                  const [key, propValue] = entries[i] ?? [];
-
-                  if (!key) {
-                    continue;
-                  }
-
-                  writer.write(indentStr + "  " + JSON.stringify(key) + ": ");
-
-                  // Special handling for customType: null
-                  if (key === "customType" && propValue === null) {
-                    const tableIndex = 1;
-                    const columnIndex = 3;
-
-                    writer.write(
-                      `null as unknown as ${customTypeHelper}<${zeroSchemaSpecifier}, "${keys[tableIndex]}", "${keys[columnIndex]}">`,
-                    );
-                  } else if (key === "enableLegacyMutators") {
-                    writer.write(disableLegacyMutators ? "false" : "true");
-                  } else if (key === "enableLegacyQueries") {
-                    writer.write(disableLegacyQueries ? "false" : "true");
-                  } else {
-                    writeValue(propValue, [...keys, key], indent + 2);
-                  }
-
-                  if (i < entries.length - 1) {
-                    writer.write(",");
-                  }
-
-                  writer.newLine();
-                }
-
-                writer.write(indentStr);
-              }
-
-              writer.write("}");
-            }
-          };
-
-          writeValue(result.zeroSchema);
+          writeValue(writer, result.zeroSchema, { mode: "schema" });
           writer.write(` as const`);
         },
       },
@@ -222,11 +506,15 @@ export async function getGeneratedSchema({
       const typeName = camelCase(pluralize.singular(tableName), {
         pascalCase: true,
       });
+      const tableConstName = tableConstNames.get(tableName);
+      const rowTarget = tableConstName
+        ? `typeof ${tableConstName}`
+        : `${typename}["tables"]["${tableName}"]`;
 
       const tableTypeAlias = zeroSchemaGenerated.addTypeAlias({
         name: typeName,
         isExported: true,
-        type: `Row<${typename}["tables"]["${tableName}"]>`,
+        type: `Row<${rowTarget}>`,
       });
 
       tableTypeAlias.addJsDoc({

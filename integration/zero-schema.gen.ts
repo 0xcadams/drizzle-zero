@@ -25,238 +25,142 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         smallintField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "smallintField"
-          >,
+          customType: null as unknown as number,
           serverName: "smallint",
         },
         integerField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "integerField"
-          >,
+          customType: null as unknown as number,
           serverName: "integer",
         },
         bigintField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "bigintField"
-          >,
+          customType: null as unknown as number,
           serverName: "bigint",
         },
         bigintNumberField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "bigintNumberField"
-          >,
+          customType: null as unknown as number,
           serverName: "bigint_number",
         },
         smallSerialField: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "smallSerialField"
-          >,
+          customType: null as unknown as number,
           serverName: "smallserial",
         },
         serialField: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "serialField"
-          >,
+          customType: null as unknown as number,
           serverName: "serial",
         },
         bigSerialField: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "bigSerialField"
-          >,
+          customType: null as unknown as number,
           serverName: "bigserial",
         },
         numericField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "numericField"
-          >,
+          customType: null as unknown as number,
           serverName: "numeric",
         },
         decimalField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "decimalField"
-          >,
+          customType: null as unknown as number,
           serverName: "decimal",
         },
         realField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "realField"
-          >,
+          customType: null as unknown as number,
           serverName: "real",
         },
         doublePrecisionField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "doublePrecisionField"
-          >,
+          customType: null as unknown as number,
           serverName: "double_precision",
         },
         textField: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "textField"
-          >,
+          customType: null as unknown as string,
           serverName: "text",
         },
         charField: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "charField"
-          >,
+          customType: null as unknown as string,
           serverName: "char",
         },
         uuidField: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "uuidField"
-          >,
+          customType: null as unknown as string,
           serverName: "uuid",
         },
         varcharField: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "varcharField"
-          >,
+          customType: null as unknown as string,
           serverName: "varchar",
         },
         booleanField: {
           type: "boolean",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "booleanField"
-          >,
+          customType: null as unknown as boolean,
           serverName: "boolean",
         },
         timestampField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "timestampField"
-          >,
+          customType: null as unknown as number,
           serverName: "timestamp",
         },
         timestampTzField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "timestampTzField"
-          >,
+          customType: null as unknown as number,
           serverName: "timestamp_tz",
         },
         timestampModeString: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "timestampModeString"
-          >,
+          customType: null as unknown as number,
           serverName: "timestamp_mode_string",
         },
         timestampModeDate: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "timestampModeDate"
-          >,
+          customType: null as unknown as number,
           serverName: "timestamp_mode_date",
         },
         dateField: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "dateField"
-          >,
+          customType: null as unknown as number,
           serverName: "date",
         },
         jsonField: {
@@ -282,170 +186,102 @@ export const schema = {
         typedJsonField: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "typedJsonField"
-          >,
+          customType: null as unknown as { theme: string; fontSize: number },
           serverName: "typed_json",
         },
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "status"
-          >,
+          customType: null as unknown as "active" | "inactive" | "pending",
         },
         textArray: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "textArray"
-          >,
+          customType: null as unknown as string[],
           serverName: "text_array",
         },
         intArray: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "intArray"
-          >,
+          customType: null as unknown as number[],
           serverName: "int_array",
         },
         numericArray: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "numericArray"
-          >,
+          customType: null as unknown as number[],
           serverName: "numeric_array",
         },
         uuidArray: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "uuidArray"
-          >,
+          customType: null as unknown as string[],
           serverName: "uuid_array",
         },
         jsonbArray: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "jsonbArray"
-          >,
+          customType: null as unknown as { key: string }[],
           serverName: "jsonb_array",
         },
         enumArray: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "enumArray"
-          >,
+          customType: null as unknown as ("active" | "inactive" | "pending")[],
           serverName: "enum_array",
         },
         optionalSmallint: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalSmallint"
-          >,
+          customType: null as unknown as number,
           serverName: "optional_smallint",
         },
         optionalInteger: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalInteger"
-          >,
+          customType: null as unknown as number,
           serverName: "optional_integer",
         },
         optionalBigint: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalBigint"
-          >,
+          customType: null as unknown as number,
           serverName: "optional_bigint",
         },
         optionalNumeric: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalNumeric"
-          >,
+          customType: null as unknown as number,
           serverName: "optional_numeric",
         },
         optionalReal: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalReal"
-          >,
+          customType: null as unknown as number,
           serverName: "optional_real",
         },
         optionalDoublePrecision: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalDoublePrecision"
-          >,
+          customType: null as unknown as number,
           serverName: "optional_double_precision",
         },
         optionalText: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalText"
-          >,
+          customType: null as unknown as string,
           serverName: "optional_text",
         },
         optionalBoolean: {
           type: "boolean",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalBoolean"
-          >,
+          customType: null as unknown as boolean,
           serverName: "optional_boolean",
         },
         optionalTimestamp: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalTimestamp"
-          >,
+          customType: null as unknown as number,
           serverName: "optional_timestamp",
         },
         optionalJson: {
@@ -461,31 +297,19 @@ export const schema = {
         optionalEnum: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalEnum"
-          >,
+          customType: null as unknown as "active" | "inactive" | "pending",
           serverName: "optional_enum",
         },
         optionalVarchar: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalVarchar"
-          >,
+          customType: null as unknown as string,
           serverName: "optional_varchar",
         },
         optionalUuid: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalUuid"
-          >,
+          customType: null as unknown as string,
           serverName: "optional_uuid",
         },
       },
@@ -498,57 +322,33 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsDashboard",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsDashboard",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsDashboard",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         ownerId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsDashboard",
-            "ownerId"
-          >,
+          customType: null as unknown as string,
           serverName: "owner_id",
         },
         title: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsDashboard",
-            "title"
-          >,
+          customType: null as unknown as string,
         },
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsDashboard",
-            "description"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -560,67 +360,39 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidget",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidget",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidget",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         dashboardId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidget",
-            "dashboardId"
-          >,
+          customType: null as unknown as string,
           serverName: "dashboard_id",
         },
         title: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidget",
-            "title"
-          >,
+          customType: null as unknown as string,
         },
         widgetType: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidget",
-            "widgetType"
-          >,
+          customType: null as unknown as string,
           serverName: "widget_type",
         },
         position: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidget",
-            "position"
-          >,
+          customType: null as unknown as number,
         },
       },
       primaryKey: ["id"],
@@ -632,67 +404,39 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidgetQuery",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidgetQuery",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidgetQuery",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         widgetId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidgetQuery",
-            "widgetId"
-          >,
+          customType: null as unknown as string,
           serverName: "widget_id",
         },
         dataSource: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidgetQuery",
-            "dataSource"
-          >,
+          customType: null as unknown as string,
           serverName: "data_source",
         },
         query: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidgetQuery",
-            "query"
-          >,
+          customType: null as unknown as string,
         },
         refreshIntervalSeconds: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidgetQuery",
-            "refreshIntervalSeconds"
-          >,
+          customType: null as unknown as number,
           serverName: "refresh_interval_seconds",
         },
       },
@@ -705,68 +449,40 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitEnrollment",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitEnrollment",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitEnrollment",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         benefitPlanId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitEnrollment",
-            "benefitPlanId"
-          >,
+          customType: null as unknown as string,
           serverName: "benefit_plan_id",
         },
         employeeId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitEnrollment",
-            "employeeId"
-          >,
+          customType: null as unknown as string,
           serverName: "employee_id",
         },
         enrolledAt: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitEnrollment",
-            "enrolledAt"
-          >,
+          customType: null as unknown as number,
           serverName: "enrolled_at",
         },
         coverageLevel: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitEnrollment",
-            "coverageLevel"
-          >,
+          customType: null as unknown as string,
           serverName: "coverage_level",
         },
       },
@@ -779,65 +495,37 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitPlan",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitPlan",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitPlan",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitPlan",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
         provider: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitPlan",
-            "provider"
-          >,
+          customType: null as unknown as string,
         },
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitPlan",
-            "description"
-          >,
+          customType: null as unknown as string,
         },
         administratorId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitPlan",
-            "administratorId"
-          >,
+          customType: null as unknown as string,
           serverName: "administrator_id",
         },
       },
@@ -850,107 +538,63 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         accountId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "accountId"
-          >,
+          customType: null as unknown as string,
           serverName: "account_id",
         },
         contactId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "contactId"
-          >,
+          customType: null as unknown as string,
           serverName: "contact_id",
         },
         issuedById: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "issuedById"
-          >,
+          customType: null as unknown as string,
           serverName: "issued_by_id",
         },
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "status"
-          >,
+          customType: null as unknown as string,
         },
         invoiceDate: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "invoiceDate"
-          >,
+          customType: null as unknown as number,
           serverName: "invoice_date",
         },
         dueDate: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "dueDate"
-          >,
+          customType: null as unknown as number,
           serverName: "due_date",
         },
         totalAmount: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "totalAmount"
-          >,
+          customType: null as unknown as number,
           serverName: "total_amount",
         },
         currency: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "currency"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -962,76 +606,44 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoiceLine",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoiceLine",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoiceLine",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         invoiceId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoiceLine",
-            "invoiceId"
-          >,
+          customType: null as unknown as string,
           serverName: "invoice_id",
         },
         orderItemId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoiceLine",
-            "orderItemId"
-          >,
+          customType: null as unknown as string,
           serverName: "order_item_id",
         },
         description: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoiceLine",
-            "description"
-          >,
+          customType: null as unknown as string,
         },
         quantity: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoiceLine",
-            "quantity"
-          >,
+          customType: null as unknown as number,
         },
         unitPrice: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoiceLine",
-            "unitPrice"
-          >,
+          customType: null as unknown as number,
           serverName: "unit_price",
         },
       },
@@ -1044,68 +656,40 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budget",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budget",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budget",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         departmentId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budget",
-            "departmentId"
-          >,
+          customType: null as unknown as string,
           serverName: "department_id",
         },
         fiscalYear: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budget",
-            "fiscalYear"
-          >,
+          customType: null as unknown as number,
           serverName: "fiscal_year",
         },
         totalAmount: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budget",
-            "totalAmount"
-          >,
+          customType: null as unknown as number,
           serverName: "total_amount",
         },
         currency: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budget",
-            "currency"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -1116,58 +700,34 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budgetLine",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budgetLine",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budgetLine",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         budgetId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budgetLine",
-            "budgetId"
-          >,
+          customType: null as unknown as string,
           serverName: "budget_id",
         },
         accountId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budgetLine",
-            "accountId"
-          >,
+          customType: null as unknown as string,
           serverName: "account_id",
         },
         amount: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budgetLine",
-            "amount"
-          >,
+          customType: null as unknown as number,
         },
       },
       primaryKey: ["id"],
@@ -1179,66 +739,38 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmAccount",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmAccount",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmAccount",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         ownerId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmAccount",
-            "ownerId"
-          >,
+          customType: null as unknown as string,
           serverName: "owner_id",
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmAccount",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
         industry: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmAccount",
-            "industry"
-          >,
+          customType: null as unknown as string,
         },
         status: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmAccount",
-            "status"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -1250,88 +782,52 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivity",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivity",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivity",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         accountId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivity",
-            "accountId"
-          >,
+          customType: null as unknown as string,
           serverName: "account_id",
         },
         contactId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivity",
-            "contactId"
-          >,
+          customType: null as unknown as string,
           serverName: "contact_id",
         },
         opportunityId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivity",
-            "opportunityId"
-          >,
+          customType: null as unknown as string,
           serverName: "opportunity_id",
         },
         typeId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivity",
-            "typeId"
-          >,
+          customType: null as unknown as string,
           serverName: "type_id",
         },
         performedById: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivity",
-            "performedById"
-          >,
+          customType: null as unknown as string,
           serverName: "performed_by_id",
         },
         notes: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivity",
-            "notes"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -1343,47 +839,27 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivityType",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivityType",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivityType",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivityType",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivityType",
-            "description"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -1395,77 +871,45 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmContact",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmContact",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmContact",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         accountId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmContact",
-            "accountId"
-          >,
+          customType: null as unknown as string,
           serverName: "account_id",
         },
         firstName: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmContact",
-            "firstName"
-          >,
+          customType: null as unknown as string,
           serverName: "first_name",
         },
         lastName: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmContact",
-            "lastName"
-          >,
+          customType: null as unknown as string,
           serverName: "last_name",
         },
         email: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmContact",
-            "email"
-          >,
+          customType: null as unknown as string,
         },
         phone: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmContact",
-            "phone"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -1477,68 +921,40 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmNote",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmNote",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmNote",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         accountId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmNote",
-            "accountId"
-          >,
+          customType: null as unknown as string,
           serverName: "account_id",
         },
         contactId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmNote",
-            "contactId"
-          >,
+          customType: null as unknown as string,
           serverName: "contact_id",
         },
         authorId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmNote",
-            "authorId"
-          >,
+          customType: null as unknown as string,
           serverName: "author_id",
         },
         body: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmNote",
-            "body"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -1550,76 +966,44 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunity",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunity",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunity",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         accountId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunity",
-            "accountId"
-          >,
+          customType: null as unknown as string,
           serverName: "account_id",
         },
         stageId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunity",
-            "stageId"
-          >,
+          customType: null as unknown as string,
           serverName: "stage_id",
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunity",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
         amount: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunity",
-            "amount"
-          >,
+          customType: null as unknown as number,
         },
         closeDate: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunity",
-            "closeDate"
-          >,
+          customType: null as unknown as number,
           serverName: "close_date",
         },
       },
@@ -1632,68 +1016,40 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunityStageHistory",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunityStageHistory",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunityStageHistory",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         opportunityId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunityStageHistory",
-            "opportunityId"
-          >,
+          customType: null as unknown as string,
           serverName: "opportunity_id",
         },
         stageId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunityStageHistory",
-            "stageId"
-          >,
+          customType: null as unknown as string,
           serverName: "stage_id",
         },
         changedById: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunityStageHistory",
-            "changedById"
-          >,
+          customType: null as unknown as string,
           serverName: "changed_by_id",
         },
         changedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunityStageHistory",
-            "changedAt"
-          >,
+          customType: null as unknown as number,
           serverName: "changed_at",
         },
       },
@@ -1706,56 +1062,32 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmPipelineStage",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmPipelineStage",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmPipelineStage",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmPipelineStage",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
         sequence: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmPipelineStage",
-            "sequence"
-          >,
+          customType: null as unknown as number,
         },
         probability: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmPipelineStage",
-            "probability"
-          >,
+          customType: null as unknown as number,
         },
       },
       primaryKey: ["id"],
@@ -1767,56 +1099,32 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "department",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "department",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "department",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "department",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "department",
-            "description"
-          >,
+          customType: null as unknown as string,
         },
         managerId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "department",
-            "managerId"
-          >,
+          customType: null as unknown as string,
           serverName: "manager_id",
         },
       },
@@ -1828,88 +1136,52 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFile",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFile",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFile",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         folderId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFile",
-            "folderId"
-          >,
+          customType: null as unknown as string,
           serverName: "folder_id",
         },
         uploadedById: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFile",
-            "uploadedById"
-          >,
+          customType: null as unknown as string,
           serverName: "uploaded_by_id",
         },
         fileName: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFile",
-            "fileName"
-          >,
+          customType: null as unknown as string,
           serverName: "file_name",
         },
         mimeType: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFile",
-            "mimeType"
-          >,
+          customType: null as unknown as string,
           serverName: "mime_type",
         },
         sizeBytes: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFile",
-            "sizeBytes"
-          >,
+          customType: null as unknown as number,
           serverName: "size_bytes",
         },
         version: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFile",
-            "version"
-          >,
+          customType: null as unknown as number,
         },
       },
       primaryKey: ["id"],
@@ -1921,77 +1193,45 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFileVersion",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFileVersion",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFileVersion",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         fileId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFileVersion",
-            "fileId"
-          >,
+          customType: null as unknown as string,
           serverName: "file_id",
         },
         uploadedById: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFileVersion",
-            "uploadedById"
-          >,
+          customType: null as unknown as string,
           serverName: "uploaded_by_id",
         },
         version: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFileVersion",
-            "version"
-          >,
+          customType: null as unknown as number,
         },
         changeLog: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFileVersion",
-            "changeLog"
-          >,
+          customType: null as unknown as string,
           serverName: "change_log",
         },
         fileSizeBytes: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFileVersion",
-            "fileSizeBytes"
-          >,
+          customType: null as unknown as number,
           serverName: "file_size_bytes",
         },
       },
@@ -2004,58 +1244,34 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFolder",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFolder",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFolder",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         libraryId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFolder",
-            "libraryId"
-          >,
+          customType: null as unknown as string,
           serverName: "library_id",
         },
         parentId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFolder",
-            "parentId"
-          >,
+          customType: null as unknown as string,
           serverName: "parent_id",
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFolder",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -2067,66 +1283,38 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentLibrary",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentLibrary",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentLibrary",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         projectId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentLibrary",
-            "projectId"
-          >,
+          customType: null as unknown as string,
           serverName: "project_id",
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentLibrary",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentLibrary",
-            "description"
-          >,
+          customType: null as unknown as string,
         },
         visibility: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentLibrary",
-            "visibility"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -2138,68 +1326,40 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentSharing",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentSharing",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentSharing",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         fileId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentSharing",
-            "fileId"
-          >,
+          customType: null as unknown as string,
           serverName: "file_id",
         },
         sharedWithUserId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentSharing",
-            "sharedWithUserId"
-          >,
+          customType: null as unknown as string,
           serverName: "shared_with_user_id",
         },
         sharedWithTeamId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentSharing",
-            "sharedWithTeamId"
-          >,
+          customType: null as unknown as string,
           serverName: "shared_with_team_id",
         },
         permission: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentSharing",
-            "permission"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -2211,68 +1371,40 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeDocument",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeDocument",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeDocument",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         employeeId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeDocument",
-            "employeeId"
-          >,
+          customType: null as unknown as string,
           serverName: "employee_id",
         },
         fileName: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeDocument",
-            "fileName"
-          >,
+          customType: null as unknown as string,
           serverName: "file_name",
         },
         documentType: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeDocument",
-            "documentType"
-          >,
+          customType: null as unknown as string,
           serverName: "document_type",
         },
         uploadedById: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeDocument",
-            "uploadedById"
-          >,
+          customType: null as unknown as string,
           serverName: "uploaded_by_id",
         },
       },
@@ -2285,87 +1417,51 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeProfile",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeProfile",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeProfile",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         userId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeProfile",
-            "userId"
-          >,
+          customType: null as unknown as string,
           serverName: "user_id",
         },
         departmentId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeProfile",
-            "departmentId"
-          >,
+          customType: null as unknown as string,
           serverName: "department_id",
         },
         teamId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeProfile",
-            "teamId"
-          >,
+          customType: null as unknown as string,
           serverName: "team_id",
         },
         title: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeProfile",
-            "title"
-          >,
+          customType: null as unknown as string,
         },
         startDate: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeProfile",
-            "startDate"
-          >,
+          customType: null as unknown as number,
           serverName: "start_date",
         },
         employmentType: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeProfile",
-            "employmentType"
-          >,
+          customType: null as unknown as string,
           serverName: "employment_type",
         },
       },
@@ -2378,76 +1474,44 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employmentHistory",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employmentHistory",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employmentHistory",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         employeeId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employmentHistory",
-            "employeeId"
-          >,
+          customType: null as unknown as string,
           serverName: "employee_id",
         },
         company: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employmentHistory",
-            "company"
-          >,
+          customType: null as unknown as string,
         },
         title: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employmentHistory",
-            "title"
-          >,
+          customType: null as unknown as string,
         },
         startDate: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employmentHistory",
-            "startDate"
-          >,
+          customType: null as unknown as number,
           serverName: "start_date",
         },
         endDate: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employmentHistory",
-            "endDate"
-          >,
+          customType: null as unknown as number,
           serverName: "end_date",
         },
       },
@@ -2460,85 +1524,49 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseItem",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseItem",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseItem",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         reportId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseItem",
-            "reportId"
-          >,
+          customType: null as unknown as string,
           serverName: "report_id",
         },
         amount: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseItem",
-            "amount"
-          >,
+          customType: null as unknown as number,
         },
         category: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseItem",
-            "category"
-          >,
+          customType: null as unknown as string,
         },
         incurredAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseItem",
-            "incurredAt"
-          >,
+          customType: null as unknown as number,
           serverName: "incurred_at",
         },
         merchant: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseItem",
-            "merchant"
-          >,
+          customType: null as unknown as string,
         },
         notes: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseItem",
-            "notes"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -2550,67 +1578,39 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseReport",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseReport",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseReport",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         ownerId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseReport",
-            "ownerId"
-          >,
+          customType: null as unknown as string,
           serverName: "owner_id",
         },
         departmentId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseReport",
-            "departmentId"
-          >,
+          customType: null as unknown as string,
           serverName: "department_id",
         },
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseReport",
-            "status"
-          >,
+          customType: null as unknown as string,
         },
         submittedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseReport",
-            "submittedAt"
-          >,
+          customType: null as unknown as number,
           serverName: "submitted_at",
         },
       },
@@ -2623,29 +1623,17 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "filters",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         name: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "filters",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
         parentId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "filters",
-            "parentId"
-          >,
+          customType: null as unknown as string,
           serverName: "parent_id",
         },
       },
@@ -2657,29 +1645,17 @@ export const schema = {
         requestingId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "friendship",
-            "requestingId"
-          >,
+          customType: null as unknown as string,
         },
         acceptingId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "friendship",
-            "acceptingId"
-          >,
+          customType: null as unknown as string,
         },
         accepted: {
           type: "boolean",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "friendship",
-            "accepted"
-          >,
+          customType: null as unknown as boolean,
         },
       },
       primaryKey: ["requestingId", "acceptingId"],
@@ -2690,67 +1666,39 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationCredential",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationCredential",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationCredential",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         webhookId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationCredential",
-            "webhookId"
-          >,
+          customType: null as unknown as string,
           serverName: "webhook_id",
         },
         provider: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationCredential",
-            "provider"
-          >,
+          customType: null as unknown as string,
         },
         clientId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationCredential",
-            "clientId"
-          >,
+          customType: null as unknown as string,
           serverName: "client_id",
         },
         clientSecret: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationCredential",
-            "clientSecret"
-          >,
+          customType: null as unknown as string,
           serverName: "client_secret",
         },
         metadata: {
@@ -2772,38 +1720,22 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationEvent",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationEvent",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationEvent",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         webhookId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationEvent",
-            "webhookId"
-          >,
+          customType: null as unknown as string,
           serverName: "webhook_id",
         },
         payload: {
@@ -2818,31 +1750,19 @@ export const schema = {
         eventType: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationEvent",
-            "eventType"
-          >,
+          customType: null as unknown as string,
           serverName: "event_type",
         },
         deliveredAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationEvent",
-            "deliveredAt"
-          >,
+          customType: null as unknown as number,
           serverName: "delivered_at",
         },
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationEvent",
-            "status"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -2854,85 +1774,49 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationWebhook",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationWebhook",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationWebhook",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         projectId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationWebhook",
-            "projectId"
-          >,
+          customType: null as unknown as string,
           serverName: "project_id",
         },
         accountId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationWebhook",
-            "accountId"
-          >,
+          customType: null as unknown as string,
           serverName: "account_id",
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationWebhook",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
         url: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationWebhook",
-            "url"
-          >,
+          customType: null as unknown as string,
         },
         secret: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationWebhook",
-            "secret"
-          >,
+          customType: null as unknown as string,
         },
         isActive: {
           type: "boolean",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationWebhook",
-            "isActive"
-          >,
+          customType: null as unknown as boolean,
           serverName: "is_active",
         },
       },
@@ -2945,48 +1829,28 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryItem",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryItem",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryItem",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         variantId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryItem",
-            "variantId"
-          >,
+          customType: null as unknown as string,
           serverName: "variant_id",
         },
         serialNumber: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryItem",
-            "serialNumber"
-          >,
+          customType: null as unknown as string,
           serverName: "serial_number",
         },
         metadata: {
@@ -3008,67 +1872,39 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLevel",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLevel",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLevel",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         locationId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLevel",
-            "locationId"
-          >,
+          customType: null as unknown as string,
           serverName: "location_id",
         },
         variantId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLevel",
-            "variantId"
-          >,
+          customType: null as unknown as string,
           serverName: "variant_id",
         },
         quantity: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLevel",
-            "quantity"
-          >,
+          customType: null as unknown as number,
         },
         reserved: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLevel",
-            "reserved"
-          >,
+          customType: null as unknown as number,
         },
       },
       primaryKey: ["id"],
@@ -3080,56 +1916,32 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLocation",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLocation",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLocation",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLocation",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
         address: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLocation",
-            "address"
-          >,
+          customType: null as unknown as string,
         },
         region: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLocation",
-            "region"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -3141,66 +1953,38 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerAccount",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerAccount",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerAccount",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerAccount",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
         code: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerAccount",
-            "code"
-          >,
+          customType: null as unknown as string,
         },
         accountType: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerAccount",
-            "accountType"
-          >,
+          customType: null as unknown as string,
           serverName: "account_type",
         },
         parentAccountId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerAccount",
-            "parentAccountId"
-          >,
+          customType: null as unknown as string,
           serverName: "parent_account_id",
         },
       },
@@ -3213,76 +1997,44 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerEntry",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerEntry",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerEntry",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         transactionId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerEntry",
-            "transactionId"
-          >,
+          customType: null as unknown as string,
           serverName: "transaction_id",
         },
         accountId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerEntry",
-            "accountId"
-          >,
+          customType: null as unknown as string,
           serverName: "account_id",
         },
         debit: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerEntry",
-            "debit"
-          >,
+          customType: null as unknown as number,
         },
         credit: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerEntry",
-            "credit"
-          >,
+          customType: null as unknown as number,
         },
         memo: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerEntry",
-            "memo"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -3294,67 +2046,39 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerTransaction",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerTransaction",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerTransaction",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         reference: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerTransaction",
-            "reference"
-          >,
+          customType: null as unknown as string,
         },
         transactionDate: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerTransaction",
-            "transactionDate"
-          >,
+          customType: null as unknown as number,
           serverName: "transaction_date",
         },
         createdById: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerTransaction",
-            "createdById"
-          >,
+          customType: null as unknown as string,
           serverName: "created_by_id",
         },
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerTransaction",
-            "description"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -3366,47 +2090,27 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingAudience",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingAudience",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingAudience",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingAudience",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
         segmentType: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingAudience",
-            "segmentType"
-          >,
+          customType: null as unknown as string,
           serverName: "segment_type",
         },
         definition: {
@@ -3428,86 +2132,50 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaign",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaign",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaign",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         ownerId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaign",
-            "ownerId"
-          >,
+          customType: null as unknown as string,
           serverName: "owner_id",
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaign",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaign",
-            "status"
-          >,
+          customType: null as unknown as string,
         },
         startDate: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaign",
-            "startDate"
-          >,
+          customType: null as unknown as number,
           serverName: "start_date",
         },
         endDate: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaign",
-            "endDate"
-          >,
+          customType: null as unknown as number,
           serverName: "end_date",
         },
         budgetAmount: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaign",
-            "budgetAmount"
-          >,
+          customType: null as unknown as number,
           serverName: "budget_amount",
         },
       },
@@ -3520,48 +2188,28 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignAudience",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignAudience",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignAudience",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         campaignId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignAudience",
-            "campaignId"
-          >,
+          customType: null as unknown as string,
           serverName: "campaign_id",
         },
         audienceId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignAudience",
-            "audienceId"
-          >,
+          customType: null as unknown as string,
           serverName: "audience_id",
         },
       },
@@ -3574,58 +2222,34 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignChannel",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignChannel",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignChannel",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         campaignId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignChannel",
-            "campaignId"
-          >,
+          customType: null as unknown as string,
           serverName: "campaign_id",
         },
         channelId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignChannel",
-            "channelId"
-          >,
+          customType: null as unknown as string,
           serverName: "channel_id",
         },
         allocation: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignChannel",
-            "allocation"
-          >,
+          customType: null as unknown as number,
         },
       },
       primaryKey: ["id"],
@@ -3637,57 +2261,33 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingChannel",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingChannel",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingChannel",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingChannel",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
         channelType: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingChannel",
-            "channelType"
-          >,
+          customType: null as unknown as string,
           serverName: "channel_type",
         },
         costModel: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingChannel",
-            "costModel"
-          >,
+          customType: null as unknown as string,
           serverName: "cost_model",
         },
       },
@@ -3700,38 +2300,22 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "medium",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "medium",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "medium",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "medium",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -3742,74 +2326,42 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "message",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "message",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "message",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         senderId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "message",
-            "senderId"
-          >,
+          customType: null as unknown as string,
         },
         mediumId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "message",
-            "mediumId"
-          >,
+          customType: null as unknown as string,
         },
         body: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "message",
-            "body"
-          >,
+          customType: null as unknown as string,
         },
         metadata: {
           type: "json",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "message",
-            "metadata"
-          >,
+          customType: null as unknown as { key: string },
         },
         omittedColumn: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "message",
-            "omittedColumn"
-          >,
+          customType: null as unknown as string,
           serverName: "omitted_column",
         },
       },
@@ -3821,20 +2373,12 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "omittedTable",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "omittedTable",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -3846,67 +2390,39 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderItem",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderItem",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderItem",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         orderId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderItem",
-            "orderId"
-          >,
+          customType: null as unknown as string,
           serverName: "order_id",
         },
         variantId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderItem",
-            "variantId"
-          >,
+          customType: null as unknown as string,
           serverName: "variant_id",
         },
         quantity: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderItem",
-            "quantity"
-          >,
+          customType: null as unknown as number,
         },
         unitPrice: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderItem",
-            "unitPrice"
-          >,
+          customType: null as unknown as number,
           serverName: "unit_price",
         },
       },
@@ -3919,67 +2435,39 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderPayment",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderPayment",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderPayment",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         orderId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderPayment",
-            "orderId"
-          >,
+          customType: null as unknown as string,
           serverName: "order_id",
         },
         paymentId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderPayment",
-            "paymentId"
-          >,
+          customType: null as unknown as string,
           serverName: "payment_id",
         },
         amount: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderPayment",
-            "amount"
-          >,
+          customType: null as unknown as number,
         },
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderPayment",
-            "status"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -3991,76 +2479,44 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderTable",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderTable",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderTable",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         customerId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderTable",
-            "customerId"
-          >,
+          customType: null as unknown as string,
           serverName: "customer_id",
         },
         opportunityId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderTable",
-            "opportunityId"
-          >,
+          customType: null as unknown as string,
           serverName: "opportunity_id",
         },
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderTable",
-            "status"
-          >,
+          customType: null as unknown as string,
         },
         total: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderTable",
-            "total"
-          >,
+          customType: null as unknown as number,
         },
         currency: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderTable",
-            "currency"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -4072,85 +2528,49 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "payment",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "payment",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "payment",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         externalRef: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "payment",
-            "externalRef"
-          >,
+          customType: null as unknown as string,
           serverName: "external_ref",
         },
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "payment",
-            "status"
-          >,
+          customType: null as unknown as string,
         },
         amount: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "payment",
-            "amount"
-          >,
+          customType: null as unknown as number,
         },
         currency: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "payment",
-            "currency"
-          >,
+          customType: null as unknown as string,
         },
         receivedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "payment",
-            "receivedAt"
-          >,
+          customType: null as unknown as number,
           serverName: "received_at",
         },
         receivedById: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "payment",
-            "receivedById"
-          >,
+          customType: null as unknown as string,
           serverName: "received_by_id",
         },
       },
@@ -4162,66 +2582,38 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "product",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "product",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "product",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         categoryId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "product",
-            "categoryId"
-          >,
+          customType: null as unknown as string,
           serverName: "category_id",
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "product",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "product",
-            "description"
-          >,
+          customType: null as unknown as string,
         },
         status: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "product",
-            "status"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -4232,56 +2624,32 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productCategory",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productCategory",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productCategory",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productCategory",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productCategory",
-            "description"
-          >,
+          customType: null as unknown as string,
         },
         parentId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productCategory",
-            "parentId"
-          >,
+          customType: null as unknown as string,
           serverName: "parent_id",
         },
       },
@@ -4294,57 +2662,33 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productMedia",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productMedia",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productMedia",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         productId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productMedia",
-            "productId"
-          >,
+          customType: null as unknown as string,
           serverName: "product_id",
         },
         url: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productMedia",
-            "url"
-          >,
+          customType: null as unknown as string,
         },
         type: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productMedia",
-            "type"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -4356,75 +2700,43 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productVariant",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productVariant",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productVariant",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         productId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productVariant",
-            "productId"
-          >,
+          customType: null as unknown as string,
           serverName: "product_id",
         },
         sku: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productVariant",
-            "sku"
-          >,
+          customType: null as unknown as string,
         },
         price: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productVariant",
-            "price"
-          >,
+          customType: null as unknown as number,
         },
         currency: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productVariant",
-            "currency"
-          >,
+          customType: null as unknown as string,
         },
         isActive: {
           type: "boolean",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productVariant",
-            "isActive"
-          >,
+          customType: null as unknown as boolean,
           serverName: "is_active",
         },
       },
@@ -4437,66 +2749,38 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "project",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "project",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "project",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         ownerId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "project",
-            "ownerId"
-          >,
+          customType: null as unknown as string,
           serverName: "owner_id",
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "project",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "project",
-            "description"
-          >,
+          customType: null as unknown as string,
         },
         status: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "project",
-            "status"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -4507,68 +2791,40 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAssignment",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAssignment",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAssignment",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         taskId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAssignment",
-            "taskId"
-          >,
+          customType: null as unknown as string,
           serverName: "task_id",
         },
         userId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAssignment",
-            "userId"
-          >,
+          customType: null as unknown as string,
           serverName: "user_id",
         },
         assignedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAssignment",
-            "assignedAt"
-          >,
+          customType: null as unknown as number,
           serverName: "assigned_at",
         },
         role: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAssignment",
-            "role"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -4580,58 +2836,34 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAttachment",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAttachment",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAttachment",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         taskId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAttachment",
-            "taskId"
-          >,
+          customType: null as unknown as string,
           serverName: "task_id",
         },
         fileName: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAttachment",
-            "fileName"
-          >,
+          customType: null as unknown as string,
           serverName: "file_name",
         },
         fileType: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAttachment",
-            "fileType"
-          >,
+          customType: null as unknown as string,
           serverName: "file_type",
         },
       },
@@ -4644,58 +2876,34 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAudit",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAudit",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAudit",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         projectId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAudit",
-            "projectId"
-          >,
+          customType: null as unknown as string,
           serverName: "project_id",
         },
         actorId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAudit",
-            "actorId"
-          >,
+          customType: null as unknown as string,
           serverName: "actor_id",
         },
         action: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAudit",
-            "action"
-          >,
+          customType: null as unknown as string,
         },
         details: {
           type: "json",
@@ -4716,58 +2924,34 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectComment",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectComment",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectComment",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         taskId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectComment",
-            "taskId"
-          >,
+          customType: null as unknown as string,
           serverName: "task_id",
         },
         authorId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectComment",
-            "authorId"
-          >,
+          customType: null as unknown as string,
           serverName: "author_id",
         },
         body: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectComment",
-            "body"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -4779,58 +2963,34 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectNote",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectNote",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectNote",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         projectId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectNote",
-            "projectId"
-          >,
+          customType: null as unknown as string,
           serverName: "project_id",
         },
         authorId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectNote",
-            "authorId"
-          >,
+          customType: null as unknown as string,
           serverName: "author_id",
         },
         note: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectNote",
-            "note"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -4842,57 +3002,33 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectPhase",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectPhase",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectPhase",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         projectId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectPhase",
-            "projectId"
-          >,
+          customType: null as unknown as string,
           serverName: "project_id",
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectPhase",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
         sequence: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectPhase",
-            "sequence"
-          >,
+          customType: null as unknown as number,
         },
       },
       primaryKey: ["id"],
@@ -4904,47 +3040,27 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTag",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTag",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTag",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         label: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTag",
-            "label"
-          >,
+          customType: null as unknown as string,
         },
         color: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTag",
-            "color"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -4956,76 +3072,44 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTask",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTask",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTask",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         projectId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTask",
-            "projectId"
-          >,
+          customType: null as unknown as string,
           serverName: "project_id",
         },
         phaseId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTask",
-            "phaseId"
-          >,
+          customType: null as unknown as string,
           serverName: "phase_id",
         },
         title: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTask",
-            "title"
-          >,
+          customType: null as unknown as string,
         },
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTask",
-            "status"
-          >,
+          customType: null as unknown as string,
         },
         priority: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTask",
-            "priority"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -5037,48 +3121,28 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTaskTag",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTaskTag",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTaskTag",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         taskId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTaskTag",
-            "taskId"
-          >,
+          customType: null as unknown as string,
           serverName: "task_id",
         },
         tagId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTaskTag",
-            "tagId"
-          >,
+          customType: null as unknown as string,
           serverName: "tag_id",
         },
       },
@@ -5091,77 +3155,45 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipment",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipment",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipment",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         orderId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipment",
-            "orderId"
-          >,
+          customType: null as unknown as string,
           serverName: "order_id",
         },
         shippedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipment",
-            "shippedAt"
-          >,
+          customType: null as unknown as number,
           serverName: "shipped_at",
         },
         deliveredAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipment",
-            "deliveredAt"
-          >,
+          customType: null as unknown as number,
           serverName: "delivered_at",
         },
         carrier: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipment",
-            "carrier"
-          >,
+          customType: null as unknown as string,
         },
         trackingNumber: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipment",
-            "trackingNumber"
-          >,
+          customType: null as unknown as string,
           serverName: "tracking_number",
         },
       },
@@ -5173,58 +3205,34 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipmentItem",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipmentItem",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipmentItem",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         shipmentId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipmentItem",
-            "shipmentId"
-          >,
+          customType: null as unknown as string,
           serverName: "shipment_id",
         },
         orderItemId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipmentItem",
-            "orderItemId"
-          >,
+          customType: null as unknown as string,
           serverName: "order_item_id",
         },
         quantity: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipmentItem",
-            "quantity"
-          >,
+          customType: null as unknown as number,
         },
       },
       primaryKey: ["id"],
@@ -5236,85 +3244,49 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicket",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicket",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicket",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         customerId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicket",
-            "customerId"
-          >,
+          customType: null as unknown as string,
           serverName: "customer_id",
         },
         assignedTeamId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicket",
-            "assignedTeamId"
-          >,
+          customType: null as unknown as string,
           serverName: "assigned_team_id",
         },
         subject: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicket",
-            "subject"
-          >,
+          customType: null as unknown as string,
         },
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicket",
-            "status"
-          >,
+          customType: null as unknown as string,
         },
         priority: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicket",
-            "priority"
-          >,
+          customType: null as unknown as string,
         },
         source: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicket",
-            "source"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -5326,68 +3298,40 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAssignment",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAssignment",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAssignment",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         ticketId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAssignment",
-            "ticketId"
-          >,
+          customType: null as unknown as string,
           serverName: "ticket_id",
         },
         assigneeId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAssignment",
-            "assigneeId"
-          >,
+          customType: null as unknown as string,
           serverName: "assignee_id",
         },
         assignedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAssignment",
-            "assignedAt"
-          >,
+          customType: null as unknown as number,
           serverName: "assigned_at",
         },
         assignmentType: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAssignment",
-            "assignmentType"
-          >,
+          customType: null as unknown as string,
           serverName: "assignment_type",
         },
       },
@@ -5400,58 +3344,34 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAudit",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAudit",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAudit",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         ticketId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAudit",
-            "ticketId"
-          >,
+          customType: null as unknown as string,
           serverName: "ticket_id",
         },
         actorId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAudit",
-            "actorId"
-          >,
+          customType: null as unknown as string,
           serverName: "actor_id",
         },
         action: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAudit",
-            "action"
-          >,
+          customType: null as unknown as string,
         },
         details: {
           type: "json",
@@ -5472,67 +3392,39 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketMessage",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketMessage",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketMessage",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         ticketId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketMessage",
-            "ticketId"
-          >,
+          customType: null as unknown as string,
           serverName: "ticket_id",
         },
         authorId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketMessage",
-            "authorId"
-          >,
+          customType: null as unknown as string,
           serverName: "author_id",
         },
         body: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketMessage",
-            "body"
-          >,
+          customType: null as unknown as string,
         },
         visibility: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketMessage",
-            "visibility"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -5544,47 +3436,27 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTag",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTag",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTag",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         label: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTag",
-            "label"
-          >,
+          customType: null as unknown as string,
         },
         description: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTag",
-            "description"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -5596,48 +3468,28 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTagLink",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTagLink",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTagLink",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         ticketId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTagLink",
-            "ticketId"
-          >,
+          customType: null as unknown as string,
           serverName: "ticket_id",
         },
         tagId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTagLink",
-            "tagId"
-          >,
+          customType: null as unknown as string,
           serverName: "tag_id",
         },
       },
@@ -5650,58 +3502,34 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "team",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "team",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "team",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         departmentId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "team",
-            "departmentId"
-          >,
+          customType: null as unknown as string,
           serverName: "department_id",
         },
         leadId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "team",
-            "leadId"
-          >,
+          customType: null as unknown as string,
           serverName: "lead_id",
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "team",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -5712,20 +3540,12 @@ export const schema = {
         id: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testBigSerialPk",
-            "id"
-          >,
+          customType: null as unknown as number,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testBigSerialPk",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -5737,29 +3557,17 @@ export const schema = {
         id1: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testCompositePkBothDefaults",
-            "id1"
-          >,
+          customType: null as unknown as string,
         },
         id2: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testCompositePkBothDefaults",
-            "id2"
-          >,
+          customType: null as unknown as number,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testCompositePkBothDefaults",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id1", "id2"],
@@ -5771,30 +3579,18 @@ export const schema = {
         tenantId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testCompositePkOneDefault",
-            "tenantId"
-          >,
+          customType: null as unknown as string,
           serverName: "tenant_id",
         },
         id: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testCompositePkOneDefault",
-            "id"
-          >,
+          customType: null as unknown as number,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testCompositePkOneDefault",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["tenantId", "id"],
@@ -5806,20 +3602,12 @@ export const schema = {
         id: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testIntegerDefaultPk",
-            "id"
-          >,
+          customType: null as unknown as number,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testIntegerDefaultPk",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -5831,20 +3619,12 @@ export const schema = {
         id: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testSerialPk",
-            "id"
-          >,
+          customType: null as unknown as number,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testSerialPk",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -5856,20 +3636,12 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testTextDefaultPk",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testTextDefaultPk",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -5881,20 +3653,12 @@ export const schema = {
         id: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testTimestampDefaultPk",
-            "id"
-          >,
+          customType: null as unknown as number,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testTimestampDefaultPk",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -5906,20 +3670,12 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testUuidPk",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testUuidPk",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -5931,20 +3687,12 @@ export const schema = {
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testUuidSqlDefaultPk",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testUuidSqlDefaultPk",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -5956,76 +3704,44 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timeEntry",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timeEntry",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timeEntry",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         timesheetId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timeEntry",
-            "timesheetId"
-          >,
+          customType: null as unknown as string,
           serverName: "timesheet_id",
         },
         taskId: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timeEntry",
-            "taskId"
-          >,
+          customType: null as unknown as string,
           serverName: "task_id",
         },
         hours: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timeEntry",
-            "hours"
-          >,
+          customType: null as unknown as number,
         },
         notes: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timeEntry",
-            "notes"
-          >,
+          customType: null as unknown as string,
         },
         entryDate: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timeEntry",
-            "entryDate"
-          >,
+          customType: null as unknown as number,
           serverName: "entry_date",
         },
       },
@@ -6038,78 +3754,46 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timesheet",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timesheet",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timesheet",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         employeeId: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timesheet",
-            "employeeId"
-          >,
+          customType: null as unknown as string,
           serverName: "employee_id",
         },
         periodStart: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timesheet",
-            "periodStart"
-          >,
+          customType: null as unknown as number,
           serverName: "period_start",
         },
         periodEnd: {
           type: "number",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timesheet",
-            "periodEnd"
-          >,
+          customType: null as unknown as number,
           serverName: "period_end",
         },
         submittedById: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timesheet",
-            "submittedById"
-          >,
+          customType: null as unknown as string,
           serverName: "submitted_by_id",
         },
         status: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timesheet",
-            "status"
-          >,
+          customType: null as unknown as string,
         },
       },
       primaryKey: ["id"],
@@ -6120,56 +3804,32 @@ export const schema = {
         createdAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "user",
-            "createdAt"
-          >,
+          customType: null as unknown as number,
         },
         updatedAt: {
           type: "number",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "user",
-            "updatedAt"
-          >,
+          customType: null as unknown as number,
         },
         id: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "user",
-            "id"
-          >,
+          customType: null as unknown as string,
         },
         name: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "user",
-            "name"
-          >,
+          customType: null as unknown as string,
         },
         partner: {
           type: "boolean",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "user",
-            "partner"
-          >,
+          customType: null as unknown as boolean,
         },
         email: {
           type: "string",
           optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "user",
-            "email"
-          >,
+          customType: null as unknown as `${string}@${string}`,
         },
         customTypeJson: {
           type: "json",
@@ -6224,11 +3884,7 @@ export const schema = {
         status: {
           type: "string",
           optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "user",
-            "status"
-          >,
+          customType: null as unknown as "ASSIGNED" | "COMPLETED",
         },
       },
       primaryKey: ["id"],
