@@ -819,6 +819,61 @@ describe("getGeneratedSchema", () => {
     expect(generatedSchema).toContain('"users": usersTable');
   });
 
+  it("logs auto-detection details when debug mode is enabled", async () => {
+    const tempTsProject = new Project({
+      compilerOptions: {
+        moduleResolution: 3, // Node16
+      },
+    });
+
+    tempTsProject.addSourceFileAtPath(schemaPath);
+
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject: tempTsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+
+    try {
+      await getGeneratedSchema({
+        tsProject: tempTsProject,
+        result: {
+          type: "config",
+          zeroSchema: {
+            tables: {
+              users: {
+                name: "users",
+                primaryKey: ["id"],
+                columns: {
+                  id: {
+                    type: "number",
+                    optional: false,
+                    customType: undefined,
+                  },
+                },
+              },
+            },
+            relationships: {},
+          },
+          exportName: "schema",
+          zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+        },
+        outputFilePath,
+        debug: true,
+      });
+
+      expect(logSpy).toHaveBeenCalledWith(
+        expect.stringContaining(
+          "Auto-detected moduleResolution requires .js extensions",
+        ),
+      );
+    } finally {
+      logSpy.mockRestore();
+    }
+  });
+
   it('should not add .js extensions when jsExtensionOverride is "auto" with NodeJs moduleResolution', async () => {
     // Create a temporary tsconfig with NodeJs moduleResolution
     const tempTsProject = new Project({

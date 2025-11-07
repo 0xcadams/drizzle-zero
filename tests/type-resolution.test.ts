@@ -83,6 +83,60 @@ describe("resolveCustomTypes", () => {
       ]
     `);
   });
+
+  test("returns empty map when there are no custom type requests", () => {
+    const project = new Project();
+
+    const resolved = resolveCustomTypes({
+      project,
+      helperName: "CustomType",
+      schemaTypeExpression: "typeof schema",
+      schemaImports: [],
+      requests: [],
+    });
+
+    expect(resolved.size).toBe(0);
+  });
+
+  test("deduplicates repeated table/column requests", () => {
+    const project = new Project({
+      tsConfigFilePath: path.resolve(__dirname, "../tsconfig.json"),
+    });
+
+    project.createSourceFile(
+      "virtual-schema.ts",
+      `
+        import { pgTable, text } from "drizzle-orm/pg-core";
+
+        export const user = pgTable("user", {
+          customField: text("custom_field").$type<string>().notNull(),
+        });
+      `,
+      { overwrite: true },
+    );
+
+    project.resolveSourceFileDependencies();
+
+    const resolved = resolveCustomTypes({
+      project,
+      helperName: "CustomType",
+      schemaTypeExpression: "typeof drizzleSchema",
+      schemaImports: [
+        {
+          moduleSpecifier: "./virtual-schema",
+          namespaceImport: "drizzleSchema",
+          isTypeOnly: true,
+        },
+      ],
+      requests: [
+        { tableName: "user", columnName: "customField" },
+        { tableName: "user", columnName: "customField" },
+      ],
+    });
+
+    expect(resolved.size).toBe(1);
+    expect(resolved.get("user::|::customField")).toBe("string");
+  });
 });
 
 describe("isSafeResolvedType", () => {
@@ -484,6 +538,11 @@ describe("isSafeResolvedType", () => {
     "Map<K, V>",
     "Record<K, V>",
   ] as const;
+
+  test("returns false when the resolved type text is missing", () => {
+    expect(isSafeResolvedType(undefined)).toBe(false);
+    expect(isSafeResolvedType("")).toBe(false);
+  });
 
   test.each(safeTypes)("returns true for safe type %s", (typeText) => {
     expect(isSafeResolvedType(typeText)).toBe(true);
