@@ -71,7 +71,7 @@ describe("getGeneratedSchema", () => {
 
     // Verify the generated schema contains expected content
     expect(generatedSchema).toContain("export const schema = {");
-    expect(generatedSchema).toContain('"users": {');
+    expect(generatedSchema).toContain('"users": usersTable');
 
     expect(generatedSchema).toContain("export type Schema = typeof schema");
 
@@ -145,23 +145,24 @@ describe("getGeneratedSchema", () => {
       import type { ZeroCustomType } from "drizzle-zero";
       import type { schema as zeroSchema } from "./tests/schemas/one-to-one.zero";
 
+      const usersTable = {
+          "name": "users",
+          "primaryKey": ["id"],
+          "columns": {
+              "customTypeJson": {
+                  "type": "string",
+                  "optional": false,
+                  "customType": null as unknown as ZeroCustomType<typeof zeroSchema, "users", "customTypeJson">
+              }
+          }
+      } as const;
       /**
        * The Zero schema object.
        * This type is auto-generated from your Drizzle schema definition.
        */
       export const schema = {
           "tables": {
-              "users": {
-                  "name": "users",
-                  "primaryKey": ["id"],
-                  "columns": {
-                      "customTypeJson": {
-                          "type": "string",
-                          "optional": false,
-                          "customType": null as unknown as ZeroCustomType<typeof zeroSchema, "users", "customTypeJson">
-                      }
-                  }
-              }
+              "users": usersTable
           },
           "relationships": {}
       } as const;
@@ -175,7 +176,7 @@ describe("getGeneratedSchema", () => {
        * Represents a row from the "users" table.
        * This type is auto-generated from your Drizzle schema definition.
        */
-      export type User = Row<Schema["tables"]["users"]>;
+      export type User = Row<typeof usersTable>;
 
       /**
        * Represents the Zero schema query builder.
@@ -258,7 +259,7 @@ describe("getGeneratedSchema", () => {
     });
 
     // Verify the empty entry was handled correctly
-    expect(generatedSchema).toContain('"emptyTable": {');
+    expect(generatedSchema).toContain('"emptyTable": emptyTable');
     expect(generatedSchema).toContain('"columns": {}');
   });
 
@@ -287,7 +288,7 @@ describe("getGeneratedSchema", () => {
           primaryKey: ["id"],
           columns: {
             id: { type: "integer", optional: false, customType: undefined },
-            name: { type: "string", optional: false, customType: undefined },
+            name: { type: "string", optional: false, customType: null },
           },
         },
       },
@@ -308,7 +309,7 @@ describe("getGeneratedSchema", () => {
 
     // Verify the generated schema contains expected content
     expect(generatedSchema).toContain("export const schema = {");
-    expect(generatedSchema).toContain('"users": {');
+    expect(generatedSchema).toContain('"users": usersTable');
     expect(generatedSchema).toContain('"id": {');
     expect(generatedSchema).toContain('"name": {');
 
@@ -326,7 +327,7 @@ describe("getGeneratedSchema", () => {
 
     // Check for the type exports
     expect(generatedSchema).toContain(
-      'export type User = Row<Schema["tables"]["users"]>;',
+      'export type User = Row<typeof usersTable>;',
     );
 
     // Verify null custom type handling with the correct type path
@@ -402,7 +403,7 @@ describe("getGeneratedSchema", () => {
                   id: {
                     type: "number",
                     optional: false,
-                    customType: undefined,
+                    customType: null,
                   },
                 },
               },
@@ -429,6 +430,59 @@ describe("getGeneratedSchema", () => {
     vi.restoreAllMocks();
   });
 
+  it("resolves custom types when output file is nested", async () => {
+    const drizzleDir = "drizzle";
+    const outputFile = path.join(drizzleDir, "zero-schema.gen.ts");
+
+    await fs.mkdir(drizzleDir, { recursive: true });
+
+    try {
+      const mockSourceFile = tsProject.createSourceFile(
+        path.join(drizzleDir, "schema.ts"),
+        `
+          import { pgTable, text } from "drizzle-orm/pg-core";
+
+          export const users = pgTable("users", {
+            id: text("id").primaryKey(),
+            customField: text("custom_field").$type<string>().notNull(),
+          });
+        `,
+      );
+
+      const generatedSchema = await getGeneratedSchema({
+        tsProject,
+        result: {
+          type: "drizzle-kit",
+          zeroSchema: {
+            tables: {
+              users: {
+                name: "users",
+                primaryKey: ["id"],
+                columns: {
+                  customField: {
+                    type: "string",
+                    optional: false,
+                    customType: null,
+                  },
+                },
+              },
+            },
+            relationships: {},
+          },
+          drizzleSchemaSourceFile: mockSourceFile,
+          drizzleCasing: null,
+        },
+        outputFilePath: outputFile,
+      });
+
+      expect(generatedSchema).toContain(
+        'null as unknown as string',
+      );
+    } finally {
+      await fs.rm(drizzleDir, { recursive: true, force: true });
+    }
+  });
+
   it('should add .js file extensions to imports when jsExtensionOverride is "force"', async () => {
     const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
       tsProject,
@@ -452,6 +506,11 @@ describe("getGeneratedSchema", () => {
                   optional: false,
                   customType: undefined,
                 },
+                customField: {
+                  type: "string",
+                  optional: false,
+                  customType: null,
+                },
               },
             },
           },
@@ -471,7 +530,7 @@ describe("getGeneratedSchema", () => {
 
     // Verify the rest of the schema is still generated correctly
     expect(generatedSchema).toContain("export const schema = {");
-    expect(generatedSchema).toContain('"users": {');
+    expect(generatedSchema).toContain('"users": usersTable');
   });
 
   it('should add .js file extensions to drizzle-kit imports when jsExtensionOverride is "force"', async () => {
@@ -498,7 +557,7 @@ describe("getGeneratedSchema", () => {
           primaryKey: ["id"],
           columns: {
             id: { type: "integer", optional: false, customType: undefined },
-            name: { type: "string", optional: false, customType: undefined },
+            name: { type: "string", optional: false, customType: null },
           },
         },
       },
@@ -523,7 +582,7 @@ describe("getGeneratedSchema", () => {
 
     // Verify the rest of the schema is still generated correctly
     expect(generatedSchema).toContain("export const schema = {");
-    expect(generatedSchema).toContain('"users": {');
+    expect(generatedSchema).toContain('"users": usersTable');
 
     // Reset the mock after the test
     vi.restoreAllMocks();
@@ -552,6 +611,11 @@ describe("getGeneratedSchema", () => {
                   optional: false,
                   customType: undefined,
                 },
+                customField: {
+                  type: "string",
+                  optional: false,
+                  customType: null,
+                },
               },
             },
           },
@@ -574,7 +638,7 @@ describe("getGeneratedSchema", () => {
 
     // Verify the rest of the schema is still generated correctly
     expect(generatedSchema).toContain("export const schema = {");
-    expect(generatedSchema).toContain('"users": {');
+    expect(generatedSchema).toContain('"users": usersTable');
   });
 
   it('should not add .js file extensions to drizzle-kit imports when jsExtensionOverride is "none"', async () => {
@@ -601,7 +665,7 @@ describe("getGeneratedSchema", () => {
           primaryKey: ["id"],
           columns: {
             id: { type: "integer", optional: false, customType: undefined },
-            name: { type: "string", optional: false, customType: undefined },
+            name: { type: "string", optional: false, customType: null },
           },
         },
       },
@@ -629,7 +693,7 @@ describe("getGeneratedSchema", () => {
 
     // Verify the rest of the schema is still generated correctly
     expect(generatedSchema).toContain("export const schema = {");
-    expect(generatedSchema).toContain('"users": {');
+    expect(generatedSchema).toContain('"users": usersTable');
 
     // Reset the mock after the test
     vi.restoreAllMocks();
@@ -668,6 +732,11 @@ describe("getGeneratedSchema", () => {
                   optional: false,
                   customType: undefined,
                 },
+                customField: {
+                  type: "string",
+                  optional: false,
+                  customType: null,
+                },
               },
             },
           },
@@ -687,7 +756,7 @@ describe("getGeneratedSchema", () => {
 
     // Verify the rest of the schema is still generated correctly
     expect(generatedSchema).toContain("export const schema = {");
-    expect(generatedSchema).toContain('"users": {');
+    expect(generatedSchema).toContain('"users": usersTable');
   });
 
   it('should auto-detect and add .js extensions when jsExtensionOverride is "auto" with NodeNext moduleResolution', async () => {
@@ -723,6 +792,11 @@ describe("getGeneratedSchema", () => {
                   optional: false,
                   customType: undefined,
                 },
+                customField: {
+                  type: "string",
+                  optional: false,
+                  customType: null,
+                },
               },
             },
           },
@@ -742,7 +816,62 @@ describe("getGeneratedSchema", () => {
 
     // Verify the rest of the schema is still generated correctly
     expect(generatedSchema).toContain("export const schema = {");
-    expect(generatedSchema).toContain('"users": {');
+    expect(generatedSchema).toContain('"users": usersTable');
+  });
+
+  it("logs auto-detection details when debug mode is enabled", async () => {
+    const tempTsProject = new Project({
+      compilerOptions: {
+        moduleResolution: 3, // Node16
+      },
+    });
+
+    tempTsProject.addSourceFileAtPath(schemaPath);
+
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject: tempTsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+
+    try {
+      await getGeneratedSchema({
+        tsProject: tempTsProject,
+        result: {
+          type: "config",
+          zeroSchema: {
+            tables: {
+              users: {
+                name: "users",
+                primaryKey: ["id"],
+                columns: {
+                  id: {
+                    type: "number",
+                    optional: false,
+                    customType: undefined,
+                  },
+                },
+              },
+            },
+            relationships: {},
+          },
+          exportName: "schema",
+          zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+        },
+        outputFilePath,
+        debug: true,
+      });
+
+      expect(logSpy).toHaveBeenCalledWith(
+        expect.stringContaining(
+          "Auto-detected moduleResolution requires .js extensions",
+        ),
+      );
+    } finally {
+      logSpy.mockRestore();
+    }
   });
 
   it('should not add .js extensions when jsExtensionOverride is "auto" with NodeJs moduleResolution', async () => {
@@ -778,6 +907,11 @@ describe("getGeneratedSchema", () => {
                   optional: false,
                   customType: undefined,
                 },
+                customField: {
+                  type: "string",
+                  optional: false,
+                  customType: null,
+                },
               },
             },
           },
@@ -800,7 +934,7 @@ describe("getGeneratedSchema", () => {
 
     // Verify the rest of the schema is still generated correctly
     expect(generatedSchema).toContain("export const schema = {");
-    expect(generatedSchema).toContain('"users": {');
+    expect(generatedSchema).toContain('"users": usersTable');
   });
 
   it('should not add .js extensions when jsExtensionOverride is "auto" with Bundler moduleResolution', async () => {
@@ -836,6 +970,11 @@ describe("getGeneratedSchema", () => {
                   optional: false,
                   customType: undefined,
                 },
+                customField: {
+                  type: "string",
+                  optional: false,
+                  customType: null,
+                },
               },
             },
           },
@@ -858,7 +997,7 @@ describe("getGeneratedSchema", () => {
 
     // Verify the rest of the schema is still generated correctly
     expect(generatedSchema).toContain("export const schema = {");
-    expect(generatedSchema).toContain('"users": {');
+    expect(generatedSchema).toContain('"users": usersTable');
   });
 
   it("should generate builder export with createBuilder from @rocicorp/zero", async () => {
@@ -971,10 +1110,10 @@ describe("getGeneratedSchema", () => {
 
     // Check for table type exports with proper capitalization
     expect(generatedSchema).toContain(
-      'export type User = Row<Schema["tables"]["users"]>;',
+      'export type User = Row<typeof usersTable>;',
     );
     expect(generatedSchema).toContain(
-      'export type Post = Row<Schema["tables"]["posts"]>;',
+      'export type Post = Row<typeof postsTable>;',
     );
 
     // Check for JSDoc comments on table types
@@ -1031,13 +1170,13 @@ describe("getGeneratedSchema", () => {
 
     // Check that capitalization works correctly for different naming conventions
     expect(generatedSchema).toContain(
-      'export type UserProfile = Row<Schema["tables"]["userProfiles"]>;',
+      'export type UserProfile = Row<typeof userProfilesTable>;',
     );
     expect(generatedSchema).toContain(
-      'export type BlogPost = Row<Schema["tables"]["blog_posts"]>;',
+      'export type BlogPost = Row<typeof blogPostsTable>;',
     );
     expect(generatedSchema).toContain(
-      'export type User = Row<Schema["tables"]["user"]>;',
+      'export type User = Row<typeof userTable>;',
     );
   });
 
@@ -1098,10 +1237,10 @@ describe("getGeneratedSchema", () => {
 
     // Check for table type exports
     expect(generatedSchema).toContain(
-      'export type User = Row<Schema["tables"]["users"]>;',
+      'export type User = Row<typeof usersTable>;',
     );
     expect(generatedSchema).toContain(
-      'export type Post = Row<Schema["tables"]["posts"]>;',
+      'export type Post = Row<typeof postsTable>;',
     );
 
     // Reset the mock after the test
@@ -1142,7 +1281,7 @@ describe("getGeneratedSchema", () => {
 
     // Should not have any table row type exports, but should still have Schema type
     expect(generatedSchema).toContain("export type Schema = typeof schema;");
-    expect(generatedSchema).not.toContain('Row<Schema["tables"]');
+    expect(generatedSchema).not.toContain("Row<typeof");
   });
 
   it("should skip generating table row types when skipTypes is true", async () => {
@@ -1179,7 +1318,7 @@ describe("getGeneratedSchema", () => {
     expect(generatedSchema).not.toContain(
       'import type { Row } from "@rocicorp/zero";',
     );
-    expect(generatedSchema).not.toContain('Row<Schema["tables"]["users"]>');
+    expect(generatedSchema).not.toContain("Row<typeof usersTable>");
 
     // Builder should still be present
     expect(generatedSchema).toContain(
@@ -1233,7 +1372,7 @@ describe("getGeneratedSchema", () => {
       'import type { Row } from "@rocicorp/zero";',
     );
     expect(generatedSchema).toContain(
-      'export type User = Row<Schema["tables"]["users"]>;',
+      'export type User = Row<typeof usersTable>;',
     );
   });
 

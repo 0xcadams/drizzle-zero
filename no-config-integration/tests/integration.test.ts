@@ -96,6 +96,13 @@ describe("relationships", () => {
     ).toBe(true);
     expect(user[0]?.testType.nameType === "custom-inline-type").toBe(true);
 
+    expectTypeOf(user[0]?.customTypeJson.custom).toEqualTypeOf<
+      "this-is-imported-from-custom-types" | undefined
+    >();
+    expectTypeOf(user[0]?.testInterface.nameInterface).toEqualTypeOf<
+      "custom-inline-interface" | undefined
+    >();
+
     await zero.close();
   });
 

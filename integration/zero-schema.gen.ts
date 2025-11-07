@@ -13,7852 +13,5669 @@ import { createBuilder } from "@rocicorp/zero";
 import type { ZeroCustomType } from "drizzle-zero";
 import type { schema as zeroSchema } from "./drizzle-zero.config";
 
+const allTypesTable = {
+  name: "allTypes",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    smallintField: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "smallint",
+    },
+    integerField: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "integer",
+    },
+    bigintField: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "bigint",
+    },
+    bigintNumberField: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "bigint_number",
+    },
+    smallSerialField: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "smallserial",
+    },
+    serialField: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "serial",
+    },
+    bigSerialField: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "bigserial",
+    },
+    numericField: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "numeric",
+    },
+    decimalField: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "decimal",
+    },
+    realField: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "real",
+    },
+    doublePrecisionField: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "double_precision",
+    },
+    textField: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "text",
+    },
+    charField: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "char",
+    },
+    uuidField: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "uuid",
+    },
+    varcharField: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "varchar",
+    },
+    booleanField: {
+      type: "boolean",
+      optional: false,
+      customType: null as unknown as boolean,
+      serverName: "boolean",
+    },
+    timestampField: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "timestamp",
+    },
+    timestampTzField: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "timestamp_tz",
+    },
+    timestampModeString: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "timestamp_mode_string",
+    },
+    timestampModeDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "timestamp_mode_date",
+    },
+    dateField: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "date",
+    },
+    jsonField: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "allTypes",
+        "jsonField"
+      >,
+      serverName: "json",
+    },
+    jsonbField: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "allTypes",
+        "jsonbField"
+      >,
+      serverName: "jsonb",
+    },
+    typedJsonField: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as { theme: string; fontSize: number },
+      serverName: "typed_json",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as "active" | "inactive" | "pending",
+    },
+    textArray: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as string[],
+      serverName: "text_array",
+    },
+    intArray: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as number[],
+      serverName: "int_array",
+    },
+    numericArray: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as number[],
+      serverName: "numeric_array",
+    },
+    uuidArray: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as string[],
+      serverName: "uuid_array",
+    },
+    jsonbArray: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as { key: string }[],
+      serverName: "jsonb_array",
+    },
+    enumArray: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as ("active" | "inactive" | "pending")[],
+      serverName: "enum_array",
+    },
+    optionalSmallint: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "optional_smallint",
+    },
+    optionalInteger: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "optional_integer",
+    },
+    optionalBigint: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "optional_bigint",
+    },
+    optionalNumeric: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "optional_numeric",
+    },
+    optionalReal: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "optional_real",
+    },
+    optionalDoublePrecision: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "optional_double_precision",
+    },
+    optionalText: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "optional_text",
+    },
+    optionalBoolean: {
+      type: "boolean",
+      optional: true,
+      customType: null as unknown as boolean,
+      serverName: "optional_boolean",
+    },
+    optionalTimestamp: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "optional_timestamp",
+    },
+    optionalJson: {
+      type: "json",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "allTypes",
+        "optionalJson"
+      >,
+      serverName: "optional_json",
+    },
+    optionalEnum: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as "active" | "inactive" | "pending",
+      serverName: "optional_enum",
+    },
+    optionalVarchar: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "optional_varchar",
+    },
+    optionalUuid: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "optional_uuid",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "all_types",
+} as const;
+const analyticsDashboardTable = {
+  name: "analyticsDashboard",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    ownerId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "owner_id",
+    },
+    title: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "analytics_dashboard",
+} as const;
+const analyticsWidgetTable = {
+  name: "analyticsWidget",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    dashboardId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "dashboard_id",
+    },
+    title: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    widgetType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "widget_type",
+    },
+    position: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "analytics_widget",
+} as const;
+const analyticsWidgetQueryTable = {
+  name: "analyticsWidgetQuery",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    widgetId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "widget_id",
+    },
+    dataSource: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "data_source",
+    },
+    query: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    refreshIntervalSeconds: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "refresh_interval_seconds",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "analytics_widget_query",
+} as const;
+const benefitEnrollmentTable = {
+  name: "benefitEnrollment",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    benefitPlanId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "benefit_plan_id",
+    },
+    employeeId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "employee_id",
+    },
+    enrolledAt: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "enrolled_at",
+    },
+    coverageLevel: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "coverage_level",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "benefit_enrollment",
+} as const;
+const benefitPlanTable = {
+  name: "benefitPlan",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    provider: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    administratorId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "administrator_id",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "benefit_plan",
+} as const;
+const billingInvoiceTable = {
+  name: "billingInvoice",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    accountId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "account_id",
+    },
+    contactId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "contact_id",
+    },
+    issuedById: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "issued_by_id",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    invoiceDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "invoice_date",
+    },
+    dueDate: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "due_date",
+    },
+    totalAmount: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "total_amount",
+    },
+    currency: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "billing_invoice",
+} as const;
+const billingInvoiceLineTable = {
+  name: "billingInvoiceLine",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    invoiceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "invoice_id",
+    },
+    orderItemId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "order_item_id",
+    },
+    description: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    quantity: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    unitPrice: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "unit_price",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "billing_invoice_line",
+} as const;
+const budgetTable = {
+  name: "budget",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    departmentId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "department_id",
+    },
+    fiscalYear: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "fiscal_year",
+    },
+    totalAmount: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "total_amount",
+    },
+    currency: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+} as const;
+const budgetLineTable = {
+  name: "budgetLine",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    budgetId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "budget_id",
+    },
+    accountId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "account_id",
+    },
+    amount: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "budget_line",
+} as const;
+const crmAccountTable = {
+  name: "crmAccount",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    ownerId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "owner_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    industry: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    status: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_account",
+} as const;
+const crmActivityTable = {
+  name: "crmActivity",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    accountId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "account_id",
+    },
+    contactId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "contact_id",
+    },
+    opportunityId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "opportunity_id",
+    },
+    typeId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "type_id",
+    },
+    performedById: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "performed_by_id",
+    },
+    notes: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_activity",
+} as const;
+const crmActivityTypeTable = {
+  name: "crmActivityType",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_activity_type",
+} as const;
+const crmContactTable = {
+  name: "crmContact",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    accountId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "account_id",
+    },
+    firstName: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "first_name",
+    },
+    lastName: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "last_name",
+    },
+    email: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    phone: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_contact",
+} as const;
+const crmNoteTable = {
+  name: "crmNote",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    accountId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "account_id",
+    },
+    contactId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "contact_id",
+    },
+    authorId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "author_id",
+    },
+    body: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_note",
+} as const;
+const crmOpportunityTable = {
+  name: "crmOpportunity",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    accountId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "account_id",
+    },
+    stageId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "stage_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    amount: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    closeDate: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "close_date",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_opportunity",
+} as const;
+const crmOpportunityStageHistoryTable = {
+  name: "crmOpportunityStageHistory",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    opportunityId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "opportunity_id",
+    },
+    stageId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "stage_id",
+    },
+    changedById: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "changed_by_id",
+    },
+    changedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "changed_at",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_opportunity_stage_history",
+} as const;
+const crmPipelineStageTable = {
+  name: "crmPipelineStage",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    sequence: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    probability: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "crm_pipeline_stage",
+} as const;
+const departmentTable = {
+  name: "department",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    managerId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "manager_id",
+    },
+  },
+  primaryKey: ["id"],
+} as const;
+const documentFileTable = {
+  name: "documentFile",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    folderId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "folder_id",
+    },
+    uploadedById: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "uploaded_by_id",
+    },
+    fileName: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "file_name",
+    },
+    mimeType: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "mime_type",
+    },
+    sizeBytes: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "size_bytes",
+    },
+    version: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "document_file",
+} as const;
+const documentFileVersionTable = {
+  name: "documentFileVersion",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    fileId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "file_id",
+    },
+    uploadedById: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "uploaded_by_id",
+    },
+    version: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    changeLog: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "change_log",
+    },
+    fileSizeBytes: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "file_size_bytes",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "document_file_version",
+} as const;
+const documentFolderTable = {
+  name: "documentFolder",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    libraryId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "library_id",
+    },
+    parentId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "parent_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "document_folder",
+} as const;
+const documentLibraryTable = {
+  name: "documentLibrary",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    projectId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "project_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    visibility: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "document_library",
+} as const;
+const documentSharingTable = {
+  name: "documentSharing",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    fileId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "file_id",
+    },
+    sharedWithUserId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "shared_with_user_id",
+    },
+    sharedWithTeamId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "shared_with_team_id",
+    },
+    permission: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "document_sharing",
+} as const;
+const employeeDocumentTable = {
+  name: "employeeDocument",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    employeeId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "employee_id",
+    },
+    fileName: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "file_name",
+    },
+    documentType: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "document_type",
+    },
+    uploadedById: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "uploaded_by_id",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "employee_document",
+} as const;
+const employeeProfileTable = {
+  name: "employeeProfile",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    userId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "user_id",
+    },
+    departmentId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "department_id",
+    },
+    teamId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "team_id",
+    },
+    title: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    startDate: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "start_date",
+    },
+    employmentType: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "employment_type",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "employee_profile",
+} as const;
+const employmentHistoryTable = {
+  name: "employmentHistory",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    employeeId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "employee_id",
+    },
+    company: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    title: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    startDate: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "start_date",
+    },
+    endDate: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "end_date",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "employment_history",
+} as const;
+const expenseItemTable = {
+  name: "expenseItem",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    reportId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "report_id",
+    },
+    amount: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    category: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    incurredAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "incurred_at",
+    },
+    merchant: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    notes: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "expense_item",
+} as const;
+const expenseReportTable = {
+  name: "expenseReport",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    ownerId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "owner_id",
+    },
+    departmentId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "department_id",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    submittedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "submitted_at",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "expense_report",
+} as const;
+const filtersTable = {
+  name: "filters",
+  columns: {
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    name: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    parentId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "parent_id",
+    },
+  },
+  primaryKey: ["id"],
+} as const;
+const friendshipTable = {
+  name: "friendship",
+  columns: {
+    requestingId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    acceptingId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    accepted: {
+      type: "boolean",
+      optional: false,
+      customType: null as unknown as boolean,
+    },
+  },
+  primaryKey: ["requestingId", "acceptingId"],
+} as const;
+const integrationCredentialTable = {
+  name: "integrationCredential",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    webhookId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "webhook_id",
+    },
+    provider: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    clientId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "client_id",
+    },
+    clientSecret: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "client_secret",
+    },
+    metadata: {
+      type: "json",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "integrationCredential",
+        "metadata"
+      >,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "integration_credential",
+} as const;
+const integrationEventTable = {
+  name: "integrationEvent",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    webhookId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "webhook_id",
+    },
+    payload: {
+      type: "json",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "integrationEvent",
+        "payload"
+      >,
+    },
+    eventType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "event_type",
+    },
+    deliveredAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "delivered_at",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "integration_event",
+} as const;
+const integrationWebhookTable = {
+  name: "integrationWebhook",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    projectId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "project_id",
+    },
+    accountId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "account_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    url: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    secret: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    isActive: {
+      type: "boolean",
+      optional: true,
+      customType: null as unknown as boolean,
+      serverName: "is_active",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "integration_webhook",
+} as const;
+const inventoryItemTable = {
+  name: "inventoryItem",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    variantId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "variant_id",
+    },
+    serialNumber: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "serial_number",
+    },
+    metadata: {
+      type: "json",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "inventoryItem",
+        "metadata"
+      >,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "inventory_item",
+} as const;
+const inventoryLevelTable = {
+  name: "inventoryLevel",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    locationId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "location_id",
+    },
+    variantId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "variant_id",
+    },
+    quantity: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    reserved: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "inventory_level",
+} as const;
+const inventoryLocationTable = {
+  name: "inventoryLocation",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    address: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    region: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "inventory_location",
+} as const;
+const ledgerAccountTable = {
+  name: "ledgerAccount",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    code: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    accountType: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "account_type",
+    },
+    parentAccountId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "parent_account_id",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "ledger_account",
+} as const;
+const ledgerEntryTable = {
+  name: "ledgerEntry",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    transactionId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "transaction_id",
+    },
+    accountId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "account_id",
+    },
+    debit: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    credit: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    memo: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "ledger_entry",
+} as const;
+const ledgerTransactionTable = {
+  name: "ledgerTransaction",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    reference: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    transactionDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "transaction_date",
+    },
+    createdById: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "created_by_id",
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "ledger_transaction",
+} as const;
+const marketingAudienceTable = {
+  name: "marketingAudience",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    segmentType: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "segment_type",
+    },
+    definition: {
+      type: "json",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "marketingAudience",
+        "definition"
+      >,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "marketing_audience",
+} as const;
+const marketingCampaignTable = {
+  name: "marketingCampaign",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    ownerId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "owner_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    startDate: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "start_date",
+    },
+    endDate: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "end_date",
+    },
+    budgetAmount: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "budget_amount",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "marketing_campaign",
+} as const;
+const marketingCampaignAudienceTable = {
+  name: "marketingCampaignAudience",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    campaignId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "campaign_id",
+    },
+    audienceId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "audience_id",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "marketing_campaign_audience",
+} as const;
+const marketingCampaignChannelTable = {
+  name: "marketingCampaignChannel",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    campaignId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "campaign_id",
+    },
+    channelId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "channel_id",
+    },
+    allocation: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "marketing_campaign_channel",
+} as const;
+const marketingChannelTable = {
+  name: "marketingChannel",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    channelType: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "channel_type",
+    },
+    costModel: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "cost_model",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "marketing_channel",
+} as const;
+const mediumTable = {
+  name: "medium",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+} as const;
+const messageTable = {
+  name: "message",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    senderId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    mediumId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    body: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    metadata: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as { key: string },
+    },
+    omittedColumn: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "omitted_column",
+    },
+  },
+  primaryKey: ["id"],
+} as const;
+const omittedTable = {
+  name: "omittedTable",
+  columns: {
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "omitted_table",
+} as const;
+const orderItemTable = {
+  name: "orderItem",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    orderId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "order_id",
+    },
+    variantId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "variant_id",
+    },
+    quantity: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    unitPrice: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "unit_price",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "order_item",
+} as const;
+const orderPaymentTable = {
+  name: "orderPayment",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    orderId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "order_id",
+    },
+    paymentId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "payment_id",
+    },
+    amount: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "order_payment",
+} as const;
+const orderTable = {
+  name: "orderTable",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    customerId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "customer_id",
+    },
+    opportunityId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "opportunity_id",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    total: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    currency: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "order",
+} as const;
+const paymentTable = {
+  name: "payment",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    externalRef: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "external_ref",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    amount: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    currency: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    receivedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "received_at",
+    },
+    receivedById: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "received_by_id",
+    },
+  },
+  primaryKey: ["id"],
+} as const;
+const productTable = {
+  name: "product",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    categoryId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "category_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    status: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+} as const;
+const productCategoryTable = {
+  name: "productCategory",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    parentId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "parent_id",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "product_category",
+} as const;
+const productMediaTable = {
+  name: "productMedia",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    productId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "product_id",
+    },
+    url: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    type: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "product_media",
+} as const;
+const productVariantTable = {
+  name: "productVariant",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    productId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "product_id",
+    },
+    sku: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    price: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    currency: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    isActive: {
+      type: "boolean",
+      optional: true,
+      customType: null as unknown as boolean,
+      serverName: "is_active",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "product_variant",
+} as const;
+const projectTable = {
+  name: "project",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    ownerId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "owner_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    status: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+} as const;
+const projectAssignmentTable = {
+  name: "projectAssignment",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    taskId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "task_id",
+    },
+    userId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "user_id",
+    },
+    assignedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "assigned_at",
+    },
+    role: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_assignment",
+} as const;
+const projectAttachmentTable = {
+  name: "projectAttachment",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    taskId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "task_id",
+    },
+    fileName: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "file_name",
+    },
+    fileType: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "file_type",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_attachment",
+} as const;
+const projectAuditTable = {
+  name: "projectAudit",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    projectId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "project_id",
+    },
+    actorId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "actor_id",
+    },
+    action: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    details: {
+      type: "json",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "projectAudit",
+        "details"
+      >,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_audit",
+} as const;
+const projectCommentTable = {
+  name: "projectComment",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    taskId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "task_id",
+    },
+    authorId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "author_id",
+    },
+    body: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_comment",
+} as const;
+const projectNoteTable = {
+  name: "projectNote",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    projectId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "project_id",
+    },
+    authorId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "author_id",
+    },
+    note: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_note",
+} as const;
+const projectPhaseTable = {
+  name: "projectPhase",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    projectId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "project_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    sequence: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_phase",
+} as const;
+const projectTagTable = {
+  name: "projectTag",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    label: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    color: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_tag",
+} as const;
+const projectTaskTable = {
+  name: "projectTask",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    projectId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "project_id",
+    },
+    phaseId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "phase_id",
+    },
+    title: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    priority: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_task",
+} as const;
+const projectTaskTagTable = {
+  name: "projectTaskTag",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    taskId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "task_id",
+    },
+    tagId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "tag_id",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "project_task_tag",
+} as const;
+const shipmentTable = {
+  name: "shipment",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    orderId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "order_id",
+    },
+    shippedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "shipped_at",
+    },
+    deliveredAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "delivered_at",
+    },
+    carrier: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    trackingNumber: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "tracking_number",
+    },
+  },
+  primaryKey: ["id"],
+} as const;
+const shipmentItemTable = {
+  name: "shipmentItem",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    shipmentId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "shipment_id",
+    },
+    orderItemId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "order_item_id",
+    },
+    quantity: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "shipment_item",
+} as const;
+const supportTicketTable = {
+  name: "supportTicket",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    customerId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "customer_id",
+    },
+    assignedTeamId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "assigned_team_id",
+    },
+    subject: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    priority: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    source: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "support_ticket",
+} as const;
+const supportTicketAssignmentTable = {
+  name: "supportTicketAssignment",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    ticketId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "ticket_id",
+    },
+    assigneeId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "assignee_id",
+    },
+    assignedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+      serverName: "assigned_at",
+    },
+    assignmentType: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "assignment_type",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "support_ticket_assignment",
+} as const;
+const supportTicketAuditTable = {
+  name: "supportTicketAudit",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    ticketId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "ticket_id",
+    },
+    actorId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "actor_id",
+    },
+    action: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    details: {
+      type: "json",
+      optional: true,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "supportTicketAudit",
+        "details"
+      >,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "support_ticket_audit",
+} as const;
+const supportTicketMessageTable = {
+  name: "supportTicketMessage",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    ticketId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "ticket_id",
+    },
+    authorId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "author_id",
+    },
+    body: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    visibility: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "support_ticket_message",
+} as const;
+const supportTicketTagTable = {
+  name: "supportTicketTag",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    label: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    description: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "support_ticket_tag",
+} as const;
+const supportTicketTagLinkTable = {
+  name: "supportTicketTagLink",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    ticketId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "ticket_id",
+    },
+    tagId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "tag_id",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "support_ticket_tag_link",
+} as const;
+const teamTable = {
+  name: "team",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    departmentId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "department_id",
+    },
+    leadId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "lead_id",
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+} as const;
+const testBigSerialPkTable = {
+  name: "testBigSerialPk",
+  columns: {
+    id: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "test_bigserial_pk",
+} as const;
+const testCompositePkBothDefaultsTable = {
+  name: "testCompositePkBothDefaults",
+  columns: {
+    id1: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    id2: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id1", "id2"],
+  serverName: "test_composite_pk_both_defaults",
+} as const;
+const testCompositePkOneDefaultTable = {
+  name: "testCompositePkOneDefault",
+  columns: {
+    tenantId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "tenant_id",
+    },
+    id: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["tenantId", "id"],
+  serverName: "test_composite_pk_one_default",
+} as const;
+const testIntegerDefaultPkTable = {
+  name: "testIntegerDefaultPk",
+  columns: {
+    id: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "test_integer_default_pk",
+} as const;
+const testSerialPkTable = {
+  name: "testSerialPk",
+  columns: {
+    id: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "test_serial_pk",
+} as const;
+const testTextDefaultPkTable = {
+  name: "testTextDefaultPk",
+  columns: {
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "test_text_default_pk",
+} as const;
+const testTimestampDefaultPkTable = {
+  name: "testTimestampDefaultPk",
+  columns: {
+    id: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "test_timestamp_default_pk",
+} as const;
+const testUuidPkTable = {
+  name: "testUuidPk",
+  columns: {
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "test_uuid_pk",
+} as const;
+const testUuidSqlDefaultPkTable = {
+  name: "testUuidSqlDefaultPk",
+  columns: {
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "test_uuid_sql_default_pk",
+} as const;
+const timeEntryTable = {
+  name: "timeEntry",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    timesheetId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "timesheet_id",
+    },
+    taskId: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "task_id",
+    },
+    hours: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+    },
+    notes: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+    },
+    entryDate: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "entry_date",
+    },
+  },
+  primaryKey: ["id"],
+  serverName: "time_entry",
+} as const;
+const timesheetTable = {
+  name: "timesheet",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    employeeId: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+      serverName: "employee_id",
+    },
+    periodStart: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "period_start",
+    },
+    periodEnd: {
+      type: "number",
+      optional: false,
+      customType: null as unknown as number,
+      serverName: "period_end",
+    },
+    submittedById: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as string,
+      serverName: "submitted_by_id",
+    },
+    status: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+  },
+  primaryKey: ["id"],
+} as const;
+const userTable = {
+  name: "user",
+  columns: {
+    createdAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    updatedAt: {
+      type: "number",
+      optional: true,
+      customType: null as unknown as number,
+    },
+    id: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    name: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as string,
+    },
+    partner: {
+      type: "boolean",
+      optional: false,
+      customType: null as unknown as boolean,
+    },
+    email: {
+      type: "string",
+      optional: false,
+      customType: null as unknown as `${string}@${string}`,
+    },
+    customTypeJson: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "user",
+        "customTypeJson"
+      >,
+      serverName: "custom_type_json",
+    },
+    customInterfaceJson: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "user",
+        "customInterfaceJson"
+      >,
+      serverName: "custom_interface_json",
+    },
+    testInterface: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "user",
+        "testInterface"
+      >,
+      serverName: "test_interface",
+    },
+    testType: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "user",
+        "testType"
+      >,
+      serverName: "test_type",
+    },
+    testExportedType: {
+      type: "json",
+      optional: false,
+      customType: null as unknown as ZeroCustomType<
+        typeof zeroSchema,
+        "user",
+        "testExportedType"
+      >,
+      serverName: "test_exported_type",
+    },
+    status: {
+      type: "string",
+      optional: true,
+      customType: null as unknown as "ASSIGNED" | "COMPLETED",
+    },
+  },
+  primaryKey: ["id"],
+} as const;
+const userRelationships = {
+  mediums: [
+    {
+      sourceField: ["id"],
+      destField: ["senderId"],
+      destSchema: "message",
+      cardinality: "many",
+    },
+    {
+      sourceField: ["mediumId"],
+      destField: ["id"],
+      destSchema: "medium",
+      cardinality: "many",
+    },
+  ],
+  friends: [
+    {
+      sourceField: ["id"],
+      destField: ["requestingId"],
+      destSchema: "friendship",
+      cardinality: "many",
+    },
+    {
+      sourceField: ["acceptingId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "many",
+    },
+  ],
+  messages: [
+    {
+      sourceField: ["id"],
+      destField: ["senderId"],
+      destSchema: "message",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const analyticsDashboardRelationships = {
+  owner: [
+    {
+      sourceField: ["ownerId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  widgets: [
+    {
+      sourceField: ["id"],
+      destField: ["dashboardId"],
+      destSchema: "analyticsWidget",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const analyticsWidgetQueryRelationships = {
+  widget: [
+    {
+      sourceField: ["widgetId"],
+      destField: ["id"],
+      destSchema: "analyticsWidget",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const analyticsWidgetRelationships = {
+  dashboard: [
+    {
+      sourceField: ["dashboardId"],
+      destField: ["id"],
+      destSchema: "analyticsDashboard",
+      cardinality: "one",
+    },
+  ],
+  queries: [
+    {
+      sourceField: ["id"],
+      destField: ["widgetId"],
+      destSchema: "analyticsWidgetQuery",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const benefitEnrollmentRelationships = {
+  benefitPlan: [
+    {
+      sourceField: ["benefitPlanId"],
+      destField: ["id"],
+      destSchema: "benefitPlan",
+      cardinality: "one",
+    },
+  ],
+  employee: [
+    {
+      sourceField: ["employeeId"],
+      destField: ["id"],
+      destSchema: "employeeProfile",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const benefitPlanRelationships = {
+  administrator: [
+    {
+      sourceField: ["administratorId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  enrollments: [
+    {
+      sourceField: ["id"],
+      destField: ["benefitPlanId"],
+      destSchema: "benefitEnrollment",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const billingInvoiceLineRelationships = {
+  invoice: [
+    {
+      sourceField: ["invoiceId"],
+      destField: ["id"],
+      destSchema: "billingInvoice",
+      cardinality: "one",
+    },
+  ],
+  orderItem: [
+    {
+      sourceField: ["orderItemId"],
+      destField: ["id"],
+      destSchema: "orderItem",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const billingInvoiceRelationships = {
+  account: [
+    {
+      sourceField: ["accountId"],
+      destField: ["id"],
+      destSchema: "crmAccount",
+      cardinality: "one",
+    },
+  ],
+  contact: [
+    {
+      sourceField: ["contactId"],
+      destField: ["id"],
+      destSchema: "crmContact",
+      cardinality: "one",
+    },
+  ],
+  issuer: [
+    {
+      sourceField: ["issuedById"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  lines: [
+    {
+      sourceField: ["id"],
+      destField: ["invoiceId"],
+      destSchema: "billingInvoiceLine",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const budgetLineRelationships = {
+  budget: [
+    {
+      sourceField: ["budgetId"],
+      destField: ["id"],
+      destSchema: "budget",
+      cardinality: "one",
+    },
+  ],
+  account: [
+    {
+      sourceField: ["accountId"],
+      destField: ["id"],
+      destSchema: "ledgerAccount",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const budgetRelationships = {
+  department: [
+    {
+      sourceField: ["departmentId"],
+      destField: ["id"],
+      destSchema: "department",
+      cardinality: "one",
+    },
+  ],
+  lines: [
+    {
+      sourceField: ["id"],
+      destField: ["budgetId"],
+      destSchema: "budgetLine",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const crmAccountRelationships = {
+  owner: [
+    {
+      sourceField: ["ownerId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  contacts: [
+    {
+      sourceField: ["id"],
+      destField: ["accountId"],
+      destSchema: "crmContact",
+      cardinality: "many",
+    },
+  ],
+  opportunities: [
+    {
+      sourceField: ["id"],
+      destField: ["accountId"],
+      destSchema: "crmOpportunity",
+      cardinality: "many",
+    },
+  ],
+  activities: [
+    {
+      sourceField: ["id"],
+      destField: ["accountId"],
+      destSchema: "crmActivity",
+      cardinality: "many",
+    },
+  ],
+  notes: [
+    {
+      sourceField: ["id"],
+      destField: ["accountId"],
+      destSchema: "crmNote",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const crmActivityRelationships = {
+  account: [
+    {
+      sourceField: ["accountId"],
+      destField: ["id"],
+      destSchema: "crmAccount",
+      cardinality: "one",
+    },
+  ],
+  contact: [
+    {
+      sourceField: ["contactId"],
+      destField: ["id"],
+      destSchema: "crmContact",
+      cardinality: "one",
+    },
+  ],
+  opportunity: [
+    {
+      sourceField: ["opportunityId"],
+      destField: ["id"],
+      destSchema: "crmOpportunity",
+      cardinality: "one",
+    },
+  ],
+  type: [
+    {
+      sourceField: ["typeId"],
+      destField: ["id"],
+      destSchema: "crmActivityType",
+      cardinality: "one",
+    },
+  ],
+  performer: [
+    {
+      sourceField: ["performedById"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const crmActivityTypeRelationships = {
+  activities: [
+    {
+      sourceField: ["id"],
+      destField: ["typeId"],
+      destSchema: "crmActivity",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const crmContactRelationships = {
+  account: [
+    {
+      sourceField: ["accountId"],
+      destField: ["id"],
+      destSchema: "crmAccount",
+      cardinality: "one",
+    },
+  ],
+  activities: [
+    {
+      sourceField: ["id"],
+      destField: ["contactId"],
+      destSchema: "crmActivity",
+      cardinality: "many",
+    },
+  ],
+  notes: [
+    {
+      sourceField: ["id"],
+      destField: ["contactId"],
+      destSchema: "crmNote",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const crmNoteRelationships = {
+  account: [
+    {
+      sourceField: ["accountId"],
+      destField: ["id"],
+      destSchema: "crmAccount",
+      cardinality: "one",
+    },
+  ],
+  contact: [
+    {
+      sourceField: ["contactId"],
+      destField: ["id"],
+      destSchema: "crmContact",
+      cardinality: "one",
+    },
+  ],
+  author: [
+    {
+      sourceField: ["authorId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const crmOpportunityRelationships = {
+  account: [
+    {
+      sourceField: ["accountId"],
+      destField: ["id"],
+      destSchema: "crmAccount",
+      cardinality: "one",
+    },
+  ],
+  stage: [
+    {
+      sourceField: ["stageId"],
+      destField: ["id"],
+      destSchema: "crmPipelineStage",
+      cardinality: "one",
+    },
+  ],
+  activities: [
+    {
+      sourceField: ["id"],
+      destField: ["opportunityId"],
+      destSchema: "crmActivity",
+      cardinality: "many",
+    },
+  ],
+  historyEntries: [
+    {
+      sourceField: ["id"],
+      destField: ["opportunityId"],
+      destSchema: "crmOpportunityStageHistory",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const crmOpportunityStageHistoryRelationships = {
+  opportunity: [
+    {
+      sourceField: ["opportunityId"],
+      destField: ["id"],
+      destSchema: "crmOpportunity",
+      cardinality: "one",
+    },
+  ],
+  stage: [
+    {
+      sourceField: ["stageId"],
+      destField: ["id"],
+      destSchema: "crmPipelineStage",
+      cardinality: "one",
+    },
+  ],
+  changedBy: [
+    {
+      sourceField: ["changedById"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const crmPipelineStageRelationships = {
+  opportunities: [
+    {
+      sourceField: ["id"],
+      destField: ["stageId"],
+      destSchema: "crmOpportunity",
+      cardinality: "many",
+    },
+  ],
+  historyEntries: [
+    {
+      sourceField: ["id"],
+      destField: ["stageId"],
+      destSchema: "crmOpportunityStageHistory",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const departmentRelationships = {
+  manager: [
+    {
+      sourceField: ["managerId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  teams: [
+    {
+      sourceField: ["id"],
+      destField: ["departmentId"],
+      destSchema: "team",
+      cardinality: "many",
+    },
+  ],
+  employees: [
+    {
+      sourceField: ["id"],
+      destField: ["departmentId"],
+      destSchema: "employeeProfile",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const documentFileRelationships = {
+  folder: [
+    {
+      sourceField: ["folderId"],
+      destField: ["id"],
+      destSchema: "documentFolder",
+      cardinality: "one",
+    },
+  ],
+  uploader: [
+    {
+      sourceField: ["uploadedById"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  versions: [
+    {
+      sourceField: ["id"],
+      destField: ["fileId"],
+      destSchema: "documentFileVersion",
+      cardinality: "many",
+    },
+  ],
+  sharings: [
+    {
+      sourceField: ["id"],
+      destField: ["fileId"],
+      destSchema: "documentSharing",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const documentFileVersionRelationships = {
+  file: [
+    {
+      sourceField: ["fileId"],
+      destField: ["id"],
+      destSchema: "documentFile",
+      cardinality: "one",
+    },
+  ],
+  uploader: [
+    {
+      sourceField: ["uploadedById"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const documentFolderRelationships = {
+  library: [
+    {
+      sourceField: ["libraryId"],
+      destField: ["id"],
+      destSchema: "documentLibrary",
+      cardinality: "one",
+    },
+  ],
+  parent: [
+    {
+      sourceField: ["parentId"],
+      destField: ["id"],
+      destSchema: "documentFolder",
+      cardinality: "one",
+    },
+  ],
+  children: [
+    {
+      sourceField: ["id"],
+      destField: ["parentId"],
+      destSchema: "documentFolder",
+      cardinality: "many",
+    },
+  ],
+  files: [
+    {
+      sourceField: ["id"],
+      destField: ["folderId"],
+      destSchema: "documentFile",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const documentLibraryRelationships = {
+  project: [
+    {
+      sourceField: ["projectId"],
+      destField: ["id"],
+      destSchema: "project",
+      cardinality: "one",
+    },
+  ],
+  folders: [
+    {
+      sourceField: ["id"],
+      destField: ["libraryId"],
+      destSchema: "documentFolder",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const documentSharingRelationships = {
+  file: [
+    {
+      sourceField: ["fileId"],
+      destField: ["id"],
+      destSchema: "documentFile",
+      cardinality: "one",
+    },
+  ],
+  user: [
+    {
+      sourceField: ["sharedWithUserId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  team: [
+    {
+      sourceField: ["sharedWithTeamId"],
+      destField: ["id"],
+      destSchema: "team",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const employeeDocumentRelationships = {
+  employee: [
+    {
+      sourceField: ["employeeId"],
+      destField: ["id"],
+      destSchema: "employeeProfile",
+      cardinality: "one",
+    },
+  ],
+  uploader: [
+    {
+      sourceField: ["uploadedById"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const employeeProfileRelationships = {
+  user: [
+    {
+      sourceField: ["userId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  department: [
+    {
+      sourceField: ["departmentId"],
+      destField: ["id"],
+      destSchema: "department",
+      cardinality: "one",
+    },
+  ],
+  team: [
+    {
+      sourceField: ["teamId"],
+      destField: ["id"],
+      destSchema: "team",
+      cardinality: "one",
+    },
+  ],
+  employmentHistory: [
+    {
+      sourceField: ["id"],
+      destField: ["employeeId"],
+      destSchema: "employmentHistory",
+      cardinality: "many",
+    },
+  ],
+  documents: [
+    {
+      sourceField: ["id"],
+      destField: ["employeeId"],
+      destSchema: "employeeDocument",
+      cardinality: "many",
+    },
+  ],
+  timesheets: [
+    {
+      sourceField: ["id"],
+      destField: ["employeeId"],
+      destSchema: "timesheet",
+      cardinality: "many",
+    },
+  ],
+  benefitEnrollments: [
+    {
+      sourceField: ["id"],
+      destField: ["employeeId"],
+      destSchema: "benefitEnrollment",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const employmentHistoryRelationships = {
+  employee: [
+    {
+      sourceField: ["employeeId"],
+      destField: ["id"],
+      destSchema: "employeeProfile",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const expenseItemRelationships = {
+  report: [
+    {
+      sourceField: ["reportId"],
+      destField: ["id"],
+      destSchema: "expenseReport",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const expenseReportRelationships = {
+  owner: [
+    {
+      sourceField: ["ownerId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  department: [
+    {
+      sourceField: ["departmentId"],
+      destField: ["id"],
+      destSchema: "department",
+      cardinality: "one",
+    },
+  ],
+  items: [
+    {
+      sourceField: ["id"],
+      destField: ["reportId"],
+      destSchema: "expenseItem",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const filtersRelationships = {
+  parent: [
+    {
+      sourceField: ["parentId"],
+      destField: ["id"],
+      destSchema: "filters",
+      cardinality: "one",
+    },
+  ],
+  children: [
+    {
+      sourceField: ["id"],
+      destField: ["parentId"],
+      destSchema: "filters",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const integrationCredentialRelationships = {
+  webhook: [
+    {
+      sourceField: ["webhookId"],
+      destField: ["id"],
+      destSchema: "integrationWebhook",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const integrationEventRelationships = {
+  webhook: [
+    {
+      sourceField: ["webhookId"],
+      destField: ["id"],
+      destSchema: "integrationWebhook",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const integrationWebhookRelationships = {
+  project: [
+    {
+      sourceField: ["projectId"],
+      destField: ["id"],
+      destSchema: "project",
+      cardinality: "one",
+    },
+  ],
+  account: [
+    {
+      sourceField: ["accountId"],
+      destField: ["id"],
+      destSchema: "crmAccount",
+      cardinality: "one",
+    },
+  ],
+  events: [
+    {
+      sourceField: ["id"],
+      destField: ["webhookId"],
+      destSchema: "integrationEvent",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const inventoryItemRelationships = {
+  variant: [
+    {
+      sourceField: ["variantId"],
+      destField: ["id"],
+      destSchema: "productVariant",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const inventoryLevelRelationships = {
+  location: [
+    {
+      sourceField: ["locationId"],
+      destField: ["id"],
+      destSchema: "inventoryLocation",
+      cardinality: "one",
+    },
+  ],
+  variant: [
+    {
+      sourceField: ["variantId"],
+      destField: ["id"],
+      destSchema: "productVariant",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const inventoryLocationRelationships = {
+  levels: [
+    {
+      sourceField: ["id"],
+      destField: ["locationId"],
+      destSchema: "inventoryLevel",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const ledgerAccountRelationships = {
+  parent: [
+    {
+      sourceField: ["parentAccountId"],
+      destField: ["id"],
+      destSchema: "ledgerAccount",
+      cardinality: "one",
+    },
+  ],
+  children: [
+    {
+      sourceField: ["id"],
+      destField: ["parentAccountId"],
+      destSchema: "ledgerAccount",
+      cardinality: "many",
+    },
+  ],
+  entries: [
+    {
+      sourceField: ["id"],
+      destField: ["accountId"],
+      destSchema: "ledgerEntry",
+      cardinality: "many",
+    },
+  ],
+  budgetLines: [
+    {
+      sourceField: ["id"],
+      destField: ["accountId"],
+      destSchema: "budgetLine",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const ledgerEntryRelationships = {
+  transaction: [
+    {
+      sourceField: ["transactionId"],
+      destField: ["id"],
+      destSchema: "ledgerTransaction",
+      cardinality: "one",
+    },
+  ],
+  account: [
+    {
+      sourceField: ["accountId"],
+      destField: ["id"],
+      destSchema: "ledgerAccount",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const ledgerTransactionRelationships = {
+  creator: [
+    {
+      sourceField: ["createdById"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  entries: [
+    {
+      sourceField: ["id"],
+      destField: ["transactionId"],
+      destSchema: "ledgerEntry",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const marketingAudienceRelationships = {
+  campaignAudiences: [
+    {
+      sourceField: ["id"],
+      destField: ["audienceId"],
+      destSchema: "marketingCampaignAudience",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const marketingCampaignAudienceRelationships = {
+  campaign: [
+    {
+      sourceField: ["campaignId"],
+      destField: ["id"],
+      destSchema: "marketingCampaign",
+      cardinality: "one",
+    },
+  ],
+  audience: [
+    {
+      sourceField: ["audienceId"],
+      destField: ["id"],
+      destSchema: "marketingAudience",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const marketingCampaignChannelRelationships = {
+  campaign: [
+    {
+      sourceField: ["campaignId"],
+      destField: ["id"],
+      destSchema: "marketingCampaign",
+      cardinality: "one",
+    },
+  ],
+  channel: [
+    {
+      sourceField: ["channelId"],
+      destField: ["id"],
+      destSchema: "marketingChannel",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const marketingCampaignRelationships = {
+  owner: [
+    {
+      sourceField: ["ownerId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  channels: [
+    {
+      sourceField: ["id"],
+      destField: ["campaignId"],
+      destSchema: "marketingCampaignChannel",
+      cardinality: "many",
+    },
+  ],
+  audiences: [
+    {
+      sourceField: ["id"],
+      destField: ["campaignId"],
+      destSchema: "marketingCampaignAudience",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const marketingChannelRelationships = {
+  campaignChannels: [
+    {
+      sourceField: ["id"],
+      destField: ["channelId"],
+      destSchema: "marketingCampaignChannel",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const mediumRelationships = {
+  messages: [
+    {
+      sourceField: ["id"],
+      destField: ["mediumId"],
+      destSchema: "message",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const messageRelationships = {
+  medium: [
+    {
+      sourceField: ["mediumId"],
+      destField: ["id"],
+      destSchema: "medium",
+      cardinality: "one",
+    },
+  ],
+  sender: [
+    {
+      sourceField: ["senderId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const orderItemRelationships = {
+  order: [
+    {
+      sourceField: ["orderId"],
+      destField: ["id"],
+      destSchema: "orderTable",
+      cardinality: "one",
+    },
+  ],
+  variant: [
+    {
+      sourceField: ["variantId"],
+      destField: ["id"],
+      destSchema: "productVariant",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const orderPaymentRelationships = {
+  order: [
+    {
+      sourceField: ["orderId"],
+      destField: ["id"],
+      destSchema: "orderTable",
+      cardinality: "one",
+    },
+  ],
+  payment: [
+    {
+      sourceField: ["paymentId"],
+      destField: ["id"],
+      destSchema: "payment",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const orderTableRelationships = {
+  customer: [
+    {
+      sourceField: ["customerId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  opportunity: [
+    {
+      sourceField: ["opportunityId"],
+      destField: ["id"],
+      destSchema: "crmOpportunity",
+      cardinality: "one",
+    },
+  ],
+  items: [
+    {
+      sourceField: ["id"],
+      destField: ["orderId"],
+      destSchema: "orderItem",
+      cardinality: "many",
+    },
+  ],
+  payments: [
+    {
+      sourceField: ["id"],
+      destField: ["orderId"],
+      destSchema: "orderPayment",
+      cardinality: "many",
+    },
+  ],
+  shipments: [
+    {
+      sourceField: ["id"],
+      destField: ["orderId"],
+      destSchema: "shipment",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const productCategoryRelationships = {
+  parent: [
+    {
+      sourceField: ["parentId"],
+      destField: ["id"],
+      destSchema: "productCategory",
+      cardinality: "one",
+    },
+  ],
+  children: [
+    {
+      sourceField: ["id"],
+      destField: ["parentId"],
+      destSchema: "productCategory",
+      cardinality: "many",
+    },
+  ],
+  products: [
+    {
+      sourceField: ["id"],
+      destField: ["categoryId"],
+      destSchema: "product",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const productMediaRelationships = {
+  product: [
+    {
+      sourceField: ["productId"],
+      destField: ["id"],
+      destSchema: "product",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const productRelationships = {
+  category: [
+    {
+      sourceField: ["categoryId"],
+      destField: ["id"],
+      destSchema: "productCategory",
+      cardinality: "one",
+    },
+  ],
+  variants: [
+    {
+      sourceField: ["id"],
+      destField: ["productId"],
+      destSchema: "productVariant",
+      cardinality: "many",
+    },
+  ],
+  media: [
+    {
+      sourceField: ["id"],
+      destField: ["productId"],
+      destSchema: "productMedia",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const productVariantRelationships = {
+  product: [
+    {
+      sourceField: ["productId"],
+      destField: ["id"],
+      destSchema: "product",
+      cardinality: "one",
+    },
+  ],
+  inventoryItems: [
+    {
+      sourceField: ["id"],
+      destField: ["variantId"],
+      destSchema: "inventoryItem",
+      cardinality: "many",
+    },
+  ],
+  inventoryLevels: [
+    {
+      sourceField: ["id"],
+      destField: ["variantId"],
+      destSchema: "inventoryLevel",
+      cardinality: "many",
+    },
+  ],
+  orderItems: [
+    {
+      sourceField: ["id"],
+      destField: ["variantId"],
+      destSchema: "orderItem",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const projectAssignmentRelationships = {
+  task: [
+    {
+      sourceField: ["taskId"],
+      destField: ["id"],
+      destSchema: "projectTask",
+      cardinality: "one",
+    },
+  ],
+  user: [
+    {
+      sourceField: ["userId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const projectAttachmentRelationships = {
+  task: [
+    {
+      sourceField: ["taskId"],
+      destField: ["id"],
+      destSchema: "projectTask",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const projectAuditRelationships = {
+  project: [
+    {
+      sourceField: ["projectId"],
+      destField: ["id"],
+      destSchema: "project",
+      cardinality: "one",
+    },
+  ],
+  actor: [
+    {
+      sourceField: ["actorId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const projectCommentRelationships = {
+  task: [
+    {
+      sourceField: ["taskId"],
+      destField: ["id"],
+      destSchema: "projectTask",
+      cardinality: "one",
+    },
+  ],
+  author: [
+    {
+      sourceField: ["authorId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const projectNoteRelationships = {
+  project: [
+    {
+      sourceField: ["projectId"],
+      destField: ["id"],
+      destSchema: "project",
+      cardinality: "one",
+    },
+  ],
+  author: [
+    {
+      sourceField: ["authorId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const projectPhaseRelationships = {
+  project: [
+    {
+      sourceField: ["projectId"],
+      destField: ["id"],
+      destSchema: "project",
+      cardinality: "one",
+    },
+  ],
+  tasks: [
+    {
+      sourceField: ["id"],
+      destField: ["phaseId"],
+      destSchema: "projectTask",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const projectRelationships = {
+  owner: [
+    {
+      sourceField: ["ownerId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  phases: [
+    {
+      sourceField: ["id"],
+      destField: ["projectId"],
+      destSchema: "projectPhase",
+      cardinality: "many",
+    },
+  ],
+  tasks: [
+    {
+      sourceField: ["id"],
+      destField: ["projectId"],
+      destSchema: "projectTask",
+      cardinality: "many",
+    },
+  ],
+  notes: [
+    {
+      sourceField: ["id"],
+      destField: ["projectId"],
+      destSchema: "projectNote",
+      cardinality: "many",
+    },
+  ],
+  audits: [
+    {
+      sourceField: ["id"],
+      destField: ["projectId"],
+      destSchema: "projectAudit",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const projectTagRelationships = {
+  taskLinks: [
+    {
+      sourceField: ["id"],
+      destField: ["tagId"],
+      destSchema: "projectTaskTag",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const projectTaskRelationships = {
+  project: [
+    {
+      sourceField: ["projectId"],
+      destField: ["id"],
+      destSchema: "project",
+      cardinality: "one",
+    },
+  ],
+  phase: [
+    {
+      sourceField: ["phaseId"],
+      destField: ["id"],
+      destSchema: "projectPhase",
+      cardinality: "one",
+    },
+  ],
+  assignments: [
+    {
+      sourceField: ["id"],
+      destField: ["taskId"],
+      destSchema: "projectAssignment",
+      cardinality: "many",
+    },
+  ],
+  comments: [
+    {
+      sourceField: ["id"],
+      destField: ["taskId"],
+      destSchema: "projectComment",
+      cardinality: "many",
+    },
+  ],
+  attachments: [
+    {
+      sourceField: ["id"],
+      destField: ["taskId"],
+      destSchema: "projectAttachment",
+      cardinality: "many",
+    },
+  ],
+  tags: [
+    {
+      sourceField: ["id"],
+      destField: ["taskId"],
+      destSchema: "projectTaskTag",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const projectTaskTagRelationships = {
+  task: [
+    {
+      sourceField: ["taskId"],
+      destField: ["id"],
+      destSchema: "projectTask",
+      cardinality: "one",
+    },
+  ],
+  tag: [
+    {
+      sourceField: ["tagId"],
+      destField: ["id"],
+      destSchema: "projectTag",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const shipmentItemRelationships = {
+  shipment: [
+    {
+      sourceField: ["shipmentId"],
+      destField: ["id"],
+      destSchema: "shipment",
+      cardinality: "one",
+    },
+  ],
+  orderItem: [
+    {
+      sourceField: ["orderItemId"],
+      destField: ["id"],
+      destSchema: "orderItem",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const shipmentRelationships = {
+  order: [
+    {
+      sourceField: ["orderId"],
+      destField: ["id"],
+      destSchema: "orderTable",
+      cardinality: "one",
+    },
+  ],
+  items: [
+    {
+      sourceField: ["id"],
+      destField: ["shipmentId"],
+      destSchema: "shipmentItem",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const supportTicketAssignmentRelationships = {
+  ticket: [
+    {
+      sourceField: ["ticketId"],
+      destField: ["id"],
+      destSchema: "supportTicket",
+      cardinality: "one",
+    },
+  ],
+  assignee: [
+    {
+      sourceField: ["assigneeId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const supportTicketAuditRelationships = {
+  ticket: [
+    {
+      sourceField: ["ticketId"],
+      destField: ["id"],
+      destSchema: "supportTicket",
+      cardinality: "one",
+    },
+  ],
+  actor: [
+    {
+      sourceField: ["actorId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const supportTicketMessageRelationships = {
+  ticket: [
+    {
+      sourceField: ["ticketId"],
+      destField: ["id"],
+      destSchema: "supportTicket",
+      cardinality: "one",
+    },
+  ],
+  author: [
+    {
+      sourceField: ["authorId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const supportTicketRelationships = {
+  customer: [
+    {
+      sourceField: ["customerId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  assignedTeam: [
+    {
+      sourceField: ["assignedTeamId"],
+      destField: ["id"],
+      destSchema: "team",
+      cardinality: "one",
+    },
+  ],
+  messages: [
+    {
+      sourceField: ["id"],
+      destField: ["ticketId"],
+      destSchema: "supportTicketMessage",
+      cardinality: "many",
+    },
+  ],
+  tags: [
+    {
+      sourceField: ["id"],
+      destField: ["ticketId"],
+      destSchema: "supportTicketTagLink",
+      cardinality: "many",
+    },
+  ],
+  assignments: [
+    {
+      sourceField: ["id"],
+      destField: ["ticketId"],
+      destSchema: "supportTicketAssignment",
+      cardinality: "many",
+    },
+  ],
+  audits: [
+    {
+      sourceField: ["id"],
+      destField: ["ticketId"],
+      destSchema: "supportTicketAudit",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const supportTicketTagLinkRelationships = {
+  ticket: [
+    {
+      sourceField: ["ticketId"],
+      destField: ["id"],
+      destSchema: "supportTicket",
+      cardinality: "one",
+    },
+  ],
+  tag: [
+    {
+      sourceField: ["tagId"],
+      destField: ["id"],
+      destSchema: "supportTicketTag",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const supportTicketTagRelationships = {
+  ticketLinks: [
+    {
+      sourceField: ["id"],
+      destField: ["tagId"],
+      destSchema: "supportTicketTagLink",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const teamRelationships = {
+  department: [
+    {
+      sourceField: ["departmentId"],
+      destField: ["id"],
+      destSchema: "department",
+      cardinality: "one",
+    },
+  ],
+  lead: [
+    {
+      sourceField: ["leadId"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  employees: [
+    {
+      sourceField: ["id"],
+      destField: ["teamId"],
+      destSchema: "employeeProfile",
+      cardinality: "many",
+    },
+  ],
+} as const;
+const timeEntryRelationships = {
+  timesheet: [
+    {
+      sourceField: ["timesheetId"],
+      destField: ["id"],
+      destSchema: "timesheet",
+      cardinality: "one",
+    },
+  ],
+  task: [
+    {
+      sourceField: ["taskId"],
+      destField: ["id"],
+      destSchema: "projectTask",
+      cardinality: "one",
+    },
+  ],
+} as const;
+const timesheetRelationships = {
+  employee: [
+    {
+      sourceField: ["employeeId"],
+      destField: ["id"],
+      destSchema: "employeeProfile",
+      cardinality: "one",
+    },
+  ],
+  submittedBy: [
+    {
+      sourceField: ["submittedById"],
+      destField: ["id"],
+      destSchema: "user",
+      cardinality: "one",
+    },
+  ],
+  entries: [
+    {
+      sourceField: ["id"],
+      destField: ["timesheetId"],
+      destSchema: "timeEntry",
+      cardinality: "many",
+    },
+  ],
+} as const;
 /**
  * The Zero schema object.
  * This type is auto-generated from your Drizzle schema definition.
  */
 export const schema = {
   tables: {
-    allTypes: {
-      name: "allTypes",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "id"
-          >,
-        },
-        smallintField: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "smallintField"
-          >,
-          serverName: "smallint",
-        },
-        integerField: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "integerField"
-          >,
-          serverName: "integer",
-        },
-        bigintField: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "bigintField"
-          >,
-          serverName: "bigint",
-        },
-        bigintNumberField: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "bigintNumberField"
-          >,
-          serverName: "bigint_number",
-        },
-        smallSerialField: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "smallSerialField"
-          >,
-          serverName: "smallserial",
-        },
-        serialField: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "serialField"
-          >,
-          serverName: "serial",
-        },
-        bigSerialField: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "bigSerialField"
-          >,
-          serverName: "bigserial",
-        },
-        numericField: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "numericField"
-          >,
-          serverName: "numeric",
-        },
-        decimalField: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "decimalField"
-          >,
-          serverName: "decimal",
-        },
-        realField: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "realField"
-          >,
-          serverName: "real",
-        },
-        doublePrecisionField: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "doublePrecisionField"
-          >,
-          serverName: "double_precision",
-        },
-        textField: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "textField"
-          >,
-          serverName: "text",
-        },
-        charField: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "charField"
-          >,
-          serverName: "char",
-        },
-        uuidField: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "uuidField"
-          >,
-          serverName: "uuid",
-        },
-        varcharField: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "varcharField"
-          >,
-          serverName: "varchar",
-        },
-        booleanField: {
-          type: "boolean",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "booleanField"
-          >,
-          serverName: "boolean",
-        },
-        timestampField: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "timestampField"
-          >,
-          serverName: "timestamp",
-        },
-        timestampTzField: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "timestampTzField"
-          >,
-          serverName: "timestamp_tz",
-        },
-        timestampModeString: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "timestampModeString"
-          >,
-          serverName: "timestamp_mode_string",
-        },
-        timestampModeDate: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "timestampModeDate"
-          >,
-          serverName: "timestamp_mode_date",
-        },
-        dateField: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "dateField"
-          >,
-          serverName: "date",
-        },
-        jsonField: {
-          type: "json",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "jsonField"
-          >,
-          serverName: "json",
-        },
-        jsonbField: {
-          type: "json",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "jsonbField"
-          >,
-          serverName: "jsonb",
-        },
-        typedJsonField: {
-          type: "json",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "typedJsonField"
-          >,
-          serverName: "typed_json",
-        },
-        status: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "status"
-          >,
-        },
-        textArray: {
-          type: "json",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "textArray"
-          >,
-          serverName: "text_array",
-        },
-        intArray: {
-          type: "json",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "intArray"
-          >,
-          serverName: "int_array",
-        },
-        numericArray: {
-          type: "json",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "numericArray"
-          >,
-          serverName: "numeric_array",
-        },
-        uuidArray: {
-          type: "json",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "uuidArray"
-          >,
-          serverName: "uuid_array",
-        },
-        jsonbArray: {
-          type: "json",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "jsonbArray"
-          >,
-          serverName: "jsonb_array",
-        },
-        enumArray: {
-          type: "json",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "enumArray"
-          >,
-          serverName: "enum_array",
-        },
-        optionalSmallint: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalSmallint"
-          >,
-          serverName: "optional_smallint",
-        },
-        optionalInteger: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalInteger"
-          >,
-          serverName: "optional_integer",
-        },
-        optionalBigint: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalBigint"
-          >,
-          serverName: "optional_bigint",
-        },
-        optionalNumeric: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalNumeric"
-          >,
-          serverName: "optional_numeric",
-        },
-        optionalReal: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalReal"
-          >,
-          serverName: "optional_real",
-        },
-        optionalDoublePrecision: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalDoublePrecision"
-          >,
-          serverName: "optional_double_precision",
-        },
-        optionalText: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalText"
-          >,
-          serverName: "optional_text",
-        },
-        optionalBoolean: {
-          type: "boolean",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalBoolean"
-          >,
-          serverName: "optional_boolean",
-        },
-        optionalTimestamp: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalTimestamp"
-          >,
-          serverName: "optional_timestamp",
-        },
-        optionalJson: {
-          type: "json",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalJson"
-          >,
-          serverName: "optional_json",
-        },
-        optionalEnum: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalEnum"
-          >,
-          serverName: "optional_enum",
-        },
-        optionalVarchar: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalVarchar"
-          >,
-          serverName: "optional_varchar",
-        },
-        optionalUuid: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "allTypes",
-            "optionalUuid"
-          >,
-          serverName: "optional_uuid",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "all_types",
-    },
-    analyticsDashboard: {
-      name: "analyticsDashboard",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsDashboard",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsDashboard",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsDashboard",
-            "id"
-          >,
-        },
-        ownerId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsDashboard",
-            "ownerId"
-          >,
-          serverName: "owner_id",
-        },
-        title: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsDashboard",
-            "title"
-          >,
-        },
-        description: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsDashboard",
-            "description"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "analytics_dashboard",
-    },
-    analyticsWidget: {
-      name: "analyticsWidget",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidget",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidget",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidget",
-            "id"
-          >,
-        },
-        dashboardId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidget",
-            "dashboardId"
-          >,
-          serverName: "dashboard_id",
-        },
-        title: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidget",
-            "title"
-          >,
-        },
-        widgetType: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidget",
-            "widgetType"
-          >,
-          serverName: "widget_type",
-        },
-        position: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidget",
-            "position"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "analytics_widget",
-    },
-    analyticsWidgetQuery: {
-      name: "analyticsWidgetQuery",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidgetQuery",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidgetQuery",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidgetQuery",
-            "id"
-          >,
-        },
-        widgetId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidgetQuery",
-            "widgetId"
-          >,
-          serverName: "widget_id",
-        },
-        dataSource: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidgetQuery",
-            "dataSource"
-          >,
-          serverName: "data_source",
-        },
-        query: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidgetQuery",
-            "query"
-          >,
-        },
-        refreshIntervalSeconds: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "analyticsWidgetQuery",
-            "refreshIntervalSeconds"
-          >,
-          serverName: "refresh_interval_seconds",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "analytics_widget_query",
-    },
-    benefitEnrollment: {
-      name: "benefitEnrollment",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitEnrollment",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitEnrollment",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitEnrollment",
-            "id"
-          >,
-        },
-        benefitPlanId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitEnrollment",
-            "benefitPlanId"
-          >,
-          serverName: "benefit_plan_id",
-        },
-        employeeId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitEnrollment",
-            "employeeId"
-          >,
-          serverName: "employee_id",
-        },
-        enrolledAt: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitEnrollment",
-            "enrolledAt"
-          >,
-          serverName: "enrolled_at",
-        },
-        coverageLevel: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitEnrollment",
-            "coverageLevel"
-          >,
-          serverName: "coverage_level",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "benefit_enrollment",
-    },
-    benefitPlan: {
-      name: "benefitPlan",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitPlan",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitPlan",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitPlan",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitPlan",
-            "name"
-          >,
-        },
-        provider: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitPlan",
-            "provider"
-          >,
-        },
-        description: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitPlan",
-            "description"
-          >,
-        },
-        administratorId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "benefitPlan",
-            "administratorId"
-          >,
-          serverName: "administrator_id",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "benefit_plan",
-    },
-    billingInvoice: {
-      name: "billingInvoice",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "id"
-          >,
-        },
-        accountId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "accountId"
-          >,
-          serverName: "account_id",
-        },
-        contactId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "contactId"
-          >,
-          serverName: "contact_id",
-        },
-        issuedById: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "issuedById"
-          >,
-          serverName: "issued_by_id",
-        },
-        status: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "status"
-          >,
-        },
-        invoiceDate: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "invoiceDate"
-          >,
-          serverName: "invoice_date",
-        },
-        dueDate: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "dueDate"
-          >,
-          serverName: "due_date",
-        },
-        totalAmount: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "totalAmount"
-          >,
-          serverName: "total_amount",
-        },
-        currency: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoice",
-            "currency"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "billing_invoice",
-    },
-    billingInvoiceLine: {
-      name: "billingInvoiceLine",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoiceLine",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoiceLine",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoiceLine",
-            "id"
-          >,
-        },
-        invoiceId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoiceLine",
-            "invoiceId"
-          >,
-          serverName: "invoice_id",
-        },
-        orderItemId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoiceLine",
-            "orderItemId"
-          >,
-          serverName: "order_item_id",
-        },
-        description: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoiceLine",
-            "description"
-          >,
-        },
-        quantity: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoiceLine",
-            "quantity"
-          >,
-        },
-        unitPrice: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "billingInvoiceLine",
-            "unitPrice"
-          >,
-          serverName: "unit_price",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "billing_invoice_line",
-    },
-    budget: {
-      name: "budget",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budget",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budget",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budget",
-            "id"
-          >,
-        },
-        departmentId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budget",
-            "departmentId"
-          >,
-          serverName: "department_id",
-        },
-        fiscalYear: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budget",
-            "fiscalYear"
-          >,
-          serverName: "fiscal_year",
-        },
-        totalAmount: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budget",
-            "totalAmount"
-          >,
-          serverName: "total_amount",
-        },
-        currency: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budget",
-            "currency"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-    },
-    budgetLine: {
-      name: "budgetLine",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budgetLine",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budgetLine",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budgetLine",
-            "id"
-          >,
-        },
-        budgetId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budgetLine",
-            "budgetId"
-          >,
-          serverName: "budget_id",
-        },
-        accountId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budgetLine",
-            "accountId"
-          >,
-          serverName: "account_id",
-        },
-        amount: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "budgetLine",
-            "amount"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "budget_line",
-    },
-    crmAccount: {
-      name: "crmAccount",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmAccount",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmAccount",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmAccount",
-            "id"
-          >,
-        },
-        ownerId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmAccount",
-            "ownerId"
-          >,
-          serverName: "owner_id",
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmAccount",
-            "name"
-          >,
-        },
-        industry: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmAccount",
-            "industry"
-          >,
-        },
-        status: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmAccount",
-            "status"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "crm_account",
-    },
-    crmActivity: {
-      name: "crmActivity",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivity",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivity",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivity",
-            "id"
-          >,
-        },
-        accountId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivity",
-            "accountId"
-          >,
-          serverName: "account_id",
-        },
-        contactId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivity",
-            "contactId"
-          >,
-          serverName: "contact_id",
-        },
-        opportunityId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivity",
-            "opportunityId"
-          >,
-          serverName: "opportunity_id",
-        },
-        typeId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivity",
-            "typeId"
-          >,
-          serverName: "type_id",
-        },
-        performedById: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivity",
-            "performedById"
-          >,
-          serverName: "performed_by_id",
-        },
-        notes: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivity",
-            "notes"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "crm_activity",
-    },
-    crmActivityType: {
-      name: "crmActivityType",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivityType",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivityType",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivityType",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivityType",
-            "name"
-          >,
-        },
-        description: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmActivityType",
-            "description"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "crm_activity_type",
-    },
-    crmContact: {
-      name: "crmContact",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmContact",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmContact",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmContact",
-            "id"
-          >,
-        },
-        accountId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmContact",
-            "accountId"
-          >,
-          serverName: "account_id",
-        },
-        firstName: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmContact",
-            "firstName"
-          >,
-          serverName: "first_name",
-        },
-        lastName: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmContact",
-            "lastName"
-          >,
-          serverName: "last_name",
-        },
-        email: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmContact",
-            "email"
-          >,
-        },
-        phone: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmContact",
-            "phone"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "crm_contact",
-    },
-    crmNote: {
-      name: "crmNote",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmNote",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmNote",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmNote",
-            "id"
-          >,
-        },
-        accountId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmNote",
-            "accountId"
-          >,
-          serverName: "account_id",
-        },
-        contactId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmNote",
-            "contactId"
-          >,
-          serverName: "contact_id",
-        },
-        authorId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmNote",
-            "authorId"
-          >,
-          serverName: "author_id",
-        },
-        body: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmNote",
-            "body"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "crm_note",
-    },
-    crmOpportunity: {
-      name: "crmOpportunity",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunity",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunity",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunity",
-            "id"
-          >,
-        },
-        accountId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunity",
-            "accountId"
-          >,
-          serverName: "account_id",
-        },
-        stageId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunity",
-            "stageId"
-          >,
-          serverName: "stage_id",
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunity",
-            "name"
-          >,
-        },
-        amount: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunity",
-            "amount"
-          >,
-        },
-        closeDate: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunity",
-            "closeDate"
-          >,
-          serverName: "close_date",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "crm_opportunity",
-    },
-    crmOpportunityStageHistory: {
-      name: "crmOpportunityStageHistory",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunityStageHistory",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunityStageHistory",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunityStageHistory",
-            "id"
-          >,
-        },
-        opportunityId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunityStageHistory",
-            "opportunityId"
-          >,
-          serverName: "opportunity_id",
-        },
-        stageId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunityStageHistory",
-            "stageId"
-          >,
-          serverName: "stage_id",
-        },
-        changedById: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunityStageHistory",
-            "changedById"
-          >,
-          serverName: "changed_by_id",
-        },
-        changedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmOpportunityStageHistory",
-            "changedAt"
-          >,
-          serverName: "changed_at",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "crm_opportunity_stage_history",
-    },
-    crmPipelineStage: {
-      name: "crmPipelineStage",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmPipelineStage",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmPipelineStage",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmPipelineStage",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmPipelineStage",
-            "name"
-          >,
-        },
-        sequence: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmPipelineStage",
-            "sequence"
-          >,
-        },
-        probability: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "crmPipelineStage",
-            "probability"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "crm_pipeline_stage",
-    },
-    department: {
-      name: "department",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "department",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "department",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "department",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "department",
-            "name"
-          >,
-        },
-        description: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "department",
-            "description"
-          >,
-        },
-        managerId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "department",
-            "managerId"
-          >,
-          serverName: "manager_id",
-        },
-      },
-      primaryKey: ["id"],
-    },
-    documentFile: {
-      name: "documentFile",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFile",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFile",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFile",
-            "id"
-          >,
-        },
-        folderId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFile",
-            "folderId"
-          >,
-          serverName: "folder_id",
-        },
-        uploadedById: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFile",
-            "uploadedById"
-          >,
-          serverName: "uploaded_by_id",
-        },
-        fileName: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFile",
-            "fileName"
-          >,
-          serverName: "file_name",
-        },
-        mimeType: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFile",
-            "mimeType"
-          >,
-          serverName: "mime_type",
-        },
-        sizeBytes: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFile",
-            "sizeBytes"
-          >,
-          serverName: "size_bytes",
-        },
-        version: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFile",
-            "version"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "document_file",
-    },
-    documentFileVersion: {
-      name: "documentFileVersion",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFileVersion",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFileVersion",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFileVersion",
-            "id"
-          >,
-        },
-        fileId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFileVersion",
-            "fileId"
-          >,
-          serverName: "file_id",
-        },
-        uploadedById: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFileVersion",
-            "uploadedById"
-          >,
-          serverName: "uploaded_by_id",
-        },
-        version: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFileVersion",
-            "version"
-          >,
-        },
-        changeLog: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFileVersion",
-            "changeLog"
-          >,
-          serverName: "change_log",
-        },
-        fileSizeBytes: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFileVersion",
-            "fileSizeBytes"
-          >,
-          serverName: "file_size_bytes",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "document_file_version",
-    },
-    documentFolder: {
-      name: "documentFolder",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFolder",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFolder",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFolder",
-            "id"
-          >,
-        },
-        libraryId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFolder",
-            "libraryId"
-          >,
-          serverName: "library_id",
-        },
-        parentId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFolder",
-            "parentId"
-          >,
-          serverName: "parent_id",
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentFolder",
-            "name"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "document_folder",
-    },
-    documentLibrary: {
-      name: "documentLibrary",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentLibrary",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentLibrary",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentLibrary",
-            "id"
-          >,
-        },
-        projectId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentLibrary",
-            "projectId"
-          >,
-          serverName: "project_id",
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentLibrary",
-            "name"
-          >,
-        },
-        description: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentLibrary",
-            "description"
-          >,
-        },
-        visibility: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentLibrary",
-            "visibility"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "document_library",
-    },
-    documentSharing: {
-      name: "documentSharing",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentSharing",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentSharing",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentSharing",
-            "id"
-          >,
-        },
-        fileId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentSharing",
-            "fileId"
-          >,
-          serverName: "file_id",
-        },
-        sharedWithUserId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentSharing",
-            "sharedWithUserId"
-          >,
-          serverName: "shared_with_user_id",
-        },
-        sharedWithTeamId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentSharing",
-            "sharedWithTeamId"
-          >,
-          serverName: "shared_with_team_id",
-        },
-        permission: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "documentSharing",
-            "permission"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "document_sharing",
-    },
-    employeeDocument: {
-      name: "employeeDocument",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeDocument",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeDocument",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeDocument",
-            "id"
-          >,
-        },
-        employeeId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeDocument",
-            "employeeId"
-          >,
-          serverName: "employee_id",
-        },
-        fileName: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeDocument",
-            "fileName"
-          >,
-          serverName: "file_name",
-        },
-        documentType: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeDocument",
-            "documentType"
-          >,
-          serverName: "document_type",
-        },
-        uploadedById: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeDocument",
-            "uploadedById"
-          >,
-          serverName: "uploaded_by_id",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "employee_document",
-    },
-    employeeProfile: {
-      name: "employeeProfile",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeProfile",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeProfile",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeProfile",
-            "id"
-          >,
-        },
-        userId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeProfile",
-            "userId"
-          >,
-          serverName: "user_id",
-        },
-        departmentId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeProfile",
-            "departmentId"
-          >,
-          serverName: "department_id",
-        },
-        teamId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeProfile",
-            "teamId"
-          >,
-          serverName: "team_id",
-        },
-        title: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeProfile",
-            "title"
-          >,
-        },
-        startDate: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeProfile",
-            "startDate"
-          >,
-          serverName: "start_date",
-        },
-        employmentType: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employeeProfile",
-            "employmentType"
-          >,
-          serverName: "employment_type",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "employee_profile",
-    },
-    employmentHistory: {
-      name: "employmentHistory",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employmentHistory",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employmentHistory",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employmentHistory",
-            "id"
-          >,
-        },
-        employeeId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employmentHistory",
-            "employeeId"
-          >,
-          serverName: "employee_id",
-        },
-        company: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employmentHistory",
-            "company"
-          >,
-        },
-        title: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employmentHistory",
-            "title"
-          >,
-        },
-        startDate: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employmentHistory",
-            "startDate"
-          >,
-          serverName: "start_date",
-        },
-        endDate: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "employmentHistory",
-            "endDate"
-          >,
-          serverName: "end_date",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "employment_history",
-    },
-    expenseItem: {
-      name: "expenseItem",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseItem",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseItem",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseItem",
-            "id"
-          >,
-        },
-        reportId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseItem",
-            "reportId"
-          >,
-          serverName: "report_id",
-        },
-        amount: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseItem",
-            "amount"
-          >,
-        },
-        category: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseItem",
-            "category"
-          >,
-        },
-        incurredAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseItem",
-            "incurredAt"
-          >,
-          serverName: "incurred_at",
-        },
-        merchant: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseItem",
-            "merchant"
-          >,
-        },
-        notes: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseItem",
-            "notes"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "expense_item",
-    },
-    expenseReport: {
-      name: "expenseReport",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseReport",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseReport",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseReport",
-            "id"
-          >,
-        },
-        ownerId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseReport",
-            "ownerId"
-          >,
-          serverName: "owner_id",
-        },
-        departmentId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseReport",
-            "departmentId"
-          >,
-          serverName: "department_id",
-        },
-        status: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseReport",
-            "status"
-          >,
-        },
-        submittedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "expenseReport",
-            "submittedAt"
-          >,
-          serverName: "submitted_at",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "expense_report",
-    },
-    filters: {
-      name: "filters",
-      columns: {
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "filters",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "filters",
-            "name"
-          >,
-        },
-        parentId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "filters",
-            "parentId"
-          >,
-          serverName: "parent_id",
-        },
-      },
-      primaryKey: ["id"],
-    },
-    friendship: {
-      name: "friendship",
-      columns: {
-        requestingId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "friendship",
-            "requestingId"
-          >,
-        },
-        acceptingId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "friendship",
-            "acceptingId"
-          >,
-        },
-        accepted: {
-          type: "boolean",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "friendship",
-            "accepted"
-          >,
-        },
-      },
-      primaryKey: ["requestingId", "acceptingId"],
-    },
-    integrationCredential: {
-      name: "integrationCredential",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationCredential",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationCredential",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationCredential",
-            "id"
-          >,
-        },
-        webhookId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationCredential",
-            "webhookId"
-          >,
-          serverName: "webhook_id",
-        },
-        provider: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationCredential",
-            "provider"
-          >,
-        },
-        clientId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationCredential",
-            "clientId"
-          >,
-          serverName: "client_id",
-        },
-        clientSecret: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationCredential",
-            "clientSecret"
-          >,
-          serverName: "client_secret",
-        },
-        metadata: {
-          type: "json",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationCredential",
-            "metadata"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "integration_credential",
-    },
-    integrationEvent: {
-      name: "integrationEvent",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationEvent",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationEvent",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationEvent",
-            "id"
-          >,
-        },
-        webhookId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationEvent",
-            "webhookId"
-          >,
-          serverName: "webhook_id",
-        },
-        payload: {
-          type: "json",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationEvent",
-            "payload"
-          >,
-        },
-        eventType: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationEvent",
-            "eventType"
-          >,
-          serverName: "event_type",
-        },
-        deliveredAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationEvent",
-            "deliveredAt"
-          >,
-          serverName: "delivered_at",
-        },
-        status: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationEvent",
-            "status"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "integration_event",
-    },
-    integrationWebhook: {
-      name: "integrationWebhook",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationWebhook",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationWebhook",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationWebhook",
-            "id"
-          >,
-        },
-        projectId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationWebhook",
-            "projectId"
-          >,
-          serverName: "project_id",
-        },
-        accountId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationWebhook",
-            "accountId"
-          >,
-          serverName: "account_id",
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationWebhook",
-            "name"
-          >,
-        },
-        url: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationWebhook",
-            "url"
-          >,
-        },
-        secret: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationWebhook",
-            "secret"
-          >,
-        },
-        isActive: {
-          type: "boolean",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "integrationWebhook",
-            "isActive"
-          >,
-          serverName: "is_active",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "integration_webhook",
-    },
-    inventoryItem: {
-      name: "inventoryItem",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryItem",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryItem",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryItem",
-            "id"
-          >,
-        },
-        variantId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryItem",
-            "variantId"
-          >,
-          serverName: "variant_id",
-        },
-        serialNumber: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryItem",
-            "serialNumber"
-          >,
-          serverName: "serial_number",
-        },
-        metadata: {
-          type: "json",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryItem",
-            "metadata"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "inventory_item",
-    },
-    inventoryLevel: {
-      name: "inventoryLevel",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLevel",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLevel",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLevel",
-            "id"
-          >,
-        },
-        locationId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLevel",
-            "locationId"
-          >,
-          serverName: "location_id",
-        },
-        variantId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLevel",
-            "variantId"
-          >,
-          serverName: "variant_id",
-        },
-        quantity: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLevel",
-            "quantity"
-          >,
-        },
-        reserved: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLevel",
-            "reserved"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "inventory_level",
-    },
-    inventoryLocation: {
-      name: "inventoryLocation",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLocation",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLocation",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLocation",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLocation",
-            "name"
-          >,
-        },
-        address: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLocation",
-            "address"
-          >,
-        },
-        region: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "inventoryLocation",
-            "region"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "inventory_location",
-    },
-    ledgerAccount: {
-      name: "ledgerAccount",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerAccount",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerAccount",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerAccount",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerAccount",
-            "name"
-          >,
-        },
-        code: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerAccount",
-            "code"
-          >,
-        },
-        accountType: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerAccount",
-            "accountType"
-          >,
-          serverName: "account_type",
-        },
-        parentAccountId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerAccount",
-            "parentAccountId"
-          >,
-          serverName: "parent_account_id",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "ledger_account",
-    },
-    ledgerEntry: {
-      name: "ledgerEntry",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerEntry",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerEntry",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerEntry",
-            "id"
-          >,
-        },
-        transactionId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerEntry",
-            "transactionId"
-          >,
-          serverName: "transaction_id",
-        },
-        accountId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerEntry",
-            "accountId"
-          >,
-          serverName: "account_id",
-        },
-        debit: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerEntry",
-            "debit"
-          >,
-        },
-        credit: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerEntry",
-            "credit"
-          >,
-        },
-        memo: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerEntry",
-            "memo"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "ledger_entry",
-    },
-    ledgerTransaction: {
-      name: "ledgerTransaction",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerTransaction",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerTransaction",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerTransaction",
-            "id"
-          >,
-        },
-        reference: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerTransaction",
-            "reference"
-          >,
-        },
-        transactionDate: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerTransaction",
-            "transactionDate"
-          >,
-          serverName: "transaction_date",
-        },
-        createdById: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerTransaction",
-            "createdById"
-          >,
-          serverName: "created_by_id",
-        },
-        description: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "ledgerTransaction",
-            "description"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "ledger_transaction",
-    },
-    marketingAudience: {
-      name: "marketingAudience",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingAudience",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingAudience",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingAudience",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingAudience",
-            "name"
-          >,
-        },
-        segmentType: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingAudience",
-            "segmentType"
-          >,
-          serverName: "segment_type",
-        },
-        definition: {
-          type: "json",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingAudience",
-            "definition"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "marketing_audience",
-    },
-    marketingCampaign: {
-      name: "marketingCampaign",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaign",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaign",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaign",
-            "id"
-          >,
-        },
-        ownerId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaign",
-            "ownerId"
-          >,
-          serverName: "owner_id",
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaign",
-            "name"
-          >,
-        },
-        status: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaign",
-            "status"
-          >,
-        },
-        startDate: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaign",
-            "startDate"
-          >,
-          serverName: "start_date",
-        },
-        endDate: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaign",
-            "endDate"
-          >,
-          serverName: "end_date",
-        },
-        budgetAmount: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaign",
-            "budgetAmount"
-          >,
-          serverName: "budget_amount",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "marketing_campaign",
-    },
-    marketingCampaignAudience: {
-      name: "marketingCampaignAudience",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignAudience",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignAudience",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignAudience",
-            "id"
-          >,
-        },
-        campaignId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignAudience",
-            "campaignId"
-          >,
-          serverName: "campaign_id",
-        },
-        audienceId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignAudience",
-            "audienceId"
-          >,
-          serverName: "audience_id",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "marketing_campaign_audience",
-    },
-    marketingCampaignChannel: {
-      name: "marketingCampaignChannel",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignChannel",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignChannel",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignChannel",
-            "id"
-          >,
-        },
-        campaignId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignChannel",
-            "campaignId"
-          >,
-          serverName: "campaign_id",
-        },
-        channelId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignChannel",
-            "channelId"
-          >,
-          serverName: "channel_id",
-        },
-        allocation: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingCampaignChannel",
-            "allocation"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "marketing_campaign_channel",
-    },
-    marketingChannel: {
-      name: "marketingChannel",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingChannel",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingChannel",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingChannel",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingChannel",
-            "name"
-          >,
-        },
-        channelType: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingChannel",
-            "channelType"
-          >,
-          serverName: "channel_type",
-        },
-        costModel: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "marketingChannel",
-            "costModel"
-          >,
-          serverName: "cost_model",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "marketing_channel",
-    },
-    medium: {
-      name: "medium",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "medium",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "medium",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "medium",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "medium",
-            "name"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-    },
-    message: {
-      name: "message",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "message",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "message",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "message",
-            "id"
-          >,
-        },
-        senderId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "message",
-            "senderId"
-          >,
-        },
-        mediumId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "message",
-            "mediumId"
-          >,
-        },
-        body: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "message",
-            "body"
-          >,
-        },
-        metadata: {
-          type: "json",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "message",
-            "metadata"
-          >,
-        },
-        omittedColumn: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "message",
-            "omittedColumn"
-          >,
-          serverName: "omitted_column",
-        },
-      },
-      primaryKey: ["id"],
-    },
-    omittedTable: {
-      name: "omittedTable",
-      columns: {
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "omittedTable",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "omittedTable",
-            "name"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "omitted_table",
-    },
-    orderItem: {
-      name: "orderItem",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderItem",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderItem",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderItem",
-            "id"
-          >,
-        },
-        orderId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderItem",
-            "orderId"
-          >,
-          serverName: "order_id",
-        },
-        variantId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderItem",
-            "variantId"
-          >,
-          serverName: "variant_id",
-        },
-        quantity: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderItem",
-            "quantity"
-          >,
-        },
-        unitPrice: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderItem",
-            "unitPrice"
-          >,
-          serverName: "unit_price",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "order_item",
-    },
-    orderPayment: {
-      name: "orderPayment",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderPayment",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderPayment",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderPayment",
-            "id"
-          >,
-        },
-        orderId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderPayment",
-            "orderId"
-          >,
-          serverName: "order_id",
-        },
-        paymentId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderPayment",
-            "paymentId"
-          >,
-          serverName: "payment_id",
-        },
-        amount: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderPayment",
-            "amount"
-          >,
-        },
-        status: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderPayment",
-            "status"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "order_payment",
-    },
-    orderTable: {
-      name: "orderTable",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderTable",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderTable",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderTable",
-            "id"
-          >,
-        },
-        customerId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderTable",
-            "customerId"
-          >,
-          serverName: "customer_id",
-        },
-        opportunityId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderTable",
-            "opportunityId"
-          >,
-          serverName: "opportunity_id",
-        },
-        status: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderTable",
-            "status"
-          >,
-        },
-        total: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderTable",
-            "total"
-          >,
-        },
-        currency: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "orderTable",
-            "currency"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "order",
-    },
-    payment: {
-      name: "payment",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "payment",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "payment",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "payment",
-            "id"
-          >,
-        },
-        externalRef: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "payment",
-            "externalRef"
-          >,
-          serverName: "external_ref",
-        },
-        status: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "payment",
-            "status"
-          >,
-        },
-        amount: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "payment",
-            "amount"
-          >,
-        },
-        currency: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "payment",
-            "currency"
-          >,
-        },
-        receivedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "payment",
-            "receivedAt"
-          >,
-          serverName: "received_at",
-        },
-        receivedById: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "payment",
-            "receivedById"
-          >,
-          serverName: "received_by_id",
-        },
-      },
-      primaryKey: ["id"],
-    },
-    product: {
-      name: "product",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "product",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "product",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "product",
-            "id"
-          >,
-        },
-        categoryId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "product",
-            "categoryId"
-          >,
-          serverName: "category_id",
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "product",
-            "name"
-          >,
-        },
-        description: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "product",
-            "description"
-          >,
-        },
-        status: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "product",
-            "status"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-    },
-    productCategory: {
-      name: "productCategory",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productCategory",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productCategory",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productCategory",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productCategory",
-            "name"
-          >,
-        },
-        description: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productCategory",
-            "description"
-          >,
-        },
-        parentId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productCategory",
-            "parentId"
-          >,
-          serverName: "parent_id",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "product_category",
-    },
-    productMedia: {
-      name: "productMedia",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productMedia",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productMedia",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productMedia",
-            "id"
-          >,
-        },
-        productId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productMedia",
-            "productId"
-          >,
-          serverName: "product_id",
-        },
-        url: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productMedia",
-            "url"
-          >,
-        },
-        type: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productMedia",
-            "type"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "product_media",
-    },
-    productVariant: {
-      name: "productVariant",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productVariant",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productVariant",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productVariant",
-            "id"
-          >,
-        },
-        productId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productVariant",
-            "productId"
-          >,
-          serverName: "product_id",
-        },
-        sku: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productVariant",
-            "sku"
-          >,
-        },
-        price: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productVariant",
-            "price"
-          >,
-        },
-        currency: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productVariant",
-            "currency"
-          >,
-        },
-        isActive: {
-          type: "boolean",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "productVariant",
-            "isActive"
-          >,
-          serverName: "is_active",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "product_variant",
-    },
-    project: {
-      name: "project",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "project",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "project",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "project",
-            "id"
-          >,
-        },
-        ownerId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "project",
-            "ownerId"
-          >,
-          serverName: "owner_id",
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "project",
-            "name"
-          >,
-        },
-        description: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "project",
-            "description"
-          >,
-        },
-        status: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "project",
-            "status"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-    },
-    projectAssignment: {
-      name: "projectAssignment",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAssignment",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAssignment",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAssignment",
-            "id"
-          >,
-        },
-        taskId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAssignment",
-            "taskId"
-          >,
-          serverName: "task_id",
-        },
-        userId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAssignment",
-            "userId"
-          >,
-          serverName: "user_id",
-        },
-        assignedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAssignment",
-            "assignedAt"
-          >,
-          serverName: "assigned_at",
-        },
-        role: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAssignment",
-            "role"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "project_assignment",
-    },
-    projectAttachment: {
-      name: "projectAttachment",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAttachment",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAttachment",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAttachment",
-            "id"
-          >,
-        },
-        taskId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAttachment",
-            "taskId"
-          >,
-          serverName: "task_id",
-        },
-        fileName: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAttachment",
-            "fileName"
-          >,
-          serverName: "file_name",
-        },
-        fileType: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAttachment",
-            "fileType"
-          >,
-          serverName: "file_type",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "project_attachment",
-    },
-    projectAudit: {
-      name: "projectAudit",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAudit",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAudit",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAudit",
-            "id"
-          >,
-        },
-        projectId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAudit",
-            "projectId"
-          >,
-          serverName: "project_id",
-        },
-        actorId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAudit",
-            "actorId"
-          >,
-          serverName: "actor_id",
-        },
-        action: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAudit",
-            "action"
-          >,
-        },
-        details: {
-          type: "json",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectAudit",
-            "details"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "project_audit",
-    },
-    projectComment: {
-      name: "projectComment",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectComment",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectComment",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectComment",
-            "id"
-          >,
-        },
-        taskId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectComment",
-            "taskId"
-          >,
-          serverName: "task_id",
-        },
-        authorId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectComment",
-            "authorId"
-          >,
-          serverName: "author_id",
-        },
-        body: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectComment",
-            "body"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "project_comment",
-    },
-    projectNote: {
-      name: "projectNote",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectNote",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectNote",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectNote",
-            "id"
-          >,
-        },
-        projectId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectNote",
-            "projectId"
-          >,
-          serverName: "project_id",
-        },
-        authorId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectNote",
-            "authorId"
-          >,
-          serverName: "author_id",
-        },
-        note: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectNote",
-            "note"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "project_note",
-    },
-    projectPhase: {
-      name: "projectPhase",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectPhase",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectPhase",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectPhase",
-            "id"
-          >,
-        },
-        projectId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectPhase",
-            "projectId"
-          >,
-          serverName: "project_id",
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectPhase",
-            "name"
-          >,
-        },
-        sequence: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectPhase",
-            "sequence"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "project_phase",
-    },
-    projectTag: {
-      name: "projectTag",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTag",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTag",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTag",
-            "id"
-          >,
-        },
-        label: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTag",
-            "label"
-          >,
-        },
-        color: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTag",
-            "color"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "project_tag",
-    },
-    projectTask: {
-      name: "projectTask",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTask",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTask",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTask",
-            "id"
-          >,
-        },
-        projectId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTask",
-            "projectId"
-          >,
-          serverName: "project_id",
-        },
-        phaseId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTask",
-            "phaseId"
-          >,
-          serverName: "phase_id",
-        },
-        title: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTask",
-            "title"
-          >,
-        },
-        status: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTask",
-            "status"
-          >,
-        },
-        priority: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTask",
-            "priority"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "project_task",
-    },
-    projectTaskTag: {
-      name: "projectTaskTag",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTaskTag",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTaskTag",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTaskTag",
-            "id"
-          >,
-        },
-        taskId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTaskTag",
-            "taskId"
-          >,
-          serverName: "task_id",
-        },
-        tagId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "projectTaskTag",
-            "tagId"
-          >,
-          serverName: "tag_id",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "project_task_tag",
-    },
-    shipment: {
-      name: "shipment",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipment",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipment",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipment",
-            "id"
-          >,
-        },
-        orderId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipment",
-            "orderId"
-          >,
-          serverName: "order_id",
-        },
-        shippedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipment",
-            "shippedAt"
-          >,
-          serverName: "shipped_at",
-        },
-        deliveredAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipment",
-            "deliveredAt"
-          >,
-          serverName: "delivered_at",
-        },
-        carrier: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipment",
-            "carrier"
-          >,
-        },
-        trackingNumber: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipment",
-            "trackingNumber"
-          >,
-          serverName: "tracking_number",
-        },
-      },
-      primaryKey: ["id"],
-    },
-    shipmentItem: {
-      name: "shipmentItem",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipmentItem",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipmentItem",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipmentItem",
-            "id"
-          >,
-        },
-        shipmentId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipmentItem",
-            "shipmentId"
-          >,
-          serverName: "shipment_id",
-        },
-        orderItemId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipmentItem",
-            "orderItemId"
-          >,
-          serverName: "order_item_id",
-        },
-        quantity: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "shipmentItem",
-            "quantity"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "shipment_item",
-    },
-    supportTicket: {
-      name: "supportTicket",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicket",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicket",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicket",
-            "id"
-          >,
-        },
-        customerId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicket",
-            "customerId"
-          >,
-          serverName: "customer_id",
-        },
-        assignedTeamId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicket",
-            "assignedTeamId"
-          >,
-          serverName: "assigned_team_id",
-        },
-        subject: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicket",
-            "subject"
-          >,
-        },
-        status: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicket",
-            "status"
-          >,
-        },
-        priority: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicket",
-            "priority"
-          >,
-        },
-        source: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicket",
-            "source"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "support_ticket",
-    },
-    supportTicketAssignment: {
-      name: "supportTicketAssignment",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAssignment",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAssignment",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAssignment",
-            "id"
-          >,
-        },
-        ticketId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAssignment",
-            "ticketId"
-          >,
-          serverName: "ticket_id",
-        },
-        assigneeId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAssignment",
-            "assigneeId"
-          >,
-          serverName: "assignee_id",
-        },
-        assignedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAssignment",
-            "assignedAt"
-          >,
-          serverName: "assigned_at",
-        },
-        assignmentType: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAssignment",
-            "assignmentType"
-          >,
-          serverName: "assignment_type",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "support_ticket_assignment",
-    },
-    supportTicketAudit: {
-      name: "supportTicketAudit",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAudit",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAudit",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAudit",
-            "id"
-          >,
-        },
-        ticketId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAudit",
-            "ticketId"
-          >,
-          serverName: "ticket_id",
-        },
-        actorId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAudit",
-            "actorId"
-          >,
-          serverName: "actor_id",
-        },
-        action: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAudit",
-            "action"
-          >,
-        },
-        details: {
-          type: "json",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketAudit",
-            "details"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "support_ticket_audit",
-    },
-    supportTicketMessage: {
-      name: "supportTicketMessage",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketMessage",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketMessage",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketMessage",
-            "id"
-          >,
-        },
-        ticketId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketMessage",
-            "ticketId"
-          >,
-          serverName: "ticket_id",
-        },
-        authorId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketMessage",
-            "authorId"
-          >,
-          serverName: "author_id",
-        },
-        body: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketMessage",
-            "body"
-          >,
-        },
-        visibility: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketMessage",
-            "visibility"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "support_ticket_message",
-    },
-    supportTicketTag: {
-      name: "supportTicketTag",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTag",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTag",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTag",
-            "id"
-          >,
-        },
-        label: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTag",
-            "label"
-          >,
-        },
-        description: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTag",
-            "description"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "support_ticket_tag",
-    },
-    supportTicketTagLink: {
-      name: "supportTicketTagLink",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTagLink",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTagLink",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTagLink",
-            "id"
-          >,
-        },
-        ticketId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTagLink",
-            "ticketId"
-          >,
-          serverName: "ticket_id",
-        },
-        tagId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "supportTicketTagLink",
-            "tagId"
-          >,
-          serverName: "tag_id",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "support_ticket_tag_link",
-    },
-    team: {
-      name: "team",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "team",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "team",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "team",
-            "id"
-          >,
-        },
-        departmentId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "team",
-            "departmentId"
-          >,
-          serverName: "department_id",
-        },
-        leadId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "team",
-            "leadId"
-          >,
-          serverName: "lead_id",
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "team",
-            "name"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-    },
-    testBigSerialPk: {
-      name: "testBigSerialPk",
-      columns: {
-        id: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testBigSerialPk",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testBigSerialPk",
-            "name"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "test_bigserial_pk",
-    },
-    testCompositePkBothDefaults: {
-      name: "testCompositePkBothDefaults",
-      columns: {
-        id1: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testCompositePkBothDefaults",
-            "id1"
-          >,
-        },
-        id2: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testCompositePkBothDefaults",
-            "id2"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testCompositePkBothDefaults",
-            "name"
-          >,
-        },
-      },
-      primaryKey: ["id1", "id2"],
-      serverName: "test_composite_pk_both_defaults",
-    },
-    testCompositePkOneDefault: {
-      name: "testCompositePkOneDefault",
-      columns: {
-        tenantId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testCompositePkOneDefault",
-            "tenantId"
-          >,
-          serverName: "tenant_id",
-        },
-        id: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testCompositePkOneDefault",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testCompositePkOneDefault",
-            "name"
-          >,
-        },
-      },
-      primaryKey: ["tenantId", "id"],
-      serverName: "test_composite_pk_one_default",
-    },
-    testIntegerDefaultPk: {
-      name: "testIntegerDefaultPk",
-      columns: {
-        id: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testIntegerDefaultPk",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testIntegerDefaultPk",
-            "name"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "test_integer_default_pk",
-    },
-    testSerialPk: {
-      name: "testSerialPk",
-      columns: {
-        id: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testSerialPk",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testSerialPk",
-            "name"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "test_serial_pk",
-    },
-    testTextDefaultPk: {
-      name: "testTextDefaultPk",
-      columns: {
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testTextDefaultPk",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testTextDefaultPk",
-            "name"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "test_text_default_pk",
-    },
-    testTimestampDefaultPk: {
-      name: "testTimestampDefaultPk",
-      columns: {
-        id: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testTimestampDefaultPk",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testTimestampDefaultPk",
-            "name"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "test_timestamp_default_pk",
-    },
-    testUuidPk: {
-      name: "testUuidPk",
-      columns: {
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testUuidPk",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testUuidPk",
-            "name"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "test_uuid_pk",
-    },
-    testUuidSqlDefaultPk: {
-      name: "testUuidSqlDefaultPk",
-      columns: {
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testUuidSqlDefaultPk",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "testUuidSqlDefaultPk",
-            "name"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "test_uuid_sql_default_pk",
-    },
-    timeEntry: {
-      name: "timeEntry",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timeEntry",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timeEntry",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timeEntry",
-            "id"
-          >,
-        },
-        timesheetId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timeEntry",
-            "timesheetId"
-          >,
-          serverName: "timesheet_id",
-        },
-        taskId: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timeEntry",
-            "taskId"
-          >,
-          serverName: "task_id",
-        },
-        hours: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timeEntry",
-            "hours"
-          >,
-        },
-        notes: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timeEntry",
-            "notes"
-          >,
-        },
-        entryDate: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timeEntry",
-            "entryDate"
-          >,
-          serverName: "entry_date",
-        },
-      },
-      primaryKey: ["id"],
-      serverName: "time_entry",
-    },
-    timesheet: {
-      name: "timesheet",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timesheet",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timesheet",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timesheet",
-            "id"
-          >,
-        },
-        employeeId: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timesheet",
-            "employeeId"
-          >,
-          serverName: "employee_id",
-        },
-        periodStart: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timesheet",
-            "periodStart"
-          >,
-          serverName: "period_start",
-        },
-        periodEnd: {
-          type: "number",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timesheet",
-            "periodEnd"
-          >,
-          serverName: "period_end",
-        },
-        submittedById: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timesheet",
-            "submittedById"
-          >,
-          serverName: "submitted_by_id",
-        },
-        status: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "timesheet",
-            "status"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-    },
-    user: {
-      name: "user",
-      columns: {
-        createdAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "user",
-            "createdAt"
-          >,
-        },
-        updatedAt: {
-          type: "number",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "user",
-            "updatedAt"
-          >,
-        },
-        id: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "user",
-            "id"
-          >,
-        },
-        name: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "user",
-            "name"
-          >,
-        },
-        partner: {
-          type: "boolean",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "user",
-            "partner"
-          >,
-        },
-        email: {
-          type: "string",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "user",
-            "email"
-          >,
-        },
-        customTypeJson: {
-          type: "json",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "user",
-            "customTypeJson"
-          >,
-          serverName: "custom_type_json",
-        },
-        customInterfaceJson: {
-          type: "json",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "user",
-            "customInterfaceJson"
-          >,
-          serverName: "custom_interface_json",
-        },
-        testInterface: {
-          type: "json",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "user",
-            "testInterface"
-          >,
-          serverName: "test_interface",
-        },
-        testType: {
-          type: "json",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "user",
-            "testType"
-          >,
-          serverName: "test_type",
-        },
-        testExportedType: {
-          type: "json",
-          optional: false,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "user",
-            "testExportedType"
-          >,
-          serverName: "test_exported_type",
-        },
-        status: {
-          type: "string",
-          optional: true,
-          customType: null as unknown as ZeroCustomType<
-            typeof zeroSchema,
-            "user",
-            "status"
-          >,
-        },
-      },
-      primaryKey: ["id"],
-    },
+    allTypes: allTypesTable,
+    analyticsDashboard: analyticsDashboardTable,
+    analyticsWidget: analyticsWidgetTable,
+    analyticsWidgetQuery: analyticsWidgetQueryTable,
+    benefitEnrollment: benefitEnrollmentTable,
+    benefitPlan: benefitPlanTable,
+    billingInvoice: billingInvoiceTable,
+    billingInvoiceLine: billingInvoiceLineTable,
+    budget: budgetTable,
+    budgetLine: budgetLineTable,
+    crmAccount: crmAccountTable,
+    crmActivity: crmActivityTable,
+    crmActivityType: crmActivityTypeTable,
+    crmContact: crmContactTable,
+    crmNote: crmNoteTable,
+    crmOpportunity: crmOpportunityTable,
+    crmOpportunityStageHistory: crmOpportunityStageHistoryTable,
+    crmPipelineStage: crmPipelineStageTable,
+    department: departmentTable,
+    documentFile: documentFileTable,
+    documentFileVersion: documentFileVersionTable,
+    documentFolder: documentFolderTable,
+    documentLibrary: documentLibraryTable,
+    documentSharing: documentSharingTable,
+    employeeDocument: employeeDocumentTable,
+    employeeProfile: employeeProfileTable,
+    employmentHistory: employmentHistoryTable,
+    expenseItem: expenseItemTable,
+    expenseReport: expenseReportTable,
+    filters: filtersTable,
+    friendship: friendshipTable,
+    integrationCredential: integrationCredentialTable,
+    integrationEvent: integrationEventTable,
+    integrationWebhook: integrationWebhookTable,
+    inventoryItem: inventoryItemTable,
+    inventoryLevel: inventoryLevelTable,
+    inventoryLocation: inventoryLocationTable,
+    ledgerAccount: ledgerAccountTable,
+    ledgerEntry: ledgerEntryTable,
+    ledgerTransaction: ledgerTransactionTable,
+    marketingAudience: marketingAudienceTable,
+    marketingCampaign: marketingCampaignTable,
+    marketingCampaignAudience: marketingCampaignAudienceTable,
+    marketingCampaignChannel: marketingCampaignChannelTable,
+    marketingChannel: marketingChannelTable,
+    medium: mediumTable,
+    message: messageTable,
+    omittedTable: omittedTable,
+    orderItem: orderItemTable,
+    orderPayment: orderPaymentTable,
+    orderTable: orderTable,
+    payment: paymentTable,
+    product: productTable,
+    productCategory: productCategoryTable,
+    productMedia: productMediaTable,
+    productVariant: productVariantTable,
+    project: projectTable,
+    projectAssignment: projectAssignmentTable,
+    projectAttachment: projectAttachmentTable,
+    projectAudit: projectAuditTable,
+    projectComment: projectCommentTable,
+    projectNote: projectNoteTable,
+    projectPhase: projectPhaseTable,
+    projectTag: projectTagTable,
+    projectTask: projectTaskTable,
+    projectTaskTag: projectTaskTagTable,
+    shipment: shipmentTable,
+    shipmentItem: shipmentItemTable,
+    supportTicket: supportTicketTable,
+    supportTicketAssignment: supportTicketAssignmentTable,
+    supportTicketAudit: supportTicketAuditTable,
+    supportTicketMessage: supportTicketMessageTable,
+    supportTicketTag: supportTicketTagTable,
+    supportTicketTagLink: supportTicketTagLinkTable,
+    team: teamTable,
+    testBigSerialPk: testBigSerialPkTable,
+    testCompositePkBothDefaults: testCompositePkBothDefaultsTable,
+    testCompositePkOneDefault: testCompositePkOneDefaultTable,
+    testIntegerDefaultPk: testIntegerDefaultPkTable,
+    testSerialPk: testSerialPkTable,
+    testTextDefaultPk: testTextDefaultPkTable,
+    testTimestampDefaultPk: testTimestampDefaultPkTable,
+    testUuidPk: testUuidPkTable,
+    testUuidSqlDefaultPk: testUuidSqlDefaultPkTable,
+    timeEntry: timeEntryTable,
+    timesheet: timesheetTable,
+    user: userTable,
   },
   relationships: {
-    user: {
-      mediums: [
-        {
-          sourceField: ["id"],
-          destField: ["senderId"],
-          destSchema: "message",
-          cardinality: "many",
-        },
-        {
-          sourceField: ["mediumId"],
-          destField: ["id"],
-          destSchema: "medium",
-          cardinality: "many",
-        },
-      ],
-      friends: [
-        {
-          sourceField: ["id"],
-          destField: ["requestingId"],
-          destSchema: "friendship",
-          cardinality: "many",
-        },
-        {
-          sourceField: ["acceptingId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "many",
-        },
-      ],
-      messages: [
-        {
-          sourceField: ["id"],
-          destField: ["senderId"],
-          destSchema: "message",
-          cardinality: "many",
-        },
-      ],
-    },
-    analyticsDashboard: {
-      owner: [
-        {
-          sourceField: ["ownerId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-      widgets: [
-        {
-          sourceField: ["id"],
-          destField: ["dashboardId"],
-          destSchema: "analyticsWidget",
-          cardinality: "many",
-        },
-      ],
-    },
-    analyticsWidgetQuery: {
-      widget: [
-        {
-          sourceField: ["widgetId"],
-          destField: ["id"],
-          destSchema: "analyticsWidget",
-          cardinality: "one",
-        },
-      ],
-    },
-    analyticsWidget: {
-      dashboard: [
-        {
-          sourceField: ["dashboardId"],
-          destField: ["id"],
-          destSchema: "analyticsDashboard",
-          cardinality: "one",
-        },
-      ],
-      queries: [
-        {
-          sourceField: ["id"],
-          destField: ["widgetId"],
-          destSchema: "analyticsWidgetQuery",
-          cardinality: "many",
-        },
-      ],
-    },
-    benefitEnrollment: {
-      benefitPlan: [
-        {
-          sourceField: ["benefitPlanId"],
-          destField: ["id"],
-          destSchema: "benefitPlan",
-          cardinality: "one",
-        },
-      ],
-      employee: [
-        {
-          sourceField: ["employeeId"],
-          destField: ["id"],
-          destSchema: "employeeProfile",
-          cardinality: "one",
-        },
-      ],
-    },
-    benefitPlan: {
-      administrator: [
-        {
-          sourceField: ["administratorId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-      enrollments: [
-        {
-          sourceField: ["id"],
-          destField: ["benefitPlanId"],
-          destSchema: "benefitEnrollment",
-          cardinality: "many",
-        },
-      ],
-    },
-    billingInvoiceLine: {
-      invoice: [
-        {
-          sourceField: ["invoiceId"],
-          destField: ["id"],
-          destSchema: "billingInvoice",
-          cardinality: "one",
-        },
-      ],
-      orderItem: [
-        {
-          sourceField: ["orderItemId"],
-          destField: ["id"],
-          destSchema: "orderItem",
-          cardinality: "one",
-        },
-      ],
-    },
-    billingInvoice: {
-      account: [
-        {
-          sourceField: ["accountId"],
-          destField: ["id"],
-          destSchema: "crmAccount",
-          cardinality: "one",
-        },
-      ],
-      contact: [
-        {
-          sourceField: ["contactId"],
-          destField: ["id"],
-          destSchema: "crmContact",
-          cardinality: "one",
-        },
-      ],
-      issuer: [
-        {
-          sourceField: ["issuedById"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-      lines: [
-        {
-          sourceField: ["id"],
-          destField: ["invoiceId"],
-          destSchema: "billingInvoiceLine",
-          cardinality: "many",
-        },
-      ],
-    },
-    budgetLine: {
-      budget: [
-        {
-          sourceField: ["budgetId"],
-          destField: ["id"],
-          destSchema: "budget",
-          cardinality: "one",
-        },
-      ],
-      account: [
-        {
-          sourceField: ["accountId"],
-          destField: ["id"],
-          destSchema: "ledgerAccount",
-          cardinality: "one",
-        },
-      ],
-    },
-    budget: {
-      department: [
-        {
-          sourceField: ["departmentId"],
-          destField: ["id"],
-          destSchema: "department",
-          cardinality: "one",
-        },
-      ],
-      lines: [
-        {
-          sourceField: ["id"],
-          destField: ["budgetId"],
-          destSchema: "budgetLine",
-          cardinality: "many",
-        },
-      ],
-    },
-    crmAccount: {
-      owner: [
-        {
-          sourceField: ["ownerId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-      contacts: [
-        {
-          sourceField: ["id"],
-          destField: ["accountId"],
-          destSchema: "crmContact",
-          cardinality: "many",
-        },
-      ],
-      opportunities: [
-        {
-          sourceField: ["id"],
-          destField: ["accountId"],
-          destSchema: "crmOpportunity",
-          cardinality: "many",
-        },
-      ],
-      activities: [
-        {
-          sourceField: ["id"],
-          destField: ["accountId"],
-          destSchema: "crmActivity",
-          cardinality: "many",
-        },
-      ],
-      notes: [
-        {
-          sourceField: ["id"],
-          destField: ["accountId"],
-          destSchema: "crmNote",
-          cardinality: "many",
-        },
-      ],
-    },
-    crmActivity: {
-      account: [
-        {
-          sourceField: ["accountId"],
-          destField: ["id"],
-          destSchema: "crmAccount",
-          cardinality: "one",
-        },
-      ],
-      contact: [
-        {
-          sourceField: ["contactId"],
-          destField: ["id"],
-          destSchema: "crmContact",
-          cardinality: "one",
-        },
-      ],
-      opportunity: [
-        {
-          sourceField: ["opportunityId"],
-          destField: ["id"],
-          destSchema: "crmOpportunity",
-          cardinality: "one",
-        },
-      ],
-      type: [
-        {
-          sourceField: ["typeId"],
-          destField: ["id"],
-          destSchema: "crmActivityType",
-          cardinality: "one",
-        },
-      ],
-      performer: [
-        {
-          sourceField: ["performedById"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-    },
-    crmActivityType: {
-      activities: [
-        {
-          sourceField: ["id"],
-          destField: ["typeId"],
-          destSchema: "crmActivity",
-          cardinality: "many",
-        },
-      ],
-    },
-    crmContact: {
-      account: [
-        {
-          sourceField: ["accountId"],
-          destField: ["id"],
-          destSchema: "crmAccount",
-          cardinality: "one",
-        },
-      ],
-      activities: [
-        {
-          sourceField: ["id"],
-          destField: ["contactId"],
-          destSchema: "crmActivity",
-          cardinality: "many",
-        },
-      ],
-      notes: [
-        {
-          sourceField: ["id"],
-          destField: ["contactId"],
-          destSchema: "crmNote",
-          cardinality: "many",
-        },
-      ],
-    },
-    crmNote: {
-      account: [
-        {
-          sourceField: ["accountId"],
-          destField: ["id"],
-          destSchema: "crmAccount",
-          cardinality: "one",
-        },
-      ],
-      contact: [
-        {
-          sourceField: ["contactId"],
-          destField: ["id"],
-          destSchema: "crmContact",
-          cardinality: "one",
-        },
-      ],
-      author: [
-        {
-          sourceField: ["authorId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-    },
-    crmOpportunity: {
-      account: [
-        {
-          sourceField: ["accountId"],
-          destField: ["id"],
-          destSchema: "crmAccount",
-          cardinality: "one",
-        },
-      ],
-      stage: [
-        {
-          sourceField: ["stageId"],
-          destField: ["id"],
-          destSchema: "crmPipelineStage",
-          cardinality: "one",
-        },
-      ],
-      activities: [
-        {
-          sourceField: ["id"],
-          destField: ["opportunityId"],
-          destSchema: "crmActivity",
-          cardinality: "many",
-        },
-      ],
-      historyEntries: [
-        {
-          sourceField: ["id"],
-          destField: ["opportunityId"],
-          destSchema: "crmOpportunityStageHistory",
-          cardinality: "many",
-        },
-      ],
-    },
-    crmOpportunityStageHistory: {
-      opportunity: [
-        {
-          sourceField: ["opportunityId"],
-          destField: ["id"],
-          destSchema: "crmOpportunity",
-          cardinality: "one",
-        },
-      ],
-      stage: [
-        {
-          sourceField: ["stageId"],
-          destField: ["id"],
-          destSchema: "crmPipelineStage",
-          cardinality: "one",
-        },
-      ],
-      changedBy: [
-        {
-          sourceField: ["changedById"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-    },
-    crmPipelineStage: {
-      opportunities: [
-        {
-          sourceField: ["id"],
-          destField: ["stageId"],
-          destSchema: "crmOpportunity",
-          cardinality: "many",
-        },
-      ],
-      historyEntries: [
-        {
-          sourceField: ["id"],
-          destField: ["stageId"],
-          destSchema: "crmOpportunityStageHistory",
-          cardinality: "many",
-        },
-      ],
-    },
-    department: {
-      manager: [
-        {
-          sourceField: ["managerId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-      teams: [
-        {
-          sourceField: ["id"],
-          destField: ["departmentId"],
-          destSchema: "team",
-          cardinality: "many",
-        },
-      ],
-      employees: [
-        {
-          sourceField: ["id"],
-          destField: ["departmentId"],
-          destSchema: "employeeProfile",
-          cardinality: "many",
-        },
-      ],
-    },
-    documentFile: {
-      folder: [
-        {
-          sourceField: ["folderId"],
-          destField: ["id"],
-          destSchema: "documentFolder",
-          cardinality: "one",
-        },
-      ],
-      uploader: [
-        {
-          sourceField: ["uploadedById"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-      versions: [
-        {
-          sourceField: ["id"],
-          destField: ["fileId"],
-          destSchema: "documentFileVersion",
-          cardinality: "many",
-        },
-      ],
-      sharings: [
-        {
-          sourceField: ["id"],
-          destField: ["fileId"],
-          destSchema: "documentSharing",
-          cardinality: "many",
-        },
-      ],
-    },
-    documentFileVersion: {
-      file: [
-        {
-          sourceField: ["fileId"],
-          destField: ["id"],
-          destSchema: "documentFile",
-          cardinality: "one",
-        },
-      ],
-      uploader: [
-        {
-          sourceField: ["uploadedById"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-    },
-    documentFolder: {
-      library: [
-        {
-          sourceField: ["libraryId"],
-          destField: ["id"],
-          destSchema: "documentLibrary",
-          cardinality: "one",
-        },
-      ],
-      parent: [
-        {
-          sourceField: ["parentId"],
-          destField: ["id"],
-          destSchema: "documentFolder",
-          cardinality: "one",
-        },
-      ],
-      children: [
-        {
-          sourceField: ["id"],
-          destField: ["parentId"],
-          destSchema: "documentFolder",
-          cardinality: "many",
-        },
-      ],
-      files: [
-        {
-          sourceField: ["id"],
-          destField: ["folderId"],
-          destSchema: "documentFile",
-          cardinality: "many",
-        },
-      ],
-    },
-    documentLibrary: {
-      project: [
-        {
-          sourceField: ["projectId"],
-          destField: ["id"],
-          destSchema: "project",
-          cardinality: "one",
-        },
-      ],
-      folders: [
-        {
-          sourceField: ["id"],
-          destField: ["libraryId"],
-          destSchema: "documentFolder",
-          cardinality: "many",
-        },
-      ],
-    },
-    documentSharing: {
-      file: [
-        {
-          sourceField: ["fileId"],
-          destField: ["id"],
-          destSchema: "documentFile",
-          cardinality: "one",
-        },
-      ],
-      user: [
-        {
-          sourceField: ["sharedWithUserId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-      team: [
-        {
-          sourceField: ["sharedWithTeamId"],
-          destField: ["id"],
-          destSchema: "team",
-          cardinality: "one",
-        },
-      ],
-    },
-    employeeDocument: {
-      employee: [
-        {
-          sourceField: ["employeeId"],
-          destField: ["id"],
-          destSchema: "employeeProfile",
-          cardinality: "one",
-        },
-      ],
-      uploader: [
-        {
-          sourceField: ["uploadedById"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-    },
-    employeeProfile: {
-      user: [
-        {
-          sourceField: ["userId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-      department: [
-        {
-          sourceField: ["departmentId"],
-          destField: ["id"],
-          destSchema: "department",
-          cardinality: "one",
-        },
-      ],
-      team: [
-        {
-          sourceField: ["teamId"],
-          destField: ["id"],
-          destSchema: "team",
-          cardinality: "one",
-        },
-      ],
-      employmentHistory: [
-        {
-          sourceField: ["id"],
-          destField: ["employeeId"],
-          destSchema: "employmentHistory",
-          cardinality: "many",
-        },
-      ],
-      documents: [
-        {
-          sourceField: ["id"],
-          destField: ["employeeId"],
-          destSchema: "employeeDocument",
-          cardinality: "many",
-        },
-      ],
-      timesheets: [
-        {
-          sourceField: ["id"],
-          destField: ["employeeId"],
-          destSchema: "timesheet",
-          cardinality: "many",
-        },
-      ],
-      benefitEnrollments: [
-        {
-          sourceField: ["id"],
-          destField: ["employeeId"],
-          destSchema: "benefitEnrollment",
-          cardinality: "many",
-        },
-      ],
-    },
-    employmentHistory: {
-      employee: [
-        {
-          sourceField: ["employeeId"],
-          destField: ["id"],
-          destSchema: "employeeProfile",
-          cardinality: "one",
-        },
-      ],
-    },
-    expenseItem: {
-      report: [
-        {
-          sourceField: ["reportId"],
-          destField: ["id"],
-          destSchema: "expenseReport",
-          cardinality: "one",
-        },
-      ],
-    },
-    expenseReport: {
-      owner: [
-        {
-          sourceField: ["ownerId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-      department: [
-        {
-          sourceField: ["departmentId"],
-          destField: ["id"],
-          destSchema: "department",
-          cardinality: "one",
-        },
-      ],
-      items: [
-        {
-          sourceField: ["id"],
-          destField: ["reportId"],
-          destSchema: "expenseItem",
-          cardinality: "many",
-        },
-      ],
-    },
-    filters: {
-      parent: [
-        {
-          sourceField: ["parentId"],
-          destField: ["id"],
-          destSchema: "filters",
-          cardinality: "one",
-        },
-      ],
-      children: [
-        {
-          sourceField: ["id"],
-          destField: ["parentId"],
-          destSchema: "filters",
-          cardinality: "many",
-        },
-      ],
-    },
-    integrationCredential: {
-      webhook: [
-        {
-          sourceField: ["webhookId"],
-          destField: ["id"],
-          destSchema: "integrationWebhook",
-          cardinality: "one",
-        },
-      ],
-    },
-    integrationEvent: {
-      webhook: [
-        {
-          sourceField: ["webhookId"],
-          destField: ["id"],
-          destSchema: "integrationWebhook",
-          cardinality: "one",
-        },
-      ],
-    },
-    integrationWebhook: {
-      project: [
-        {
-          sourceField: ["projectId"],
-          destField: ["id"],
-          destSchema: "project",
-          cardinality: "one",
-        },
-      ],
-      account: [
-        {
-          sourceField: ["accountId"],
-          destField: ["id"],
-          destSchema: "crmAccount",
-          cardinality: "one",
-        },
-      ],
-      events: [
-        {
-          sourceField: ["id"],
-          destField: ["webhookId"],
-          destSchema: "integrationEvent",
-          cardinality: "many",
-        },
-      ],
-    },
-    inventoryItem: {
-      variant: [
-        {
-          sourceField: ["variantId"],
-          destField: ["id"],
-          destSchema: "productVariant",
-          cardinality: "one",
-        },
-      ],
-    },
-    inventoryLevel: {
-      location: [
-        {
-          sourceField: ["locationId"],
-          destField: ["id"],
-          destSchema: "inventoryLocation",
-          cardinality: "one",
-        },
-      ],
-      variant: [
-        {
-          sourceField: ["variantId"],
-          destField: ["id"],
-          destSchema: "productVariant",
-          cardinality: "one",
-        },
-      ],
-    },
-    inventoryLocation: {
-      levels: [
-        {
-          sourceField: ["id"],
-          destField: ["locationId"],
-          destSchema: "inventoryLevel",
-          cardinality: "many",
-        },
-      ],
-    },
-    ledgerAccount: {
-      parent: [
-        {
-          sourceField: ["parentAccountId"],
-          destField: ["id"],
-          destSchema: "ledgerAccount",
-          cardinality: "one",
-        },
-      ],
-      children: [
-        {
-          sourceField: ["id"],
-          destField: ["parentAccountId"],
-          destSchema: "ledgerAccount",
-          cardinality: "many",
-        },
-      ],
-      entries: [
-        {
-          sourceField: ["id"],
-          destField: ["accountId"],
-          destSchema: "ledgerEntry",
-          cardinality: "many",
-        },
-      ],
-      budgetLines: [
-        {
-          sourceField: ["id"],
-          destField: ["accountId"],
-          destSchema: "budgetLine",
-          cardinality: "many",
-        },
-      ],
-    },
-    ledgerEntry: {
-      transaction: [
-        {
-          sourceField: ["transactionId"],
-          destField: ["id"],
-          destSchema: "ledgerTransaction",
-          cardinality: "one",
-        },
-      ],
-      account: [
-        {
-          sourceField: ["accountId"],
-          destField: ["id"],
-          destSchema: "ledgerAccount",
-          cardinality: "one",
-        },
-      ],
-    },
-    ledgerTransaction: {
-      creator: [
-        {
-          sourceField: ["createdById"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-      entries: [
-        {
-          sourceField: ["id"],
-          destField: ["transactionId"],
-          destSchema: "ledgerEntry",
-          cardinality: "many",
-        },
-      ],
-    },
-    marketingAudience: {
-      campaignAudiences: [
-        {
-          sourceField: ["id"],
-          destField: ["audienceId"],
-          destSchema: "marketingCampaignAudience",
-          cardinality: "many",
-        },
-      ],
-    },
-    marketingCampaignAudience: {
-      campaign: [
-        {
-          sourceField: ["campaignId"],
-          destField: ["id"],
-          destSchema: "marketingCampaign",
-          cardinality: "one",
-        },
-      ],
-      audience: [
-        {
-          sourceField: ["audienceId"],
-          destField: ["id"],
-          destSchema: "marketingAudience",
-          cardinality: "one",
-        },
-      ],
-    },
-    marketingCampaignChannel: {
-      campaign: [
-        {
-          sourceField: ["campaignId"],
-          destField: ["id"],
-          destSchema: "marketingCampaign",
-          cardinality: "one",
-        },
-      ],
-      channel: [
-        {
-          sourceField: ["channelId"],
-          destField: ["id"],
-          destSchema: "marketingChannel",
-          cardinality: "one",
-        },
-      ],
-    },
-    marketingCampaign: {
-      owner: [
-        {
-          sourceField: ["ownerId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-      channels: [
-        {
-          sourceField: ["id"],
-          destField: ["campaignId"],
-          destSchema: "marketingCampaignChannel",
-          cardinality: "many",
-        },
-      ],
-      audiences: [
-        {
-          sourceField: ["id"],
-          destField: ["campaignId"],
-          destSchema: "marketingCampaignAudience",
-          cardinality: "many",
-        },
-      ],
-    },
-    marketingChannel: {
-      campaignChannels: [
-        {
-          sourceField: ["id"],
-          destField: ["channelId"],
-          destSchema: "marketingCampaignChannel",
-          cardinality: "many",
-        },
-      ],
-    },
-    medium: {
-      messages: [
-        {
-          sourceField: ["id"],
-          destField: ["mediumId"],
-          destSchema: "message",
-          cardinality: "many",
-        },
-      ],
-    },
-    message: {
-      medium: [
-        {
-          sourceField: ["mediumId"],
-          destField: ["id"],
-          destSchema: "medium",
-          cardinality: "one",
-        },
-      ],
-      sender: [
-        {
-          sourceField: ["senderId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-    },
-    orderItem: {
-      order: [
-        {
-          sourceField: ["orderId"],
-          destField: ["id"],
-          destSchema: "orderTable",
-          cardinality: "one",
-        },
-      ],
-      variant: [
-        {
-          sourceField: ["variantId"],
-          destField: ["id"],
-          destSchema: "productVariant",
-          cardinality: "one",
-        },
-      ],
-    },
-    orderPayment: {
-      order: [
-        {
-          sourceField: ["orderId"],
-          destField: ["id"],
-          destSchema: "orderTable",
-          cardinality: "one",
-        },
-      ],
-      payment: [
-        {
-          sourceField: ["paymentId"],
-          destField: ["id"],
-          destSchema: "payment",
-          cardinality: "one",
-        },
-      ],
-    },
-    orderTable: {
-      customer: [
-        {
-          sourceField: ["customerId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-      opportunity: [
-        {
-          sourceField: ["opportunityId"],
-          destField: ["id"],
-          destSchema: "crmOpportunity",
-          cardinality: "one",
-        },
-      ],
-      items: [
-        {
-          sourceField: ["id"],
-          destField: ["orderId"],
-          destSchema: "orderItem",
-          cardinality: "many",
-        },
-      ],
-      payments: [
-        {
-          sourceField: ["id"],
-          destField: ["orderId"],
-          destSchema: "orderPayment",
-          cardinality: "many",
-        },
-      ],
-      shipments: [
-        {
-          sourceField: ["id"],
-          destField: ["orderId"],
-          destSchema: "shipment",
-          cardinality: "many",
-        },
-      ],
-    },
-    productCategory: {
-      parent: [
-        {
-          sourceField: ["parentId"],
-          destField: ["id"],
-          destSchema: "productCategory",
-          cardinality: "one",
-        },
-      ],
-      children: [
-        {
-          sourceField: ["id"],
-          destField: ["parentId"],
-          destSchema: "productCategory",
-          cardinality: "many",
-        },
-      ],
-      products: [
-        {
-          sourceField: ["id"],
-          destField: ["categoryId"],
-          destSchema: "product",
-          cardinality: "many",
-        },
-      ],
-    },
-    productMedia: {
-      product: [
-        {
-          sourceField: ["productId"],
-          destField: ["id"],
-          destSchema: "product",
-          cardinality: "one",
-        },
-      ],
-    },
-    product: {
-      category: [
-        {
-          sourceField: ["categoryId"],
-          destField: ["id"],
-          destSchema: "productCategory",
-          cardinality: "one",
-        },
-      ],
-      variants: [
-        {
-          sourceField: ["id"],
-          destField: ["productId"],
-          destSchema: "productVariant",
-          cardinality: "many",
-        },
-      ],
-      media: [
-        {
-          sourceField: ["id"],
-          destField: ["productId"],
-          destSchema: "productMedia",
-          cardinality: "many",
-        },
-      ],
-    },
-    productVariant: {
-      product: [
-        {
-          sourceField: ["productId"],
-          destField: ["id"],
-          destSchema: "product",
-          cardinality: "one",
-        },
-      ],
-      inventoryItems: [
-        {
-          sourceField: ["id"],
-          destField: ["variantId"],
-          destSchema: "inventoryItem",
-          cardinality: "many",
-        },
-      ],
-      inventoryLevels: [
-        {
-          sourceField: ["id"],
-          destField: ["variantId"],
-          destSchema: "inventoryLevel",
-          cardinality: "many",
-        },
-      ],
-      orderItems: [
-        {
-          sourceField: ["id"],
-          destField: ["variantId"],
-          destSchema: "orderItem",
-          cardinality: "many",
-        },
-      ],
-    },
-    projectAssignment: {
-      task: [
-        {
-          sourceField: ["taskId"],
-          destField: ["id"],
-          destSchema: "projectTask",
-          cardinality: "one",
-        },
-      ],
-      user: [
-        {
-          sourceField: ["userId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-    },
-    projectAttachment: {
-      task: [
-        {
-          sourceField: ["taskId"],
-          destField: ["id"],
-          destSchema: "projectTask",
-          cardinality: "one",
-        },
-      ],
-    },
-    projectAudit: {
-      project: [
-        {
-          sourceField: ["projectId"],
-          destField: ["id"],
-          destSchema: "project",
-          cardinality: "one",
-        },
-      ],
-      actor: [
-        {
-          sourceField: ["actorId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-    },
-    projectComment: {
-      task: [
-        {
-          sourceField: ["taskId"],
-          destField: ["id"],
-          destSchema: "projectTask",
-          cardinality: "one",
-        },
-      ],
-      author: [
-        {
-          sourceField: ["authorId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-    },
-    projectNote: {
-      project: [
-        {
-          sourceField: ["projectId"],
-          destField: ["id"],
-          destSchema: "project",
-          cardinality: "one",
-        },
-      ],
-      author: [
-        {
-          sourceField: ["authorId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-    },
-    projectPhase: {
-      project: [
-        {
-          sourceField: ["projectId"],
-          destField: ["id"],
-          destSchema: "project",
-          cardinality: "one",
-        },
-      ],
-      tasks: [
-        {
-          sourceField: ["id"],
-          destField: ["phaseId"],
-          destSchema: "projectTask",
-          cardinality: "many",
-        },
-      ],
-    },
-    project: {
-      owner: [
-        {
-          sourceField: ["ownerId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-      phases: [
-        {
-          sourceField: ["id"],
-          destField: ["projectId"],
-          destSchema: "projectPhase",
-          cardinality: "many",
-        },
-      ],
-      tasks: [
-        {
-          sourceField: ["id"],
-          destField: ["projectId"],
-          destSchema: "projectTask",
-          cardinality: "many",
-        },
-      ],
-      notes: [
-        {
-          sourceField: ["id"],
-          destField: ["projectId"],
-          destSchema: "projectNote",
-          cardinality: "many",
-        },
-      ],
-      audits: [
-        {
-          sourceField: ["id"],
-          destField: ["projectId"],
-          destSchema: "projectAudit",
-          cardinality: "many",
-        },
-      ],
-    },
-    projectTag: {
-      taskLinks: [
-        {
-          sourceField: ["id"],
-          destField: ["tagId"],
-          destSchema: "projectTaskTag",
-          cardinality: "many",
-        },
-      ],
-    },
-    projectTask: {
-      project: [
-        {
-          sourceField: ["projectId"],
-          destField: ["id"],
-          destSchema: "project",
-          cardinality: "one",
-        },
-      ],
-      phase: [
-        {
-          sourceField: ["phaseId"],
-          destField: ["id"],
-          destSchema: "projectPhase",
-          cardinality: "one",
-        },
-      ],
-      assignments: [
-        {
-          sourceField: ["id"],
-          destField: ["taskId"],
-          destSchema: "projectAssignment",
-          cardinality: "many",
-        },
-      ],
-      comments: [
-        {
-          sourceField: ["id"],
-          destField: ["taskId"],
-          destSchema: "projectComment",
-          cardinality: "many",
-        },
-      ],
-      attachments: [
-        {
-          sourceField: ["id"],
-          destField: ["taskId"],
-          destSchema: "projectAttachment",
-          cardinality: "many",
-        },
-      ],
-      tags: [
-        {
-          sourceField: ["id"],
-          destField: ["taskId"],
-          destSchema: "projectTaskTag",
-          cardinality: "many",
-        },
-      ],
-    },
-    projectTaskTag: {
-      task: [
-        {
-          sourceField: ["taskId"],
-          destField: ["id"],
-          destSchema: "projectTask",
-          cardinality: "one",
-        },
-      ],
-      tag: [
-        {
-          sourceField: ["tagId"],
-          destField: ["id"],
-          destSchema: "projectTag",
-          cardinality: "one",
-        },
-      ],
-    },
-    shipmentItem: {
-      shipment: [
-        {
-          sourceField: ["shipmentId"],
-          destField: ["id"],
-          destSchema: "shipment",
-          cardinality: "one",
-        },
-      ],
-      orderItem: [
-        {
-          sourceField: ["orderItemId"],
-          destField: ["id"],
-          destSchema: "orderItem",
-          cardinality: "one",
-        },
-      ],
-    },
-    shipment: {
-      order: [
-        {
-          sourceField: ["orderId"],
-          destField: ["id"],
-          destSchema: "orderTable",
-          cardinality: "one",
-        },
-      ],
-      items: [
-        {
-          sourceField: ["id"],
-          destField: ["shipmentId"],
-          destSchema: "shipmentItem",
-          cardinality: "many",
-        },
-      ],
-    },
-    supportTicketAssignment: {
-      ticket: [
-        {
-          sourceField: ["ticketId"],
-          destField: ["id"],
-          destSchema: "supportTicket",
-          cardinality: "one",
-        },
-      ],
-      assignee: [
-        {
-          sourceField: ["assigneeId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-    },
-    supportTicketAudit: {
-      ticket: [
-        {
-          sourceField: ["ticketId"],
-          destField: ["id"],
-          destSchema: "supportTicket",
-          cardinality: "one",
-        },
-      ],
-      actor: [
-        {
-          sourceField: ["actorId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-    },
-    supportTicketMessage: {
-      ticket: [
-        {
-          sourceField: ["ticketId"],
-          destField: ["id"],
-          destSchema: "supportTicket",
-          cardinality: "one",
-        },
-      ],
-      author: [
-        {
-          sourceField: ["authorId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-    },
-    supportTicket: {
-      customer: [
-        {
-          sourceField: ["customerId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-      assignedTeam: [
-        {
-          sourceField: ["assignedTeamId"],
-          destField: ["id"],
-          destSchema: "team",
-          cardinality: "one",
-        },
-      ],
-      messages: [
-        {
-          sourceField: ["id"],
-          destField: ["ticketId"],
-          destSchema: "supportTicketMessage",
-          cardinality: "many",
-        },
-      ],
-      tags: [
-        {
-          sourceField: ["id"],
-          destField: ["ticketId"],
-          destSchema: "supportTicketTagLink",
-          cardinality: "many",
-        },
-      ],
-      assignments: [
-        {
-          sourceField: ["id"],
-          destField: ["ticketId"],
-          destSchema: "supportTicketAssignment",
-          cardinality: "many",
-        },
-      ],
-      audits: [
-        {
-          sourceField: ["id"],
-          destField: ["ticketId"],
-          destSchema: "supportTicketAudit",
-          cardinality: "many",
-        },
-      ],
-    },
-    supportTicketTagLink: {
-      ticket: [
-        {
-          sourceField: ["ticketId"],
-          destField: ["id"],
-          destSchema: "supportTicket",
-          cardinality: "one",
-        },
-      ],
-      tag: [
-        {
-          sourceField: ["tagId"],
-          destField: ["id"],
-          destSchema: "supportTicketTag",
-          cardinality: "one",
-        },
-      ],
-    },
-    supportTicketTag: {
-      ticketLinks: [
-        {
-          sourceField: ["id"],
-          destField: ["tagId"],
-          destSchema: "supportTicketTagLink",
-          cardinality: "many",
-        },
-      ],
-    },
-    team: {
-      department: [
-        {
-          sourceField: ["departmentId"],
-          destField: ["id"],
-          destSchema: "department",
-          cardinality: "one",
-        },
-      ],
-      lead: [
-        {
-          sourceField: ["leadId"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-      employees: [
-        {
-          sourceField: ["id"],
-          destField: ["teamId"],
-          destSchema: "employeeProfile",
-          cardinality: "many",
-        },
-      ],
-    },
-    timeEntry: {
-      timesheet: [
-        {
-          sourceField: ["timesheetId"],
-          destField: ["id"],
-          destSchema: "timesheet",
-          cardinality: "one",
-        },
-      ],
-      task: [
-        {
-          sourceField: ["taskId"],
-          destField: ["id"],
-          destSchema: "projectTask",
-          cardinality: "one",
-        },
-      ],
-    },
-    timesheet: {
-      employee: [
-        {
-          sourceField: ["employeeId"],
-          destField: ["id"],
-          destSchema: "employeeProfile",
-          cardinality: "one",
-        },
-      ],
-      submittedBy: [
-        {
-          sourceField: ["submittedById"],
-          destField: ["id"],
-          destSchema: "user",
-          cardinality: "one",
-        },
-      ],
-      entries: [
-        {
-          sourceField: ["id"],
-          destField: ["timesheetId"],
-          destSchema: "timeEntry",
-          cardinality: "many",
-        },
-      ],
-    },
+    user: userRelationships,
+    analyticsDashboard: analyticsDashboardRelationships,
+    analyticsWidgetQuery: analyticsWidgetQueryRelationships,
+    analyticsWidget: analyticsWidgetRelationships,
+    benefitEnrollment: benefitEnrollmentRelationships,
+    benefitPlan: benefitPlanRelationships,
+    billingInvoiceLine: billingInvoiceLineRelationships,
+    billingInvoice: billingInvoiceRelationships,
+    budgetLine: budgetLineRelationships,
+    budget: budgetRelationships,
+    crmAccount: crmAccountRelationships,
+    crmActivity: crmActivityRelationships,
+    crmActivityType: crmActivityTypeRelationships,
+    crmContact: crmContactRelationships,
+    crmNote: crmNoteRelationships,
+    crmOpportunity: crmOpportunityRelationships,
+    crmOpportunityStageHistory: crmOpportunityStageHistoryRelationships,
+    crmPipelineStage: crmPipelineStageRelationships,
+    department: departmentRelationships,
+    documentFile: documentFileRelationships,
+    documentFileVersion: documentFileVersionRelationships,
+    documentFolder: documentFolderRelationships,
+    documentLibrary: documentLibraryRelationships,
+    documentSharing: documentSharingRelationships,
+    employeeDocument: employeeDocumentRelationships,
+    employeeProfile: employeeProfileRelationships,
+    employmentHistory: employmentHistoryRelationships,
+    expenseItem: expenseItemRelationships,
+    expenseReport: expenseReportRelationships,
+    filters: filtersRelationships,
+    integrationCredential: integrationCredentialRelationships,
+    integrationEvent: integrationEventRelationships,
+    integrationWebhook: integrationWebhookRelationships,
+    inventoryItem: inventoryItemRelationships,
+    inventoryLevel: inventoryLevelRelationships,
+    inventoryLocation: inventoryLocationRelationships,
+    ledgerAccount: ledgerAccountRelationships,
+    ledgerEntry: ledgerEntryRelationships,
+    ledgerTransaction: ledgerTransactionRelationships,
+    marketingAudience: marketingAudienceRelationships,
+    marketingCampaignAudience: marketingCampaignAudienceRelationships,
+    marketingCampaignChannel: marketingCampaignChannelRelationships,
+    marketingCampaign: marketingCampaignRelationships,
+    marketingChannel: marketingChannelRelationships,
+    medium: mediumRelationships,
+    message: messageRelationships,
+    orderItem: orderItemRelationships,
+    orderPayment: orderPaymentRelationships,
+    orderTable: orderTableRelationships,
+    productCategory: productCategoryRelationships,
+    productMedia: productMediaRelationships,
+    product: productRelationships,
+    productVariant: productVariantRelationships,
+    projectAssignment: projectAssignmentRelationships,
+    projectAttachment: projectAttachmentRelationships,
+    projectAudit: projectAuditRelationships,
+    projectComment: projectCommentRelationships,
+    projectNote: projectNoteRelationships,
+    projectPhase: projectPhaseRelationships,
+    project: projectRelationships,
+    projectTag: projectTagRelationships,
+    projectTask: projectTaskRelationships,
+    projectTaskTag: projectTaskTagRelationships,
+    shipmentItem: shipmentItemRelationships,
+    shipment: shipmentRelationships,
+    supportTicketAssignment: supportTicketAssignmentRelationships,
+    supportTicketAudit: supportTicketAuditRelationships,
+    supportTicketMessage: supportTicketMessageRelationships,
+    supportTicket: supportTicketRelationships,
+    supportTicketTagLink: supportTicketTagLinkRelationships,
+    supportTicketTag: supportTicketTagRelationships,
+    team: teamRelationships,
+    timeEntry: timeEntryRelationships,
+    timesheet: timesheetRelationships,
   },
   enableLegacyQueries: false,
   enableLegacyMutators: false,
@@ -7873,463 +5690,447 @@ export type Schema = typeof schema;
  * Represents a row from the "allTypes" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type AllType = Row<Schema["tables"]["allTypes"]>;
+export type AllType = Row<typeof allTypesTable>;
 /**
  * Represents a row from the "analyticsDashboard" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type AnalyticsDashboard = Row<Schema["tables"]["analyticsDashboard"]>;
+export type AnalyticsDashboard = Row<typeof analyticsDashboardTable>;
 /**
  * Represents a row from the "analyticsWidget" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type AnalyticsWidget = Row<Schema["tables"]["analyticsWidget"]>;
+export type AnalyticsWidget = Row<typeof analyticsWidgetTable>;
 /**
  * Represents a row from the "analyticsWidgetQuery" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type AnalyticsWidgetQuery = Row<
-  Schema["tables"]["analyticsWidgetQuery"]
->;
+export type AnalyticsWidgetQuery = Row<typeof analyticsWidgetQueryTable>;
 /**
  * Represents a row from the "benefitEnrollment" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type BenefitEnrollment = Row<Schema["tables"]["benefitEnrollment"]>;
+export type BenefitEnrollment = Row<typeof benefitEnrollmentTable>;
 /**
  * Represents a row from the "benefitPlan" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type BenefitPlan = Row<Schema["tables"]["benefitPlan"]>;
+export type BenefitPlan = Row<typeof benefitPlanTable>;
 /**
  * Represents a row from the "billingInvoice" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type BillingInvoice = Row<Schema["tables"]["billingInvoice"]>;
+export type BillingInvoice = Row<typeof billingInvoiceTable>;
 /**
  * Represents a row from the "billingInvoiceLine" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type BillingInvoiceLine = Row<Schema["tables"]["billingInvoiceLine"]>;
+export type BillingInvoiceLine = Row<typeof billingInvoiceLineTable>;
 /**
  * Represents a row from the "budget" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Budget = Row<Schema["tables"]["budget"]>;
+export type Budget = Row<typeof budgetTable>;
 /**
  * Represents a row from the "budgetLine" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type BudgetLine = Row<Schema["tables"]["budgetLine"]>;
+export type BudgetLine = Row<typeof budgetLineTable>;
 /**
  * Represents a row from the "crmAccount" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type CrmAccount = Row<Schema["tables"]["crmAccount"]>;
+export type CrmAccount = Row<typeof crmAccountTable>;
 /**
  * Represents a row from the "crmActivity" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type CrmActivity = Row<Schema["tables"]["crmActivity"]>;
+export type CrmActivity = Row<typeof crmActivityTable>;
 /**
  * Represents a row from the "crmActivityType" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type CrmActivityType = Row<Schema["tables"]["crmActivityType"]>;
+export type CrmActivityType = Row<typeof crmActivityTypeTable>;
 /**
  * Represents a row from the "crmContact" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type CrmContact = Row<Schema["tables"]["crmContact"]>;
+export type CrmContact = Row<typeof crmContactTable>;
 /**
  * Represents a row from the "crmNote" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type CrmNote = Row<Schema["tables"]["crmNote"]>;
+export type CrmNote = Row<typeof crmNoteTable>;
 /**
  * Represents a row from the "crmOpportunity" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type CrmOpportunity = Row<Schema["tables"]["crmOpportunity"]>;
+export type CrmOpportunity = Row<typeof crmOpportunityTable>;
 /**
  * Represents a row from the "crmOpportunityStageHistory" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type CrmOpportunityStageHistory = Row<
-  Schema["tables"]["crmOpportunityStageHistory"]
+  typeof crmOpportunityStageHistoryTable
 >;
 /**
  * Represents a row from the "crmPipelineStage" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type CrmPipelineStage = Row<Schema["tables"]["crmPipelineStage"]>;
+export type CrmPipelineStage = Row<typeof crmPipelineStageTable>;
 /**
  * Represents a row from the "department" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Department = Row<Schema["tables"]["department"]>;
+export type Department = Row<typeof departmentTable>;
 /**
  * Represents a row from the "documentFile" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type DocumentFile = Row<Schema["tables"]["documentFile"]>;
+export type DocumentFile = Row<typeof documentFileTable>;
 /**
  * Represents a row from the "documentFileVersion" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type DocumentFileVersion = Row<Schema["tables"]["documentFileVersion"]>;
+export type DocumentFileVersion = Row<typeof documentFileVersionTable>;
 /**
  * Represents a row from the "documentFolder" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type DocumentFolder = Row<Schema["tables"]["documentFolder"]>;
+export type DocumentFolder = Row<typeof documentFolderTable>;
 /**
  * Represents a row from the "documentLibrary" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type DocumentLibrary = Row<Schema["tables"]["documentLibrary"]>;
+export type DocumentLibrary = Row<typeof documentLibraryTable>;
 /**
  * Represents a row from the "documentSharing" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type DocumentSharing = Row<Schema["tables"]["documentSharing"]>;
+export type DocumentSharing = Row<typeof documentSharingTable>;
 /**
  * Represents a row from the "employeeDocument" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type EmployeeDocument = Row<Schema["tables"]["employeeDocument"]>;
+export type EmployeeDocument = Row<typeof employeeDocumentTable>;
 /**
  * Represents a row from the "employeeProfile" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type EmployeeProfile = Row<Schema["tables"]["employeeProfile"]>;
+export type EmployeeProfile = Row<typeof employeeProfileTable>;
 /**
  * Represents a row from the "employmentHistory" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type EmploymentHistory = Row<Schema["tables"]["employmentHistory"]>;
+export type EmploymentHistory = Row<typeof employmentHistoryTable>;
 /**
  * Represents a row from the "expenseItem" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ExpenseItem = Row<Schema["tables"]["expenseItem"]>;
+export type ExpenseItem = Row<typeof expenseItemTable>;
 /**
  * Represents a row from the "expenseReport" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ExpenseReport = Row<Schema["tables"]["expenseReport"]>;
+export type ExpenseReport = Row<typeof expenseReportTable>;
 /**
  * Represents a row from the "filters" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Filter = Row<Schema["tables"]["filters"]>;
+export type Filter = Row<typeof filtersTable>;
 /**
  * Represents a row from the "friendship" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Friendship = Row<Schema["tables"]["friendship"]>;
+export type Friendship = Row<typeof friendshipTable>;
 /**
  * Represents a row from the "integrationCredential" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type IntegrationCredential = Row<
-  Schema["tables"]["integrationCredential"]
->;
+export type IntegrationCredential = Row<typeof integrationCredentialTable>;
 /**
  * Represents a row from the "integrationEvent" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type IntegrationEvent = Row<Schema["tables"]["integrationEvent"]>;
+export type IntegrationEvent = Row<typeof integrationEventTable>;
 /**
  * Represents a row from the "integrationWebhook" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type IntegrationWebhook = Row<Schema["tables"]["integrationWebhook"]>;
+export type IntegrationWebhook = Row<typeof integrationWebhookTable>;
 /**
  * Represents a row from the "inventoryItem" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type InventoryItem = Row<Schema["tables"]["inventoryItem"]>;
+export type InventoryItem = Row<typeof inventoryItemTable>;
 /**
  * Represents a row from the "inventoryLevel" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type InventoryLevel = Row<Schema["tables"]["inventoryLevel"]>;
+export type InventoryLevel = Row<typeof inventoryLevelTable>;
 /**
  * Represents a row from the "inventoryLocation" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type InventoryLocation = Row<Schema["tables"]["inventoryLocation"]>;
+export type InventoryLocation = Row<typeof inventoryLocationTable>;
 /**
  * Represents a row from the "ledgerAccount" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type LedgerAccount = Row<Schema["tables"]["ledgerAccount"]>;
+export type LedgerAccount = Row<typeof ledgerAccountTable>;
 /**
  * Represents a row from the "ledgerEntry" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type LedgerEntry = Row<Schema["tables"]["ledgerEntry"]>;
+export type LedgerEntry = Row<typeof ledgerEntryTable>;
 /**
  * Represents a row from the "ledgerTransaction" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type LedgerTransaction = Row<Schema["tables"]["ledgerTransaction"]>;
+export type LedgerTransaction = Row<typeof ledgerTransactionTable>;
 /**
  * Represents a row from the "marketingAudience" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type MarketingAudience = Row<Schema["tables"]["marketingAudience"]>;
+export type MarketingAudience = Row<typeof marketingAudienceTable>;
 /**
  * Represents a row from the "marketingCampaign" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type MarketingCampaign = Row<Schema["tables"]["marketingCampaign"]>;
+export type MarketingCampaign = Row<typeof marketingCampaignTable>;
 /**
  * Represents a row from the "marketingCampaignAudience" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type MarketingCampaignAudience = Row<
-  Schema["tables"]["marketingCampaignAudience"]
+  typeof marketingCampaignAudienceTable
 >;
 /**
  * Represents a row from the "marketingCampaignChannel" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type MarketingCampaignChannel = Row<
-  Schema["tables"]["marketingCampaignChannel"]
+  typeof marketingCampaignChannelTable
 >;
 /**
  * Represents a row from the "marketingChannel" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type MarketingChannel = Row<Schema["tables"]["marketingChannel"]>;
+export type MarketingChannel = Row<typeof marketingChannelTable>;
 /**
  * Represents a row from the "medium" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Medium = Row<Schema["tables"]["medium"]>;
+export type Medium = Row<typeof mediumTable>;
 /**
  * Represents a row from the "message" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Message = Row<Schema["tables"]["message"]>;
+export type Message = Row<typeof messageTable>;
 /**
  * Represents a row from the "omittedTable" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type OmittedTable = Row<Schema["tables"]["omittedTable"]>;
+export type OmittedTable = Row<typeof omittedTable>;
 /**
  * Represents a row from the "orderItem" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type OrderItem = Row<Schema["tables"]["orderItem"]>;
+export type OrderItem = Row<typeof orderItemTable>;
 /**
  * Represents a row from the "orderPayment" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type OrderPayment = Row<Schema["tables"]["orderPayment"]>;
+export type OrderPayment = Row<typeof orderPaymentTable>;
 /**
  * Represents a row from the "orderTable" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type OrderTable = Row<Schema["tables"]["orderTable"]>;
+export type OrderTable = Row<typeof orderTable>;
 /**
  * Represents a row from the "payment" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Payment = Row<Schema["tables"]["payment"]>;
+export type Payment = Row<typeof paymentTable>;
 /**
  * Represents a row from the "product" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Product = Row<Schema["tables"]["product"]>;
+export type Product = Row<typeof productTable>;
 /**
  * Represents a row from the "productCategory" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProductCategory = Row<Schema["tables"]["productCategory"]>;
+export type ProductCategory = Row<typeof productCategoryTable>;
 /**
  * Represents a row from the "productMedia" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProductMedia = Row<Schema["tables"]["productMedia"]>;
+export type ProductMedia = Row<typeof productMediaTable>;
 /**
  * Represents a row from the "productVariant" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProductVariant = Row<Schema["tables"]["productVariant"]>;
+export type ProductVariant = Row<typeof productVariantTable>;
 /**
  * Represents a row from the "project" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Project = Row<Schema["tables"]["project"]>;
+export type Project = Row<typeof projectTable>;
 /**
  * Represents a row from the "projectAssignment" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProjectAssignment = Row<Schema["tables"]["projectAssignment"]>;
+export type ProjectAssignment = Row<typeof projectAssignmentTable>;
 /**
  * Represents a row from the "projectAttachment" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProjectAttachment = Row<Schema["tables"]["projectAttachment"]>;
+export type ProjectAttachment = Row<typeof projectAttachmentTable>;
 /**
  * Represents a row from the "projectAudit" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProjectAudit = Row<Schema["tables"]["projectAudit"]>;
+export type ProjectAudit = Row<typeof projectAuditTable>;
 /**
  * Represents a row from the "projectComment" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProjectComment = Row<Schema["tables"]["projectComment"]>;
+export type ProjectComment = Row<typeof projectCommentTable>;
 /**
  * Represents a row from the "projectNote" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProjectNote = Row<Schema["tables"]["projectNote"]>;
+export type ProjectNote = Row<typeof projectNoteTable>;
 /**
  * Represents a row from the "projectPhase" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProjectPhase = Row<Schema["tables"]["projectPhase"]>;
+export type ProjectPhase = Row<typeof projectPhaseTable>;
 /**
  * Represents a row from the "projectTag" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProjectTag = Row<Schema["tables"]["projectTag"]>;
+export type ProjectTag = Row<typeof projectTagTable>;
 /**
  * Represents a row from the "projectTask" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProjectTask = Row<Schema["tables"]["projectTask"]>;
+export type ProjectTask = Row<typeof projectTaskTable>;
 /**
  * Represents a row from the "projectTaskTag" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProjectTaskTag = Row<Schema["tables"]["projectTaskTag"]>;
+export type ProjectTaskTag = Row<typeof projectTaskTagTable>;
 /**
  * Represents a row from the "shipment" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Shipment = Row<Schema["tables"]["shipment"]>;
+export type Shipment = Row<typeof shipmentTable>;
 /**
  * Represents a row from the "shipmentItem" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ShipmentItem = Row<Schema["tables"]["shipmentItem"]>;
+export type ShipmentItem = Row<typeof shipmentItemTable>;
 /**
  * Represents a row from the "supportTicket" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type SupportTicket = Row<Schema["tables"]["supportTicket"]>;
+export type SupportTicket = Row<typeof supportTicketTable>;
 /**
  * Represents a row from the "supportTicketAssignment" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type SupportTicketAssignment = Row<
-  Schema["tables"]["supportTicketAssignment"]
->;
+export type SupportTicketAssignment = Row<typeof supportTicketAssignmentTable>;
 /**
  * Represents a row from the "supportTicketAudit" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type SupportTicketAudit = Row<Schema["tables"]["supportTicketAudit"]>;
+export type SupportTicketAudit = Row<typeof supportTicketAuditTable>;
 /**
  * Represents a row from the "supportTicketMessage" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type SupportTicketMessage = Row<
-  Schema["tables"]["supportTicketMessage"]
->;
+export type SupportTicketMessage = Row<typeof supportTicketMessageTable>;
 /**
  * Represents a row from the "supportTicketTag" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type SupportTicketTag = Row<Schema["tables"]["supportTicketTag"]>;
+export type SupportTicketTag = Row<typeof supportTicketTagTable>;
 /**
  * Represents a row from the "supportTicketTagLink" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type SupportTicketTagLink = Row<
-  Schema["tables"]["supportTicketTagLink"]
->;
+export type SupportTicketTagLink = Row<typeof supportTicketTagLinkTable>;
 /**
  * Represents a row from the "team" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Team = Row<Schema["tables"]["team"]>;
+export type Team = Row<typeof teamTable>;
 /**
  * Represents a row from the "testBigSerialPk" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type TestBigSerialPk = Row<Schema["tables"]["testBigSerialPk"]>;
+export type TestBigSerialPk = Row<typeof testBigSerialPkTable>;
 /**
  * Represents a row from the "testCompositePkBothDefaults" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type TestCompositePkBothDefault = Row<
-  Schema["tables"]["testCompositePkBothDefaults"]
+  typeof testCompositePkBothDefaultsTable
 >;
 /**
  * Represents a row from the "testCompositePkOneDefault" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type TestCompositePkOneDefault = Row<
-  Schema["tables"]["testCompositePkOneDefault"]
+  typeof testCompositePkOneDefaultTable
 >;
 /**
  * Represents a row from the "testIntegerDefaultPk" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type TestIntegerDefaultPk = Row<
-  Schema["tables"]["testIntegerDefaultPk"]
->;
+export type TestIntegerDefaultPk = Row<typeof testIntegerDefaultPkTable>;
 /**
  * Represents a row from the "testSerialPk" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type TestSerialPk = Row<Schema["tables"]["testSerialPk"]>;
+export type TestSerialPk = Row<typeof testSerialPkTable>;
 /**
  * Represents a row from the "testTextDefaultPk" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type TestTextDefaultPk = Row<Schema["tables"]["testTextDefaultPk"]>;
+export type TestTextDefaultPk = Row<typeof testTextDefaultPkTable>;
 /**
  * Represents a row from the "testTimestampDefaultPk" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type TestTimestampDefaultPk = Row<
-  Schema["tables"]["testTimestampDefaultPk"]
->;
+export type TestTimestampDefaultPk = Row<typeof testTimestampDefaultPkTable>;
 /**
  * Represents a row from the "testUuidPk" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type TestUuidPk = Row<Schema["tables"]["testUuidPk"]>;
+export type TestUuidPk = Row<typeof testUuidPkTable>;
 /**
  * Represents a row from the "testUuidSqlDefaultPk" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type TestUuidSqlDefaultPk = Row<
-  Schema["tables"]["testUuidSqlDefaultPk"]
->;
+export type TestUuidSqlDefaultPk = Row<typeof testUuidSqlDefaultPkTable>;
 /**
  * Represents a row from the "timeEntry" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type TimeEntry = Row<Schema["tables"]["timeEntry"]>;
+export type TimeEntry = Row<typeof timeEntryTable>;
 /**
  * Represents a row from the "timesheet" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Timesheet = Row<Schema["tables"]["timesheet"]>;
+export type Timesheet = Row<typeof timesheetTable>;
 /**
  * Represents a row from the "user" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type User = Row<Schema["tables"]["user"]>;
+export type User = Row<typeof userTable>;
 
 /**
  * Represents the Zero schema query builder.
