@@ -121,8 +121,11 @@ importers:
         specifier: ^3.6.2
         version: 3.6.2
       testcontainers:
-        specifier: ^11.8.0
+        specifier: ^11.7.2
         version: 11.8.0
+      zod:
+        specifier: ^4.1.12
+        version: 4.1.12
 
   integration:
     dependencies:

@@ -36,6 +36,7 @@ import {
   type Schema,
   type User,
 } from "../zero-schema.gen";
+import { getShortCode } from "@drizzle-zero/db/types";
 
 const zeroDb = zeroDrizzle(schema, db as any);
 
@@ -462,6 +463,15 @@ describe("complex order", () => {
         testType: { nameType: "custom-inline-type" },
         testExportedType: { nameType: "custom-inline-type" },
         status: "COMPLETED",
+        notificationPreferences: [
+          {
+            channel: "email",
+            address: "owner@example.com",
+            templateId: "template-1",
+          },
+        ],
+        countryIso: "US",
+        preferredCurrency: "USD",
       });
 
       await tx.mutate.user.insert({
@@ -480,6 +490,16 @@ describe("complex order", () => {
         testType: { nameType: "custom-inline-type" },
         testExportedType: { nameType: "custom-inline-type" },
         status: "ASSIGNED",
+        notificationPreferences: [
+          {
+            channel: "email",
+            address: "owner@example.com",
+            templateId: "template-1",
+          },
+        ],
+        countryIso: "US",
+        preferredCurrency: "USD",
+        regionCode: "CA",
       });
 
       await tx.mutate.user.insert({
@@ -498,6 +518,16 @@ describe("complex order", () => {
         testType: { nameType: "custom-inline-type" },
         testExportedType: { nameType: "custom-inline-type" },
         status: "ASSIGNED",
+        notificationPreferences: [
+          {
+            channel: "email",
+            address: "sales@example.com",
+            templateId: "template-1",
+          },
+        ],
+        countryIso: "US",
+        preferredCurrency: "USD",
+        regionCode: "CA",
       });
 
       await tx.mutate.user.insert({
@@ -516,6 +546,16 @@ describe("complex order", () => {
         testType: { nameType: "custom-inline-type" },
         testExportedType: { nameType: "custom-inline-type" },
         status: "ASSIGNED",
+        notificationPreferences: [
+          {
+            channel: "email",
+            address: "friend@example.com",
+            templateId: "template-1",
+          },
+        ],
+        countryIso: "US",
+        preferredCurrency: "USD",
+        regionCode: "CA",
       });
 
       await tx.mutate.friendship.insert({
@@ -664,7 +704,15 @@ describe("complex order", () => {
         id: "media-1",
         productId: "prod-1",
         url: "https://example.com/widget.png",
-        type: "image",
+        type: getShortCode("image"),
+        mimeKey: "png",
+        mimeDescriptor: {
+          mime_type: "image/png",
+          group: "image",
+          description: "PNG image",
+          extensions: ["png"],
+          is_text: false,
+        },
       });
 
       await tx.mutate.inventoryLocation.insert({
@@ -694,6 +742,15 @@ describe("complex order", () => {
         status: "PROCESSING",
         total: 99999,
         currency: "USD",
+        currencyMetadata: {
+          code: "AFN",
+          number: "971",
+          digits: 2,
+          currency: "Afghani",
+          countries: ["AFG"],
+        },
+        billingCountryIso: "AF",
+        shippingCountryIso: "AF",
       });
 
       await tx.mutate.orderItem.insert({
@@ -725,6 +782,8 @@ describe("complex order", () => {
         orderId: "order-test-1",
         carrier: "UPS",
         trackingNumber: "1Z999",
+        destinationCountry: "US",
+        destinationState: "DC",
       });
 
       await tx.mutate.shipmentItem.insert({

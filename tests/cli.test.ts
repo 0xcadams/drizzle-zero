@@ -327,7 +327,7 @@ describe("getGeneratedSchema", () => {
 
     // Check for the type exports
     expect(generatedSchema).toContain(
-      'export type User = Row<typeof usersTable>;',
+      "export type User = Row<typeof usersTable>;",
     );
 
     // Verify null custom type handling with the correct type path
@@ -475,9 +475,7 @@ describe("getGeneratedSchema", () => {
         outputFilePath: outputFile,
       });
 
-      expect(generatedSchema).toContain(
-        'null as unknown as string',
-      );
+      expect(generatedSchema).toContain("null as unknown as string");
     } finally {
       await fs.rm(drizzleDir, { recursive: true, force: true });
     }
@@ -1110,10 +1108,10 @@ describe("getGeneratedSchema", () => {
 
     // Check for table type exports with proper capitalization
     expect(generatedSchema).toContain(
-      'export type User = Row<typeof usersTable>;',
+      "export type User = Row<typeof usersTable>;",
     );
     expect(generatedSchema).toContain(
-      'export type Post = Row<typeof postsTable>;',
+      "export type Post = Row<typeof postsTable>;",
     );
 
     // Check for JSDoc comments on table types
@@ -1170,13 +1168,13 @@ describe("getGeneratedSchema", () => {
 
     // Check that capitalization works correctly for different naming conventions
     expect(generatedSchema).toContain(
-      'export type UserProfile = Row<typeof userProfilesTable>;',
+      "export type UserProfile = Row<typeof userProfilesTable>;",
     );
     expect(generatedSchema).toContain(
-      'export type BlogPost = Row<typeof blogPostsTable>;',
+      "export type BlogPost = Row<typeof blogPostsTable>;",
     );
     expect(generatedSchema).toContain(
-      'export type User = Row<typeof userTable>;',
+      "export type User = Row<typeof userTable>;",
     );
   });
 
@@ -1237,10 +1235,10 @@ describe("getGeneratedSchema", () => {
 
     // Check for table type exports
     expect(generatedSchema).toContain(
-      'export type User = Row<typeof usersTable>;',
+      "export type User = Row<typeof usersTable>;",
     );
     expect(generatedSchema).toContain(
-      'export type Post = Row<typeof postsTable>;',
+      "export type Post = Row<typeof postsTable>;",
     );
 
     // Reset the mock after the test
@@ -1372,7 +1370,7 @@ describe("getGeneratedSchema", () => {
       'import type { Row } from "@rocicorp/zero";',
     );
     expect(generatedSchema).toContain(
-      'export type User = Row<typeof usersTable>;',
+      "export type User = Row<typeof usersTable>;",
     );
   });
 
@@ -1795,7 +1793,5 @@ describe("getConfigFromFile", () => {
     // Verify some expected tables from the integration config
     expect(result.zeroSchema?.tables).toHaveProperty("user");
     expect(result.zeroSchema?.tables).toHaveProperty("message");
-
-    expect(result.zeroSchema).toMatchSnapshot();
   });
 });

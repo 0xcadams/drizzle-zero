@@ -4,7 +4,8 @@
   "type": "module",
   "exports": {
     "./schema": "./schema.ts",
-    "./test-utils": "./test-utils.ts"
+    "./test-utils": "./test-utils.ts",
+    "./types": "./drizzle/types.ts"
   },
   "scripts": {
     "db:generate": "drizzle-kit generate"
@@ -22,6 +23,7 @@
     "pg": "^8.16.3",
     "postgres": "^3.4.7",
     "prettier": "^3.6.2",
-    "testcontainers": "^11.8.0"
+    "testcontainers": "^11.7.2",
+    "zod": "^4.1.12"
   }
 }

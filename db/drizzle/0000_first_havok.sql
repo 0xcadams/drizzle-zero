@@ -55,7 +55,8 @@ CREATE TABLE "analytics_dashboard" (
 	"id" text PRIMARY KEY NOT NULL,
 	"owner_id" text,
 	"title" text NOT NULL,
-	"description" text
+	"description" text,
+	"default_query" jsonb NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "analytics_widget" (
@@ -149,7 +150,9 @@ CREATE TABLE "crm_account" (
 	"owner_id" text,
 	"name" text NOT NULL,
 	"industry" text,
-	"status" text
+	"status" text,
+	"domicile_country" char(2),
+	"reporting_currency" char(3)
 );
 --> statement-breakpoint
 CREATE TABLE "crm_activity" (
@@ -180,7 +183,9 @@ CREATE TABLE "crm_contact" (
 	"first_name" text NOT NULL,
 	"last_name" text NOT NULL,
 	"email" text,
-	"phone" text
+	"phone" text,
+	"country_iso" char(2),
+	"state_code" char(2)
 );
 --> statement-breakpoint
 CREATE TABLE "crm_note" (
@@ -339,6 +344,18 @@ CREATE TABLE "expense_report" (
 	"submitted_at" timestamp with time zone
 );
 --> statement-breakpoint
+CREATE TABLE "feature_flag" (
+	"createdAt" timestamp(3) with time zone DEFAULT now() NOT NULL,
+	"updatedAt" timestamp(3) with time zone DEFAULT now() NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
+	"key" text NOT NULL,
+	"owner_id" text,
+	"definition" jsonb NOT NULL,
+	"metadata" jsonb NOT NULL,
+	"snapshot" jsonb NOT NULL,
+	"release_track" text NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "filters" (
 	"id" text PRIMARY KEY NOT NULL,
 	"name" text,
@@ -411,7 +428,8 @@ CREATE TABLE "inventory_location" (
 	"id" text PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
 	"address" text,
-	"region" text
+	"region" text,
+	"country_iso" char(2)
 );
 --> statement-breakpoint
 CREATE TABLE "ledger_account" (
@@ -543,7 +561,11 @@ CREATE TABLE "order" (
 	"opportunity_id" text,
 	"status" text NOT NULL,
 	"total" numeric(12, 2) NOT NULL,
-	"currency" char(3) NOT NULL
+	"currency" char(3) NOT NULL,
+	"currency_metadata" jsonb NOT NULL,
+	"billing_country_iso" char(2) NOT NULL,
+	"shipping_country_iso" char(2) NOT NULL,
+	"cdc_checkpoint" jsonb
 );
 --> statement-breakpoint
 CREATE TABLE "payment" (
@@ -583,7 +605,9 @@ CREATE TABLE "product_media" (
 	"id" text PRIMARY KEY NOT NULL,
 	"product_id" text NOT NULL,
 	"url" text NOT NULL,
-	"type" text NOT NULL
+	"type" text NOT NULL,
+	"mime_key" text NOT NULL,
+	"mime_descriptor" jsonb NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "product_variant" (
@@ -604,7 +628,8 @@ CREATE TABLE "project" (
 	"owner_id" text,
 	"name" text NOT NULL,
 	"description" text,
-	"status" text
+	"status" text,
+	"workflow_state" jsonb NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "project_assignment" (
@@ -698,7 +723,9 @@ CREATE TABLE "shipment" (
 	"shipped_at" timestamp with time zone,
 	"delivered_at" timestamp with time zone,
 	"carrier" text,
-	"tracking_number" text
+	"tracking_number" text,
+	"destination_country" char(2) NOT NULL,
+	"destination_state" char(2)
 );
 --> statement-breakpoint
 CREATE TABLE "shipment_item" (
@@ -775,6 +802,15 @@ CREATE TABLE "team" (
 	"department_id" text NOT NULL,
 	"lead_id" text,
 	"name" text NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "telemetry_rollup" (
+	"createdAt" timestamp(3) with time zone DEFAULT now() NOT NULL,
+	"updatedAt" timestamp(3) with time zone DEFAULT now() NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
+	"project_id" text,
+	"metric" text NOT NULL,
+	"windowed_stats" jsonb NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "test_bigserial_pk" (
@@ -860,7 +896,19 @@ CREATE TABLE "user" (
 	"test_interface" jsonb NOT NULL,
 	"test_type" jsonb NOT NULL,
 	"test_exported_type" jsonb NOT NULL,
+	"notification_preferences" jsonb NOT NULL,
+	"country_iso" char(2) NOT NULL,
+	"region_code" char(2),
+	"preferred_currency" char(3) NOT NULL,
 	"status" text
+);
+--> statement-breakpoint
+CREATE TABLE "webhook_subscription" (
+	"createdAt" timestamp(3) with time zone DEFAULT now() NOT NULL,
+	"updatedAt" timestamp(3) with time zone DEFAULT now() NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
+	"project_id" text,
+	"config" jsonb NOT NULL
 );
 --> statement-breakpoint
 ALTER TABLE "analytics_dashboard" ADD CONSTRAINT "analytics_dashboard_owner_id_user_id_fk" FOREIGN KEY ("owner_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
@@ -912,6 +960,7 @@ ALTER TABLE "employment_history" ADD CONSTRAINT "employment_history_employee_id_
 ALTER TABLE "expense_item" ADD CONSTRAINT "expense_item_report_id_expense_report_id_fk" FOREIGN KEY ("report_id") REFERENCES "public"."expense_report"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "expense_report" ADD CONSTRAINT "expense_report_owner_id_user_id_fk" FOREIGN KEY ("owner_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "expense_report" ADD CONSTRAINT "expense_report_department_id_department_id_fk" FOREIGN KEY ("department_id") REFERENCES "public"."department"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "feature_flag" ADD CONSTRAINT "feature_flag_owner_id_user_id_fk" FOREIGN KEY ("owner_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "friendship" ADD CONSTRAINT "friendship_requestingId_user_id_fk" FOREIGN KEY ("requestingId") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "friendship" ADD CONSTRAINT "friendship_acceptingId_user_id_fk" FOREIGN KEY ("acceptingId") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "integration_credential" ADD CONSTRAINT "integration_credential_webhook_id_integration_webhook_id_fk" FOREIGN KEY ("webhook_id") REFERENCES "public"."integration_webhook"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
@@ -973,7 +1022,9 @@ ALTER TABLE "support_ticket_tag_link" ADD CONSTRAINT "support_ticket_tag_link_ti
 ALTER TABLE "support_ticket_tag_link" ADD CONSTRAINT "support_ticket_tag_link_tag_id_support_ticket_tag_id_fk" FOREIGN KEY ("tag_id") REFERENCES "public"."support_ticket_tag"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "team" ADD CONSTRAINT "team_department_id_department_id_fk" FOREIGN KEY ("department_id") REFERENCES "public"."department"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "team" ADD CONSTRAINT "team_lead_id_user_id_fk" FOREIGN KEY ("lead_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "telemetry_rollup" ADD CONSTRAINT "telemetry_rollup_project_id_project_id_fk" FOREIGN KEY ("project_id") REFERENCES "public"."project"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "time_entry" ADD CONSTRAINT "time_entry_timesheet_id_timesheet_id_fk" FOREIGN KEY ("timesheet_id") REFERENCES "public"."timesheet"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "time_entry" ADD CONSTRAINT "time_entry_task_id_project_task_id_fk" FOREIGN KEY ("task_id") REFERENCES "public"."project_task"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "timesheet" ADD CONSTRAINT "timesheet_employee_id_employee_profile_id_fk" FOREIGN KEY ("employee_id") REFERENCES "public"."employee_profile"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "timesheet" ADD CONSTRAINT "timesheet_submitted_by_id_user_id_fk" FOREIGN KEY ("submitted_by_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;
+ALTER TABLE "timesheet" ADD CONSTRAINT "timesheet_submitted_by_id_user_id_fk" FOREIGN KEY ("submitted_by_id") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "webhook_subscription" ADD CONSTRAINT "webhook_subscription_project_id_project_id_fk" FOREIGN KEY ("project_id") REFERENCES "public"."project"("id") ON DELETE no action ON UPDATE no action;
