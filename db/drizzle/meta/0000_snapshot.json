@@ -1,5 +1,5 @@
 {
-  "id": "9105b2ca-1702-485e-ad99-159173ced384",
+  "id": "fcb52e9b-1910-4aff-a30f-5aa9c4e4c007",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -345,6 +345,12 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "default_query": {
+          "name": "default_query",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},
@@ -1073,6 +1079,18 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "domicile_country": {
+          "name": "domicile_country",
+          "type": "char(2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reporting_currency": {
+          "name": "reporting_currency",
+          "type": "char(3)",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
@@ -1328,6 +1346,18 @@
         "phone": {
           "name": "phone",
           "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "country_iso": {
+          "name": "country_iso",
+          "type": "char(2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "state_code": {
+          "name": "state_code",
+          "type": "char(2)",
           "primaryKey": false,
           "notNull": false
         }
@@ -2625,6 +2655,89 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.feature_flag": {
+      "name": "feature_flag",
+      "schema": "",
+      "columns": {
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "key": {
+          "name": "key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "owner_id": {
+          "name": "owner_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "definition": {
+          "name": "definition",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "metadata": {
+          "name": "metadata",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "snapshot": {
+          "name": "snapshot",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "release_track": {
+          "name": "release_track",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "feature_flag_owner_id_user_id_fk": {
+          "name": "feature_flag_owner_id_user_id_fk",
+          "tableFrom": "feature_flag",
+          "tableTo": "user",
+          "columnsFrom": [
+            "owner_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.filters": {
       "name": "filters",
       "schema": "",
@@ -3162,6 +3275,12 @@
         "region": {
           "name": "region",
           "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "country_iso": {
+          "name": "country_iso",
+          "type": "char(2)",
           "primaryKey": false,
           "notNull": false
         }
@@ -4116,6 +4235,30 @@
           "type": "char(3)",
           "primaryKey": false,
           "notNull": true
+        },
+        "currency_metadata": {
+          "name": "currency_metadata",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "billing_country_iso": {
+          "name": "billing_country_iso",
+          "type": "char(2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "shipping_country_iso": {
+          "name": "shipping_country_iso",
+          "type": "char(2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cdc_checkpoint": {
+          "name": "cdc_checkpoint",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
@@ -4413,6 +4556,18 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "mime_key": {
+          "name": "mime_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "mime_descriptor": {
+          "name": "mime_descriptor",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},
@@ -4562,6 +4717,12 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "workflow_state": {
+          "name": "workflow_state",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},
@@ -5300,6 +5461,18 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "destination_country": {
+          "name": "destination_country",
+          "type": "char(2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "destination_state": {
+          "name": "destination_state",
+          "type": "char(2)",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {},
@@ -5945,6 +6118,71 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.telemetry_rollup": {
+      "name": "telemetry_rollup",
+      "schema": "",
+      "columns": {
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "project_id": {
+          "name": "project_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "metric": {
+          "name": "metric",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "windowed_stats": {
+          "name": "windowed_stats",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "telemetry_rollup_project_id_project_id_fk": {
+          "name": "telemetry_rollup_project_id_project_id_fk",
+          "tableFrom": "telemetry_rollup",
+          "tableTo": "project",
+          "columnsFrom": [
+            "project_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.test_bigserial_pk": {
       "name": "test_bigserial_pk",
       "schema": "",
@@ -6457,6 +6695,30 @@
           "primaryKey": false,
           "notNull": true
         },
+        "notification_preferences": {
+          "name": "notification_preferences",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "country_iso": {
+          "name": "country_iso",
+          "type": "char(2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "region_code": {
+          "name": "region_code",
+          "type": "char(2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "preferred_currency": {
+          "name": "preferred_currency",
+          "type": "char(3)",
+          "primaryKey": false,
+          "notNull": true
+        },
         "status": {
           "name": "status",
           "type": "text",
@@ -6466,6 +6728,65 @@
       },
       "indexes": {},
       "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.webhook_subscription": {
+      "name": "webhook_subscription",
+      "schema": "",
+      "columns": {
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "project_id": {
+          "name": "project_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "config": {
+          "name": "config",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "webhook_subscription_project_id_project_id_fk": {
+          "name": "webhook_subscription_project_id_project_id_fk",
+          "tableFrom": "webhook_subscription",
+          "tableTo": "project",
+          "columnsFrom": [
+            "project_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},

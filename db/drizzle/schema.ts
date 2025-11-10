@@ -1,3 +1,7 @@
+import type {
+  CustomJsonInterface,
+  CustomJsonType,
+} from "@drizzle-zero/custom-types";
 import { relations, sql } from "drizzle-orm";
 import {
   bigint,
@@ -6,10 +10,10 @@ import {
   char,
   date,
   doublePrecision,
+  foreignKey,
   integer,
   json,
   jsonb,
-  foreignKey,
   numeric,
   pgEnum,
   pgTable,
@@ -24,9 +28,22 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 import type {
-  CustomJsonType,
-  CustomJsonInterface,
-} from "@drizzle-zero/custom-types";
+  AnalyticsQuery,
+  ChangeDataCaptureCheckpoint,
+  FeatureFlag,
+  FeatureFlagSnapshot,
+  NotificationPreferences,
+  ReleaseTrack,
+  RuntimeFlagDefinition,
+  SchemaDriftFinding,
+  ShortCodeValue,
+  TemporalRollup,
+  WebhookConfig,
+  WorkflowState,
+} from "./types";
+import type { Country, USState } from "./country";
+import type { Currency, CurrencyCode } from "./currency";
+import type { ContentType } from "./mime";
 
 export interface TestInterface {
   nameInterface: "custom-inline-interface";
@@ -39,6 +56,10 @@ export type TestExportedType = {
 type TestType = {
   nameType: "custom-inline-type";
 };
+
+type CountryIsoCode = Country["iso"];
+type MimeKey = keyof ContentType;
+type MimeDescriptor = ContentType[MimeKey];
 
 const sharedColumns = {
   createdAt: timestamp("createdAt", {
@@ -72,6 +93,16 @@ export const user = pgTable("user", {
   testType: jsonb("test_type").$type<TestType>().notNull(),
   testExportedType: jsonb("test_exported_type")
     .$type<TestExportedType>()
+    .notNull(),
+  notificationPreferences: jsonb("notification_preferences")
+    .$type<NotificationPreferences>()
+    .notNull(),
+  countryIso: char("country_iso", { length: 2 })
+    .$type<CountryIsoCode>()
+    .notNull(),
+  regionCode: char("region_code", { length: 2 }).$type<USState | null>(),
+  preferredCurrency: char("preferred_currency", { length: 3 })
+    .$type<CurrencyCode>()
     .notNull(),
   status: text("status", { enum: ["ASSIGNED", "COMPLETED"] }),
 });
@@ -227,6 +258,7 @@ export const project = pgTable("project", {
   name: text("name").notNull(),
   description: text("description"),
   status: text("status"),
+  workflowState: jsonb("workflow_state").$type<WorkflowState>().notNull(),
 });
 
 export const projectPhase = pgTable("project_phase", {
@@ -317,7 +349,7 @@ export const projectAudit = pgTable("project_audit", {
     .references(() => project.id),
   actorId: text("actor_id").references(() => user.id),
   action: text("action").notNull(),
-  details: jsonb("details"),
+  details: jsonb("details").$type<SchemaDriftFinding[] | null>(),
 });
 
 export const projectTagRelations = relations(projectTag, ({ many }) => ({
@@ -429,6 +461,61 @@ export const projectAuditRelations = relations(projectAudit, ({ one }) => ({
   }),
 }));
 
+export const featureFlag = pgTable("feature_flag", {
+  ...sharedColumns,
+  id: text("id").primaryKey(),
+  key: text("key").notNull(),
+  ownerId: text("owner_id").references(() => user.id),
+  definition: jsonb("definition").$type<RuntimeFlagDefinition>().notNull(),
+  metadata: jsonb("metadata").$type<FeatureFlag>().notNull(),
+  snapshot: jsonb("snapshot").$type<FeatureFlagSnapshot>().notNull(),
+  releaseTrack: text("release_track").$type<ReleaseTrack>().notNull(),
+});
+
+export const featureFlagRelations = relations(featureFlag, ({ one }) => ({
+  owner: one(user, {
+    fields: [featureFlag.ownerId],
+    references: [user.id],
+  }),
+}));
+
+export const telemetryRollup = pgTable("telemetry_rollup", {
+  ...sharedColumns,
+  id: text("id").primaryKey(),
+  projectId: text("project_id").references(() => project.id),
+  metric: text("metric").notNull(),
+  windowedStats: jsonb("windowed_stats")
+    .$type<TemporalRollup<{ dimension: string; metric: string }>>()
+    .notNull(),
+});
+
+export const telemetryRollupRelations = relations(
+  telemetryRollup,
+  ({ one }) => ({
+    project: one(project, {
+      fields: [telemetryRollup.projectId],
+      references: [project.id],
+    }),
+  }),
+);
+
+export const webhookSubscription = pgTable("webhook_subscription", {
+  ...sharedColumns,
+  id: text("id").primaryKey(),
+  projectId: text("project_id").references(() => project.id),
+  config: jsonb("config").$type<WebhookConfig>().notNull(),
+});
+
+export const webhookSubscriptionRelations = relations(
+  webhookSubscription,
+  ({ one }) => ({
+    project: one(project, {
+      fields: [webhookSubscription.projectId],
+      references: [project.id],
+    }),
+  }),
+);
+
 export const crmAccount = pgTable("crm_account", {
   ...sharedColumns,
   id: text("id").primaryKey(),
@@ -436,6 +523,12 @@ export const crmAccount = pgTable("crm_account", {
   name: text("name").notNull(),
   industry: text("industry"),
   status: text("status"),
+  domicileCountry: char("domicile_country", {
+    length: 2,
+  }).$type<CountryIsoCode | null>(),
+  reportingCurrency: char("reporting_currency", {
+    length: 3,
+  }).$type<CurrencyCode | null>(),
 });
 
 export const crmContact = pgTable("crm_contact", {
@@ -448,6 +541,8 @@ export const crmContact = pgTable("crm_contact", {
   lastName: text("last_name").notNull(),
   email: text("email"),
   phone: text("phone"),
+  countryIso: char("country_iso", { length: 2 }).$type<CountryIsoCode | null>(),
+  stateCode: char("state_code", { length: 2 }).$type<USState | null>(),
 });
 
 export const crmPipelineStage = pgTable("crm_pipeline_stage", {
@@ -666,7 +761,7 @@ export const productVariant = pgTable("product_variant", {
     .references(() => product.id),
   sku: text("sku").notNull(),
   price: numeric("price", { precision: 12, scale: 2 }).notNull(),
-  currency: char("currency", { length: 3 }).notNull(),
+  currency: char("currency", { length: 3 }).$type<CurrencyCode>().notNull(),
   isActive: boolean("is_active").notNull().default(true),
 });
 
@@ -677,7 +772,9 @@ export const productMedia = pgTable("product_media", {
     .notNull()
     .references(() => product.id),
   url: text("url").notNull(),
-  type: text("type").notNull(),
+  type: text("type").$type<ShortCodeValue>().notNull(),
+  mimeKey: text("mime_key").$type<MimeKey>().notNull(),
+  mimeDescriptor: jsonb("mime_descriptor").$type<MimeDescriptor>().notNull(),
 });
 
 export const inventoryLocation = pgTable("inventory_location", {
@@ -686,6 +783,7 @@ export const inventoryLocation = pgTable("inventory_location", {
   name: text("name").notNull(),
   address: text("address"),
   region: text("region"),
+  countryIso: char("country_iso", { length: 2 }).$type<CountryIsoCode | null>(),
 });
 
 export const inventoryItem = pgTable("inventory_item", {
@@ -718,7 +816,17 @@ export const orderTable = pgTable("order", {
   opportunityId: text("opportunity_id").references(() => crmOpportunity.id),
   status: text("status").notNull(),
   total: numeric("total", { precision: 12, scale: 2 }).notNull(),
-  currency: char("currency", { length: 3 }).notNull(),
+  currency: char("currency", { length: 3 }).$type<CurrencyCode>().notNull(),
+  currencyMetadata: jsonb("currency_metadata").$type<Currency>().notNull(),
+  billingCountryIso: char("billing_country_iso", { length: 2 })
+    .$type<CountryIsoCode>()
+    .notNull(),
+  shippingCountryIso: char("shipping_country_iso", { length: 2 })
+    .$type<CountryIsoCode>()
+    .notNull(),
+  cdcCheckpoint: jsonb(
+    "cdc_checkpoint",
+  ).$type<ChangeDataCaptureCheckpoint | null>(),
 });
 
 export const orderItem = pgTable("order_item", {
@@ -740,7 +848,7 @@ export const payment = pgTable("payment", {
   externalRef: text("external_ref"),
   status: text("status").notNull(),
   amount: numeric("amount", { precision: 12, scale: 2 }).notNull(),
-  currency: char("currency", { length: 3 }).notNull(),
+  currency: char("currency", { length: 3 }).$type<CurrencyCode>().notNull(),
   receivedAt: timestamp("received_at", { withTimezone: true }),
   receivedById: text("received_by_id").references(() => user.id),
 });
@@ -766,6 +874,12 @@ export const shipment = pgTable("shipment", {
   deliveredAt: timestamp("delivered_at", { withTimezone: true }),
   carrier: text("carrier"),
   trackingNumber: text("tracking_number"),
+  destinationCountry: char("destination_country", { length: 2 })
+    .$type<CountryIsoCode>()
+    .notNull(),
+  destinationState: char("destination_state", {
+    length: 2,
+  }).$type<USState | null>(),
 });
 
 export const shipmentItem = pgTable("shipment_item", {
@@ -1655,6 +1769,7 @@ export const analyticsDashboard = pgTable("analytics_dashboard", {
   ownerId: text("owner_id").references(() => user.id),
   title: text("title").notNull(),
   description: text("description"),
+  defaultQuery: jsonb("default_query").$type<AnalyticsQuery>().notNull(),
 });
 
 export const analyticsWidget = pgTable("analytics_widget", {

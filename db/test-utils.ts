@@ -94,6 +94,7 @@ import {
   user,
 } from "./schema";
 import postgres from "postgres";
+import { getShortCode } from "./drizzle/types";
 
 const versionInt = parseInt(process.env.PG_VERSION ?? "16");
 const PG_PORT = 5732 + (versionInt - 16);
@@ -151,6 +152,16 @@ export const seed = async () => {
       nameType: "custom-inline-type",
     },
     status: "COMPLETED",
+    notificationPreferences: [
+      {
+        channel: "email",
+        address: "james@example.com",
+        templateId: "template-1",
+      },
+    ],
+    countryIso: "US",
+    preferredCurrency: "USD",
+    regionCode: "CA",
   });
   await db.insert(user).values({
     id: "2",
@@ -173,6 +184,16 @@ export const seed = async () => {
     testExportedType: {
       nameType: "custom-inline-type",
     },
+    notificationPreferences: [
+      {
+        channel: "email",
+        address: "john@example.com",
+        templateId: "template-1",
+      },
+    ],
+    countryIso: "US",
+    preferredCurrency: "USD",
+    regionCode: "CA",
   });
   await db.insert(user).values({
     id: "3",
@@ -196,6 +217,16 @@ export const seed = async () => {
       nameType: "custom-inline-type",
     },
     status: "ASSIGNED",
+    notificationPreferences: [
+      {
+        channel: "email",
+        address: "jane@example.com",
+        templateId: "template-1",
+      },
+    ],
+    countryIso: "US",
+    preferredCurrency: "USD",
+    regionCode: "CA",
   });
 
   await db.insert(message).values({
@@ -261,6 +292,16 @@ export const seed = async () => {
         nameType: "custom-inline-type",
       },
       status: "COMPLETED",
+      notificationPreferences: [
+        {
+          channel: "email",
+          address: "thomas@example.com",
+          templateId: "template-1",
+        },
+      ],
+      countryIso: "US",
+      preferredCurrency: "USD",
+      regionCode: "CA",
     },
     {
       id: "5",
@@ -284,6 +325,16 @@ export const seed = async () => {
         nameType: "custom-inline-type",
       },
       status: "COMPLETED",
+      notificationPreferences: [
+        {
+          channel: "email",
+          address: "priya@example.com",
+          templateId: "template-1",
+        },
+      ],
+      countryIso: "US",
+      preferredCurrency: "USD",
+      regionCode: "CA",
     },
     {
       id: "6",
@@ -307,6 +358,16 @@ export const seed = async () => {
         nameType: "custom-inline-type",
       },
       status: "ASSIGNED",
+      notificationPreferences: [
+        {
+          channel: "email",
+          address: "liu@example.com",
+          templateId: "template-1",
+        },
+      ],
+      countryIso: "US",
+      preferredCurrency: "USD",
+      regionCode: "CA",
     },
     {
       id: "7",
@@ -330,6 +391,16 @@ export const seed = async () => {
         nameType: "custom-inline-type",
       },
       status: "ASSIGNED",
+      notificationPreferences: [
+        {
+          channel: "email",
+          address: "amelia@example.com",
+          templateId: "template-1",
+        },
+      ],
+      countryIso: "US",
+      preferredCurrency: "USD",
+      regionCode: "CA",
     },
   ]);
 
@@ -377,6 +448,11 @@ export const seed = async () => {
       name: "Operations Platform Revamp",
       description: "Consolidate tooling for ops and customer success.",
       status: "in_progress",
+      workflowState: {
+        state: "scheduled",
+        updatedBy: "4",
+        runAtIso: new Date().toISOString(),
+      },
     },
     {
       id: "project-marketing",
@@ -384,6 +460,12 @@ export const seed = async () => {
       name: "Marketing Launch Q4",
       description: "Coordinated launch campaign for Q4 initiatives.",
       status: "planning",
+      workflowState: {
+        state: "failed",
+        failedAtIso: new Date().toISOString(),
+        reason: "Failed to launch campaign",
+        retryable: true,
+      },
     },
   ]);
 
@@ -529,14 +611,26 @@ export const seed = async () => {
       projectId: "project-ops",
       actorId: "4",
       action: "STATUS_CHANGE",
-      details: { from: "planning", to: "in_progress" },
+      details: [
+        {
+          severity: "info",
+          detectedAtIso: new Date().toISOString(),
+          diffs: [{ op: "set", path: "status", value: "in_progress" }],
+        },
+      ],
     },
     {
       id: "project-audit-2",
       projectId: "project-marketing",
       actorId: "5",
       action: "PHASE_ADDED",
-      details: { phaseId: "phase-launch" },
+      details: [
+        {
+          severity: "info",
+          detectedAtIso: new Date().toISOString(),
+          diffs: [{ op: "set", path: "phaseId", value: "phase-launch" }],
+        },
+      ],
     },
   ]);
 
@@ -779,13 +873,29 @@ export const seed = async () => {
       id: "media-zero",
       productId: "product-zero",
       url: "https://cdn.example.com/products/zero-workflows/overview.png",
-      type: "image",
+      type: getShortCode("image"),
+      mimeKey: "png",
+      mimeDescriptor: {
+        mime_type: "image/png",
+        group: "image",
+        description: "PNG image",
+        extensions: ["png"],
+        is_text: false,
+      },
     },
     {
       id: "media-onboarding",
       productId: "product-onboarding",
       url: "https://cdn.example.com/products/onboarding/guide.pdf",
-      type: "document",
+      type: getShortCode("document"),
+      mimeKey: "pdf",
+      mimeDescriptor: {
+        mime_type: "application/pdf",
+        group: "document",
+        description: "PDF document",
+        extensions: ["pdf"],
+        is_text: false,
+      },
     },
   ]);
 
@@ -831,7 +941,16 @@ export const seed = async () => {
       opportunityId: "opp-aurora-platform",
       status: "processing",
       total: "22498.00",
-      currency: "USD",
+      currency: "AFN",
+      currencyMetadata: {
+        code: "AFN",
+        number: "971",
+        digits: 2,
+        currency: "Afghani",
+        countries: ["AFG"],
+      },
+      billingCountryIso: "AF",
+      shippingCountryIso: "AF",
     },
   ]);
 
@@ -896,6 +1015,8 @@ export const seed = async () => {
       shippedAt: new Date("2024-05-20T08:00:00Z"),
       carrier: "Digital Delivery",
       trackingNumber: "DD-2024-1001",
+      destinationCountry: "AF",
+      destinationState: "DC",
     },
   ]);
 
@@ -1361,6 +1482,13 @@ export const seed = async () => {
       ownerId: "1",
       title: "Revenue Pulse",
       description: "Pipeline and bookings snapshot",
+      defaultQuery: {
+        dimensions: ["hour", "day", "week", "month"],
+        metrics: ["sum(amount)"],
+        limit: 10,
+        timezone: "UTC",
+        filters: [],
+      },
     },
   ]);
 
