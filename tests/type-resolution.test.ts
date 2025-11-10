@@ -137,6 +137,47 @@ describe("resolveCustomTypes", () => {
     expect(resolved.size).toBe(1);
     expect(resolved.get("user::|::customField")).toBe("string");
   });
+
+  test("resolves ReadonlyJSONValue and includes it in the result map", () => {
+    const project = new Project({
+      tsConfigFilePath: path.resolve(__dirname, "../tsconfig.json"),
+    });
+
+    project.createSourceFile(
+      "virtual-schema.ts",
+      `
+        import { pgTable, text, jsonb } from "drizzle-orm/pg-core";
+
+        export const user = pgTable("user", {
+          id: text("id").primaryKey(),
+          jsonData: jsonb("json_data").notNull(),
+        });
+      `,
+      { overwrite: true },
+    );
+
+    project.resolveSourceFileDependencies();
+
+    const resolved = resolveCustomTypes({
+      project,
+      helperName: "CustomType",
+      schemaTypeExpression: "typeof drizzleSchema",
+      schemaImports: [
+        {
+          moduleSpecifier: "./virtual-schema",
+          namespaceImport: "drizzleSchema",
+          isTypeOnly: true,
+        },
+      ],
+      requests: [
+        { tableName: "user", columnName: "id" },
+        { tableName: "user", columnName: "jsonData" },
+      ],
+    });
+
+    expect(resolved.get("user::|::id")).toBe("string");
+    expect(resolved.get("user::|::jsonData")).toBe("ReadonlyJSONValue");
+  });
 });
 
 describe("isSafeResolvedType", () => {
@@ -150,6 +191,9 @@ describe("isSafeResolvedType", () => {
     "true | false",
     "null",
     "undefined",
+
+    // JSON types
+    "ReadonlyJSONValue",
 
     // Numeric literals
     "1 | 2 | 3",
@@ -293,7 +337,6 @@ describe("isSafeResolvedType", () => {
     // Custom type identifiers
     "CustomJsonInterface",
     "CustomJsonType",
-    "ReadonlyJSONValue",
     "TestType",
 
     // Namespace/module types
