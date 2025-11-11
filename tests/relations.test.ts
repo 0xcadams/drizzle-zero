@@ -8,12 +8,12 @@ import {
   table,
 } from "@rocicorp/zero";
 import { describe, test } from "vitest";
-import { assertEqual, expectSchemaDeepEqual } from "./utils";
 import {
   drizzleZeroConfig,
   type DrizzleToZeroSchema,
   type ZeroCustomType,
 } from "../src/relations";
+import { assertEqual, expectSchemaDeepEqual } from "./utils";
 
 describe("relationships", () => {
   test("relationships - no tables", async ({ expect }) => {
@@ -1422,5 +1422,85 @@ describe("relationships", () => {
       >["tables"]["users"]["columns"]["id"]["customType"],
       expected.tables.users.columns.id.customType,
     );
+  });
+
+  test("relationships - disambiguates same table name across schemas", async () => {
+    const { schema: schemaCollisionZeroSchema } = await import(
+      "./schemas/postgres-schema-collision.zero"
+    );
+
+    const expectedAuthUsers = table("authUsers")
+      .from("auth.user")
+      .columns({
+        id: string(),
+        name: string().optional(),
+      })
+      .primaryKey("id");
+
+    const expectedUsers = table("users")
+      .from("user")
+      .columns({
+        id: string(),
+        name: string().optional(),
+      })
+      .primaryKey("id");
+
+    const expectedGroups = table("groups")
+      .from("group")
+      .columns({
+        id: string(),
+        authUserId: string().from("auth_user_id").optional(),
+        userId: string().from("user_id").optional(),
+      })
+      .primaryKey("id");
+
+    const expectedAuthUsersRelationships = relationships(
+      expectedAuthUsers,
+      ({ many }) => ({
+        groups: many({
+          sourceField: ["id"],
+          destField: ["authUserId"],
+          destSchema: expectedGroups,
+        }),
+      }),
+    );
+
+    const expectedUsersRelationships = relationships(
+      expectedUsers,
+      ({ many }) => ({
+        groups: many({
+          sourceField: ["id"],
+          destField: ["userId"],
+          destSchema: expectedGroups,
+        }),
+      }),
+    );
+
+    const expectedGroupsRelationships = relationships(
+      expectedGroups,
+      ({ one }) => ({
+        authUser: one({
+          sourceField: ["authUserId"],
+          destField: ["id"],
+          destSchema: expectedAuthUsers,
+        }),
+        user: one({
+          sourceField: ["userId"],
+          destField: ["id"],
+          destSchema: expectedUsers,
+        }),
+      }),
+    );
+
+    const expected = createSchema({
+      tables: [expectedAuthUsers, expectedUsers, expectedGroups],
+      relationships: [
+        expectedAuthUsersRelationships,
+        expectedUsersRelationships,
+        expectedGroupsRelationships,
+      ],
+    });
+
+    expectSchemaDeepEqual(schemaCollisionZeroSchema).toEqual(expected);
   });
 });
