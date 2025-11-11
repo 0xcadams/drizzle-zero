@@ -209,6 +209,7 @@ export async function getGeneratedSchema({
   const usedIdentifiers = new Set<string>([schemaObjectName]);
   const tableConstNames = new Map<string, string>();
   const relationshipConstNames = new Map<string, string>();
+  let readonlyJSONValueImported = false;
 
   const sanitizeIdentifier = (value: string, fallback: string) => {
     const baseCandidate =
@@ -349,6 +350,10 @@ export async function getGeneratedSchema({
 
             if (resolvedType) {
               writer.write(`null as unknown as ${resolvedType}`);
+
+              if (resolvedType === "ReadonlyJSONValue") {
+                readonlyJSONValueImported = true;
+              }
             } else {
               writer.write(
                 `null as unknown as ${customTypeHelper}<${zeroSchemaSpecifier}, "${keys[tableIndex]}", "${keys[columnIndex]}">`,
@@ -544,6 +549,14 @@ export async function getGeneratedSchema({
     builderVariable.addJsDoc({
       description:
         "\nRepresents the Zero schema query builder.\nThis type is auto-generated from your Drizzle schema definition.",
+    });
+  }
+
+  if (readonlyJSONValueImported) {
+    zeroSchemaGenerated.addImportDeclaration({
+      moduleSpecifier: "@rocicorp/zero",
+      namedImports: [{ name: "ReadonlyJSONValue" }],
+      isTypeOnly: true,
     });
   }
 

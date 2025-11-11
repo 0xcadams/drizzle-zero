@@ -2,6 +2,7 @@ import { createSchema } from "@rocicorp/zero";
 import {
   createTableRelationsHelpers,
   getTableName,
+  getTableUniqueName,
   is,
   Many,
   One,
@@ -446,13 +447,15 @@ const drizzleZeroConfig = <
 
           // Find source->junction and junction->dest relationships
           const sourceJunctionFields = findRelationSourceAndDestFields(schema, {
-            sourceTable: sourceTable,
+            sourceTable,
             referencedTableName: getTableName(junctionTable),
+            referencedTable: junctionTable,
           });
 
           const junctionDestFields = findRelationSourceAndDestFields(schema, {
             sourceTable: destTable,
             referencedTableName: getTableName(junctionTable),
+            referencedTable: junctionTable,
           });
 
           if (
@@ -593,9 +596,10 @@ const drizzleZeroConfig = <
 
     if (is(tableOrRelations, Relations)) {
       const actualTableName = getTableName(tableOrRelations.table);
-      const tableName = getDrizzleKeyFromTableName({
+      const tableName = getDrizzleKeyFromTable({
         schema,
-        tableName: actualTableName,
+        table: tableOrRelations.table,
+        fallbackTableName: actualTableName,
       });
 
       const relationsConfig = getRelationsConfig(tableOrRelations);
@@ -647,9 +651,10 @@ const drizzleZeroConfig = <
           );
         }
 
-        const referencedTableKey = getDrizzleKeyFromTableName({
+        const referencedTableKey = getDrizzleKeyFromTable({
           schema,
-          tableName: relation.referencedTableName,
+          table: relation.referencedTable,
+          fallbackTableName: relation.referencedTableName,
         });
 
         if (
@@ -689,9 +694,10 @@ const drizzleZeroConfig = <
             {
               sourceField: sourceFieldNames,
               destField: destFieldNames,
-              destSchema: getDrizzleKeyFromTableName({
+              destSchema: getDrizzleKeyFromTable({
                 schema,
-                tableName: relation.referencedTableName,
+                table: relation.referencedTable,
+                fallbackTableName: relation.referencedTableName,
               }),
               cardinality: is(relation, One) ? "one" : "many",
             },
@@ -729,13 +735,14 @@ const getReferencedTableName = (
     | {
         sourceTable: Table;
         referencedTableName?: string;
+        referencedTable?: Table;
       },
 ) => {
-  if ("referencedTableName" in rel && rel.referencedTableName) {
-    return rel.referencedTableName; // One
-  }
   if ("referencedTable" in rel && rel.referencedTable) {
-    return getTableName(rel.referencedTable); // Many
+    return getTableUniqueName(rel.referencedTable);
+  }
+  if ("referencedTableName" in rel && rel.referencedTableName) {
+    return rel.referencedTableName; // Fallback when table instance is unavailable
   }
   return undefined;
 };
@@ -752,11 +759,12 @@ const findRelationSourceAndDestFields = (
     | {
         sourceTable: Table;
         referencedTableName?: string;
+        referencedTable?: Table;
       }
     | One
     | Many<any>,
 ) => {
-  const sourceTableName = getTableName(relation.sourceTable);
+  const sourceTableName = getTableUniqueName(relation.sourceTable);
   const referencedTableName = getReferencedTableName(relation);
 
   // We search through all relations in the schema
@@ -767,7 +775,7 @@ const findRelationSourceAndDestFields = (
       for (const relationConfig of Object.values(relationsConfig)) {
         if (!is(relationConfig, One)) continue;
 
-        const foundSourceName = getTableName(relationConfig.sourceTable);
+        const foundSourceName = getTableUniqueName(relationConfig.sourceTable);
         const foundReferencedName = getReferencedTableName(relationConfig);
 
         // We check  the relation where the source table is the referenced table
@@ -902,18 +910,52 @@ const getRelationsConfig = (relations: Relations) => {
  * @param tableName - The name of the table to get the key for
  * @returns The key of the table in the schema
  */
-const getDrizzleKeyFromTableName = ({
+const getDrizzleKeyFromTable = ({
   schema,
-  tableName,
+  table,
+  fallbackTableName,
 }: {
   schema: Record<string, unknown>;
-  tableName: string;
+  table?: Table;
+  fallbackTableName?: string;
 }) => {
-  return typedEntries(schema).find(
-    ([_name, tableOrRelations]) =>
-      is(tableOrRelations, Table) &&
-      getTableName(tableOrRelations) === tableName,
-  )?.[0]!;
+  if (table) {
+    const directMatch = typedEntries(schema).find(
+      ([_name, tableOrRelations]) =>
+        is(tableOrRelations, Table) && tableOrRelations === table,
+    )?.[0];
+
+    if (directMatch) {
+      return directMatch;
+    }
+
+    const uniqueName = getTableUniqueName(table);
+    const uniqueMatch = typedEntries(schema).find(
+      ([_name, tableOrRelations]) =>
+        is(tableOrRelations, Table) &&
+        getTableUniqueName(tableOrRelations) === uniqueName,
+    )?.[0];
+
+    if (uniqueMatch) {
+      return uniqueMatch;
+    }
+  }
+
+  if (fallbackTableName) {
+    const fallbackMatch = typedEntries(schema).find(
+      ([_name, tableOrRelations]) =>
+        is(tableOrRelations, Table) &&
+        getTableName(tableOrRelations) === fallbackTableName,
+    )?.[0];
+
+    if (fallbackMatch) {
+      return fallbackMatch;
+    }
+  }
+
+  throw new Error(
+    `drizzle-zero: Unable to resolve table key for ${table ? getTableUniqueName(table) : fallbackTableName}`,
+  );
 };
 
 export {

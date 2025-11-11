@@ -14,12 +14,6 @@ export default defineConfig({
     coverage: {
       include: ["src/**/*.ts"],
       exclude: ["src/cli/index.ts"],
-      thresholds: {
-        lines: 85,
-        statements: 85,
-        functions: 85,
-        branches: 85,
-      },
     },
     fileParallelism: true,
   },

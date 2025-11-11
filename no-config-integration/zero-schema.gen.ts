@@ -8,7 +8,7 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import type { Row } from "@rocicorp/zero";
+import type { ReadonlyJSONValue, Row } from "@rocicorp/zero";
 import { createBuilder } from "@rocicorp/zero";
 import type { CustomType } from "drizzle-zero";
 import type * as drizzleSchema from "../db/schema";
@@ -160,21 +160,13 @@ const allTypesTable = {
     jsonField: {
       type: "json",
       optional: false,
-      customType: null as unknown as CustomType<
-        typeof drizzleSchema,
-        "allTypes",
-        "jsonField"
-      >,
+      customType: null as unknown as ReadonlyJSONValue,
       serverName: "json",
     },
     jsonbField: {
       type: "json",
       optional: false,
-      customType: null as unknown as CustomType<
-        typeof drizzleSchema,
-        "allTypes",
-        "jsonbField"
-      >,
+      customType: null as unknown as ReadonlyJSONValue,
       serverName: "jsonb",
     },
     typedJsonField: {
@@ -281,11 +273,7 @@ const allTypesTable = {
     optionalJson: {
       type: "json",
       optional: true,
-      customType: null as unknown as CustomType<
-        typeof drizzleSchema,
-        "allTypes",
-        "optionalJson"
-      >,
+      customType: null as unknown as ReadonlyJSONValue,
       serverName: "optional_json",
     },
     optionalEnum: {
@@ -2536,11 +2524,7 @@ const integrationCredentialTable = {
     metadata: {
       type: "json",
       optional: true,
-      customType: null as unknown as CustomType<
-        typeof drizzleSchema,
-        "integrationCredential",
-        "metadata"
-      >,
+      customType: null as unknown as ReadonlyJSONValue,
     },
   },
   primaryKey: ["id"],
@@ -2573,11 +2557,7 @@ const integrationEventTable = {
     payload: {
       type: "json",
       optional: true,
-      customType: null as unknown as CustomType<
-        typeof drizzleSchema,
-        "integrationEvent",
-        "payload"
-      >,
+      customType: null as unknown as ReadonlyJSONValue,
     },
     eventType: {
       type: "string",
@@ -2688,11 +2668,7 @@ const inventoryItemTable = {
     metadata: {
       type: "json",
       optional: true,
-      customType: null as unknown as CustomType<
-        typeof drizzleSchema,
-        "inventoryItem",
-        "metadata"
-      >,
+      customType: null as unknown as ReadonlyJSONValue,
     },
   },
   primaryKey: ["id"],
@@ -3204,11 +3180,7 @@ const marketingAudienceTable = {
     definition: {
       type: "json",
       optional: true,
-      customType: null as unknown as CustomType<
-        typeof drizzleSchema,
-        "marketingAudience",
-        "definition"
-      >,
+      customType: null as unknown as ReadonlyJSONValue,
     },
   },
   primaryKey: ["id"],
@@ -6197,11 +6169,7 @@ const supportTicketAuditTable = {
     details: {
       type: "json",
       optional: true,
-      customType: null as unknown as CustomType<
-        typeof drizzleSchema,
-        "supportTicketAudit",
-        "details"
-      >,
+      customType: null as unknown as ReadonlyJSONValue,
     },
   },
   primaryKey: ["id"],

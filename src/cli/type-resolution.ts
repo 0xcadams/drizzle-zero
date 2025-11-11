@@ -116,6 +116,10 @@ export const isSafeResolvedType = (typeText: string | undefined): boolean => {
     return false;
   }
 
+  if (typeText === "ReadonlyJSONValue") {
+    return true;
+  }
+
   if (
     typeText === "unknown" ||
     typeText === "any" ||
