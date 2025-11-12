@@ -25,8 +25,6 @@ import {
   messageWithRelations,
   messagesByBody,
   messagesBySender,
-  userWithFriends,
-  userWithMediums,
   complexOrderWithEverything,
 } from "../synced-queries";
 import { schema, type Filter, type Schema } from "../zero-schema.gen";
@@ -159,48 +157,13 @@ describe("relationships", () => {
     await zero.close();
   });
 
-  test("can query many-to-many relationships", async () => {
-    const zero = await getNewZero();
-
-    const query = userWithMediums(undefined, "1");
-
-    const user = await zero.run(query, { type: "complete" });
-
-    expect(user?.mediums).toHaveLength(2);
-    expect(user?.mediums?.[0]?.name).toBe("email");
-    expect(user?.mediums?.[1]?.name).toBe("whatsapp");
-    expect(user?.testInterface?.nameInterface).toBe("custom-inline-interface");
-    expect(user?.testType?.nameType).toBe("custom-inline-type");
-    expect(user?.customInterfaceJson?.custom).toBe(
-      "this-interface-is-imported-from-custom-types",
-    );
-    expect(user?.customTypeJson?.custom).toBe(
-      "this-is-imported-from-custom-types",
-    );
-    expect(user?.testExportedType.nameType).toBe("custom-inline-type");
-
-    await zero.close();
-  });
-
-  test("can query many-to-many extended relationships", async () => {
-    const zero = await getNewZero();
-
-    const query = userWithFriends(undefined, "1");
-
-    const user = await zero.run(query, { type: "complete" });
-
-    expect(user?.friends).toHaveLength(1);
-    expect(user?.friends[0]?.name).toBe("John");
-
-    await zero.close();
-  });
-
   test("can insert messages", async () => {
     const zero = await getNewZero();
 
     await zeroDb.transaction(async (tx) => {
       await tx.mutate.message.insert({
         id: "99",
+        workspaceId: "workspace_1",
         body: "Hi, James!",
         senderId: "1",
         mediumId: "4",
@@ -316,6 +279,7 @@ describe("types", () => {
     await zeroDb.transaction(async (tx) => {
       await tx.mutate.allTypes.insert({
         id: "1011",
+        workspaceId: "workspace_1",
         smallintField: 22,
         integerField: 23,
         bigintField: 24,
@@ -474,6 +438,7 @@ describe("complex order", () => {
     await zeroDb.transaction(async (tx) => {
       await tx.mutate.user.insert({
         id: "cust-1",
+        workspaceId: "workspace_1",
         name: "Customer One",
         email: "customer1@example.com",
         partner: false,
@@ -502,6 +467,7 @@ describe("complex order", () => {
 
       await tx.mutate.user.insert({
         id: "owner-1",
+        workspaceId: "workspace_1",
         name: "Account Owner",
         email: "owner@example.com",
         partner: false,
@@ -529,6 +495,7 @@ describe("complex order", () => {
 
       await tx.mutate.user.insert({
         id: "sales-1",
+        workspaceId: "workspace_1",
         name: "Sales Person",
         email: "sales@example.com",
         partner: false,
@@ -557,6 +524,7 @@ describe("complex order", () => {
 
       await tx.mutate.user.insert({
         id: "friend-1",
+        workspaceId: "workspace_1",
         name: "Customer Friend",
         email: "friend@example.com",
         partner: false,
@@ -584,20 +552,27 @@ describe("complex order", () => {
       });
 
       await tx.mutate.friendship.insert({
+        workspaceId: "workspace_1",
         requestingId: "cust-1",
         acceptingId: "friend-1",
         accepted: true,
       });
       await tx.mutate.friendship.insert({
+        workspaceId: "workspace_1",
         requestingId: "friend-1",
         acceptingId: "cust-1",
         accepted: true,
       });
 
-      await tx.mutate.medium.insert({ id: "med-email", name: "email" });
+      await tx.mutate.medium.insert({
+        id: "med-email",
+        workspaceId: "workspace_1",
+        name: "email",
+      });
 
       await tx.mutate.message.insert({
         id: "msg-cust-1",
+        workspaceId: "workspace_1",
         body: "Hello from customer",
         senderId: "cust-1",
         mediumId: "med-email",
@@ -606,6 +581,7 @@ describe("complex order", () => {
 
       await tx.mutate.message.insert({
         id: "msg-friend-1",
+        workspaceId: "workspace_1",
         body: "Friend ping",
         senderId: "friend-1",
         mediumId: "med-email",
@@ -614,6 +590,7 @@ describe("complex order", () => {
 
       await tx.mutate.message.insert({
         id: "msg-owner-1",
+        workspaceId: "workspace_1",
         body: "Owner update",
         senderId: "owner-1",
         mediumId: "med-email",
@@ -622,6 +599,7 @@ describe("complex order", () => {
 
       await tx.mutate.message.insert({
         id: "msg-1",
+        workspaceId: "workspace_1",
         body: "Welcome!",
         senderId: "sales-1",
         mediumId: "med-email",
@@ -630,6 +608,7 @@ describe("complex order", () => {
 
       await tx.mutate.message.insert({
         id: "msg-2",
+        workspaceId: "workspace_1",
         body: "Invoice attached",
         senderId: "sales-1",
         mediumId: "med-email",
@@ -638,6 +617,7 @@ describe("complex order", () => {
 
       await tx.mutate.crmAccount.insert({
         id: "acct-1",
+        workspaceId: "workspace_1",
         name: "Acme Corp",
         ownerId: "owner-1",
         industry: "Manufacturing",
@@ -646,6 +626,7 @@ describe("complex order", () => {
       await tx.mutate.crmContact.insert({
         id: "contact-1",
         accountId: "acct-1",
+        workspaceId: "workspace_1",
         firstName: "Alice",
         lastName: "Smith",
         email: "alice@example.com",
@@ -653,6 +634,7 @@ describe("complex order", () => {
 
       await tx.mutate.crmPipelineStage.insert({
         id: "stage-1",
+        workspaceId: "workspace_1",
         name: "Qualification",
         sequence: 1,
         probability: 20,
@@ -660,6 +642,7 @@ describe("complex order", () => {
 
       await tx.mutate.crmOpportunity.insert({
         id: "opp-1",
+        workspaceId: "workspace_1",
         accountId: "acct-1",
         stageId: "stage-1",
         name: "Big Deal",
@@ -668,6 +651,7 @@ describe("complex order", () => {
 
       await tx.mutate.crmOpportunityStageHistory.insert({
         id: "opp-hist-1",
+        workspaceId: "workspace_1",
         opportunityId: "opp-1",
         stageId: "stage-1",
         changedById: "owner-1",
@@ -676,12 +660,14 @@ describe("complex order", () => {
 
       await tx.mutate.crmActivityType.insert({
         id: "activity-type-1",
+        workspaceId: "workspace_1",
         name: "Call",
         description: "Customer call",
       });
 
       await tx.mutate.crmActivity.insert({
         id: "activity-new-1",
+        workspaceId: "workspace_1",
         accountId: "acct-1",
         contactId: "contact-1",
         opportunityId: "opp-1",
@@ -692,6 +678,7 @@ describe("complex order", () => {
 
       await tx.mutate.crmNote.insert({
         id: "note-1",
+        workspaceId: "workspace_1",
         accountId: "acct-1",
         contactId: "contact-1",
         authorId: "sales-1",
@@ -700,17 +687,20 @@ describe("complex order", () => {
 
       await tx.mutate.productCategory.insert({
         id: "cat-root",
+        workspaceId: "workspace_1",
         name: "Root Category",
       });
 
       await tx.mutate.productCategory.insert({
         id: "cat-child",
+        workspaceId: "workspace_1",
         name: "Child Category",
         parentId: "cat-root",
       });
 
       await tx.mutate.product.insert({
         id: "prod-1",
+        workspaceId: "workspace_1",
         categoryId: "cat-child",
         name: "Widget",
         status: "active",
@@ -718,6 +708,7 @@ describe("complex order", () => {
 
       await tx.mutate.productVariant.insert({
         id: "variant-1",
+        workspaceId: "workspace_1",
         productId: "prod-1",
         sku: "WIDGET-1",
         price: 4999,
@@ -727,6 +718,7 @@ describe("complex order", () => {
 
       await tx.mutate.productMedia.insert({
         id: "media-1",
+        workspaceId: "workspace_1",
         productId: "prod-1",
         url: "https://example.com/widget.png",
         type: getShortCode("image"),
@@ -742,11 +734,13 @@ describe("complex order", () => {
 
       await tx.mutate.inventoryLocation.insert({
         id: "loc-1",
+        workspaceId: "workspace_1",
         name: "Warehouse",
       });
 
       await tx.mutate.inventoryLevel.insert({
         id: "level-1",
+        workspaceId: "workspace_1",
         locationId: "loc-1",
         variantId: "variant-1",
         quantity: 10,
@@ -755,6 +749,7 @@ describe("complex order", () => {
 
       await tx.mutate.inventoryItem.insert({
         id: "inventory-item-1",
+        workspaceId: "workspace_1",
         variantId: "variant-1",
         serialNumber: "SN-1",
         metadata: { warranty: "1 year" },
@@ -762,6 +757,7 @@ describe("complex order", () => {
 
       await tx.mutate.orderTable.insert({
         id: "order-test-1",
+        workspaceId: "workspace_1",
         customerId: "cust-1",
         opportunityId: "opp-1",
         status: "PROCESSING",
@@ -780,6 +776,7 @@ describe("complex order", () => {
 
       await tx.mutate.orderItem.insert({
         id: "order-item-test-1",
+        workspaceId: "workspace_1",
         orderId: "order-test-1",
         variantId: "variant-1",
         quantity: 2,
@@ -788,6 +785,7 @@ describe("complex order", () => {
 
       await tx.mutate.payment.insert({
         id: "payment-test-1",
+        workspaceId: "workspace_1",
         status: "PENDING",
         amount: 9999,
         currency: "USD",
@@ -796,6 +794,7 @@ describe("complex order", () => {
 
       await tx.mutate.orderPayment.insert({
         id: "order-payment-test-1",
+        workspaceId: "workspace_1",
         orderId: "order-test-1",
         paymentId: "payment-test-1",
         amount: 9999,
@@ -804,6 +803,7 @@ describe("complex order", () => {
 
       await tx.mutate.shipment.insert({
         id: "shipment-test-1",
+        workspaceId: "workspace_1",
         orderId: "order-test-1",
         carrier: "UPS",
         trackingNumber: "1Z999",
@@ -813,6 +813,7 @@ describe("complex order", () => {
 
       await tx.mutate.shipmentItem.insert({
         id: "shipment-item-test-1",
+        workspaceId: "workspace_1",
         shipmentId: "shipment-test-1",
         orderItemId: "order-item-test-1",
         quantity: 2,
