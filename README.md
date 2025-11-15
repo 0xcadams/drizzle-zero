@@ -52,7 +52,7 @@ export const postsRelations = relations(posts, ({ one }) => ({
 }));
 ```
 
-See the [integration test's `schema.ts`](integration/drizzle/schema.ts)
+See the [integration test's `schema.ts`](db/drizzle/schema.ts)
 for more examples of how to define Drizzle schemas with custom types.
 
 ### Add schema generation script
