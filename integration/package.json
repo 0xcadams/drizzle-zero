@@ -13,7 +13,7 @@
     "@drizzle-zero/db": "workspace:*",
     "@hono/node-server": "^1.19.6",
     "drizzle-zero": "workspace:*",
-    "hono": "^4.10.4",
+    "hono": "^4.10.6",
     "zod": "^4.1.12"
   }
 }

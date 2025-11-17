@@ -1227,7 +1227,7 @@ describe("tables", () => {
         isActive: boolean().optional(),
         score: number().optional(),
         optionalScore: number().optional(),
-        currentDateWithRuntimeDefault: string(),
+        currentDateWithRuntimeDefault: string().optional(),
         optionalCurrentDateWithRuntimeDefault: string().optional(),
       })
       .primaryKey("id");
