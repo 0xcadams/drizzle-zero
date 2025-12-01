@@ -16,14 +16,14 @@
     "drizzle-zero": "workspace:*"
   },
   "devDependencies": {
-    "@testcontainers/postgresql": "^11.8.1",
+    "@testcontainers/postgresql": "^11.9.0",
     "@types/pg": "^8.15.6",
-    "@vitest/browser": "^4.0.10",
+    "@vitest/browser": "^4.0.14",
     "drizzle-kit": "^0.31.7",
     "pg": "^8.16.3",
     "postgres": "^3.4.7",
-    "prettier": "^3.6.2",
-    "testcontainers": "^11.8.1",
-    "zod": "^4.1.12"
+    "prettier": "^3.7.3",
+    "testcontainers": "^11.9.0",
+    "zod": "^4.1.13"
   }
 }
