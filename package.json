@@ -87,7 +87,7 @@
     }
   },
   "dependencies": {
-    "camelcase": "^8.0.0",
+    "camelcase": "^9.0.0",
     "commander": "^14.0.1",
     "jsonc-parser": "^3.3.1",
     "pluralize": "^8.0.0",
@@ -100,17 +100,17 @@
     "@types/pg": "^8.15.6",
     "@types/pluralize": "^0.0.33",
     "@types/ws": "^8.18.1",
-    "@vitest/browser": "^4.0.10",
-    "@vitest/coverage-v8": "4.0.10",
-    "@vitest/ui": "^4.0.10",
+    "@vitest/browser": "^4.0.14",
+    "@vitest/coverage-v8": "4.0.14",
+    "@vitest/ui": "^4.0.14",
     "drizzle-kit": "^0.31.7",
     "drizzle-orm": "^0.44.7",
-    "prettier": "^3.6.2",
+    "prettier": "^3.7.3",
     "tsup": "^8.5.1",
-    "tsx": "^4.20.6",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^4.0.10",
+    "vitest": "^4.0.14",
     "ws": "^8.18.3"
   },
   "pnpm": {
