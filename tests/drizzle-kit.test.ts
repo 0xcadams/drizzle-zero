@@ -4,7 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getFullDrizzleSchemaFilePath } from "../src/cli/drizzle-kit";
 
 describe("getFullDrizzleSchemaFilePath", () => {
-  const tempDir = path.resolve(__dirname, "temp_drizzle_kit");
+  const tempDir = path.resolve(__dirname, "temp_drizzle_kit" + Date.now());
 
   beforeEach(async () => {
     await fs.mkdir(tempDir, { recursive: true });
