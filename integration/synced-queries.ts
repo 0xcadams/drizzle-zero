@@ -1,18 +1,18 @@
 import { syncedQueryWithContext } from "@rocicorp/zero";
 import { z } from "zod";
-import { builder } from "./zero-schema.gen";
+import { zql } from "./zero-schema.gen";
 
 export const allUsers = syncedQueryWithContext(
   "integration.allUsers",
   z.tuple([]),
-  (_ctx) => builder.user.orderBy("id", "asc"),
+  (_ctx) => zql.user.orderBy("id", "asc"),
 );
 
 export const filtersWithChildren = syncedQueryWithContext(
   "integration.filtersWithChildren",
   z.tuple([z.string()]),
   (_ctx, rootId) =>
-    builder.filters
+    zql.filters
       .where((q) => q.cmp("id", "=", rootId))
       .related("children", (q) => q.related("children").orderBy("id", "asc")),
 );
@@ -21,7 +21,7 @@ export const messagesBySender = syncedQueryWithContext(
   "integration.messagesBySender",
   z.tuple([z.string()]),
   (_ctx, senderId) =>
-    builder.message
+    zql.message
       .where((q) => q.cmp("senderId", "=", senderId))
       .orderBy("id", "asc"),
 );
@@ -30,14 +30,14 @@ export const messagesByBody = syncedQueryWithContext(
   "integration.messagesByBody",
   z.tuple([z.string()]),
   (_ctx, body) =>
-    builder.message.where((q) => q.cmp("body", "=", body)).orderBy("id", "asc"),
+    zql.message.where((q) => q.cmp("body", "=", body)).orderBy("id", "asc"),
 );
 
 export const messageWithRelations = syncedQueryWithContext(
   "integration.messageWithRelations",
   z.tuple([z.string()]),
   (_ctx, id) =>
-    builder.message
+    zql.message
       .where((q) => q.cmp("id", "=", id))
       .related("medium")
       .related("sender")
@@ -48,7 +48,7 @@ export const userWithMediums = syncedQueryWithContext(
   "integration.userWithMediums",
   z.tuple([z.string()]),
   (_ctx, id) =>
-    builder.user
+    zql.user
       .where((q) => q.cmp("id", "=", id))
       .related("mediums")
       .one(),
@@ -58,7 +58,7 @@ export const userWithFriends = syncedQueryWithContext(
   "integration.userWithFriends",
   z.tuple([z.string()]),
   (_ctx, id) =>
-    builder.user
+    zql.user
       .where((q) => q.cmp("id", "=", id))
       .related("friends")
       .one(),
@@ -67,33 +67,33 @@ export const userWithFriends = syncedQueryWithContext(
 export const messageById = syncedQueryWithContext(
   "integration.messageById",
   z.tuple([z.string()]),
-  (_ctx, id) => builder.message.where((q) => q.cmp("id", "=", id)).one(),
+  (_ctx, id) => zql.message.where((q) => q.cmp("id", "=", id)).one(),
 );
 
 export const mediumById = syncedQueryWithContext(
   "integration.mediumById",
   z.tuple([z.string()]),
-  (_ctx, id) => builder.medium.where((q) => q.cmp("id", "=", id)).one(),
+  (_ctx, id) => zql.medium.where((q) => q.cmp("id", "=", id)).one(),
 );
 
 export const allTypesById = syncedQueryWithContext(
   "integration.allTypesById",
   z.tuple([z.string()]),
-  (_ctx, id) => builder.allTypes.where((q) => q.cmp("id", "=", id)).one(),
+  (_ctx, id) => zql.allTypes.where((q) => q.cmp("id", "=", id)).one(),
 );
 
 export const allTypesByStatus = syncedQueryWithContext(
   "integration.allTypesByStatus",
   z.tuple([z.enum(["active", "inactive", "pending"])]),
   (_ctx, status) =>
-    builder.allTypes.where((q) => q.cmp("status", "=", status)).one(),
+    zql.allTypes.where((q) => q.cmp("status", "=", status)).one(),
 );
 
 export const complexOrderWithEverything = syncedQueryWithContext(
   "integration.complexOrderWithEverything",
   z.tuple([z.string()]),
   (_ctx, orderId) =>
-    builder.orderTable
+    zql.orderTable
       .where((q) => q.cmp("id", "=", orderId))
       .related("customer", (q) =>
         q

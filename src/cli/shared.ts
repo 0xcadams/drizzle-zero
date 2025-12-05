@@ -17,6 +17,7 @@ export async function getGeneratedSchema({
   jsExtensionOverride = "auto",
   skipTypes = false,
   skipBuilder = false,
+  skipDeclare = false,
   enableLegacyMutators = false,
   enableLegacyQueries = false,
   debug,
@@ -29,6 +30,7 @@ export async function getGeneratedSchema({
   jsExtensionOverride?: "auto" | "force" | "none";
   skipTypes?: boolean;
   skipBuilder?: boolean;
+  skipDeclare?: boolean;
   enableLegacyMutators?: boolean;
   enableLegacyQueries?: boolean;
   debug?: boolean;
@@ -511,19 +513,15 @@ export async function getGeneratedSchema({
       const typeName = camelCase(pluralize.singular(tableName), {
         pascalCase: true,
       });
-      const tableConstName = tableConstNames.get(tableName);
-      const rowTarget = tableConstName
-        ? `typeof ${tableConstName}`
-        : `${typename}["tables"]["${tableName}"]`;
 
       const tableTypeAlias = zeroSchemaGenerated.addTypeAlias({
         name: typeName,
         isExported: true,
-        type: `Row<${rowTarget}>`,
+        type: `Row["${tableName}"]`,
       });
 
       tableTypeAlias.addJsDoc({
-        description: `\nRepresents a row from the "${tableName}" table.\nThis type is auto-generated from your Drizzle schema definition.`,
+        description: `\nRepresents a row from the "${tableName}" table.\nThis type is auto-generated from your Drizzle schema definition.\n\n@deprecated Use Row["${tableName}"] instead from "@rocicorp/zero".`,
       });
     }
   }
@@ -535,20 +533,48 @@ export async function getGeneratedSchema({
       namedImports: [{ name: "createBuilder" }],
     });
 
+    const zqlVariable = zeroSchemaGenerated.addVariableStatement({
+      declarationKind: VariableDeclarationKind.Const,
+      isExported: true,
+      declarations: [
+        {
+          name: "zql",
+          initializer: `createBuilder(${schemaObjectName})`,
+        },
+      ],
+    });
+
+    zqlVariable.addJsDoc({
+      description:
+        "\nRepresents the ZQL query builder.\nThis type is auto-generated from your Drizzle schema definition.",
+    });
+
     const builderVariable = zeroSchemaGenerated.addVariableStatement({
       declarationKind: VariableDeclarationKind.Const,
       isExported: true,
       declarations: [
         {
           name: "builder",
-          initializer: `createBuilder(${schemaObjectName})`,
+          initializer: "zql",
         },
       ],
     });
 
     builderVariable.addJsDoc({
       description:
-        "\nRepresents the Zero schema query builder.\nThis type is auto-generated from your Drizzle schema definition.",
+        "\nRepresents the Zero schema query builder.\nThis type is auto-generated from your Drizzle schema definition.\n\n@deprecated Use `zql` instead.",
+    });
+  }
+
+  // Add module augmentation for default types
+  if (!skipDeclare) {
+    zeroSchemaGenerated.addStatements((writer) => {
+      writer.write(`\n/** Defines the default types for Zero */\n`);
+      writer.write(`declare module '@rocicorp/zero' {`);
+      writer.write(`  interface DefaultTypes {`);
+      writer.write(`    schema: ${typename};`);
+      writer.write(`  }`);
+      writer.write(`}`);
     });
   }
 

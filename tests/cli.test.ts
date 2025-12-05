@@ -179,10 +179,19 @@ describe("getGeneratedSchema", () => {
       export type User = Row<typeof usersTable>;
 
       /**
-       * Represents the Zero schema query builder.
+       * Represents the ZQL query builder.
        * This type is auto-generated from your Drizzle schema definition.
        */
-      export const builder = createBuilder(schema);
+      export const zql = createBuilder(schema);
+
+      /**
+       * Defines the default types for Zero.
+       */
+      declare module '@rocicorp/zero' {
+        interface DefaultTypes {
+          schema: Schema;
+        }
+      }
       "
     `);
   });

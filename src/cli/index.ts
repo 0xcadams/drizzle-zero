@@ -55,6 +55,7 @@ export interface GeneratorOptions {
   jsFileExtension?: boolean;
   skipTypes?: boolean;
   skipBuilder?: boolean;
+  skipDeclare?: boolean;
   enableLegacyMutators?: boolean;
   enableLegacyQueries?: boolean;
 }
@@ -71,6 +72,7 @@ async function main(opts: GeneratorOptions = {}) {
     jsFileExtension,
     skipTypes,
     skipBuilder,
+    skipDeclare,
     enableLegacyMutators,
     enableLegacyQueries,
   } = { ...opts };
@@ -142,6 +144,7 @@ async function main(opts: GeneratorOptions = {}) {
     jsExtensionOverride: jsFileExtension ? "force" : "auto",
     skipTypes: Boolean(skipTypes),
     skipBuilder: Boolean(skipBuilder),
+    skipDeclare: Boolean(skipDeclare),
     enableLegacyMutators: Boolean(enableLegacyMutators),
     enableLegacyQueries: Boolean(enableLegacyQueries),
   });
@@ -187,8 +190,9 @@ async function cli() {
       "-j, --js-file-extension",
       `Add a .js file extension to imports in the generated output (auto-detected from tsconfig if not specified)`,
     )
-    .option("--skip-types", "Skip generating table Row<> type exports", false)
+    .option("--skip-types", "Skip generating table Row[] type exports", false)
     .option("--skip-builder", "Skip generating the builder export", false)
+    .option("--skip-declare", "Skip generating the module augmentation for default types in Zero", false)
     .option(
       "--enable-legacy-mutators",
       "Enable legacy CRUD mutators (sets enableLegacyMutators to true)",
@@ -213,6 +217,7 @@ async function cli() {
         jsFileExtension: command.jsFileExtension,
         skipTypes: command.skipTypes,
         skipBuilder: command.skipBuilder,
+        skipDeclare: command.skipDeclare,
         enableLegacyMutators: command.enableLegacyMutators,
         enableLegacyQueries: command.enableLegacyQueries,
       });

@@ -90,8 +90,9 @@ The CLI automatically detects whether `.js` file extensions are needed in import
 
 You can also control optional outputs from the generator:
 
-- **--skip-types**: Skip generating table `Row<>` type exports.
+- **--skip-types**: Skip generating table `Row[]` type exports.
 - **--skip-builder**: Skip generating the query `builder` export.
+- **--skip-declare**: Skip generating the module augmentation for default types in Zero.
 - **--enable-legacy-mutators**: Disable legacy CRUD mutators (sets `enableLegacyMutators` to `true` in the generated schema).
 - **--enable-legacy-queries**: Disable legacy CRUD queries (sets `enableLegacyQueries` to `true` in the generated schema).
 
