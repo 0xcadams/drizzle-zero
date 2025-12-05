@@ -1,22 +1,22 @@
-import * as fs from "node:fs/promises";
-import * as path from "node:path";
-import * as url from "node:url";
-import type { Project } from "ts-morph";
-import { tsImport } from "tsx/esm/api";
-import type { DrizzleToZeroSchema } from "../relations";
+import * as fs from 'node:fs/promises';
+import * as path from 'node:path';
+import * as url from 'node:url';
+import type {Project} from 'ts-morph';
+import {tsImport} from 'tsx/esm/api';
+import type {DrizzleToZeroSchema} from '../relations';
 
-export const defaultConfigFilePath = "drizzle-zero.config.ts";
+export const defaultConfigFilePath = 'zero-drizzle.config.ts';
 
 export const getDefaultConfigFilePath = async () => {
   const fullConfigPath = path.resolve(process.cwd(), defaultConfigFilePath);
 
   try {
     await fs.access(fullConfigPath);
-  } catch (error) {
+  } catch {
     return null;
   }
 
-  return "drizzle-zero.config.ts";
+  return 'zero-drizzle.config.ts';
 };
 
 export const getConfigFromFile = async ({
@@ -30,9 +30,9 @@ export const getConfigFromFile = async ({
 
   try {
     await fs.access(fullConfigPath);
-  } catch (error) {
+  } catch {
     throw new Error(
-      `❌ drizzle-zero: Failed to find config file at ${fullConfigPath}`,
+      `❌ zero-drizzle: Failed to find config file at ${fullConfigPath}`,
     );
   }
 
@@ -44,31 +44,31 @@ export const getConfigFromFile = async ({
       zeroConfigFilePathUrl,
       import.meta.url,
     );
-    const exportName = zeroConfigImport?.default ? "default" : "schema";
+    const exportName = zeroConfigImport?.default ? 'default' : 'schema';
     const zeroSchema = zeroConfigImport?.default ?? zeroConfigImport?.schema;
 
-    const typeDeclarations = await getZeroSchemaDefsFromConfig({
+    const typeDeclarations = getZeroSchemaDefsFromConfig({
       tsProject,
       configPath: fullConfigPath,
       exportName,
     });
 
     return {
-      type: "config",
+      type: 'config',
       zeroSchema: zeroSchema as DrizzleToZeroSchema<any> | undefined,
       exportName,
       zeroSchemaTypeDeclarations: typeDeclarations,
     } as const;
   } catch (error) {
     console.error(
-      `❌ drizzle-zero: Failed to import config file at ${fullConfigPath}${typeModuleErrorMessage}`,
+      `❌ zero-drizzle: Failed to import config file at ${fullConfigPath}${typeModuleErrorMessage}`,
       error,
     );
     process.exit(1);
   }
 };
 
-export async function getZeroSchemaDefsFromConfig({
+export function getZeroSchemaDefsFromConfig({
   tsProject,
   configPath,
   exportName,
@@ -77,13 +77,13 @@ export async function getZeroSchemaDefsFromConfig({
   configPath: string;
   exportName: string;
 }) {
-  const fileName = configPath.slice(configPath.lastIndexOf("/") + 1);
+  const fileName = configPath.slice(configPath.lastIndexOf('/') + 1);
 
   const sourceFile = tsProject.getSourceFile(fileName);
 
   if (!sourceFile) {
     throw new Error(
-      `❌ drizzle-zero: Failed to find type definitions for ${fileName}`,
+      `❌ zero-drizzle: Failed to find type definitions for ${fileName}`,
     );
   }
 
@@ -98,9 +98,9 @@ export async function getZeroSchemaDefsFromConfig({
   }
 
   throw new Error(
-    `❌ drizzle-zero: No config type found in the config file - did you export \`default\` or \`schema\`? Found: ${sourceFile
+    `❌ zero-drizzle: No config type found in the config file - did you export \`default\` or \`schema\`? Found: ${sourceFile
       .getVariableDeclarations()
-      .map((v) => v.getName())
-      .join(", ")}`,
+      .map(v => v.getName())
+      .join(', ')}`,
   );
 }

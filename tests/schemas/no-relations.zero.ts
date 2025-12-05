@@ -1,7 +1,7 @@
-import { drizzleZeroConfig } from "../../src";
-import * as noRelations from "./no-relations.schema";
+import {zeroDrizzleConfig} from '../../src';
+import * as noRelations from './no-relations.schema';
 
-export const schema = drizzleZeroConfig(noRelations, {
+export const schema = zeroDrizzleConfig(noRelations, {
   tables: {
     users: {
       id: true,

@@ -1,17 +1,17 @@
-# drizzle-zero
+# zero-drizzle
 
 Generate [Zero](https://zero.rocicorp.dev/) schemas from [Drizzle ORM](https://orm.drizzle.team) schemas.
 
 ## Installation
 
 ```bash
-npm install drizzle-zero
+npm install zero-drizzle
 # or
-bun add drizzle-zero
+bun add zero-drizzle
 # or
-yarn add drizzle-zero
+yarn add zero-drizzle
 # or
-pnpm add drizzle-zero
+pnpm add zero-drizzle
 ```
 
 ## Usage
@@ -23,28 +23,28 @@ Here's an example of how to convert a Drizzle schema to a Zero schema with bidir
 You should have an existing Drizzle schema, e.g.:
 
 ```ts
-import { relations } from "drizzle-orm";
-import { pgTable, text, jsonb } from "drizzle-orm/pg-core";
+import {relations} from 'drizzle-orm';
+import {pgTable, text, jsonb} from 'drizzle-orm/pg-core';
 
-export const users = pgTable("user", {
-  id: text("id").primaryKey(),
-  name: text("name"),
+export const users = pgTable('user', {
+  id: text('id').primaryKey(),
+  name: text('name'),
   // custom types are supported for any column type!
-  email: text("email").$type<`${string}@${string}`>().notNull(),
+  email: text('email').$type<`${string}@${string}`>().notNull(),
 });
 
-export const usersRelations = relations(users, ({ many }) => ({
+export const usersRelations = relations(users, ({many}) => ({
   posts: many(posts),
 }));
 
-export const posts = pgTable("post", {
-  id: text("id").primaryKey(),
+export const posts = pgTable('post', {
+  id: text('id').primaryKey(),
   // this JSON type will be passed to Zero
-  content: jsonb("content").$type<{ textValue: string }>().notNull(),
-  authorId: text("author_id").references(() => users.id),
+  content: jsonb('content').$type<{textValue: string}>().notNull(),
+  authorId: text('author_id').references(() => users.id),
 });
 
-export const postsRelations = relations(posts, ({ one }) => ({
+export const postsRelations = relations(posts, ({one}) => ({
   author: one(users, {
     fields: [posts.authorId],
     references: [users.id],
@@ -62,7 +62,7 @@ You can then add the schema generation script to your `package.json`:
 ```json
 {
   "scripts": {
-    "generate": "drizzle-zero generate --format",
+    "generate": "zero-drizzle generate --format",
     "postinstall": "npm generate"
   }
 }
@@ -90,10 +90,11 @@ The CLI automatically detects whether `.js` file extensions are needed in import
 
 You can also control optional outputs from the generator:
 
-- **--skip-types**: Skip generating table `Row<>` type exports.
+- **--skip-types**: Skip generating table `Row[]` type exports.
 - **--skip-builder**: Skip generating the query `builder` export.
-- **--disable-legacy-mutators**: Disable legacy CRUD mutators (sets `enableLegacyMutators` to `false` in the generated schema). Use this when you want to use only custom mutators instead of the default CRUD operations.
-- **--disable-legacy-queries**: Disable legacy CRUD queries (sets `enableLegacyQueries` to `false` in the generated schema). Use this when you want to use only custom queries.
+- **--skip-declare**: Skip generating the module augmentation for default types in Zero.
+- **--enable-legacy-mutators**: Disable legacy CRUD mutators (sets `enableLegacyMutators` to `true` in the generated schema).
+- **--enable-legacy-queries**: Disable legacy CRUD queries (sets `enableLegacyQueries` to `true` in the generated schema).
 
 For more information on disabling legacy mutators and queries, see the [Zero documentation](https://zero.rocicorp.dev/docs/custom-mutators#disabling-crud-mutators).
 
@@ -106,13 +107,13 @@ type resolution to work. If they are not included, there will be an error simila
 Use the generated Zero schema:
 
 ```tsx
-import { useEffect, useState } from "react";
-import { useZero } from "@rocicorp/zero/react";
-import { syncedQuery } from "@rocicorp/zero";
-import { builder } from "../zero-schema.gen.ts";
+import {useEffect, useState} from 'react';
+import {useZero} from '@rocicorp/zero/react';
+import {syncedQuery} from '@rocicorp/zero';
+import {builder} from '../zero-schema.gen.ts';
 
-const postsQuery = syncedQuery("allPosts", z.tuple([]), () =>
-  builder.posts.related("author").limit(10),
+const postsQuery = syncedQuery('allPosts', z.tuple([]), () =>
+  builder.posts.related('author').limit(10),
 );
 
 function PostList() {
@@ -122,7 +123,7 @@ function PostList() {
 
   return (
     <div>
-      {posts.map((post) => (
+      {posts.map(post => (
         <div key={post.id} className="post">
           {/* Access the JSON content from Drizzle */}
           <p>{post.content.textValue}</p>
@@ -135,22 +136,22 @@ function PostList() {
 }
 ```
 
-### Customize with `drizzle-zero.config.ts`
+### Customize with `zero-drizzle.config.ts`
 
 If you want to customize the tables/columns that are synced by Zero, you can optionally
-create a new config file at `drizzle-zero.config.ts` specifying the tables and/or columns you want to
+create a new config file at `zero-drizzle.config.ts` specifying the tables and/or columns you want to
 include in the CLI output:
 
 > **Important:** The config file currently struggles with types for large schemas. In those cases,
 > stick with the default CLI behavior.
 
 ```ts
-import { drizzleZeroConfig } from "drizzle-zero";
+import {zeroDrizzleConfig} from 'zero-drizzle';
 // directly glob import your original Drizzle schema w/ tables/relations
-import * as drizzleSchema from "./drizzle-schema";
+import * as drizzleSchema from './drizzle-schema';
 
 // Define your configuration file for the CLI
-export default drizzleZeroConfig(drizzleSchema, {
+export default zeroDrizzleConfig(drizzleSchema, {
   // Specify which tables and columns to include in the Zero schema.
   // This allows for the "expand/migrate/contract" pattern recommended in the Zero docs.
 
@@ -186,18 +187,18 @@ export default drizzleZeroConfig(drizzleSchema, {
 
 You can customize this config file path with `-c, --config <input-file>`.
 
-**Important:** the `drizzle-zero.config.ts` file **must be included in the tsconfig**
+**Important:** the `zero-drizzle.config.ts` file **must be included in the tsconfig**
 for the type resolution to work. If they are not included, there will be an error similar to
 `Failed to find type definitions`.
 
 ## Many-to-Many Relationships
 
-drizzle-zero supports many-to-many relationships with a junction table. You can configure them in two ways:
+zero-drizzle supports many-to-many relationships with a junction table. You can configure them in two ways:
 
 ### Simple Configuration
 
 ```ts
-export default drizzleZeroConfig(drizzleSchema, {
+export default zeroDrizzleConfig(drizzleSchema, {
   tables: {
     user: {
       id: true,
@@ -216,7 +217,7 @@ export default drizzleZeroConfig(drizzleSchema, {
     user: {
       // Simple format: [junction table, target table]
       // Do not use the same name as any existing relationships
-      groups: ["usersToGroup", "group"],
+      groups: ['usersToGroup', 'group'],
     },
   },
 });
@@ -226,7 +227,7 @@ Then query as usual, skipping the junction table:
 
 ```tsx
 const userQuery = syncedQuery(
-  z.query.user.where("id", "=", "1").related("groups").one(),
+  z.query.user.where('id', '=', '1').related('groups').one(),
 );
 
 const [user] = useQuery(userQuery());
@@ -247,7 +248,7 @@ console.log(user);
 For more complex scenarios like self-referential relationships:
 
 ```ts
-export default drizzleZeroConfig(drizzleSchema, {
+export default zeroDrizzleConfig(drizzleSchema, {
   tables: {
     user: {
       id: true,
@@ -263,14 +264,14 @@ export default drizzleZeroConfig(drizzleSchema, {
       // Extended format with explicit field mappings
       friends: [
         {
-          sourceField: ["id"],
-          destTable: "friendship",
-          destField: ["requestingId"],
+          sourceField: ['id'],
+          destTable: 'friendship',
+          destField: ['requestingId'],
         },
         {
-          sourceField: ["acceptingId"],
-          destTable: "user",
-          destField: ["id"],
+          sourceField: ['acceptingId'],
+          destTable: 'user',
+          destField: ['id'],
         },
       ],
     },
@@ -292,7 +293,3 @@ export default drizzleZeroConfig(drizzleSchema, {
   - Many-to-many relationships with simple or extended configuration
   - Self-referential relationships
 - Handles custom schemas and column mappings
-
-## License
-
-[CC0](LICENSE)

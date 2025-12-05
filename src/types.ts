@@ -1,5 +1,5 @@
-import type { Table } from "drizzle-orm";
-import type { ColumnsConfig } from "./tables";
+import type {Table} from 'drizzle-orm';
+import type {ColumnsConfig} from './tables';
 
 /**
  * Gets the keys of columns that can be used as indexes.
@@ -53,7 +53,7 @@ type DefaultColumnsConfig<TTable extends Table> = {
  * Gets all columns from a Drizzle table type.
  * @template TTable The Drizzle table type
  */
-export type Columns<TTable extends Table> = TTable["_"]["columns"];
+export type Columns<TTable extends Table> = TTable['_']['columns'];
 
 /**
  * Gets all column names from a Drizzle table type.
@@ -66,7 +66,7 @@ export type ColumnNames<TTable extends Table> = keyof Columns<TTable>;
  * @template T The Drizzle table type
  */
 type PrimaryKeyColumns<T extends Table> = {
-  [K in keyof Columns<T>]: Columns<T>[K]["_"]["isPrimaryKey"] extends true
+  [K in keyof Columns<T>]: Columns<T>[K]['_']['isPrimaryKey'] extends true
     ? K extends string
       ? K
       : never
@@ -88,7 +88,7 @@ export type FindPrimaryKeyFromTable<T extends Table> = [
  * @template T The type to check
  * @template Name The name to check for
  */
-type IsTableWithName<T, Name extends string> = T extends { _: { name: Name } }
+type IsTableWithName<T, Name extends string> = T extends {_: {name: Name}}
   ? T extends Table<any>
     ? true
     : false

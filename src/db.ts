@@ -1,6 +1,6 @@
-import type { Table } from "drizzle-orm";
-import { getTableName, is } from "drizzle-orm";
-import { getTableConfig, PgTable } from "drizzle-orm/pg-core";
+import type {Table} from 'drizzle-orm';
+import {getTableName, is} from 'drizzle-orm';
+import {getTableConfig, PgTable} from 'drizzle-orm/pg-core';
 
 /**
  * Get the table config for a given table.
@@ -14,6 +14,6 @@ export const getTableConfigForDatabase = <T extends Table>(table: T) => {
   }
 
   throw new Error(
-    `drizzle-zero: Unsupported table type: ${getTableName(table)}. Only Postgres tables are supported.`,
+    `zero-drizzle: Unsupported table type: ${getTableName(table)}. Only Postgres tables are supported.`,
   );
 };

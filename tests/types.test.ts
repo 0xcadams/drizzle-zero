@@ -9,12 +9,12 @@ import {
   customType,
   varchar,
   serial,
-} from "drizzle-orm/pg-core";
-import { describe, expectTypeOf, test } from "vitest";
-import type { CustomType } from "../src/relations";
+} from 'drizzle-orm/pg-core';
+import {describe, expectTypeOf, test} from 'vitest';
+import type {CustomType} from '../src/relations';
 
-describe("CustomType", () => {
-  test("extracts custom type from jsonb.$type<T>()", () => {
+describe('CustomType', () => {
+  test('extracts custom type from jsonb.$type<T>()', () => {
     interface CustomJsonType {
       theme: string;
       fontSize: number;
@@ -25,22 +25,22 @@ describe("CustomType", () => {
       lastLogin: string;
     }
 
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      customField: jsonb("custom_field").$type<CustomJsonType>().notNull(),
-      metadata: jsonb("metadata").$type<UserMetadata>(),
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      customField: jsonb('custom_field').$type<CustomJsonType>().notNull(),
+      metadata: jsonb('metadata').$type<UserMetadata>(),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
     // Test that CustomType correctly extracts the custom types
     type ExtractedCustomField = CustomType<
       typeof schema,
-      "testTable",
-      "customField"
+      'testTable',
+      'customField'
     >;
-    type ExtractedMetadata = CustomType<typeof schema, "testTable", "metadata">;
-    type ExtractedId = CustomType<typeof schema, "testTable", "id">;
+    type ExtractedMetadata = CustomType<typeof schema, 'testTable', 'metadata'>;
+    type ExtractedId = CustomType<typeof schema, 'testTable', 'id'>;
 
     // Verify types at compile time using expectTypeOf
     expectTypeOf<ExtractedCustomField>().toEqualTypeOf<CustomJsonType>();
@@ -48,70 +48,68 @@ describe("CustomType", () => {
     expectTypeOf<ExtractedId>().toEqualTypeOf<string>();
   });
 
-  test("extracts email template string type from text.$type<T>()", () => {
-    const userTable = pgTable("user", {
-      id: text("id").primaryKey(),
-      email: text("email").$type<`${string}@${string}`>().notNull(),
-      name: text("name").notNull(),
+  test('extracts email template string type from text.$type<T>()', () => {
+    const userTable = pgTable('user', {
+      id: text('id').primaryKey(),
+      email: text('email').$type<`${string}@${string}`>().notNull(),
+      name: text('name').notNull(),
     });
 
-    const schema = { userTable };
+    const schema = {userTable};
 
-    type ExtractedEmail = CustomType<typeof schema, "userTable", "email">;
-    type ExtractedName = CustomType<typeof schema, "userTable", "name">;
+    type ExtractedEmail = CustomType<typeof schema, 'userTable', 'email'>;
+    type ExtractedName = CustomType<typeof schema, 'userTable', 'name'>;
 
     // Email should have the template string type
     expectTypeOf<ExtractedEmail>().toEqualTypeOf<`${string}@${string}`>();
     expectTypeOf<ExtractedName>().toEqualTypeOf<string>();
   });
 
-  test("extracts enum types from pgEnum", () => {
-    const statusEnum = pgEnum("status_type", ["active", "inactive", "pending"]);
+  test('extracts enum types from pgEnum', () => {
+    const statusEnum = pgEnum('status_type', ['active', 'inactive', 'pending']);
 
-    const taskTable = pgTable("task", {
-      id: text("id").primaryKey(),
-      status: statusEnum("status").notNull(),
-      name: text("name").notNull(),
+    const taskTable = pgTable('task', {
+      id: text('id').primaryKey(),
+      status: statusEnum('status').notNull(),
+      name: text('name').notNull(),
     });
 
-    const schema = { taskTable, statusEnum };
+    const schema = {taskTable, statusEnum};
 
-    type ExtractedStatus = CustomType<typeof schema, "taskTable", "status">;
+    type ExtractedStatus = CustomType<typeof schema, 'taskTable', 'status'>;
 
     // Enum should extract to its literal union type
     expectTypeOf<ExtractedStatus>().toEqualTypeOf<
-      "active" | "inactive" | "pending"
+      'active' | 'inactive' | 'pending'
     >();
   });
 
-  test("extracts timestamp types as number (Zero representation)", () => {
-    const eventTable = pgTable("event", {
-      id: text("id").primaryKey(),
-      createdAt: timestamp("created_at", { mode: "string" })
+  test('extracts timestamp types as number (Zero representation)', () => {
+    const eventTable = pgTable('event', {
+      id: text('id').primaryKey(),
+      createdAt: timestamp('created_at', {mode: 'string'})
         .defaultNow()
         .notNull(),
-      updatedAt: timestamp("updated_at", { mode: "date" })
-        .defaultNow()
-        .notNull(),
-      plainTimestamp: timestamp("plain_timestamp").notNull(),
+      updatedAt: timestamp('updated_at', {mode: 'date'}).defaultNow().notNull(),
+      plainTimestamp: timestamp('plain_timestamp').notNull(),
     });
 
-    const schema = { eventTable };
+    const schema = {eventTable};
 
     type ExtractedCreatedAt = CustomType<
       typeof schema,
-      "eventTable",
-      "createdAt"
+      'eventTable',
+      'createdAt'
     >;
     type ExtractedUpdatedAt = CustomType<
       typeof schema,
-      "eventTable",
-      "updatedAt"
+      'eventTable',
+      'updatedAt'
     >;
     type ExtractedPlainTimestamp = CustomType<
       typeof schema,
-      "eventTable",
-      "plainTimestamp"
+      'eventTable',
+      'plainTimestamp'
     >;
 
     // CustomType maps to Zero schema types where timestamps are numbers
@@ -121,71 +119,71 @@ describe("CustomType", () => {
     expectTypeOf<ExtractedPlainTimestamp>().toEqualTypeOf<number>();
   });
 
-  test("handles timestamp with custom type override", () => {
-    type ISODateString = string & { __brand: "ISODateString" };
+  test('handles timestamp with custom type override', () => {
+    type ISODateString = string & {__brand: 'ISODateString'};
 
-    const eventTable = pgTable("event", {
-      id: text("id").primaryKey(),
-      customTimestamp: timestamp("custom_timestamp")
+    const eventTable = pgTable('event', {
+      id: text('id').primaryKey(),
+      customTimestamp: timestamp('custom_timestamp')
         .$type<ISODateString>()
         .notNull(),
     });
 
-    const schema = { eventTable };
+    const schema = {eventTable};
 
     type ExtractedCustomTimestamp = CustomType<
       typeof schema,
-      "eventTable",
-      "customTimestamp"
+      'eventTable',
+      'customTimestamp'
     >;
 
     // When using $type, the custom type should be preserved
     expectTypeOf<ExtractedCustomTimestamp>().toEqualTypeOf<ISODateString>();
   });
 
-  test("handles nested custom types in arrays", () => {
+  test('handles nested custom types in arrays', () => {
     interface TagMetadata {
       color: string;
       priority: number;
     }
 
-    const articleTable = pgTable("article", {
-      id: text("id").primaryKey(),
-      tags: jsonb("tags").$type<TagMetadata[]>().notNull(),
+    const articleTable = pgTable('article', {
+      id: text('id').primaryKey(),
+      tags: jsonb('tags').$type<TagMetadata[]>().notNull(),
     });
 
-    const schema = { articleTable };
+    const schema = {articleTable};
 
-    type ExtractedTags = CustomType<typeof schema, "articleTable", "tags">;
+    type ExtractedTags = CustomType<typeof schema, 'articleTable', 'tags'>;
 
     expectTypeOf<ExtractedTags>().toEqualTypeOf<TagMetadata[]>();
   });
 
-  test("returns unknown for non-existent table or column", () => {
-    const simpleTable = pgTable("simple", {
-      id: text("id").primaryKey(),
+  test('returns unknown for non-existent table or column', () => {
+    const simpleTable = pgTable('simple', {
+      id: text('id').primaryKey(),
     });
 
-    const schema = { simpleTable };
+    const schema = {simpleTable};
 
-    type NonExistentTable = CustomType<typeof schema, "nonExistent", "id">;
+    type NonExistentTable = CustomType<typeof schema, 'nonExistent', 'id'>;
     type NonExistentColumn = CustomType<
       typeof schema,
-      "simpleTable",
-      "nonExistent"
+      'simpleTable',
+      'nonExistent'
     >;
 
     expectTypeOf<NonExistentTable>().toEqualTypeOf<unknown>();
     expectTypeOf<NonExistentColumn>().toEqualTypeOf<unknown>();
   });
 
-  test("works with complex schema from no-config-integration", async () => {
+  test('works with complex schema from no-config-integration', async () => {
     // Import the actual drizzle schema
-    const drizzleSchema = await import("../db/schema");
+    const drizzleSchema = await import('../db/schema');
 
     // Test custom type extraction from the user table
-    type UserEmail = CustomType<typeof drizzleSchema, "user", "email">;
-    type UserName = CustomType<typeof drizzleSchema, "user", "name">;
+    type UserEmail = CustomType<typeof drizzleSchema, 'user', 'email'>;
+    type UserName = CustomType<typeof drizzleSchema, 'user', 'name'>;
 
     // Email has a template string type
     expectTypeOf<UserEmail>().toEqualTypeOf<`${string}@${string}`>();
@@ -193,32 +191,32 @@ describe("CustomType", () => {
     expectTypeOf<UserName>().toEqualTypeOf<string>();
   });
 
-  test("extracts branded/nominal types correctly", () => {
-    type UserId = string & { __brand: "UserId" };
-    type ProductId = string & { __brand: "ProductId" };
+  test('extracts branded/nominal types correctly', () => {
+    type UserId = string & {__brand: 'UserId'};
+    type ProductId = string & {__brand: 'ProductId'};
 
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      userId: text("user_id").$type<UserId>().notNull(),
-      productId: text("product_id").$type<ProductId>(),
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      userId: text('user_id').$type<UserId>().notNull(),
+      productId: text('product_id').$type<ProductId>(),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
-    type ExtractedUserId = CustomType<typeof schema, "testTable", "userId">;
+    type ExtractedUserId = CustomType<typeof schema, 'testTable', 'userId'>;
     type ExtractedProductId = CustomType<
       typeof schema,
-      "testTable",
-      "productId"
+      'testTable',
+      'productId'
     >;
 
     expectTypeOf<ExtractedUserId>().toEqualTypeOf<UserId>();
     expectTypeOf<ExtractedProductId>().toEqualTypeOf<ProductId>();
   });
 
-  test("handles complex nested union types", () => {
-    type Status = "draft" | "published" | "archived";
-    type Priority = "low" | "medium" | "high";
+  test('handles complex nested union types', () => {
+    type Status = 'draft' | 'published' | 'archived';
+    type Priority = 'low' | 'medium' | 'high';
 
     interface ComplexMetadata {
       status: Status;
@@ -230,20 +228,20 @@ describe("CustomType", () => {
       };
     }
 
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      data: jsonb("data").$type<ComplexMetadata>().notNull(),
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      data: jsonb('data').$type<ComplexMetadata>().notNull(),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
-    type ExtractedData = CustomType<typeof schema, "testTable", "data">;
+    type ExtractedData = CustomType<typeof schema, 'testTable', 'data'>;
 
     expectTypeOf<ExtractedData>().toEqualTypeOf<ComplexMetadata>();
   });
 
-  test("extracts types from custom column type with factory", () => {
-    type TypeId<T extends string> = string & { __type: T };
+  test('extracts types from custom column type with factory', () => {
+    type TypeId<T extends string> = string & {__type: T};
 
     const customTypeIdFactory = <T extends string>() =>
       customType<{
@@ -252,52 +250,52 @@ describe("CustomType", () => {
         notNull: false;
       }>({
         dataType() {
-          return "text";
+          return 'text';
         },
       });
 
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      userId: customTypeIdFactory<"user">()("user_id").notNull(),
-      orgId: customTypeIdFactory<"org">()("org_id").notNull(),
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      userId: customTypeIdFactory<'user'>()('user_id').notNull(),
+      orgId: customTypeIdFactory<'org'>()('org_id').notNull(),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
-    type ExtractedUserId = CustomType<typeof schema, "testTable", "userId">;
-    type ExtractedOrgId = CustomType<typeof schema, "testTable", "orgId">;
+    type ExtractedUserId = CustomType<typeof schema, 'testTable', 'userId'>;
+    type ExtractedOrgId = CustomType<typeof schema, 'testTable', 'orgId'>;
 
-    expectTypeOf<ExtractedUserId>().toEqualTypeOf<TypeId<"user">>();
-    expectTypeOf<ExtractedOrgId>().toEqualTypeOf<TypeId<"org">>();
+    expectTypeOf<ExtractedUserId>().toEqualTypeOf<TypeId<'user'>>();
+    expectTypeOf<ExtractedOrgId>().toEqualTypeOf<TypeId<'org'>>();
   });
 
-  test("handles arrays with custom element types", () => {
+  test('handles arrays with custom element types', () => {
     interface Item {
       id: string;
       value: number;
     }
 
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      items: jsonb("items").$type<Item[]>().notNull(),
-      numbers: jsonb("numbers").$type<number[]>(),
-      emails: jsonb("emails").$type<`${string}@${string}`[]>(),
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      items: jsonb('items').$type<Item[]>().notNull(),
+      numbers: jsonb('numbers').$type<number[]>(),
+      emails: jsonb('emails').$type<`${string}@${string}`[]>(),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
-    type ExtractedItems = CustomType<typeof schema, "testTable", "items">;
-    type ExtractedNumbers = CustomType<typeof schema, "testTable", "numbers">;
-    type ExtractedEmails = CustomType<typeof schema, "testTable", "emails">;
+    type ExtractedItems = CustomType<typeof schema, 'testTable', 'items'>;
+    type ExtractedNumbers = CustomType<typeof schema, 'testTable', 'numbers'>;
+    type ExtractedEmails = CustomType<typeof schema, 'testTable', 'emails'>;
 
     expectTypeOf<ExtractedItems>().toEqualTypeOf<Item[]>();
     expectTypeOf<ExtractedNumbers>().toEqualTypeOf<number[]>();
     expectTypeOf<ExtractedEmails>().toEqualTypeOf<`${string}@${string}`[]>();
   });
 
-  test("extracts types from multiple tables in schema", () => {
+  test('extracts types from multiple tables in schema', () => {
     interface UserSettings {
-      theme: "light" | "dark";
+      theme: 'light' | 'dark';
       notifications: boolean;
     }
 
@@ -306,97 +304,97 @@ describe("CustomType", () => {
       likes: number;
     }
 
-    const userTable = pgTable("user", {
-      id: text("id").primaryKey(),
-      settings: jsonb("settings").$type<UserSettings>(),
+    const userTable = pgTable('user', {
+      id: text('id').primaryKey(),
+      settings: jsonb('settings').$type<UserSettings>(),
     });
 
-    const postTable = pgTable("post", {
-      id: text("id").primaryKey(),
-      metadata: jsonb("metadata").$type<PostMetadata>().notNull(),
-      authorId: text("author_id").notNull(),
+    const postTable = pgTable('post', {
+      id: text('id').primaryKey(),
+      metadata: jsonb('metadata').$type<PostMetadata>().notNull(),
+      authorId: text('author_id').notNull(),
     });
 
-    const schema = { userTable, postTable };
+    const schema = {userTable, postTable};
 
-    type UserSettingsType = CustomType<typeof schema, "userTable", "settings">;
-    type PostMetadataType = CustomType<typeof schema, "postTable", "metadata">;
-    type AuthorIdType = CustomType<typeof schema, "postTable", "authorId">;
+    type UserSettingsType = CustomType<typeof schema, 'userTable', 'settings'>;
+    type PostMetadataType = CustomType<typeof schema, 'postTable', 'metadata'>;
+    type AuthorIdType = CustomType<typeof schema, 'postTable', 'authorId'>;
 
     expectTypeOf<UserSettingsType>().toEqualTypeOf<UserSettings>();
     expectTypeOf<PostMetadataType>().toEqualTypeOf<PostMetadata>();
     expectTypeOf<AuthorIdType>().toEqualTypeOf<string>();
   });
 
-  test("handles varchar with custom type", () => {
+  test('handles varchar with custom type', () => {
     type Email = `${string}@${string}`;
 
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      email: varchar("email", { length: 255 }).$type<Email>().notNull(),
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      email: varchar('email', {length: 255}).$type<Email>().notNull(),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
-    type ExtractedEmail = CustomType<typeof schema, "testTable", "email">;
+    type ExtractedEmail = CustomType<typeof schema, 'testTable', 'email'>;
 
     expectTypeOf<ExtractedEmail>().toEqualTypeOf<Email>();
   });
 
-  test("extracts type from integer with custom type", () => {
-    type Percentage = number & { __brand: "Percentage" };
+  test('extracts type from integer with custom type', () => {
+    type Percentage = number & {__brand: 'Percentage'};
 
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      score: integer("score").$type<Percentage>().notNull(),
-      count: integer("count").notNull(),
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      score: integer('score').$type<Percentage>().notNull(),
+      count: integer('count').notNull(),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
-    type ExtractedScore = CustomType<typeof schema, "testTable", "score">;
-    type ExtractedCount = CustomType<typeof schema, "testTable", "count">;
+    type ExtractedScore = CustomType<typeof schema, 'testTable', 'score'>;
+    type ExtractedCount = CustomType<typeof schema, 'testTable', 'count'>;
 
     expectTypeOf<ExtractedScore>().toEqualTypeOf<Percentage>();
     expectTypeOf<ExtractedCount>().toEqualTypeOf<number>();
   });
 
-  test("handles boolean columns correctly", () => {
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      isActive: pgBoolean("is_active").notNull(),
-      isDeleted: pgBoolean("is_deleted"),
+  test('handles boolean columns correctly', () => {
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      isActive: pgBoolean('is_active').notNull(),
+      isDeleted: pgBoolean('is_deleted'),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
-    type ExtractedIsActive = CustomType<typeof schema, "testTable", "isActive">;
+    type ExtractedIsActive = CustomType<typeof schema, 'testTable', 'isActive'>;
     type ExtractedIsDeleted = CustomType<
       typeof schema,
-      "testTable",
-      "isDeleted"
+      'testTable',
+      'isDeleted'
     >;
 
     expectTypeOf<ExtractedIsActive>().toEqualTypeOf<boolean>();
     expectTypeOf<ExtractedIsDeleted>().toEqualTypeOf<boolean>();
   });
 
-  test("handles serial columns correctly", () => {
-    const testTable = pgTable("test", {
-      id: serial("id").primaryKey(),
-      count: serial("count").notNull(),
+  test('handles serial columns correctly', () => {
+    const testTable = pgTable('test', {
+      id: serial('id').primaryKey(),
+      count: serial('count').notNull(),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
-    type ExtractedId = CustomType<typeof schema, "testTable", "id">;
-    type ExtractedCount = CustomType<typeof schema, "testTable", "count">;
+    type ExtractedId = CustomType<typeof schema, 'testTable', 'id'>;
+    type ExtractedCount = CustomType<typeof schema, 'testTable', 'count'>;
 
     expectTypeOf<ExtractedId>().toEqualTypeOf<number>();
     expectTypeOf<ExtractedCount>().toEqualTypeOf<number>();
   });
 
-  test("extracts deeply nested interface types", () => {
+  test('extracts deeply nested interface types', () => {
     interface DeepNested {
       level1: {
         level2: {
@@ -414,19 +412,19 @@ describe("CustomType", () => {
       };
     }
 
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      data: jsonb("data").$type<DeepNested>().notNull(),
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      data: jsonb('data').$type<DeepNested>().notNull(),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
-    type ExtractedData = CustomType<typeof schema, "testTable", "data">;
+    type ExtractedData = CustomType<typeof schema, 'testTable', 'data'>;
 
     expectTypeOf<ExtractedData>().toEqualTypeOf<DeepNested>();
   });
 
-  test("handles readonly and optional properties", () => {
+  test('handles readonly and optional properties', () => {
     interface ConfigType {
       readonly id: string;
       name: string;
@@ -437,194 +435,194 @@ describe("CustomType", () => {
       };
     }
 
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      config: jsonb("config").$type<ConfigType>().notNull(),
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      config: jsonb('config').$type<ConfigType>().notNull(),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
-    type ExtractedConfig = CustomType<typeof schema, "testTable", "config">;
+    type ExtractedConfig = CustomType<typeof schema, 'testTable', 'config'>;
 
     expectTypeOf<ExtractedConfig>().toEqualTypeOf<ConfigType>();
   });
 
-  test("extracts literal union types correctly", () => {
-    type Color = "red" | "green" | "blue";
+  test('extracts literal union types correctly', () => {
+    type Color = 'red' | 'green' | 'blue';
     type Size = 1 | 2 | 3 | 4 | 5;
 
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      color: text("color").$type<Color>().notNull(),
-      size: integer("size").$type<Size>().notNull(),
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      color: text('color').$type<Color>().notNull(),
+      size: integer('size').$type<Size>().notNull(),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
-    type ExtractedColor = CustomType<typeof schema, "testTable", "color">;
-    type ExtractedSize = CustomType<typeof schema, "testTable", "size">;
+    type ExtractedColor = CustomType<typeof schema, 'testTable', 'color'>;
+    type ExtractedSize = CustomType<typeof schema, 'testTable', 'size'>;
 
     expectTypeOf<ExtractedColor>().toEqualTypeOf<Color>();
     expectTypeOf<ExtractedSize>().toEqualTypeOf<Size>();
   });
 
-  test("handles Record types correctly", () => {
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      stringMap: jsonb("string_map").$type<Record<string, string>>().notNull(),
-      numberMap: jsonb("number_map").$type<Record<string, number>>(),
+  test('handles Record types correctly', () => {
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      stringMap: jsonb('string_map').$type<Record<string, string>>().notNull(),
+      numberMap: jsonb('number_map').$type<Record<string, number>>(),
       complexMap:
-        jsonb("complex_map").$type<
-          Record<string, { value: number; label: string }>
+        jsonb('complex_map').$type<
+          Record<string, {value: number; label: string}>
         >(),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
     type ExtractedStringMap = CustomType<
       typeof schema,
-      "testTable",
-      "stringMap"
+      'testTable',
+      'stringMap'
     >;
     type ExtractedNumberMap = CustomType<
       typeof schema,
-      "testTable",
-      "numberMap"
+      'testTable',
+      'numberMap'
     >;
     type ExtractedComplexMap = CustomType<
       typeof schema,
-      "testTable",
-      "complexMap"
+      'testTable',
+      'complexMap'
     >;
 
     expectTypeOf<ExtractedStringMap>().toEqualTypeOf<Record<string, string>>();
     expectTypeOf<ExtractedNumberMap>().toEqualTypeOf<Record<string, number>>();
     expectTypeOf<ExtractedComplexMap>().toEqualTypeOf<
-      Record<string, { value: number; label: string }>
+      Record<string, {value: number; label: string}>
     >();
   });
 
-  test("extracts tuple types correctly", () => {
+  test('extracts tuple types correctly', () => {
     type Coordinates = [number, number];
     type RGBColor = [number, number, number];
 
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      location: jsonb("location").$type<Coordinates>().notNull(),
-      color: jsonb("color").$type<RGBColor>(),
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      location: jsonb('location').$type<Coordinates>().notNull(),
+      color: jsonb('color').$type<RGBColor>(),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
-    type ExtractedLocation = CustomType<typeof schema, "testTable", "location">;
-    type ExtractedColor = CustomType<typeof schema, "testTable", "color">;
+    type ExtractedLocation = CustomType<typeof schema, 'testTable', 'location'>;
+    type ExtractedColor = CustomType<typeof schema, 'testTable', 'color'>;
 
     expectTypeOf<ExtractedLocation>().toEqualTypeOf<Coordinates>();
     expectTypeOf<ExtractedColor>().toEqualTypeOf<RGBColor>();
   });
 
-  test("handles enum with default value", () => {
-    const statusEnum = pgEnum("status", ["active", "inactive", "pending"]);
+  test('handles enum with default value', () => {
+    const statusEnum = pgEnum('status', ['active', 'inactive', 'pending']);
 
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      status: statusEnum("status").default("active").notNull(),
-      backupStatus: statusEnum("backup_status"),
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      status: statusEnum('status').default('active').notNull(),
+      backupStatus: statusEnum('backup_status'),
     });
 
-    const schema = { testTable, statusEnum };
+    const schema = {testTable, statusEnum};
 
-    type ExtractedStatus = CustomType<typeof schema, "testTable", "status">;
+    type ExtractedStatus = CustomType<typeof schema, 'testTable', 'status'>;
     type ExtractedBackupStatus = CustomType<
       typeof schema,
-      "testTable",
-      "backupStatus"
+      'testTable',
+      'backupStatus'
     >;
 
     expectTypeOf<ExtractedStatus>().toEqualTypeOf<
-      "active" | "inactive" | "pending"
+      'active' | 'inactive' | 'pending'
     >();
     expectTypeOf<ExtractedBackupStatus>().toEqualTypeOf<
-      "active" | "inactive" | "pending"
+      'active' | 'inactive' | 'pending'
     >();
   });
 
-  test("handles columns with defaults correctly", () => {
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      name: text("name").default("unnamed").notNull(),
-      count: integer("count").default(0).notNull(),
-      isActive: pgBoolean("is_active").default(true).notNull(),
+  test('handles columns with defaults correctly', () => {
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      name: text('name').default('unnamed').notNull(),
+      count: integer('count').default(0).notNull(),
+      isActive: pgBoolean('is_active').default(true).notNull(),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
-    type ExtractedName = CustomType<typeof schema, "testTable", "name">;
-    type ExtractedCount = CustomType<typeof schema, "testTable", "count">;
-    type ExtractedIsActive = CustomType<typeof schema, "testTable", "isActive">;
+    type ExtractedName = CustomType<typeof schema, 'testTable', 'name'>;
+    type ExtractedCount = CustomType<typeof schema, 'testTable', 'count'>;
+    type ExtractedIsActive = CustomType<typeof schema, 'testTable', 'isActive'>;
 
     expectTypeOf<ExtractedName>().toEqualTypeOf<string>();
     expectTypeOf<ExtractedCount>().toEqualTypeOf<number>();
     expectTypeOf<ExtractedIsActive>().toEqualTypeOf<boolean>();
   });
 
-  test("handles intersection types", () => {
-    type Base = { id: string; name: string };
-    type WithTimestamp = { createdAt: string; updatedAt: string };
+  test('handles intersection types', () => {
+    type Base = {id: string; name: string};
+    type WithTimestamp = {createdAt: string; updatedAt: string};
     type Entity = Base & WithTimestamp;
 
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      data: jsonb("data").$type<Entity>().notNull(),
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      data: jsonb('data').$type<Entity>().notNull(),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
-    type ExtractedData = CustomType<typeof schema, "testTable", "data">;
+    type ExtractedData = CustomType<typeof schema, 'testTable', 'data'>;
 
     expectTypeOf<ExtractedData>().toEqualTypeOf<Entity>();
   });
 
-  test("extracts type from text column with enum constraint", () => {
-    type Role = "admin" | "user" | "guest";
+  test('extracts type from text column with enum constraint', () => {
+    type Role = 'admin' | 'user' | 'guest';
 
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      role: text("role", { enum: ["admin", "user", "guest"] })
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      role: text('role', {enum: ['admin', 'user', 'guest']})
         .$type<Role>()
         .notNull(),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
-    type ExtractedRole = CustomType<typeof schema, "testTable", "role">;
+    type ExtractedRole = CustomType<typeof schema, 'testTable', 'role'>;
 
     expectTypeOf<ExtractedRole>().toEqualTypeOf<Role>();
   });
 
-  test("handles optional vs required types correctly", () => {
+  test('handles optional vs required types correctly', () => {
     interface RequiredData {
       mustHave: string;
       optional?: number;
     }
 
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      requiredField: jsonb("required").$type<RequiredData>().notNull(),
-      optionalField: jsonb("optional").$type<RequiredData>(),
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      requiredField: jsonb('required').$type<RequiredData>().notNull(),
+      optionalField: jsonb('optional').$type<RequiredData>(),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
     type ExtractedRequired = CustomType<
       typeof schema,
-      "testTable",
-      "requiredField"
+      'testTable',
+      'requiredField'
     >;
     type ExtractedOptional = CustomType<
       typeof schema,
-      "testTable",
-      "optionalField"
+      'testTable',
+      'optionalField'
     >;
 
     // Both should extract the same interface type
@@ -632,7 +630,7 @@ describe("CustomType", () => {
     expectTypeOf<ExtractedOptional>().toEqualTypeOf<RequiredData>();
   });
 
-  test("handles generic types", () => {
+  test('handles generic types', () => {
     interface Container<T> {
       value: T;
       metadata: {
@@ -640,53 +638,53 @@ describe("CustomType", () => {
       };
     }
 
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      stringContainer: jsonb("string_container")
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      stringContainer: jsonb('string_container')
         .$type<Container<string>>()
         .notNull(),
-      numberContainer: jsonb("number_container").$type<Container<number>>(),
+      numberContainer: jsonb('number_container').$type<Container<number>>(),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
     type ExtractedStringContainer = CustomType<
       typeof schema,
-      "testTable",
-      "stringContainer"
+      'testTable',
+      'stringContainer'
     >;
     type ExtractedNumberContainer = CustomType<
       typeof schema,
-      "testTable",
-      "numberContainer"
+      'testTable',
+      'numberContainer'
     >;
 
     expectTypeOf<ExtractedStringContainer>().toEqualTypeOf<Container<string>>();
     expectTypeOf<ExtractedNumberContainer>().toEqualTypeOf<Container<number>>();
   });
 
-  test("extracts type from columns with runtime defaults", () => {
-    const testTable = pgTable("test", {
-      id: text("id").primaryKey(),
-      createdAt: text("created_at")
+  test('extracts type from columns with runtime defaults', () => {
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      createdAt: text('created_at')
         .notNull()
         .$default(() => new Date().toISOString()),
-      optionalDefault: text("optional_default").$default(() =>
+      optionalDefault: text('optional_default').$default(() =>
         new Date().toISOString(),
       ),
     });
 
-    const schema = { testTable };
+    const schema = {testTable};
 
     type ExtractedCreatedAt = CustomType<
       typeof schema,
-      "testTable",
-      "createdAt"
+      'testTable',
+      'createdAt'
     >;
     type ExtractedOptionalDefault = CustomType<
       typeof schema,
-      "testTable",
-      "optionalDefault"
+      'testTable',
+      'optionalDefault'
     >;
 
     expectTypeOf<ExtractedCreatedAt>().toEqualTypeOf<string>();

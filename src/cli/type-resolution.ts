@@ -2,9 +2,9 @@ import type {
   ImportDeclarationStructure,
   Project,
   TypeAliasDeclaration,
-} from "ts-morph";
-import { StructureKind } from "ts-morph";
-import { TypeFormatFlags } from "typescript";
+} from 'ts-morph';
+import {StructureKind} from 'ts-morph';
+import {TypeFormatFlags} from 'typescript';
 
 export interface CustomTypeRequest {
   tableName: string;
@@ -13,7 +13,7 @@ export interface CustomTypeRequest {
 
 export interface ResolveCustomTypesOptions {
   project: Project;
-  helperName: "CustomType" | "ZeroCustomType";
+  helperName: 'CustomType' | 'ZeroCustomType';
   schemaTypeExpression: string;
   schemaImports: ResolverImport[];
   requests: Iterable<CustomTypeRequest>;
@@ -21,11 +21,11 @@ export interface ResolveCustomTypesOptions {
 
 export type ResolvedCustomTypeMap = Map<string, string>;
 
-export const COLUMN_SEPARATOR = "::|::";
+export const COLUMN_SEPARATOR = '::|::';
 
-const RESOLVER_FILE_NAME = "__drizzle_zero_type_resolver.ts";
+const RESOLVER_FILE_NAME = '__drizzle_zero_type_resolver.ts';
 
-type ResolverImport = Omit<ImportDeclarationStructure, "kind">;
+type ResolverImport = Omit<ImportDeclarationStructure, 'kind'>;
 
 const typeFormatFlags =
   TypeFormatFlags.UseAliasDefinedOutsideCurrentScope |
@@ -51,7 +51,7 @@ export function resolveCustomTypes({
     return new Map();
   }
 
-  const resolverFile = project.createSourceFile(RESOLVER_FILE_NAME, "", {
+  const resolverFile = project.createSourceFile(RESOLVER_FILE_NAME, '', {
     overwrite: true,
   });
 
@@ -65,8 +65,8 @@ export function resolveCustomTypes({
   );
 
   resolverFile.addImportDeclaration({
-    moduleSpecifier: "drizzle-zero",
-    namedImports: [{ name: helperName }],
+    moduleSpecifier: 'zero-drizzle',
+    namedImports: [{name: helperName}],
     isTypeOnly: true,
   });
 
@@ -102,13 +102,13 @@ export function resolveCustomTypes({
 }
 
 const allowedTypeIdentifiers = new Set<string>([
-  "boolean",
-  "number",
-  "string",
-  "true",
-  "false",
-  "null",
-  "undefined",
+  'boolean',
+  'number',
+  'string',
+  'true',
+  'false',
+  'null',
+  'undefined',
 ]);
 
 export const isSafeResolvedType = (typeText: string | undefined): boolean => {
@@ -116,69 +116,69 @@ export const isSafeResolvedType = (typeText: string | undefined): boolean => {
     return false;
   }
 
-  if (typeText === "ReadonlyJSONValue") {
+  if (typeText === 'ReadonlyJSONValue') {
     return true;
   }
 
   if (
-    typeText === "unknown" ||
-    typeText === "any" ||
-    typeText.includes("__error__") ||
-    typeText.includes("() ") ||
-    typeText === "SchemaIsAnyError" ||
-    typeText.includes("CustomType") ||
-    typeText.includes("ZeroCustomType") ||
-    typeText.includes("import(") ||
-    typeText.includes("=>")
+    typeText === 'unknown' ||
+    typeText === 'any' ||
+    typeText.includes('__error__') ||
+    typeText.includes('() ') ||
+    typeText === 'SchemaIsAnyError' ||
+    typeText.includes('CustomType') ||
+    typeText.includes('ZeroCustomType') ||
+    typeText.includes('import(') ||
+    typeText.includes('=>')
   ) {
     return false;
   }
 
   const getPrevNonWhitespace = (index: number) => {
     for (let i = index - 1; i >= 0; i--) {
-      const char = typeText[i] ?? "";
+      const char = typeText[i] ?? '';
       if (char.trim()) {
         return char;
       }
     }
 
-    return "";
+    return '';
   };
 
   const getNextNonWhitespace = (index: number) => {
     for (let i = index; i < typeText.length; i++) {
-      const char = typeText[i] ?? "";
+      const char = typeText[i] ?? '';
       if (char.trim()) {
         return char;
       }
     }
 
-    return "";
+    return '';
   };
 
   const identifierRegex = /\b[A-Za-z_]\w*\b/g;
   const matches = typeText.matchAll(identifierRegex);
 
   for (const match of matches) {
-    const identifier = match[0] ?? "";
+    const identifier = match[0] ?? '';
     const startIndex = match.index ?? 0;
     const endIndex = startIndex + identifier.length;
     const prevChar = getPrevNonWhitespace(startIndex);
     const nextChar = getNextNonWhitespace(endIndex);
 
-    if (prevChar === "'" || prevChar === '"' || prevChar === "`") {
+    if (prevChar === "'" || prevChar === '"' || prevChar === '`') {
       continue;
     }
 
-    if (/^_+$/.test(identifier) && prevChar === "}") {
+    if (/^_+$/.test(identifier) && prevChar === '}') {
       continue;
     }
 
-    if (nextChar === ":") {
+    if (nextChar === ':') {
       continue;
     }
 
-    if (nextChar === "?" && getNextNonWhitespace(endIndex + 1) === ":") {
+    if (nextChar === '?' && getNextNonWhitespace(endIndex + 1) === ':') {
       continue;
     }
 

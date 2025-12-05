@@ -1,14 +1,14 @@
-import { number } from "@rocicorp/zero";
-import { drizzleZeroConfig } from "../../src";
-import * as oneToOne2 from "./one-to-one-2.schema";
+import {number} from '@rocicorp/zero';
+import {zeroDrizzleConfig} from '../../src';
+import * as oneToOne2 from './one-to-one-2.schema';
 
-export const schema = drizzleZeroConfig(oneToOne2, {
+export const schema = zeroDrizzleConfig(oneToOne2, {
   tables: {
     userTable: {
       id: true,
       name: true,
       partner: true,
-      createdAt: number().from("created_at"),
+      createdAt: number().from('created_at'),
     },
     mediumTable: {
       id: true,

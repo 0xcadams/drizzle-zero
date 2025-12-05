@@ -1,9 +1,9 @@
-import { drizzleZeroConfig } from "drizzle-zero";
-import * as drizzleSchema from "../db/drizzle/schema";
+import {zeroDrizzleConfig} from 'zero-drizzle';
+import * as drizzleSchema from '../db/drizzle/schema';
 
-export * from "../db/drizzle/types";
+export * from '@zero-drizzle/db/types';
 
-export const schema = drizzleZeroConfig(drizzleSchema, {
+export const schema = zeroDrizzleConfig(drizzleSchema, {
   tables: {
     allTypes: true,
     analyticsDashboard: true,
@@ -97,17 +97,17 @@ export const schema = drizzleZeroConfig(drizzleSchema, {
   },
   manyToMany: {
     user: {
-      mediums: ["message", "medium"],
+      mediums: ['message', 'medium'],
       friends: [
         {
-          sourceField: ["id"],
-          destTable: "friendship",
-          destField: ["requestingId"],
+          sourceField: ['id'],
+          destTable: 'friendship',
+          destField: ['requestingId'],
         },
         {
-          sourceField: ["acceptingId"],
-          destTable: "user",
-          destField: ["id"],
+          sourceField: ['acceptingId'],
+          destTable: 'user',
+          destField: ['id'],
         },
       ],
     },

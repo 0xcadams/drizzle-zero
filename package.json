@@ -1,18 +1,21 @@
 {
-  "name": "drizzle-zero",
-  "version": "0.16.2",
+  "name": "zero-drizzle",
+  "version": "0.1.0-canary.0",
   "description": "Generate Zero schemas from Drizzle ORM schemas",
   "type": "module",
   "scripts": {
     "clean": "rm -rf dist node_modules coverage && cd integration && rm -rf node_modules && cd ../no-config-integration && rm -rf node_modules && cd ../db && rm -rf node_modules",
     "build": "rm -rf dist && tsx build.ts && chmod +x dist/cli/index.js",
     "release": "pnpm run build && pnpm publish",
+    "format": "prettier --write .",
+    "check-format": "prettier --check .",
+    "check-types": "tsc",
+    "lint": "oxlint --type-aware --quiet",
     "test": "vitest run --typecheck --coverage",
-    "test:types": "tsc --noEmit",
     "test:ui": "vitest --ui"
   },
   "bin": {
-    "drizzle-zero": "./dist/cli/index.js"
+    "zero-drizzle": "./dist/cli/index.js"
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
@@ -23,16 +26,6 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./node-postgres": {
-      "types": "./dist/node-postgres/index.d.ts",
-      "import": "./dist/node-postgres/index.js",
-      "require": "./dist/node-postgres/index.cjs"
-    },
-    "./postgres-js": {
-      "types": "./dist/postgres-js/index.d.ts",
-      "import": "./dist/postgres-js/index.js",
-      "require": "./dist/postgres-js/index.cjs"
-    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -42,7 +35,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/0xcadams/drizzle-zero.git"
+    "url": "git+https://github.com/rocicorp/zero-drizzle.git"
   },
   "keywords": [
     "zero",
@@ -58,14 +51,11 @@
     "typescript",
     "ts"
   ],
-  "author": "0xcadams",
-  "license": "Unlicense",
-  "homepage": "https://github.com/0xcadams/drizzle-zero",
   "bugs": {
-    "url": "https://github.com/0xcadams/drizzle-zero/issues"
+    "url": "https://bugs.rocicorp.dev"
   },
   "peerDependencies": {
-    "@rocicorp/zero": ">=0.22.2025081301",
+    "@rocicorp/zero": "",
     "@types/pg": "",
     "drizzle-orm": ">=0.36.0",
     "pg": "",
@@ -94,23 +84,26 @@
     "ts-morph": "^27.0.2"
   },
   "devDependencies": {
+    "@rocicorp/prettier-config": "^0.4.0",
     "@rocicorp/zero": "0.24.3000000000",
     "@ts-morph/common": "^0.28.1",
     "@types/node": "^24.10.1",
     "@types/pg": "^8.15.6",
     "@types/pluralize": "^0.0.33",
     "@types/ws": "^8.18.1",
-    "@vitest/browser": "^4.0.14",
-    "@vitest/coverage-v8": "4.0.14",
-    "@vitest/ui": "^4.0.14",
-    "drizzle-kit": "^0.31.7",
-    "drizzle-orm": "^0.44.7",
-    "prettier": "^3.7.3",
+    "@vitest/browser": "^4.0.15",
+    "@vitest/coverage-v8": "4.0.15",
+    "@vitest/ui": "^4.0.15",
+    "drizzle-kit": "^0.31.8",
+    "drizzle-orm": "^0.45.0",
+    "oxlint": "^1.31.0",
+    "oxlint-tsgolint": "^0.8.3",
+    "prettier": "^3.7.4",
     "tsup": "^8.5.1",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^4.0.14",
+    "vitest": "^4.0.15",
     "ws": "^8.18.3"
   },
   "pnpm": {
@@ -123,5 +116,6 @@
       "ssh2"
     ]
   },
-  "packageManager": "pnpm@10.18.3"
+  "packageManager": "pnpm@10.18.3",
+  "prettier": "@rocicorp/prettier-config"
 }

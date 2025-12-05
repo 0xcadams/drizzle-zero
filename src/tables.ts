@@ -9,10 +9,11 @@ import {
   number as zeroNumber,
   string as zeroString,
   table as zeroTable,
-} from "@rocicorp/zero";
-import { getTableColumns, getTableName, Table } from "drizzle-orm";
-import { toCamelCase, toSnakeCase } from "drizzle-orm/casing";
-import { getTableConfigForDatabase } from "./db";
+} from '@rocicorp/zero';
+import type {Table} from 'drizzle-orm';
+import {getTableColumns, getTableName} from 'drizzle-orm';
+import {toCamelCase, toSnakeCase} from 'drizzle-orm/casing';
+import {getTableConfigForDatabase} from './db';
 import {
   type DrizzleColumnTypeToZeroType,
   drizzleColumnTypeToZeroType,
@@ -20,18 +21,18 @@ import {
   drizzleDataTypeToZeroType,
   postgresTypeToZeroType,
   type ZeroTypeToTypescriptType,
-} from "./drizzle-to-zero";
+} from './drizzle-to-zero';
 import type {
   ColumnNames,
   Columns,
   FindPrimaryKeyFromTable,
   Flatten,
-} from "./types";
-import { debugLog, typedEntries } from "./util";
+} from './types';
+import {debugLog, typedEntries} from './util';
 
 const warnedServerDefaults = new Set<string>();
 
-export type { ColumnBuilder, ReadonlyJSONValue, TableBuilderWithColumns };
+export type {ColumnBuilder, ReadonlyJSONValue, TableBuilderWithColumns};
 
 /**
  * Represents a column definition from a Drizzle table, filtered by column name.
@@ -48,10 +49,10 @@ type ColumnDefinition<TTable extends Table, K extends ColumnNames<TTable>> = {
  * @template TCustomType The TypeScript type that corresponds to the Zero type
  */
 type TypeOverride<TCustomType> = {
-  readonly type: "string" | "number" | "boolean" | "json";
+  readonly type: 'string' | 'number' | 'boolean' | 'json';
   readonly optional: boolean;
   readonly customType: TCustomType;
-  readonly kind?: "enum";
+  readonly kind?: 'enum';
 };
 
 /**
@@ -69,7 +70,7 @@ export type ColumnsConfig<TTable extends Table> =
         | boolean
         | ColumnBuilder<
             TypeOverride<
-              ZeroTypeToTypescriptType[DrizzleDataTypeToZeroType[Columns<TTable>[KColumn]["dataType"]]]
+              ZeroTypeToTypescriptType[DrizzleDataTypeToZeroType[Columns<TTable>[KColumn]['dataType']]]
             >
           >;
     }>;
@@ -80,15 +81,15 @@ export type ColumnsConfig<TTable extends Table> =
 type ZeroMappedColumnType<
   TTable extends Table,
   KColumn extends ColumnNames<TTable>,
-  CD extends ColumnDefinition<TTable, KColumn>["_"] = ColumnDefinition<
+  CD extends ColumnDefinition<TTable, KColumn>['_'] = ColumnDefinition<
     TTable,
     KColumn
-  >["_"],
+  >['_'],
 > = CD extends {
   columnType: keyof DrizzleColumnTypeToZeroType;
 }
-  ? DrizzleColumnTypeToZeroType[CD["columnType"]]
-  : DrizzleDataTypeToZeroType[CD["dataType"]];
+  ? DrizzleColumnTypeToZeroType[CD['columnType']]
+  : DrizzleDataTypeToZeroType[CD['dataType']];
 
 /**
  * Maps a Drizzle column to its corresponding TypeScript type in Zero.
@@ -97,30 +98,30 @@ type ZeroMappedColumnType<
 type ZeroMappedCustomType<
   TTable extends Table,
   KColumn extends ColumnNames<TTable>,
-  CD extends ColumnDefinition<TTable, KColumn>["_"] = ColumnDefinition<
+  CD extends ColumnDefinition<TTable, KColumn>['_'] = ColumnDefinition<
     TTable,
     KColumn
-  >["_"],
+  >['_'],
 > = CD extends {
-  columnType: "PgCustomColumn";
+  columnType: 'PgCustomColumn';
 }
-  ? CD["data"]
+  ? CD['data']
   : CD extends {
-        columnType: "PgEnumColumn";
+        columnType: 'PgEnumColumn';
       }
-    ? CD["data"]
+    ? CD['data']
     : CD extends {
-          columnType: "PgText";
+          columnType: 'PgText';
           data: string;
         }
-      ? CD["data"]
+      ? CD['data']
       : CD extends {
-            columnType: "PgArray";
+            columnType: 'PgArray';
             data: infer TArrayData;
           }
         ? TArrayData
-        : CD extends { $type: any }
-          ? CD["$type"]
+        : CD extends {$type: any}
+          ? CD['$type']
           : ZeroTypeToTypescriptType[ZeroMappedColumnType<TTable, KColumn>];
 
 /**
@@ -145,7 +146,7 @@ export type ZeroColumns<
 > = {
   [KColumn in ColumnNames<TTable>]: KColumn extends keyof TColumnConfig
     ? TColumnConfig[KColumn & keyof TColumnConfig] extends ColumnBuilder<any>
-      ? TColumnConfig[KColumn & keyof TColumnConfig]["schema"]
+      ? TColumnConfig[KColumn & keyof TColumnConfig]['schema']
       : ZeroColumnDefinition<TTable, KColumn>
     : ZeroColumnDefinition<TTable, KColumn>;
 };
@@ -179,7 +180,7 @@ type ZeroTableBuilder<
 /**
  * Casing for the Zero table builder.
  */
-export type ZeroTableCasing = "snake_case" | "camelCase" | undefined;
+export type ZeroTableCasing = 'snake_case' | 'camelCase' | undefined;
 
 /**
  * Creates a Zero schema from a Drizzle table definition.
@@ -242,12 +243,12 @@ const createZeroTableBuilder = <
   }
 
   const isColumnBuilder = (value: unknown): value is ColumnBuilder<any> =>
-    typeof value === "object" && value !== null && "schema" in value;
+    typeof value === 'object' && value !== null && 'schema' in value;
 
   const columnsMapped = typedEntries(tableColumns).reduce(
     (acc, [key, column]) => {
       const columnConfig =
-        typeof columns === "object" && columns !== null && columns !== undefined
+        typeof columns === 'object' && columns !== null && columns !== undefined
           ? columns?.[key as keyof TColumnConfig]
           : undefined;
 
@@ -257,18 +258,18 @@ const createZeroTableBuilder = <
       const resolvedColumnName =
         !column.keyAsName || casing === undefined
           ? column.name
-          : casing === "camelCase"
+          : casing === 'camelCase'
             ? toCamelCase(column.name)
             : toSnakeCase(column.name);
 
-      if (typeof columns === "object" && columns !== null) {
+      if (typeof columns === 'object' && columns !== null) {
         if (
           columnConfig !== undefined &&
-          typeof columnConfig !== "boolean" &&
+          typeof columnConfig !== 'boolean' &&
           !isColumnConfigOverride
         ) {
           throw new Error(
-            `drizzle-zero: Invalid column config for column ${resolvedColumnName} - expected boolean or ColumnBuilder but was ${typeof columnConfig}`,
+            `zero-drizzle: Invalid column config for column ${resolvedColumnName} - expected boolean or ColumnBuilder but was ${typeof columnConfig}`,
           );
         }
 
@@ -299,7 +300,7 @@ const createZeroTableBuilder = <
 
       if (type === null && !isColumnConfigOverride) {
         console.warn(
-          `🚨  drizzle-zero: Unsupported column type: ${resolvedColumnName} - ${column.columnType} (${column.dataType}). It will not be included in the output. Must be supported by Zero, e.g.: ${Object.keys({ ...drizzleDataTypeToZeroType, ...drizzleColumnTypeToZeroType }).join(" | ")}`,
+          `🚨  zero-drizzle: Unsupported column type: ${resolvedColumnName} - ${column.columnType} (${column.dataType}). It will not be included in the output. Must be supported by Zero, e.g.: ${Object.keys({...drizzleDataTypeToZeroType, ...drizzleColumnTypeToZeroType}).join(' | ')}`,
         );
 
         return acc;
@@ -307,7 +308,7 @@ const createZeroTableBuilder = <
 
       const isPrimaryKey = primaryKeys.has(String(key));
       const hasServerDefault =
-        column.hasDefault || typeof column.defaultFn !== "undefined";
+        column.hasDefault || typeof column.defaultFn !== 'undefined';
 
       if (hasServerDefault) {
         const warningKey = `${actualTableName}.${resolvedColumnName}`;
@@ -315,13 +316,13 @@ const createZeroTableBuilder = <
           warnedServerDefaults.add(warningKey);
 
           console.warn(
-            `⚠️ drizzle-zero: Column ${actualTableName}.${resolvedColumnName} uses a database default that the Zero client will not be able to use. This probably won't work the way you expect. Set the value with mutators instead. See: https://github.com/0xcadams/drizzle-zero/issues/197`,
+            `⚠️ zero-drizzle: Column ${actualTableName}.${resolvedColumnName} uses a database default that the Zero client will not be able to use. This probably won't work the way you expect. Set the value with mutators instead. See: https://github.com/rocicorp/zero-drizzle/issues/197`,
           );
         }
       }
 
       const isColumnOptional =
-        typeof columnConfig === "boolean" || typeof columnConfig === "undefined"
+        typeof columnConfig === 'boolean' || typeof columnConfig === 'undefined'
           ? isPrimaryKey
             ? false // Primary keys are NEVER optional, even with defaults
             : hasServerDefault
@@ -331,7 +332,7 @@ const createZeroTableBuilder = <
             ? columnConfig.schema.optional
             : false;
 
-      if (columnConfig && typeof columnConfig !== "boolean") {
+      if (columnConfig && typeof columnConfig !== 'boolean') {
         return {
           ...acc,
           [key]: columnConfig,
@@ -340,11 +341,11 @@ const createZeroTableBuilder = <
 
       const schemaValue = column.enumValues
         ? zeroEnumeration<typeof column.enumValues>()
-        : type === "string"
+        : type === 'string'
           ? zeroString()
-          : type === "number"
+          : type === 'number'
             ? zeroNumber()
-            : type === "json"
+            : type === 'json'
               ? zeroJson()
               : zeroBoolean();
 
@@ -365,7 +366,7 @@ const createZeroTableBuilder = <
 
   if (primaryKeys.size === 0) {
     throw new Error(
-      `drizzle-zero: No primary keys found in table - ${actualTableName}. Did you forget to define a primary key?`,
+      `zero-drizzle: No primary keys found in table - ${actualTableName}. Did you forget to define a primary key?`,
     );
   }
 

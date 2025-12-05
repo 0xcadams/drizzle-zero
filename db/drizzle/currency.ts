@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import {z} from 'zod';
 
 // Pulled from https://github.com/freeall/currency-codes/blob/master/data.js
 const currencies = [
@@ -1246,10 +1246,10 @@ const currencies = [
 export type Currency = (typeof currencies)[number];
 export type CurrencyCode = Currency['code'];
 export const currencyCodeSchema = z.custom<CurrencyCode>(
-  (val) => currencies.find((c) => c.code === val)?.code,
+  val => currencies.find(c => c.code === val)?.code,
 );
 export const getCurrency = (code: CurrencyCode) =>
-  currencies.find((c) => c.code === code);
+  currencies.find(c => c.code === code);
 
 /**
  * How to display the currency in currency formatting.
@@ -1260,7 +1260,7 @@ export const currencyDisplaySchema = z.enum(['code', 'symbol']);
 /**
  * All the ISO4217 currency codes.
  */
-export const currencyCodes = currencies.map((c) => c.code) as [
+export const currencyCodes = currencies.map(c => c.code) as [
   CurrencyCode,
   ...CurrencyCode[],
 ];

@@ -1,5 +1,5 @@
-import type { Schema, TableSchema, relationships } from "@rocicorp/zero";
-import { expect } from "vitest";
+import type {Schema, TableSchema, relationships} from '@rocicorp/zero';
+import {expect} from 'vitest';
 
 export type ZeroSchema = Schema;
 
@@ -7,10 +7,10 @@ export function expectTableSchemaDeepEqual(actual: TableSchema) {
   return {
     toEqual(expected: TableSchema) {
       expect({
-        __testKey: "tableColumns",
+        __testKey: 'tableColumns',
         keys: Object.keys(actual.columns ?? {}),
       }).toStrictEqual({
-        __testKey: "tableColumns",
+        __testKey: 'tableColumns',
         keys: Object.keys(expected.columns ?? {}),
       });
 
@@ -25,24 +25,24 @@ export function expectTableSchemaDeepEqual(actual: TableSchema) {
       }
 
       expect({
-        __testKey: "primaryKey",
+        __testKey: 'primaryKey',
         primaryKey: actual.primaryKey,
       }).toStrictEqual({
-        __testKey: "primaryKey",
+        __testKey: 'primaryKey',
         primaryKey: expected.primaryKey,
       });
       expect({
-        __testKey: "tableName",
+        __testKey: 'tableName',
         tableName: actual.name,
       }).toStrictEqual({
-        __testKey: "tableName",
+        __testKey: 'tableName',
         tableName: expected.name,
       });
       expect({
-        __testKey: "serverName",
+        __testKey: 'serverName',
         serverName: actual?.serverName,
       }).toStrictEqual({
-        __testKey: "serverName",
+        __testKey: 'serverName',
         serverName: expected?.serverName,
       });
     },
@@ -50,7 +50,7 @@ export function expectTableSchemaDeepEqual(actual: TableSchema) {
 }
 
 type RelationshipsSchema = {
-  [key: string]: ReturnType<typeof relationships>["relationships"][string];
+  [key: string]: ReturnType<typeof relationships>['relationships'][string];
 };
 
 export function expectRelationsSchemaDeepEqual<S extends RelationshipsSchema>(
@@ -68,18 +68,18 @@ export function expectRelationsSchemaDeepEqual<S extends RelationshipsSchema>(
           const actualRelations = actual[key];
 
           if (!expectedRelations || !actualRelations) {
-            throw new Error("Expected or actual relations are not defined");
+            throw new Error('Expected or actual relations are not defined');
           }
 
           expect(actualRelations).toHaveLength(expectedRelations.length);
 
           for (let i = 0; i < expectedRelations.length; i++) {
             expect({
-              __testKey: "expectedRelations",
+              __testKey: 'expectedRelations',
               key,
               sourceField: actualRelations[i],
             }).toStrictEqual({
-              __testKey: "expectedRelations",
+              __testKey: 'expectedRelations',
               key,
               sourceField: expectedRelations[i],
             });
@@ -94,18 +94,18 @@ export function expectSchemaDeepEqual(actual: ZeroSchema) {
   return {
     toEqual(expected: ZeroSchema) {
       expect({
-        __testKey: "tables",
+        __testKey: 'tables',
         keys: Object.keys(actual.tables),
       }).toStrictEqual({
-        __testKey: "tables",
+        __testKey: 'tables',
         keys: Object.keys(expected.tables),
       });
 
       expect({
-        __testKey: "relationships",
+        __testKey: 'relationships',
         keys: Object.keys(actual.relationships || {}),
       }).toStrictEqual({
-        __testKey: "relationships",
+        __testKey: 'relationships',
         keys: Object.keys(expected.relationships || {}),
       });
 
@@ -153,8 +153,8 @@ export type Test<Left, Right> =
           : // Any extends TestExact<Left, Right>
             //   ? 1
             //   : "❌ Unexpected or missing 'readonly' property"
-            "❌ Right type is not assignable to left type"
-        : "❌ Left type is not assignable to right type";
+            '❌ Right type is not assignable to left type'
+        : '❌ Left type is not assignable to right type';
 
 type Assert<T, U> = U extends 1
   ? T // No error.
@@ -168,6 +168,4 @@ type Assert<T, U> = U extends 1
 export const assertEqual = <Left, Right>(
   _left: Assert<Left, Test<Left, Right>>,
   _right: Assert<Right, Test<Left, Right>>,
-): Right => {
-  return null as Right;
-};
+): Right => null as Right;

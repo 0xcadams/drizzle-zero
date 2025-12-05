@@ -1,7 +1,7 @@
-import { drizzleZeroConfig } from "../../src";
-import * as oneToOneForeignKey from "./one-to-one-foreign-key.schema";
+import {zeroDrizzleConfig} from '../../src';
+import * as oneToOneForeignKey from './one-to-one-foreign-key.schema';
 
-export const schema = drizzleZeroConfig(oneToOneForeignKey, {
+export const schema = zeroDrizzleConfig(oneToOneForeignKey, {
   tables: {
     users: {
       id: true,
