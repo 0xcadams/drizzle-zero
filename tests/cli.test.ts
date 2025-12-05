@@ -202,33 +202,33 @@ describe('getGeneratedSchema', () => {
     `);
   });
 
-  it('should throw error when export is not found in config file', async () => {
+  it('should throw error when export is not found in config file', () => {
     // Try to get non-existent export
-    await expect(
+    expect(() =>
       getZeroSchemaDefsFromConfig({
         tsProject,
         configPath: schemaPath,
         exportName: 'nonExistentExport',
       }),
-    ).rejects.toThrow(
+    ).toThrow(
       /❌ zero-drizzle: No config type found in the config file - did you export `default` or `schema`\?/,
     );
   });
 
-  it('should throw error when source file is not found', async () => {
+  it('should throw error when source file is not found', () => {
     // Try to get schema from a non-existent file
     const nonExistentPath = path.resolve(
       __dirname,
       './schemas/does-not-exist.ts',
     );
 
-    await expect(
+    expect(() =>
       getZeroSchemaDefsFromConfig({
         tsProject,
         configPath: nonExistentPath,
         exportName: 'schema',
       }),
-    ).rejects.toThrow(/❌ zero-drizzle: Failed to find type definitions for/);
+    ).toThrow(/❌ zero-drizzle: Failed to find type definitions for/);
   });
 
   it('should handle schema with empty entries correctly', () => {
@@ -1506,12 +1506,12 @@ describe('drizzle-kit functions', () => {
         await import('../src/cli/drizzle-kit');
 
       // Call with invalid path and expect error
-      await expect(
+      await expect(() =>
         getDrizzleSchemaSourceFile({
           tsProject,
           drizzleSchemaPath: nonExistentPath,
         }),
-      ).rejects.toThrow(/❌ zero-drizzle: Failed to find type definitions for/);
+      ).toThrow(/❌ zero-drizzle: Failed to find type definitions for/);
     });
   });
 
