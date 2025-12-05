@@ -55,8 +55,8 @@ export interface GeneratorOptions {
   jsFileExtension?: boolean;
   skipTypes?: boolean;
   skipBuilder?: boolean;
-  disableLegacyMutators?: boolean;
-  disableLegacyQueries?: boolean;
+  enableLegacyMutators?: boolean;
+  enableLegacyQueries?: boolean;
 }
 
 async function main(opts: GeneratorOptions = {}) {
@@ -71,8 +71,8 @@ async function main(opts: GeneratorOptions = {}) {
     jsFileExtension,
     skipTypes,
     skipBuilder,
-    disableLegacyMutators,
-    disableLegacyQueries,
+    enableLegacyMutators,
+    enableLegacyQueries,
   } = { ...opts };
 
   const resolvedTsConfigPath = tsConfigPath ?? defaultTsConfigFile;
@@ -142,8 +142,8 @@ async function main(opts: GeneratorOptions = {}) {
     jsExtensionOverride: jsFileExtension ? "force" : "auto",
     skipTypes: Boolean(skipTypes),
     skipBuilder: Boolean(skipBuilder),
-    disableLegacyMutators: Boolean(disableLegacyMutators),
-    disableLegacyQueries: Boolean(disableLegacyQueries),
+    enableLegacyMutators: Boolean(enableLegacyMutators),
+    enableLegacyQueries: Boolean(enableLegacyQueries),
   });
 
   if (format) {
@@ -190,13 +190,13 @@ async function cli() {
     .option("--skip-types", "Skip generating table Row<> type exports", false)
     .option("--skip-builder", "Skip generating the builder export", false)
     .option(
-      "--disable-legacy-mutators",
-      "Disable legacy CRUD mutators (sets enableLegacyMutators to false)",
+      "--enable-legacy-mutators",
+      "Enable legacy CRUD mutators (sets enableLegacyMutators to true)",
       false,
     )
     .option(
-      "--disable-legacy-queries",
-      "Disable legacy CRUD queries (sets enableLegacyQueries to false)",
+      "--enable-legacy-queries",
+      "Enable legacy CRUD queries (sets enableLegacyQueries to true)",
       false,
     )
     .action(async (command) => {
@@ -213,8 +213,8 @@ async function cli() {
         jsFileExtension: command.jsFileExtension,
         skipTypes: command.skipTypes,
         skipBuilder: command.skipBuilder,
-        disableLegacyMutators: command.disableLegacyMutators,
-        disableLegacyQueries: command.disableLegacyQueries,
+        enableLegacyMutators: command.enableLegacyMutators,
+        enableLegacyQueries: command.enableLegacyQueries,
       });
 
       if (command.output) {

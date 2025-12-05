@@ -17,8 +17,8 @@ export async function getGeneratedSchema({
   jsExtensionOverride = "auto",
   skipTypes = false,
   skipBuilder = false,
-  disableLegacyMutators = false,
-  disableLegacyQueries = false,
+  enableLegacyMutators = false,
+  enableLegacyQueries = false,
   debug,
 }: {
   tsProject: Project;
@@ -29,8 +29,8 @@ export async function getGeneratedSchema({
   jsExtensionOverride?: "auto" | "force" | "none";
   skipTypes?: boolean;
   skipBuilder?: boolean;
-  disableLegacyMutators?: boolean;
-  disableLegacyQueries?: boolean;
+  enableLegacyMutators?: boolean;
+  enableLegacyQueries?: boolean;
   debug?: boolean;
 }) {
   // Auto-detect if .js extensions are needed based on tsconfig
@@ -360,9 +360,9 @@ export async function getGeneratedSchema({
               );
             }
           } else if (key === "enableLegacyMutators") {
-            writer.write(disableLegacyMutators ? "false" : "true");
+            writer.write(enableLegacyMutators ? "true" : "false");
           } else if (key === "enableLegacyQueries") {
-            writer.write(disableLegacyQueries ? "false" : "true");
+            writer.write(enableLegacyQueries ? "true" : "false");
           } else {
             writeValue(writer, propValue, {
               keys: [...keys, key],

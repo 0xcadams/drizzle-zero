@@ -92,8 +92,8 @@ You can also control optional outputs from the generator:
 
 - **--skip-types**: Skip generating table `Row<>` type exports.
 - **--skip-builder**: Skip generating the query `builder` export.
-- **--disable-legacy-mutators**: Disable legacy CRUD mutators (sets `enableLegacyMutators` to `false` in the generated schema). Use this when you want to use only custom mutators instead of the default CRUD operations.
-- **--disable-legacy-queries**: Disable legacy CRUD queries (sets `enableLegacyQueries` to `false` in the generated schema). Use this when you want to use only custom queries.
+- **--enable-legacy-mutators**: Disable legacy CRUD mutators (sets `enableLegacyMutators` to `true` in the generated schema).
+- **--enable-legacy-queries**: Disable legacy CRUD queries (sets `enableLegacyQueries` to `true` in the generated schema).
 
 For more information on disabling legacy mutators and queries, see the [Zero documentation](https://zero.rocicorp.dev/docs/custom-mutators#disabling-crud-mutators).
 
