@@ -1,5 +1,5 @@
-import { zeroDrizzleConfig } from "../../src";
-import * as oneToOneMissingForeignKey from "./one-to-one-missing-foreign-key.schema";
+import {zeroDrizzleConfig} from '../../src';
+import * as oneToOneMissingForeignKey from './one-to-one-missing-foreign-key.schema';
 
 export const schema = zeroDrizzleConfig(oneToOneMissingForeignKey, {
   tables: {

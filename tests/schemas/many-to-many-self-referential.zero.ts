@@ -1,5 +1,5 @@
-import { zeroDrizzleConfig } from "../../src";
-import * as manyToManySelfReferential from "./many-to-many-self-referential.schema";
+import {zeroDrizzleConfig} from '../../src';
+import * as manyToManySelfReferential from './many-to-many-self-referential.schema';
 
 export const schema = zeroDrizzleConfig(manyToManySelfReferential, {
   tables: {
@@ -17,14 +17,14 @@ export const schema = zeroDrizzleConfig(manyToManySelfReferential, {
     user: {
       friends: [
         {
-          sourceField: ["id"],
-          destTable: "friendship",
-          destField: ["requestingId"],
+          sourceField: ['id'],
+          destTable: 'friendship',
+          destField: ['requestingId'],
         },
         {
-          sourceField: ["acceptingId"],
-          destTable: "user",
-          destField: ["id"],
+          sourceField: ['acceptingId'],
+          destTable: 'user',
+          destField: ['id'],
         },
       ],
     },

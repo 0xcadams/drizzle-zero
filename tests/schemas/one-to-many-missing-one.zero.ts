@@ -1,5 +1,5 @@
-import { zeroDrizzleConfig } from "../../src";
-import * as oneToManyMissingOne from "./one-to-many-missing-one.schema";
+import {zeroDrizzleConfig} from '../../src';
+import * as oneToManyMissingOne from './one-to-many-missing-one.schema';
 
 export const schema = zeroDrizzleConfig(oneToManyMissingOne, {
   tables: {

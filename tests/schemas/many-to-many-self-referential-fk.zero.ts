@@ -1,5 +1,5 @@
-import { zeroDrizzleConfig } from "../../src";
-import * as manyToManySelfReferentialFk from "./many-to-many-self-referential-fk.schema";
+import {zeroDrizzleConfig} from '../../src';
+import * as manyToManySelfReferentialFk from './many-to-many-self-referential-fk.schema';
 
 export const schema = zeroDrizzleConfig(manyToManySelfReferentialFk, {
   tables: {
@@ -16,14 +16,14 @@ export const schema = zeroDrizzleConfig(manyToManySelfReferentialFk, {
     doc: {
       related_docs: [
         {
-          sourceField: ["id"],
-          destTable: "related",
-          destField: ["fk_from_doc"],
+          sourceField: ['id'],
+          destTable: 'related',
+          destField: ['fk_from_doc'],
         },
         {
-          sourceField: ["fk_to_doc"],
-          destTable: "doc",
-          destField: ["id"],
+          sourceField: ['fk_to_doc'],
+          destTable: 'doc',
+          destField: ['id'],
         },
       ],
     },

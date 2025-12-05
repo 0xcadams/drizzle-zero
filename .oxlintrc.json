@@ -1,0 +1,52 @@
+{
+  "plugins": ["eslint", "typescript", "unicorn", "jest"],
+  "ignorePatterns": ["node_modules", "dist", "coverage", "out", "tool", "bin"],
+  "rules": {
+    // Disable unsafe optional chaining - many legitimate patterns in codebase
+    "no-unsafe-optional-chaining": "off",
+
+    "eqeqeq": "error",
+    "arrow-body-style": "error",
+
+    // Handle unused variables consistently with ESLint config
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
+
+    // TypeScript-specific rules
+    "typescript/no-explicit-any": "warn",
+    "typescript/no-floating-promises": "error",
+    "typescript/no-non-null-assertion": "warn",
+    "typescript/consistent-type-imports": "error",
+    "typescript/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
+
+    // Require await in async functions
+    "require-await": "error",
+
+    // Vitest rules uses "jest" plugin
+    "jest/no-focused-tests": "error",
+    "jest/no-standalone-expect": "off",
+
+    // Private class members (with inline disables for false positives)
+    "no-unused-private-class-members": "error",
+
+    // Additional beneficial rules
+    "unicorn/prefer-set-size": "error",
+    "unicorn/prefer-string-starts-ends-with": "error",
+    "unicorn/prefer-array-find": "error",
+    "unicorn/prefer-array-flat-map": "error",
+    "unicorn/prefer-set-has": "error"
+  }
+}

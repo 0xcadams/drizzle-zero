@@ -1,5 +1,5 @@
-import { zeroDrizzleConfig } from "../../src";
-import * as manyToManyConflicts from "./many-to-many-relation-name-conflicts-column.schema";
+import {zeroDrizzleConfig} from '../../src';
+import * as manyToManyConflicts from './many-to-many-relation-name-conflicts-column.schema';
 
 export const schema = zeroDrizzleConfig(manyToManyConflicts, {
   tables: {
@@ -19,7 +19,7 @@ export const schema = zeroDrizzleConfig(manyToManyConflicts, {
   },
   manyToMany: {
     users: {
-      groups: ["usersToGroups", "groups"], // This will conflict with the 'groups' column
+      groups: ['usersToGroups', 'groups'], // This will conflict with the 'groups' column
     },
   },
 });

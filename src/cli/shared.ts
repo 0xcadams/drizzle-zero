@@ -1,20 +1,20 @@
-import camelCase from "camelcase";
-import pluralize from "pluralize";
+import camelCase from 'camelcase';
+import pluralize from 'pluralize';
 import {
   type CodeBlockWriter,
   type Project,
   type SourceFile,
   VariableDeclarationKind,
-} from "ts-morph";
-import type { getConfigFromFile } from "./config";
-import type { getDefaultConfig } from "./drizzle-kit";
-import { COLUMN_SEPARATOR, resolveCustomTypes } from "./type-resolution";
+} from 'ts-morph';
+import type {getConfigFromFile} from './config';
+import type {getDefaultConfig} from './drizzle-kit';
+import {COLUMN_SEPARATOR, resolveCustomTypes} from './type-resolution';
 
-export async function getGeneratedSchema({
+export function getGeneratedSchema({
   tsProject,
   result,
   outputFilePath,
-  jsExtensionOverride = "auto",
+  jsExtensionOverride = 'auto',
   skipTypes = false,
   skipBuilder = false,
   skipDeclare = false,
@@ -27,7 +27,7 @@ export async function getGeneratedSchema({
     | Awaited<ReturnType<typeof getConfigFromFile>>
     | Awaited<ReturnType<typeof getDefaultConfig>>;
   outputFilePath: string;
-  jsExtensionOverride?: "auto" | "force" | "none";
+  jsExtensionOverride?: 'auto' | 'force' | 'none';
   skipTypes?: boolean;
   skipBuilder?: boolean;
   skipDeclare?: boolean;
@@ -37,9 +37,9 @@ export async function getGeneratedSchema({
 }) {
   // Auto-detect if .js extensions are needed based on tsconfig
   // unless explicitly overridden by the user
-  let needsJsExtension = jsExtensionOverride === "force";
+  let needsJsExtension = jsExtensionOverride === 'force';
 
-  if (jsExtensionOverride === "auto") {
+  if (jsExtensionOverride === 'auto') {
     const compilerOptions = tsProject.getCompilerOptions();
     const moduleResolution = compilerOptions.moduleResolution;
 
@@ -57,10 +57,10 @@ export async function getGeneratedSchema({
     }
   }
 
-  const schemaObjectName = "schema";
-  const typename = "Schema";
+  const schemaObjectName = 'schema';
+  const typename = 'Schema';
 
-  const zeroSchemaGenerated = tsProject.createSourceFile(outputFilePath, "", {
+  const zeroSchemaGenerated = tsProject.createSourceFile(outputFilePath, '', {
     overwrite: true,
   });
 
@@ -68,16 +68,16 @@ export async function getGeneratedSchema({
   const getResolverImportModuleSpecifier = (sourceFile: SourceFile) => {
     if (!resolverImportHelperFile) {
       resolverImportHelperFile = tsProject.createSourceFile(
-        "__drizzle_zero_type_resolver__imports.ts",
-        "",
-        { overwrite: true },
+        '__drizzle_zero_type_resolver__imports.ts',
+        '',
+        {overwrite: true},
       );
     }
 
     const moduleSpecifier =
       resolverImportHelperFile.getRelativePathAsModuleSpecifierTo(sourceFile);
 
-    if (needsJsExtension && !moduleSpecifier.endsWith(".js")) {
+    if (needsJsExtension && !moduleSpecifier.endsWith('.js')) {
       return `${moduleSpecifier}.js`;
     }
 
@@ -89,14 +89,14 @@ export async function getGeneratedSchema({
   let schemaTypeExpression: string | undefined;
   const resolverImports: Parameters<
     typeof resolveCustomTypes
-  >[0]["schemaImports"] = [];
+  >[0]['schemaImports'] = [];
 
-  if (result.type === "config") {
+  if (result.type === 'config') {
     // For config mode, use ZeroCustomType with the config schema
-    customTypeHelper = "ZeroCustomType";
+    customTypeHelper = 'ZeroCustomType';
     zeroSchemaGenerated.addImportDeclaration({
-      moduleSpecifier: "zero-drizzle",
-      namedImports: [{ name: customTypeHelper }],
+      moduleSpecifier: 'zero-drizzle',
+      namedImports: [{name: customTypeHelper}],
       isTypeOnly: true,
     });
     const moduleSpecifier =
@@ -104,13 +104,13 @@ export async function getGeneratedSchema({
         result.zeroSchemaTypeDeclarations[1].getSourceFile(),
       );
     const runtimeModuleSpecifier =
-      needsJsExtension && !moduleSpecifier.endsWith(".js")
+      needsJsExtension && !moduleSpecifier.endsWith('.js')
         ? `${moduleSpecifier}.js`
         : moduleSpecifier;
     // Add import for DrizzleConfigSchema
     zeroSchemaGenerated.addImportDeclaration({
       moduleSpecifier: runtimeModuleSpecifier,
-      namedImports: [{ name: result.exportName, alias: "zeroSchema" }],
+      namedImports: [{name: result.exportName, alias: 'zeroSchema'}],
       isTypeOnly: true,
     });
 
@@ -118,11 +118,11 @@ export async function getGeneratedSchema({
       moduleSpecifier: getResolverImportModuleSpecifier(
         result.zeroSchemaTypeDeclarations[1].getSourceFile(),
       ),
-      namedImports: [{ name: result.exportName, alias: "zeroSchema" }],
+      namedImports: [{name: result.exportName, alias: 'zeroSchema'}],
       isTypeOnly: true,
     });
 
-    zeroSchemaSpecifier = "typeof zeroSchema";
+    zeroSchemaSpecifier = 'typeof zeroSchema';
     schemaTypeExpression = zeroSchemaSpecifier;
   } else {
     // For no-config mode, use CustomType to avoid expanding entire schema
@@ -131,57 +131,57 @@ export async function getGeneratedSchema({
         result.drizzleSchemaSourceFile,
       );
     const runtimeModuleSpecifier =
-      needsJsExtension && !moduleSpecifier.endsWith(".js")
+      needsJsExtension && !moduleSpecifier.endsWith('.js')
         ? `${moduleSpecifier}.js`
         : moduleSpecifier;
     zeroSchemaGenerated.addImportDeclaration({
       moduleSpecifier: runtimeModuleSpecifier,
-      namespaceImport: "drizzleSchema",
+      namespaceImport: 'drizzleSchema',
       isTypeOnly: true,
     });
 
     // Add import for CustomType - much faster than ZeroCustomType
-    customTypeHelper = "CustomType";
+    customTypeHelper = 'CustomType';
     zeroSchemaGenerated.addImportDeclaration({
-      moduleSpecifier: "zero-drizzle",
-      namedImports: [{ name: customTypeHelper }],
+      moduleSpecifier: 'zero-drizzle',
+      namedImports: [{name: customTypeHelper}],
       isTypeOnly: true,
     });
-    zeroSchemaSpecifier = "typeof drizzleSchema";
+    zeroSchemaSpecifier = 'typeof drizzleSchema';
     schemaTypeExpression = zeroSchemaSpecifier;
     resolverImports.push({
       moduleSpecifier: getResolverImportModuleSpecifier(
         result.drizzleSchemaSourceFile,
       ),
-      namespaceImport: "drizzleSchema",
+      namespaceImport: 'drizzleSchema',
       isTypeOnly: true,
     });
   }
 
   const collectCustomTypeRequests = () => {
-    const requests: { tableName: string; columnName: string }[] = [];
+    const requests: {tableName: string; columnName: string}[] = [];
 
     const tables: Record<string, any> = (result.zeroSchema?.tables ??
       {}) as Record<string, any>;
 
     for (const [tableName, tableDef] of Object.entries(tables)) {
-      if (!tableDef || typeof tableDef !== "object") {
+      if (!tableDef || typeof tableDef !== 'object') {
         continue;
       }
 
       const columns = tableDef.columns as Record<string, any> | undefined;
-      if (!columns || typeof columns !== "object") {
+      if (!columns || typeof columns !== 'object') {
         continue;
       }
 
       for (const [columnName, columnDef] of Object.entries(columns)) {
         if (
           columnDef &&
-          typeof columnDef === "object" &&
-          Object.prototype.hasOwnProperty.call(columnDef, "customType") &&
+          typeof columnDef === 'object' &&
+          Object.prototype.hasOwnProperty.call(columnDef, 'customType') &&
           columnDef.customType === null
         ) {
-          requests.push({ tableName, columnName });
+          requests.push({tableName, columnName});
         }
       }
     }
@@ -198,7 +198,7 @@ export async function getGeneratedSchema({
     schemaTypeExpression && customTypeRequests.length > 0
       ? resolveCustomTypes({
           project: tsProject,
-          helperName: customTypeHelper as "CustomType" | "ZeroCustomType",
+          helperName: customTypeHelper as 'CustomType' | 'ZeroCustomType',
           schemaTypeExpression,
           schemaImports: resolverImports,
           requests: customTypeRequests,
@@ -206,7 +206,7 @@ export async function getGeneratedSchema({
       : new Map<string, string>();
 
   const isRecord = (value: unknown): value is Record<string, unknown> =>
-    typeof value === "object" && value !== null && !Array.isArray(value);
+    typeof value === 'object' && value !== null && !Array.isArray(value);
 
   const usedIdentifiers = new Set<string>([schemaObjectName]);
   const tableConstNames = new Map<string, string>();
@@ -215,8 +215,8 @@ export async function getGeneratedSchema({
 
   const sanitizeIdentifier = (value: string, fallback: string) => {
     const baseCandidate =
-      camelCase(value, { pascalCase: false }) || value || fallback;
-    const cleaned = baseCandidate.replace(/[^A-Za-z0-9_$]/g, "") || fallback;
+      camelCase(value, {pascalCase: false}) || value || fallback;
+    const cleaned = baseCandidate.replace(/[^A-Za-z0-9_$]/g, '') || fallback;
     const startsValid = /^[A-Za-z_$]/.test(cleaned) ? cleaned : `_${cleaned}`;
     return startsValid.length > 0 ? startsValid : fallback;
   };
@@ -248,8 +248,8 @@ export async function getGeneratedSchema({
     constNameMap: Map<string, string>,
     indent: number,
   ) => {
-    const indentStr = " ".repeat(indent);
-    writer.write("{");
+    const indentStr = ' '.repeat(indent);
+    writer.write('{');
     const entries = Object.entries(collection);
     if (entries.length > 0) {
       writer.newLine();
@@ -258,47 +258,47 @@ export async function getGeneratedSchema({
         if (!key) {
           continue;
         }
-        const identifier = constNameMap.get(key) ?? "undefined";
+        const identifier = constNameMap.get(key) ?? 'undefined';
         writer.write(
-          indentStr + "  " + JSON.stringify(key) + ": " + identifier,
+          indentStr + '  ' + JSON.stringify(key) + ': ' + identifier,
         );
         if (i < entries.length - 1) {
-          writer.write(",");
+          writer.write(',');
         }
         writer.newLine();
       }
       writer.write(indentStr);
     }
-    writer.write("}");
+    writer.write('}');
   };
 
   type WriteValueOptions = {
     keys?: string[];
     indent?: number;
-    mode?: "default" | "schema";
+    mode?: 'default' | 'schema';
   };
 
   const writeValue = (
     writer: CodeBlockWriter,
     value: unknown,
-    { keys = [], indent = 0, mode = "default" }: WriteValueOptions = {},
+    {keys = [], indent = 0, mode = 'default'}: WriteValueOptions = {},
   ) => {
-    const indentStr = " ".repeat(indent);
+    const indentStr = ' '.repeat(indent);
 
     if (
       !value ||
-      typeof value === "string" ||
-      typeof value === "number" ||
-      typeof value === "boolean" ||
+      typeof value === 'string' ||
+      typeof value === 'number' ||
+      typeof value === 'boolean' ||
       Array.isArray(value)
     ) {
       const serialized = JSON.stringify(value);
-      writer.write(serialized ?? "undefined");
+      writer.write(serialized ?? 'undefined');
       return;
     }
 
-    if (typeof value === "object" && value !== null) {
-      writer.write("{");
+    if (typeof value === 'object' && value !== null) {
+      writer.write('{');
 
       const entries = Object.entries(value);
 
@@ -312,12 +312,12 @@ export async function getGeneratedSchema({
             continue;
           }
 
-          writer.write(indentStr + "  " + JSON.stringify(key) + ": ");
+          writer.write(indentStr + '  ' + JSON.stringify(key) + ': ');
 
           if (
-            mode === "schema" &&
+            mode === 'schema' &&
             keys.length === 0 &&
-            key === "tables" &&
+            key === 'tables' &&
             isRecord(propValue)
           ) {
             writeSchemaReferenceCollection(
@@ -327,9 +327,9 @@ export async function getGeneratedSchema({
               indent + 2,
             );
           } else if (
-            mode === "schema" &&
+            mode === 'schema' &&
             keys.length === 0 &&
-            key === "relationships" &&
+            key === 'relationships' &&
             isRecord(propValue)
           ) {
             writeSchemaReferenceCollection(
@@ -338,13 +338,13 @@ export async function getGeneratedSchema({
               relationshipConstNames,
               indent + 2,
             );
-          } else if (key === "customType" && propValue === null) {
+          } else if (key === 'customType' && propValue === null) {
             const tableIndex = 1;
             const columnIndex = 3;
             const tableName = keys[tableIndex];
             const columnName = keys[columnIndex];
             const resolvedType =
-              typeof tableName === "string" && typeof columnName === "string"
+              typeof tableName === 'string' && typeof columnName === 'string'
                 ? resolvedCustomTypes.get(
                     `${tableName}${COLUMN_SEPARATOR}${columnName}`,
                   )
@@ -353,7 +353,7 @@ export async function getGeneratedSchema({
             if (resolvedType) {
               writer.write(`null as unknown as ${resolvedType}`);
 
-              if (resolvedType === "ReadonlyJSONValue") {
+              if (resolvedType === 'ReadonlyJSONValue') {
                 readonlyJSONValueImported = true;
               }
             } else {
@@ -361,10 +361,10 @@ export async function getGeneratedSchema({
                 `null as unknown as ${customTypeHelper}<${zeroSchemaSpecifier}, "${keys[tableIndex]}", "${keys[columnIndex]}">`,
               );
             }
-          } else if (key === "enableLegacyMutators") {
-            writer.write(enableLegacyMutators ? "true" : "false");
-          } else if (key === "enableLegacyQueries") {
-            writer.write(enableLegacyQueries ? "true" : "false");
+          } else if (key === 'enableLegacyMutators') {
+            writer.write(enableLegacyMutators ? 'true' : 'false');
+          } else if (key === 'enableLegacyQueries') {
+            writer.write(enableLegacyQueries ? 'true' : 'false');
           } else {
             writeValue(writer, propValue, {
               keys: [...keys, key],
@@ -374,7 +374,7 @@ export async function getGeneratedSchema({
           }
 
           if (i < entries.length - 1) {
-            writer.write(",");
+            writer.write(',');
           }
 
           writer.newLine();
@@ -383,12 +383,12 @@ export async function getGeneratedSchema({
         writer.write(indentStr);
       }
 
-      writer.write("}");
+      writer.write('}');
       return;
     }
 
     const serialized = JSON.stringify(value);
-    writer.write(serialized ?? "undefined");
+    writer.write(serialized ?? 'undefined');
   };
 
   let tableConstCount = 0;
@@ -396,11 +396,11 @@ export async function getGeneratedSchema({
     for (const [tableName, tableDef] of Object.entries(
       result.zeroSchema.tables as Record<string, unknown>,
     )) {
-      const constName = createConstName(tableName, "Table", "table");
+      const constName = createConstName(tableName, 'Table', 'table');
       tableConstNames.set(tableName, constName);
 
       if (tableConstCount > 0) {
-        zeroSchemaGenerated.addStatements((writer) => writer.blankLine());
+        zeroSchemaGenerated.addStatements(writer => writer.blankLine());
       }
 
       zeroSchemaGenerated.addVariableStatement({
@@ -408,11 +408,11 @@ export async function getGeneratedSchema({
         declarations: [
           {
             name: constName,
-            initializer: (writer) => {
+            initializer: writer => {
               writeValue(writer, tableDef, {
-                keys: ["tables", tableName],
+                keys: ['tables', tableName],
               });
-              writer.write(" as const");
+              writer.write(' as const');
             },
           },
         ],
@@ -429,17 +429,17 @@ export async function getGeneratedSchema({
     )) {
       const constName = createConstName(
         relationshipName,
-        "Relationships",
-        "relationships",
+        'Relationships',
+        'relationships',
       );
       relationshipConstNames.set(relationshipName, constName);
 
       if (relationshipConstCount === 0) {
         if (tableConstCount > 0) {
-          zeroSchemaGenerated.addStatements((writer) => writer.blankLine());
+          zeroSchemaGenerated.addStatements(writer => writer.blankLine());
         }
       } else {
-        zeroSchemaGenerated.addStatements((writer) => writer.blankLine());
+        zeroSchemaGenerated.addStatements(writer => writer.blankLine());
       }
 
       zeroSchemaGenerated.addVariableStatement({
@@ -447,11 +447,11 @@ export async function getGeneratedSchema({
         declarations: [
           {
             name: constName,
-            initializer: (writer) => {
+            initializer: writer => {
               writeValue(writer, relationshipDef, {
-                keys: ["relationships", relationshipName],
+                keys: ['relationships', relationshipName],
               });
-              writer.write(" as const");
+              writer.write(' as const');
             },
           },
         ],
@@ -467,8 +467,8 @@ export async function getGeneratedSchema({
     declarations: [
       {
         name: schemaObjectName,
-        initializer: (writer) => {
-          writeValue(writer, result.zeroSchema, { mode: "schema" });
+        initializer: writer => {
+          writeValue(writer, result.zeroSchema, {mode: 'schema'});
           writer.write(` as const`);
         },
       },
@@ -477,7 +477,7 @@ export async function getGeneratedSchema({
 
   schemaVariable.addJsDoc({
     description:
-      "\nThe Zero schema object.\nThis type is auto-generated from your Drizzle schema definition.",
+      '\nThe Zero schema object.\nThis type is auto-generated from your Drizzle schema definition.',
   });
 
   const schemaTypeAlias = zeroSchemaGenerated.addTypeAlias({
@@ -488,22 +488,22 @@ export async function getGeneratedSchema({
 
   schemaTypeAlias.addJsDoc({
     description:
-      "\nRepresents the Zero schema type.\nThis type is auto-generated from your Drizzle schema definition.",
+      '\nRepresents the Zero schema type.\nThis type is auto-generated from your Drizzle schema definition.',
   });
 
   // Add type exports for each table
   if (
     !skipTypes &&
     result.zeroSchema &&
-    typeof result.zeroSchema === "object" &&
-    "tables" in result.zeroSchema
+    typeof result.zeroSchema === 'object' &&
+    'tables' in result.zeroSchema
   ) {
     const allTableNames = Object.keys(result.zeroSchema.tables);
 
     if (allTableNames.length > 0) {
       zeroSchemaGenerated.addImportDeclaration({
-        moduleSpecifier: "@rocicorp/zero",
-        namedImports: [{ name: "Row" }],
+        moduleSpecifier: '@rocicorp/zero',
+        namedImports: [{name: 'Row'}],
         isTypeOnly: true,
       });
     }
@@ -529,8 +529,8 @@ export async function getGeneratedSchema({
   // Add builder export
   if (!skipBuilder) {
     zeroSchemaGenerated.addImportDeclaration({
-      moduleSpecifier: "@rocicorp/zero",
-      namedImports: [{ name: "createBuilder" }],
+      moduleSpecifier: '@rocicorp/zero',
+      namedImports: [{name: 'createBuilder'}],
     });
 
     const zqlVariable = zeroSchemaGenerated.addVariableStatement({
@@ -538,7 +538,7 @@ export async function getGeneratedSchema({
       isExported: true,
       declarations: [
         {
-          name: "zql",
+          name: 'zql',
           initializer: `createBuilder(${schemaObjectName})`,
         },
       ],
@@ -546,7 +546,7 @@ export async function getGeneratedSchema({
 
     zqlVariable.addJsDoc({
       description:
-        "\nRepresents the ZQL query builder.\nThis type is auto-generated from your Drizzle schema definition.",
+        '\nRepresents the ZQL query builder.\nThis type is auto-generated from your Drizzle schema definition.',
     });
 
     const builderVariable = zeroSchemaGenerated.addVariableStatement({
@@ -554,21 +554,21 @@ export async function getGeneratedSchema({
       isExported: true,
       declarations: [
         {
-          name: "builder",
-          initializer: "zql",
+          name: 'builder',
+          initializer: 'zql',
         },
       ],
     });
 
     builderVariable.addJsDoc({
       description:
-        "\nRepresents the Zero schema query builder.\nThis type is auto-generated from your Drizzle schema definition.\n\n@deprecated Use `zql` instead.",
+        '\nRepresents the Zero schema query builder.\nThis type is auto-generated from your Drizzle schema definition.\n\n@deprecated Use `zql` instead.',
     });
   }
 
   // Add module augmentation for default types
   if (!skipDeclare) {
-    zeroSchemaGenerated.addStatements((writer) => {
+    zeroSchemaGenerated.addStatements(writer => {
       writer.write(`\n/** Defines the default types for Zero */\n`);
       writer.write(`declare module '@rocicorp/zero' {`);
       writer.write(`  interface DefaultTypes {`);
@@ -580,8 +580,8 @@ export async function getGeneratedSchema({
 
   if (readonlyJSONValueImported) {
     zeroSchemaGenerated.addImportDeclaration({
-      moduleSpecifier: "@rocicorp/zero",
-      namedImports: [{ name: "ReadonlyJSONValue" }],
+      moduleSpecifier: '@rocicorp/zero',
+      namedImports: [{name: 'ReadonlyJSONValue'}],
       isTypeOnly: true,
     });
   }

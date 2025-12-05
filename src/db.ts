@@ -1,6 +1,6 @@
-import type { Table } from "drizzle-orm";
-import { getTableName, is } from "drizzle-orm";
-import { getTableConfig, PgTable } from "drizzle-orm/pg-core";
+import type {Table} from 'drizzle-orm';
+import {getTableName, is} from 'drizzle-orm';
+import {getTableConfig, PgTable} from 'drizzle-orm/pg-core';
 
 /**
  * Get the table config for a given table.

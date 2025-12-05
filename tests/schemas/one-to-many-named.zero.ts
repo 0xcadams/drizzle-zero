@@ -1,5 +1,5 @@
-import { zeroDrizzleConfig } from "../../src";
-import * as oneToManyNamed from "./one-to-many-named.schema";
+import {zeroDrizzleConfig} from '../../src';
+import * as oneToManyNamed from './one-to-many-named.schema';
 
 export const schema = zeroDrizzleConfig(oneToManyNamed, {
   tables: {

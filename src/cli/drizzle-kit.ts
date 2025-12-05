@@ -1,11 +1,11 @@
-import type { Config } from "drizzle-kit";
-import * as fs from "node:fs/promises";
-import * as path from "node:path";
-import * as url from "node:url";
-import type { Project } from "ts-morph";
-import { tsImport } from "tsx/esm/api";
-import { zeroDrizzleConfig, type DrizzleToZeroSchema } from "../relations";
-import { ensureSourceFileInProject } from "./ts-project";
+import type {Config} from 'drizzle-kit';
+import * as fs from 'node:fs/promises';
+import * as path from 'node:path';
+import * as url from 'node:url';
+import type {Project} from 'ts-morph';
+import {tsImport} from 'tsx/esm/api';
+import {zeroDrizzleConfig, type DrizzleToZeroSchema} from '../relations';
+import {ensureSourceFileInProject} from './ts-project';
 
 export const getDefaultConfig = async ({
   drizzleSchemaPath,
@@ -18,13 +18,11 @@ export const getDefaultConfig = async ({
   tsProject: Project;
   debug?: boolean;
 }) => {
-  const {
-    drizzleSchemaPath: resolvedDrizzleSchemaPath,
-    casing: drizzleCasing,
-  } = await getFullDrizzleSchemaFilePath({
-    drizzleSchemaPath,
-    drizzleKitConfigPath,
-  });
+  const {drizzleSchemaPath: resolvedDrizzleSchemaPath, casing: drizzleCasing} =
+    await getFullDrizzleSchemaFilePath({
+      drizzleSchemaPath,
+      drizzleKitConfigPath,
+    });
 
   const resolvedDrizzleSchemaPathUrl = url.pathToFileURL(
     resolvedDrizzleSchemaPath,
@@ -47,9 +45,9 @@ export const getDefaultConfig = async ({
   });
 
   return {
-    type: "drizzle-kit",
+    type: 'drizzle-kit',
     zeroSchema: zeroSchema as DrizzleToZeroSchema<any> | undefined,
-    drizzleSchemaSourceFile: await getDrizzleSchemaSourceFile({
+    drizzleSchemaSourceFile: getDrizzleSchemaSourceFile({
       tsProject,
       drizzleSchemaPath: resolvedDrizzleSchemaPath,
     }),
@@ -76,7 +74,7 @@ export const getFullDrizzleSchemaFilePath = async ({
         drizzleSchemaPath: fullPath,
         casing: null,
       };
-    } catch (error) {
+    } catch {
       console.error(
         `❌ zero-drizzle: could not find Drizzle schema file at ${fullPath}`,
       );
@@ -101,7 +99,7 @@ export const getFullDrizzleSchemaFilePath = async ({
       try {
         if (Array.isArray(drizzleKitConfig.schema)) {
           throw new Error(
-            "❌ zero-drizzle: Drizzle Kit config schema is an array. Please specify a single schema file for imports to be able to work correctly.",
+            '❌ zero-drizzle: Drizzle Kit config schema is an array. Please specify a single schema file for imports to be able to work correctly.',
           );
         }
 
@@ -140,7 +138,7 @@ export const getFullDrizzleSchemaFilePath = async ({
   process.exit(1);
 };
 
-export async function getDrizzleSchemaSourceFile({
+export function getDrizzleSchemaSourceFile({
   tsProject,
   drizzleSchemaPath,
 }: {

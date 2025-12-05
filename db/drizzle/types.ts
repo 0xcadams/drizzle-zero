@@ -1,29 +1,27 @@
-import { z } from "zod";
+import {z} from 'zod';
 
-export const shortCodeBrand = Symbol("ShortCode");
+export const shortCodeBrand = Symbol('ShortCode');
 
 export type ShortCodeType = string & {};
 
 export type ShortCodeValue = string &
   Record<typeof shortCodeBrand, ShortCodeType>;
 
-export const getShortCode = (value: string) => {
-  return value as ShortCodeValue;
-};
+export const getShortCode = (value: string) => value as ShortCodeValue;
 
 export type NonEmptyArray<T> = [T, ...T[]];
 
-export const releaseTrackEnum = z.enum(["alpha", "beta", "ga", "sunset"]);
+export const releaseTrackEnum = z.enum(['alpha', 'beta', 'ga', 'sunset']);
 export type ReleaseTrack = z.infer<typeof releaseTrackEnum>;
 
-export const notificationPreferenceSchema = z.discriminatedUnion("channel", [
+export const notificationPreferenceSchema = z.discriminatedUnion('channel', [
   z.object({
-    channel: z.literal("email"),
+    channel: z.literal('email'),
     address: z.string().email(),
     templateId: z.string().uuid().optional(),
   }),
   z.object({
-    channel: z.literal("sms"),
+    channel: z.literal('sms'),
     countryCode: z.string().regex(/^\+\d{1,3}$/),
     number: z.string(),
     dndHours: z
@@ -31,12 +29,12 @@ export const notificationPreferenceSchema = z.discriminatedUnion("channel", [
       .optional(),
   }),
   z.object({
-    channel: z.literal("push"),
+    channel: z.literal('push'),
     deviceTokens: z.array(z.string()).min(1),
-    platform: z.enum(["ios", "android", "web"]),
+    platform: z.enum(['ios', 'android', 'web']),
   }),
   z.object({
-    channel: z.literal("webhook"),
+    channel: z.literal('webhook'),
     endpoint: z.string().url(),
     secretVersion: z.number().int().optional(),
   }),
@@ -46,14 +44,14 @@ export type NotificationPreference = z.infer<
 >;
 export type NotificationPreferences = NonEmptyArray<NotificationPreference>;
 
-export const runtimeFlagSchema = z.discriminatedUnion("kind", [
+export const runtimeFlagSchema = z.discriminatedUnion('kind', [
   z.object({
-    kind: z.literal("boolean"),
+    kind: z.literal('boolean'),
     defaultValue: z.boolean(),
     description: z.string().optional(),
   }),
   z.object({
-    kind: z.literal("percentage"),
+    kind: z.literal('percentage'),
     steps: z
       .array(
         z.object({
@@ -65,7 +63,7 @@ export const runtimeFlagSchema = z.discriminatedUnion("kind", [
     holdouts: z.array(z.string()).optional(),
   }),
   z.object({
-    kind: z.literal("payload"),
+    kind: z.literal('payload'),
     payload: z.record(z.string(), z.any()),
     schemaVersion: z.number().int().positive().default(1),
   }),
@@ -77,7 +75,7 @@ export interface FeatureFlag {
   track: ReleaseTrack;
   definition: RuntimeFlagDefinition;
   audiences: NotificationPreference[];
-  rolloutStrategy: "gradual" | "immediate" | "shadow";
+  rolloutStrategy: 'gradual' | 'immediate' | 'shadow';
   updatedAtIso: string;
 }
 
@@ -87,34 +85,34 @@ export type DeepReadonly<T> = T extends
   | Primitive
   | ((...args: never[]) => unknown)
   ? T
-  : { readonly [K in keyof T]: DeepReadonly<T[K]> };
+  : {readonly [K in keyof T]: DeepReadonly<T[K]>};
 
 export type FeatureFlagSnapshot = DeepReadonly<FeatureFlag>;
 
 export type WorkflowState =
-  | { state: "draft"; updatedBy: string }
+  | {state: 'draft'; updatedBy: string}
   | {
-      state: "scheduled";
+      state: 'scheduled';
       updatedBy: string;
       runAtIso: string;
       timezone?: string;
     }
-  | { state: "running"; jobId: string; startedAtIso: string; attempt: number }
-  | { state: "failed"; failedAtIso: string; reason: string; retryable: boolean }
+  | {state: 'running'; jobId: string; startedAtIso: string; attempt: number}
+  | {state: 'failed'; failedAtIso: string; reason: string; retryable: boolean}
   | {
-      state: "completed";
+      state: 'completed';
       finishedAtIso: string;
       outputs?: Record<string, unknown>;
     };
 
 export const analyticsQuerySchema = z.object({
-  dimensions: z.array(z.enum(["hour", "day", "week", "month"])).nonempty(),
+  dimensions: z.array(z.enum(['hour', 'day', 'week', 'month'])).nonempty(),
   metrics: z.array(z.string()).nonempty(),
   filters: z
     .array(
       z.object({
         field: z.string(),
-        operator: z.enum(["eq", "neq", "gt", "gte", "lt", "lte", "in", "nin"]),
+        operator: z.enum(['eq', 'neq', 'gt', 'gte', 'lt', 'lte', 'in', 'nin']),
         value: z.union([
           z.string(),
           z.number(),
@@ -125,7 +123,7 @@ export const analyticsQuerySchema = z.object({
     )
     .optional(),
   limit: z.number().int().min(1).max(5000).default(500),
-  timezone: z.string().default("UTC"),
+  timezone: z.string().default('UTC'),
 });
 export type AnalyticsQuery = z.infer<typeof analyticsQuerySchema>;
 
@@ -137,8 +135,8 @@ export const cdcCheckpointSchema = z.object({
 export type ChangeDataCaptureCheckpoint = z.infer<typeof cdcCheckpointSchema>;
 
 export type TemporalRollup<TPayload> = {
-  window: "1h" | "6h" | "24h" | "7d";
-  aggregate: "avg" | "sum" | "p95" | "count";
+  window: '1h' | '6h' | '24h' | '7d';
+  aggregate: 'avg' | 'sum' | 'p95' | 'count';
   datapoints: NonEmptyArray<{
     atIso: string;
     value: number;
@@ -147,9 +145,9 @@ export type TemporalRollup<TPayload> = {
 };
 
 export type WebhookRetryPolicy =
-  | { mode: "linear"; intervalSeconds: number; attempts: number }
+  | {mode: 'linear'; intervalSeconds: number; attempts: number}
   | {
-      mode: "exponential";
+      mode: 'exponential';
       baseIntervalSeconds: number;
       factor: number;
       maxAttempts: number;
@@ -164,12 +162,12 @@ export interface WebhookConfig {
 }
 
 export type AuditDiff =
-  | { op: "set"; path: string; value: unknown }
-  | { op: "remove"; path: string }
-  | { op: "increment"; path: string; by: number };
+  | {op: 'set'; path: string; value: unknown}
+  | {op: 'remove'; path: string}
+  | {op: 'increment'; path: string; by: number};
 
 export type SchemaDriftFinding = {
-  severity: "info" | "warning" | "error";
+  severity: 'info' | 'warning' | 'error';
   diffs: NonEmptyArray<AuditDiff>;
   detectedAtIso: string;
   acknowledgedBy?: string;

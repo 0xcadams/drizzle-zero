@@ -23,7 +23,6 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "lib": ["dom", "ESNext"],
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./*"]
     },

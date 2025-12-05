@@ -26,7 +26,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22.x
-          cache: "pnpm"
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install
@@ -37,11 +37,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Type check tests
+        run: pnpm run check-types
+
+      - name: Check format
+        run: pnpm run check-format
+
       - name: Run tests
         run: pnpm test
-
-      - name: Type check tests
-        run: pnpm run test:types
 
   integration-tests:
     runs-on: ubuntu-latest
@@ -68,7 +71,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "pnpm"
+          cache: 'pnpm'
 
       - name: Install dependencies
         run: pnpm install

@@ -1,5 +1,5 @@
-import { zeroDrizzleConfig } from "../../src";
-import * as manyToMany from "./many-to-many.schema";
+import {zeroDrizzleConfig} from '../../src';
+import * as manyToMany from './many-to-many.schema';
 
 export const schema = zeroDrizzleConfig(manyToMany, {
   tables: {
@@ -18,7 +18,7 @@ export const schema = zeroDrizzleConfig(manyToMany, {
   },
   manyToMany: {
     users: {
-      usersToGroups: ["usersToGroups", "groups"],
+      usersToGroups: ['usersToGroups', 'groups'],
     },
   },
 });

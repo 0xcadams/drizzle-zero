@@ -1,38 +1,38 @@
-import { createSchema } from "@rocicorp/zero";
+import {createSchema} from '@rocicorp/zero';
+import type {Many} from 'drizzle-orm';
 import {
   createTableRelationsHelpers,
   getTableName,
   getTableUniqueName,
   is,
-  Many,
   One,
   Relations,
   Table,
-} from "drizzle-orm";
+} from 'drizzle-orm';
 import type {
   DrizzleColumnTypeToZeroType,
   DrizzleDataTypeToZeroType,
   ZeroTypeToTypescriptType,
-} from "./drizzle-to-zero";
+} from './drizzle-to-zero';
 import {
   createZeroTableBuilder,
   getDrizzleColumnKeyFromColumnName,
   type ZeroTableBuilderSchema,
   type ZeroTableCasing,
-} from "./tables";
+} from './tables';
 import type {
   ColumnIndexKeys,
   DefaultTableColumnsConfig,
   FindTableByName,
   Flatten,
   TableColumnsConfig,
-} from "./types";
-import { debugLog, typedEntries } from "./util";
+} from './types';
+import {debugLog, typedEntries} from './util';
 
 type IsAny<T> = 0 extends 1 & T ? true : false;
 
 type SchemaIsAnyError = {
-  __error__: "The schema passed in to `ZeroCustomType` is `any`. Please make sure to pass in a proper schema type, or check your imports to make sure that Typescript can resolve your schema definition.";
+  __error__: 'The schema passed in to `ZeroCustomType` is `any`. Please make sure to pass in a proper schema type, or check your imports to make sure that Typescript can resolve your schema definition.';
 };
 
 /**
@@ -41,9 +41,9 @@ type SchemaIsAnyError = {
 type DirectZeroType<CD> = CD extends {
   columnType: keyof DrizzleColumnTypeToZeroType;
 }
-  ? DrizzleColumnTypeToZeroType[CD["columnType"]]
-  : CD extends { dataType: keyof DrizzleDataTypeToZeroType }
-    ? DrizzleDataTypeToZeroType[CD["dataType"]]
+  ? DrizzleColumnTypeToZeroType[CD['columnType']]
+  : CD extends {dataType: keyof DrizzleDataTypeToZeroType}
+    ? DrizzleDataTypeToZeroType[CD['dataType']]
     : never;
 
 /**
@@ -69,18 +69,18 @@ type CustomType<
 > = TableKey extends keyof DrizzleSchema
   ? DrizzleSchema[TableKey] extends Table
     ? ColumnKey extends keyof DrizzleSchema[TableKey]
-      ? DrizzleSchema[TableKey][ColumnKey] extends { _: infer CD }
-        ? CD extends { columnType: "PgCustomColumn"; data: infer TData }
+      ? DrizzleSchema[TableKey][ColumnKey] extends {_: infer CD}
+        ? CD extends {columnType: 'PgCustomColumn'; data: infer TData}
           ? TData
-          : CD extends { columnType: "PgEnumColumn"; data: infer TData }
+          : CD extends {columnType: 'PgEnumColumn'; data: infer TData}
             ? TData
-            : CD extends { columnType: "PgText"; data: infer TData }
+            : CD extends {columnType: 'PgText'; data: infer TData}
               ? TData extends string
                 ? TData
                 : string
-              : CD extends { columnType: "PgArray"; data: infer TArrayData }
+              : CD extends {columnType: 'PgArray'; data: infer TArrayData}
                 ? TArrayData
-                : CD extends { $type: infer TType }
+                : CD extends {$type: infer TType}
                   ? TType
                   : DefaultColumnType<CD>
         : unknown
@@ -107,7 +107,7 @@ type ZeroCustomType<
       ZeroSchema extends {
           tables: Record<
             TableName,
-            { columns: Record<ColumnName, { customType: infer T }> }
+            {columns: Record<ColumnName, {customType: infer T}>}
           >;
         }
       ? T
@@ -164,9 +164,9 @@ type ManyConfig<TDrizzleSchema extends Record<string, unknown>> = {
  * The mapped Zero schema from a Drizzle schema with version and tables.
  */
 type DrizzleToZeroSchema<
-  TDrizzleSchema extends { [K in string]: unknown },
-  TColumnConfig extends
-    TableColumnsConfig<TDrizzleSchema> = DefaultTableColumnsConfig<TDrizzleSchema>,
+  TDrizzleSchema extends {[K in string]: unknown},
+  TColumnConfig extends TableColumnsConfig<TDrizzleSchema> =
+    DefaultTableColumnsConfig<TDrizzleSchema>,
 > = {
   readonly tables: {
     readonly [K in keyof TDrizzleSchema as TDrizzleSchema[K] extends Table<any>
@@ -248,9 +248,9 @@ type DrizzleToZeroSchema<
  * ```
  */
 const zeroDrizzleConfig = <
-  const TDrizzleSchema extends { [K in string]: unknown },
-  const TColumnConfig extends
-    TableColumnsConfig<TDrizzleSchema> = DefaultTableColumnsConfig<TDrizzleSchema>,
+  const TDrizzleSchema extends {[K in string]: unknown},
+  const TColumnConfig extends TableColumnsConfig<TDrizzleSchema> =
+    DefaultTableColumnsConfig<TDrizzleSchema>,
   const TManyConfig extends ManyConfig<TDrizzleSchema> | undefined = undefined,
   const TCasing extends ZeroTableCasing = undefined,
 >(
@@ -364,8 +364,8 @@ const zeroDrizzleConfig = <
           config?.debug,
           `Skipping table ${String(tableName)} - ${
             tableConfig === false
-              ? "explicitly excluded"
-              : "not mentioned in config"
+              ? 'explicitly excluded'
+              : 'not mentioned in config'
           }`,
         );
         continue;
@@ -393,9 +393,9 @@ const zeroDrizzleConfig = <
 
   if (tables.length === 0) {
     throw new Error(
-      schema["tables"]
-        ? "❌ zero-drizzle: No tables found in the input - did you pass in a Zero schema to the `zeroDrizzleConfig` function instead of a Drizzle schema?"
-        : "❌ zero-drizzle: No tables found in the input - did you export tables and relations from the Drizzle schema passed to the `zeroDrizzleConfig` function?",
+      schema['tables']
+        ? '❌ zero-drizzle: No tables found in the input - did you pass in a Zero schema to the `zeroDrizzleConfig` function instead of a Drizzle schema?'
+        : '❌ zero-drizzle: No tables found in the input - did you export tables and relations from the Drizzle schema passed to the `zeroDrizzleConfig` function?',
     );
   }
 
@@ -413,8 +413,8 @@ const zeroDrizzleConfig = <
         [junctionTableNameOrObject, destTableNameOrObject],
       ] of Object.entries(manyConfig)) {
         if (
-          typeof junctionTableNameOrObject === "string" &&
-          typeof destTableNameOrObject === "string"
+          typeof junctionTableNameOrObject === 'string' &&
+          typeof destTableNameOrObject === 'string'
         ) {
           const junctionTableName = junctionTableNameOrObject;
           const destTableName = destTableNameOrObject;
@@ -441,7 +441,7 @@ const zeroDrizzleConfig = <
             !is(junctionTable, Table)
           ) {
             throw new Error(
-              `zero-drizzle: Invalid many-to-many configuration for ${String(sourceTableName)}.${relationName}: Could not find ${!sourceTable ? "source" : !destTable ? "destination" : "junction"} table`,
+              `zero-drizzle: Invalid many-to-many configuration for ${String(sourceTableName)}.${relationName}: Could not find ${!sourceTable ? 'source' : !destTable ? 'destination' : 'junction'} table`,
             );
           }
 
@@ -477,7 +477,7 @@ const zeroDrizzleConfig = <
             debugLog(
               config.debug,
               `Skipping many-to-many relationship - tables not in schema config:`,
-              { junctionTable, sourceTableName, destTableName },
+              {junctionTable, sourceTableName, destTableName},
             );
             continue;
           }
@@ -488,21 +488,19 @@ const zeroDrizzleConfig = <
           });
 
           relationships[sourceTableName as keyof typeof relationships] = {
-            ...(relationships?.[
-              sourceTableName as keyof typeof relationships
-            ] ?? {}),
+            ...relationships?.[sourceTableName as keyof typeof relationships],
             [relationName]: [
               {
                 sourceField: sourceJunctionFields.sourceFieldNames,
                 destField: sourceJunctionFields.destFieldNames,
                 destSchema: junctionTableName,
-                cardinality: "many",
+                cardinality: 'many',
               },
               {
                 sourceField: junctionDestFields.destFieldNames,
                 destField: junctionDestFields.sourceFieldNames,
                 destSchema: destTableName,
-                cardinality: "many",
+                cardinality: 'many',
               },
             ],
           };
@@ -517,23 +515,22 @@ const zeroDrizzleConfig = <
           });
         } else {
           const junctionTableName =
-            (junctionTableNameOrObject as { destTable: string })?.destTable ??
+            (junctionTableNameOrObject as {destTable: string})?.destTable ??
             null;
           const junctionSourceField =
-            (junctionTableNameOrObject as { sourceField: string[] })
+            (junctionTableNameOrObject as {sourceField: string[]})
               ?.sourceField ?? null;
           const junctionDestField =
-            (junctionTableNameOrObject as { destField: string[] })?.destField ??
+            (junctionTableNameOrObject as {destField: string[]})?.destField ??
             null;
 
           const destTableName =
-            (destTableNameOrObject as { destTable: string })?.destTable ?? null;
+            (destTableNameOrObject as {destTable: string})?.destTable ?? null;
           const destSourceField =
-            (destTableNameOrObject as { sourceField: string[] })?.sourceField ??
+            (destTableNameOrObject as {sourceField: string[]})?.sourceField ??
             null;
           const destDestField =
-            (destTableNameOrObject as { destField: string[] })?.destField ??
-            null;
+            (destTableNameOrObject as {destField: string[]})?.destField ?? null;
 
           if (
             !junctionSourceField ||
@@ -563,21 +560,19 @@ const zeroDrizzleConfig = <
           });
 
           relationships[sourceTableName as keyof typeof relationships] = {
-            ...(relationships?.[
-              sourceTableName as keyof typeof relationships
-            ] ?? {}),
+            ...relationships?.[sourceTableName as keyof typeof relationships],
             [relationName]: [
               {
                 sourceField: junctionSourceField,
                 destField: junctionDestField,
                 destSchema: junctionTableName,
-                cardinality: "many",
+                cardinality: 'many',
               },
               {
                 sourceField: destSourceField,
                 destField: destDestField,
                 destSchema: destTableName,
-                cardinality: "many",
+                cardinality: 'many',
               },
             ],
           };
@@ -610,14 +605,14 @@ const zeroDrizzleConfig = <
 
         if (is(relation, One)) {
           sourceFieldNames =
-            relation?.config?.fields?.map((f) =>
+            relation?.config?.fields?.map(f =>
               getDrizzleColumnKeyFromColumnName({
                 columnName: f?.name,
                 table: f.table,
               }),
             ) ?? [];
           destFieldNames =
-            relation?.config?.references?.map((f) =>
+            relation?.config?.references?.map(f =>
               getDrizzleColumnKeyFromColumnName({
                 columnName: f?.name,
                 table: f.table,
@@ -647,7 +642,7 @@ const zeroDrizzleConfig = <
 
         if (!sourceFieldNames.length || !destFieldNames.length) {
           throw new Error(
-            `zero-drizzle: No relationship found for: ${relation.fieldName} (${is(relation, One) ? "One" : "Many"} from ${String(tableName)} to ${relation.referencedTableName}). Did you forget to define ${relation.relationName ? `a named relation "${relation.relationName}"` : `an opposite ${is(relation, One) ? "Many" : "One"} relation`}?`,
+            `zero-drizzle: No relationship found for: ${relation.fieldName} (${is(relation, One) ? 'One' : 'Many'} from ${String(tableName)} to ${relation.referencedTableName}). Did you forget to define ${relation.relationName ? `a named relation "${relation.relationName}"` : `an opposite ${is(relation, One) ? 'Many' : 'One'} relation`}?`,
           );
         }
 
@@ -658,7 +653,7 @@ const zeroDrizzleConfig = <
         });
 
         if (
-          typeof config?.tables !== "undefined" &&
+          typeof config?.tables !== 'undefined' &&
           (!config?.tables?.[tableName as keyof typeof config.tables] ||
             !config?.tables?.[referencedTableKey as keyof typeof config.tables])
         ) {
@@ -689,7 +684,7 @@ const zeroDrizzleConfig = <
         });
 
         relationships[tableName as keyof typeof relationships] = {
-          ...(relationships?.[tableName as keyof typeof relationships] ?? {}),
+          ...relationships?.[tableName as keyof typeof relationships],
           [relation.fieldName]: [
             {
               sourceField: sourceFieldNames,
@@ -699,7 +694,7 @@ const zeroDrizzleConfig = <
                 table: relation.referencedTable,
                 fallbackTableName: relation.referencedTableName,
               }),
-              cardinality: is(relation, One) ? "one" : "many",
+              cardinality: is(relation, One) ? 'one' : 'many',
             },
           ],
         } as unknown as (typeof relationships)[keyof typeof relationships];
@@ -717,7 +712,7 @@ const zeroDrizzleConfig = <
 
   debugLog(
     config?.debug,
-    "Output Zero schema",
+    'Output Zero schema',
     JSON.stringify(finalSchema, null, 2),
   );
 
@@ -738,10 +733,10 @@ const getReferencedTableName = (
         referencedTable?: Table;
       },
 ) => {
-  if ("referencedTable" in rel && rel.referencedTable) {
+  if ('referencedTable' in rel && rel.referencedTable) {
     return getTableUniqueName(rel.referencedTable);
   }
-  if ("referencedTableName" in rel && rel.referencedTableName) {
+  if ('referencedTableName' in rel && rel.referencedTableName) {
     return rel.referencedTableName; // Fallback when table instance is unavailable
   }
   return undefined;
@@ -785,7 +780,7 @@ const findRelationSourceAndDestFields = (
           foundReferencedName === sourceTableName
         ) {
           const sourceFieldNames =
-            relationConfig.config?.references?.map((f) =>
+            relationConfig.config?.references?.map(f =>
               getDrizzleColumnKeyFromColumnName({
                 columnName: f.name,
                 table: f.table,
@@ -793,7 +788,7 @@ const findRelationSourceAndDestFields = (
             ) ?? [];
 
           const destFieldNames =
-            relationConfig.config?.fields?.map((f) =>
+            relationConfig.config?.fields?.map(f =>
               getDrizzleColumnKeyFromColumnName({
                 columnName: f.name,
                 table: f.table,
@@ -815,7 +810,7 @@ const findRelationSourceAndDestFields = (
           foundReferencedName === referencedTableName
         ) {
           const sourceFieldNames =
-            relationConfig.config?.fields?.map((f) =>
+            relationConfig.config?.fields?.map(f =>
               getDrizzleColumnKeyFromColumnName({
                 columnName: f.name,
                 table: f.table,
@@ -823,7 +818,7 @@ const findRelationSourceAndDestFields = (
             ) ?? [];
 
           const destFieldNames =
-            relationConfig.config?.references?.map((f) =>
+            relationConfig.config?.references?.map(f =>
               getDrizzleColumnKeyFromColumnName({
                 columnName: f.name,
                 table: f.table,
@@ -868,14 +863,14 @@ const findNamedSourceAndDestFields = (
         ) {
           return {
             destFieldNames:
-              relationConfig.config?.fields?.map((f) =>
+              relationConfig.config?.fields?.map(f =>
                 getDrizzleColumnKeyFromColumnName({
                   columnName: f.name,
                   table: f.table,
                 }),
               ) ?? [],
             sourceFieldNames:
-              relationConfig.config?.references?.map((f) =>
+              relationConfig.config?.references?.map(f =>
                 getDrizzleColumnKeyFromColumnName({
                   columnName: f.name,
                   table: f.table,
@@ -898,11 +893,11 @@ const findNamedSourceAndDestFields = (
  * @param relations - The Relations object to get configuration from
  * @returns Record of relation configurations
  */
-const getRelationsConfig = (relations: Relations) => {
-  return relations.config(
-    createTableRelationsHelpers(relations.table),
-  ) as Record<string, One | Many<any>>;
-};
+const getRelationsConfig = (relations: Relations) =>
+  relations.config(createTableRelationsHelpers(relations.table)) as Record<
+    string,
+    One | Many<any>
+  >;
 
 /**
  * Get the key of a table in the schema from the table name.

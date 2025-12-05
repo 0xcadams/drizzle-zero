@@ -1,13 +1,13 @@
-import type { Project, SourceFile } from "ts-morph";
+import type {Project, SourceFile} from 'ts-morph';
 
-const PERMISSION_ERROR_CODES = new Set(["EACCES", "EPERM"]);
+const PERMISSION_ERROR_CODES = new Set(['EACCES', 'EPERM']);
 
 function isFsPermissionError(error: unknown): error is NodeJS.ErrnoException {
   return (
     error instanceof Error &&
-    "code" in error &&
-    typeof (error as NodeJS.ErrnoException).code === "string" &&
-    PERMISSION_ERROR_CODES.has((error as NodeJS.ErrnoException).code ?? "")
+    'code' in error &&
+    typeof (error as NodeJS.ErrnoException).code === 'string' &&
+    PERMISSION_ERROR_CODES.has((error as NodeJS.ErrnoException).code ?? '')
   );
 }
 
@@ -16,7 +16,7 @@ export function addSourceFilesFromTsConfigSafe({
   tsConfigPath,
   debug = false,
 }: {
-  tsProject: Pick<Project, "addSourceFilesFromTsConfig">;
+  tsProject: Pick<Project, 'addSourceFilesFromTsConfig'>;
   tsConfigPath: string;
   debug?: boolean;
 }): boolean {
@@ -25,7 +25,7 @@ export function addSourceFilesFromTsConfigSafe({
     return true;
   } catch (error) {
     if (isFsPermissionError(error)) {
-      const pathInfo = error.path ? ` while reading ${error.path}` : "";
+      const pathInfo = error.path ? ` while reading ${error.path}` : '';
       console.warn(
         `⚠️  zero-drizzle: Skipping files from ${tsConfigPath} due to a permission error${pathInfo} (${error.code}).`,
       );

@@ -23,28 +23,28 @@ Here's an example of how to convert a Drizzle schema to a Zero schema with bidir
 You should have an existing Drizzle schema, e.g.:
 
 ```ts
-import { relations } from "drizzle-orm";
-import { pgTable, text, jsonb } from "drizzle-orm/pg-core";
+import {relations} from 'drizzle-orm';
+import {pgTable, text, jsonb} from 'drizzle-orm/pg-core';
 
-export const users = pgTable("user", {
-  id: text("id").primaryKey(),
-  name: text("name"),
+export const users = pgTable('user', {
+  id: text('id').primaryKey(),
+  name: text('name'),
   // custom types are supported for any column type!
-  email: text("email").$type<`${string}@${string}`>().notNull(),
+  email: text('email').$type<`${string}@${string}`>().notNull(),
 });
 
-export const usersRelations = relations(users, ({ many }) => ({
+export const usersRelations = relations(users, ({many}) => ({
   posts: many(posts),
 }));
 
-export const posts = pgTable("post", {
-  id: text("id").primaryKey(),
+export const posts = pgTable('post', {
+  id: text('id').primaryKey(),
   // this JSON type will be passed to Zero
-  content: jsonb("content").$type<{ textValue: string }>().notNull(),
-  authorId: text("author_id").references(() => users.id),
+  content: jsonb('content').$type<{textValue: string}>().notNull(),
+  authorId: text('author_id').references(() => users.id),
 });
 
-export const postsRelations = relations(posts, ({ one }) => ({
+export const postsRelations = relations(posts, ({one}) => ({
   author: one(users, {
     fields: [posts.authorId],
     references: [users.id],
@@ -107,13 +107,13 @@ type resolution to work. If they are not included, there will be an error simila
 Use the generated Zero schema:
 
 ```tsx
-import { useEffect, useState } from "react";
-import { useZero } from "@rocicorp/zero/react";
-import { syncedQuery } from "@rocicorp/zero";
-import { builder } from "../zero-schema.gen.ts";
+import {useEffect, useState} from 'react';
+import {useZero} from '@rocicorp/zero/react';
+import {syncedQuery} from '@rocicorp/zero';
+import {builder} from '../zero-schema.gen.ts';
 
-const postsQuery = syncedQuery("allPosts", z.tuple([]), () =>
-  builder.posts.related("author").limit(10),
+const postsQuery = syncedQuery('allPosts', z.tuple([]), () =>
+  builder.posts.related('author').limit(10),
 );
 
 function PostList() {
@@ -123,7 +123,7 @@ function PostList() {
 
   return (
     <div>
-      {posts.map((post) => (
+      {posts.map(post => (
         <div key={post.id} className="post">
           {/* Access the JSON content from Drizzle */}
           <p>{post.content.textValue}</p>
@@ -146,9 +146,9 @@ include in the CLI output:
 > stick with the default CLI behavior.
 
 ```ts
-import { zeroDrizzleConfig } from "zero-drizzle";
+import {zeroDrizzleConfig} from 'zero-drizzle';
 // directly glob import your original Drizzle schema w/ tables/relations
-import * as drizzleSchema from "./drizzle-schema";
+import * as drizzleSchema from './drizzle-schema';
 
 // Define your configuration file for the CLI
 export default zeroDrizzleConfig(drizzleSchema, {
@@ -217,7 +217,7 @@ export default zeroDrizzleConfig(drizzleSchema, {
     user: {
       // Simple format: [junction table, target table]
       // Do not use the same name as any existing relationships
-      groups: ["usersToGroup", "group"],
+      groups: ['usersToGroup', 'group'],
     },
   },
 });
@@ -227,7 +227,7 @@ Then query as usual, skipping the junction table:
 
 ```tsx
 const userQuery = syncedQuery(
-  z.query.user.where("id", "=", "1").related("groups").one(),
+  z.query.user.where('id', '=', '1').related('groups').one(),
 );
 
 const [user] = useQuery(userQuery());
@@ -264,14 +264,14 @@ export default zeroDrizzleConfig(drizzleSchema, {
       // Extended format with explicit field mappings
       friends: [
         {
-          sourceField: ["id"],
-          destTable: "friendship",
-          destField: ["requestingId"],
+          sourceField: ['id'],
+          destTable: 'friendship',
+          destField: ['requestingId'],
         },
         {
-          sourceField: ["acceptingId"],
-          destTable: "user",
-          destField: ["id"],
+          sourceField: ['acceptingId'],
+          destTable: 'user',
+          destField: ['id'],
         },
       ],
     },

@@ -6,11 +6,11 @@ Core CLI logic lives in `src/`: `cli/` exposes the executable wrapper, `drizzle-
 
 ## Build, Test, and Development Commands
 
-- `pnpm install` keeps the workspace lockfile authoritative; avoid mixing package managers to preserve reproducible installs.  
-- `pnpm build` wipes `dist/`, runs `tsx build.ts`, and ensures `dist/cli/index.js` remains executable—run this before publishing.  
-- `pnpm test` executes `vitest run --typecheck --coverage`, so you catch type regressions and produce V8 coverage in one pass.  
-- `pnpm test:types` runs `tsc --noEmit` for faster feedback while iterating on signatures.  
-- `pnpm test:ui` opens the Vitest UI for debugging flaky specs.  
+- `pnpm install` keeps the workspace lockfile authoritative; avoid mixing package managers to preserve reproducible installs.
+- `pnpm build` wipes `dist/`, runs `tsx build.ts`, and ensures `dist/cli/index.js` remains executable—run this before publishing.
+- `pnpm test` executes `vitest run --typecheck --coverage`, so you catch type regressions and produce V8 coverage in one pass.
+- `pnpm check-types` runs `tsc --noEmit` for faster feedback while iterating on signatures.
+- `pnpm test:ui` opens the Vitest UI for debugging flaky specs.
 - `pnpm clean` removes build output plus fixture `node_modules`; run it before cross-platform repros.
 
 ## Coding Style & Naming Conventions

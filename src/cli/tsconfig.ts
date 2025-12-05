@@ -1,9 +1,9 @@
 import {
   parse as JsoncParse,
   type ParseError as JsoncParseError,
-} from "jsonc-parser";
-import * as fs from "node:fs/promises";
-import * as path from "node:path";
+} from 'jsonc-parser';
+import * as fs from 'node:fs/promises';
+import * as path from 'node:path';
 
 export async function resolveReferencePath(
   refPath: string,
@@ -16,7 +16,7 @@ export async function resolveReferencePath(
   try {
     const stats = await fs.stat(resolvedPath);
     if (stats.isDirectory()) {
-      return path.join(resolvedPath, "tsconfig.json");
+      return path.join(resolvedPath, 'tsconfig.json');
     }
     return resolvedPath;
   } catch {
@@ -40,10 +40,10 @@ export async function discoverAllTsConfigs(
     processedPaths.add(tsConfigPath);
 
     try {
-      const tsConfigContent = await fs.readFile(tsConfigPath, "utf-8");
+      const tsConfigContent = await fs.readFile(tsConfigPath, 'utf-8');
       const errors: JsoncParseError[] = [];
       const tsConfig = JsoncParse(tsConfigContent, errors) as {
-        references?: { path: string }[];
+        references?: {path: string}[];
       };
 
       if (errors.length > 0) {
@@ -76,8 +76,8 @@ export async function discoverAllTsConfigs(
     } catch (error) {
       if (
         error instanceof Error &&
-        "code" in error &&
-        error.code === "ENOENT"
+        'code' in error &&
+        error.code === 'ENOENT'
       ) {
         console.warn(
           `⚠️  zero-drizzle: Could not find tsconfig file: ${tsConfigPath}`,

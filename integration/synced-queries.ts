@@ -1,464 +1,459 @@
-import { syncedQueryWithContext } from "@rocicorp/zero";
-import { z } from "zod";
-import { zql } from "./zero-schema.gen";
+import {syncedQueryWithContext} from '@rocicorp/zero';
+import {z} from 'zod';
+import {zql} from './zero-schema.gen';
 
 export const allUsers = syncedQueryWithContext(
-  "integration.allUsers",
+  'integration.allUsers',
   z.tuple([]),
-  (_ctx) => zql.user.orderBy("id", "asc"),
+  _ctx => zql.user.orderBy('id', 'asc'),
 );
 
 export const filtersWithChildren = syncedQueryWithContext(
-  "integration.filtersWithChildren",
+  'integration.filtersWithChildren',
   z.tuple([z.string()]),
   (_ctx, rootId) =>
     zql.filters
-      .where((q) => q.cmp("id", "=", rootId))
-      .related("children", (q) => q.related("children").orderBy("id", "asc")),
+      .where(q => q.cmp('id', '=', rootId))
+      .related('children', q => q.related('children').orderBy('id', 'asc')),
 );
 
 export const messagesBySender = syncedQueryWithContext(
-  "integration.messagesBySender",
+  'integration.messagesBySender',
   z.tuple([z.string()]),
   (_ctx, senderId) =>
     zql.message
-      .where((q) => q.cmp("senderId", "=", senderId))
-      .orderBy("id", "asc"),
+      .where(q => q.cmp('senderId', '=', senderId))
+      .orderBy('id', 'asc'),
 );
 
 export const messagesByBody = syncedQueryWithContext(
-  "integration.messagesByBody",
+  'integration.messagesByBody',
   z.tuple([z.string()]),
   (_ctx, body) =>
-    zql.message.where((q) => q.cmp("body", "=", body)).orderBy("id", "asc"),
+    zql.message.where(q => q.cmp('body', '=', body)).orderBy('id', 'asc'),
 );
 
 export const messageWithRelations = syncedQueryWithContext(
-  "integration.messageWithRelations",
+  'integration.messageWithRelations',
   z.tuple([z.string()]),
   (_ctx, id) =>
     zql.message
-      .where((q) => q.cmp("id", "=", id))
-      .related("medium")
-      .related("sender")
+      .where(q => q.cmp('id', '=', id))
+      .related('medium')
+      .related('sender')
       .one(),
 );
 
 export const userWithMediums = syncedQueryWithContext(
-  "integration.userWithMediums",
+  'integration.userWithMediums',
   z.tuple([z.string()]),
   (_ctx, id) =>
     zql.user
-      .where((q) => q.cmp("id", "=", id))
-      .related("mediums")
+      .where(q => q.cmp('id', '=', id))
+      .related('mediums')
       .one(),
 );
 
 export const userWithFriends = syncedQueryWithContext(
-  "integration.userWithFriends",
+  'integration.userWithFriends',
   z.tuple([z.string()]),
   (_ctx, id) =>
     zql.user
-      .where((q) => q.cmp("id", "=", id))
-      .related("friends")
+      .where(q => q.cmp('id', '=', id))
+      .related('friends')
       .one(),
 );
 
 export const messageById = syncedQueryWithContext(
-  "integration.messageById",
+  'integration.messageById',
   z.tuple([z.string()]),
-  (_ctx, id) => zql.message.where((q) => q.cmp("id", "=", id)).one(),
+  (_ctx, id) => zql.message.where(q => q.cmp('id', '=', id)).one(),
 );
 
 export const mediumById = syncedQueryWithContext(
-  "integration.mediumById",
+  'integration.mediumById',
   z.tuple([z.string()]),
-  (_ctx, id) => zql.medium.where((q) => q.cmp("id", "=", id)).one(),
+  (_ctx, id) => zql.medium.where(q => q.cmp('id', '=', id)).one(),
 );
 
 export const allTypesById = syncedQueryWithContext(
-  "integration.allTypesById",
+  'integration.allTypesById',
   z.tuple([z.string()]),
-  (_ctx, id) => zql.allTypes.where((q) => q.cmp("id", "=", id)).one(),
+  (_ctx, id) => zql.allTypes.where(q => q.cmp('id', '=', id)).one(),
 );
 
 export const allTypesByStatus = syncedQueryWithContext(
-  "integration.allTypesByStatus",
-  z.tuple([z.enum(["active", "inactive", "pending"])]),
-  (_ctx, status) =>
-    zql.allTypes.where((q) => q.cmp("status", "=", status)).one(),
+  'integration.allTypesByStatus',
+  z.tuple([z.enum(['active', 'inactive', 'pending'])]),
+  (_ctx, status) => zql.allTypes.where(q => q.cmp('status', '=', status)).one(),
 );
 
 export const complexOrderWithEverything = syncedQueryWithContext(
-  "integration.complexOrderWithEverything",
+  'integration.complexOrderWithEverything',
   z.tuple([z.string()]),
   (_ctx, orderId) =>
     zql.orderTable
-      .where((q) => q.cmp("id", "=", orderId))
-      .related("customer", (q) =>
+      .where(q => q.cmp('id', '=', orderId))
+      .related('customer', q =>
         q
-          .related("messages", (q2) =>
+          .related('messages', q2 =>
             q2
-              .related("medium", (q3) =>
-                q3.related("messages", (q4) =>
-                  q4.related("sender").related("medium").orderBy("id", "asc"),
+              .related('medium', q3 =>
+                q3.related('messages', q4 =>
+                  q4.related('sender').related('medium').orderBy('id', 'asc'),
                 ),
               )
-              .related("sender", (q3) =>
-                q3.related("messages").related("friends"),
+              .related('sender', q3 =>
+                q3.related('messages').related('friends'),
               )
-              .orderBy("id", "asc"),
+              .orderBy('id', 'asc'),
           )
-          .related("friends", (q2) =>
+          .related('friends', q2 =>
             q2
-              .related("messages", (q3) =>
-                q3.related("medium").related("sender").orderBy("id", "asc"),
+              .related('messages', q3 =>
+                q3.related('medium').related('sender').orderBy('id', 'asc'),
               )
-              .related("friends", (q3) => q3.related("messages")),
+              .related('friends', q3 => q3.related('messages')),
           ),
       )
-      .related("opportunity", (q) =>
+      .related('opportunity', q =>
         q
-          .related("account", (q2) =>
+          .related('account', q2 =>
             q2
-              .related("owner", (q3) =>
-                q3.related("messages").related("friends"),
-              )
-              .related("contacts", (q3) =>
+              .related('owner', q3 => q3.related('messages').related('friends'))
+              .related('contacts', q3 =>
                 q3
-                  .related("account", (q4) =>
+                  .related('account', q4 =>
                     q4
-                      .related("owner")
-                      .related("opportunities")
-                      .related("contacts"),
+                      .related('owner')
+                      .related('opportunities')
+                      .related('contacts'),
                   )
-                  .related("activities", (q4) =>
+                  .related('activities', q4 =>
                     q4
-                      .related("type", (q5) => q5.related("activities"))
-                      .related("contact", (q5) =>
-                        q5.related("account").related("notes"),
+                      .related('type', q5 => q5.related('activities'))
+                      .related('contact', q5 =>
+                        q5.related('account').related('notes'),
                       )
-                      .related("opportunity", (q5) =>
-                        q5.related("account").related("stage"),
+                      .related('opportunity', q5 =>
+                        q5.related('account').related('stage'),
                       )
-                      .related("performer", (q5) =>
-                        q5.related("messages").related("friends"),
+                      .related('performer', q5 =>
+                        q5.related('messages').related('friends'),
                       )
-                      .related("account", (q5) =>
-                        q5.related("opportunities").related("contacts"),
+                      .related('account', q5 =>
+                        q5.related('opportunities').related('contacts'),
                       )
-                      .orderBy("contactId", "asc"),
+                      .orderBy('contactId', 'asc'),
                   )
-                  .related("notes", (q4) =>
+                  .related('notes', q4 =>
                     q4
-                      .related("author", (q5) =>
-                        q5.related("messages").related("friends"),
+                      .related('author', q5 =>
+                        q5.related('messages').related('friends'),
                       )
-                      .related("contact", (q5) =>
-                        q5.related("account").related("activities"),
+                      .related('contact', q5 =>
+                        q5.related('account').related('activities'),
                       )
-                      .related("account", (q5) =>
-                        q5.related("contacts").related("opportunities"),
+                      .related('account', q5 =>
+                        q5.related('contacts').related('opportunities'),
                       )
-                      .orderBy("id", "asc"),
+                      .orderBy('id', 'asc'),
                   )
-                  .orderBy("id", "asc"),
+                  .orderBy('id', 'asc'),
               )
-              .related("opportunities", (q3) =>
+              .related('opportunities', q3 =>
                 q3
-                  .related("account", (q4) =>
-                    q4.related("owner").related("contacts").related("notes"),
+                  .related('account', q4 =>
+                    q4.related('owner').related('contacts').related('notes'),
                   )
-                  .related("stage", (q4) =>
+                  .related('stage', q4 =>
                     q4
-                      .related("opportunities", (q5) =>
+                      .related('opportunities', q5 =>
                         q5
-                          .related("activities")
-                          .related("account")
-                          .orderBy("id", "asc"),
+                          .related('activities')
+                          .related('account')
+                          .orderBy('id', 'asc'),
                       )
-                      .related("historyEntries", (q5) =>
+                      .related('historyEntries', q5 =>
                         q5
-                          .related("changedBy")
-                          .related("opportunity")
-                          .orderBy("id", "asc"),
+                          .related('changedBy')
+                          .related('opportunity')
+                          .orderBy('id', 'asc'),
                       ),
                   )
-                  .related("activities", (q4) =>
+                  .related('activities', q4 =>
                     q4
-                      .related("type", (q5) => q5.related("activities"))
-                      .related("performer", (q5) =>
-                        q5.related("messages").related("friends"),
+                      .related('type', q5 => q5.related('activities'))
+                      .related('performer', q5 =>
+                        q5.related('messages').related('friends'),
                       )
-                      .related("account", (q5) => q5.related("opportunities"))
-                      .related("contact", (q5) => q5.related("notes"))
-                      .related("opportunity", (q5) => q5.related("stage"))
-                      .orderBy("id", "asc"),
+                      .related('account', q5 => q5.related('opportunities'))
+                      .related('contact', q5 => q5.related('notes'))
+                      .related('opportunity', q5 => q5.related('stage'))
+                      .orderBy('id', 'asc'),
                   )
-                  .related("historyEntries", (q4) =>
+                  .related('historyEntries', q4 =>
                     q4
-                      .related("opportunity", (q5) =>
-                        q5.related("stage").related("account"),
+                      .related('opportunity', q5 =>
+                        q5.related('stage').related('account'),
                       )
-                      .related("stage", (q5) => q5.related("opportunities"))
-                      .related("changedBy", (q5) =>
-                        q5.related("messages").related("friends"),
+                      .related('stage', q5 => q5.related('opportunities'))
+                      .related('changedBy', q5 =>
+                        q5.related('messages').related('friends'),
                       )
-                      .orderBy("id", "asc"),
+                      .orderBy('id', 'asc'),
                   )
-                  .orderBy("id", "asc"),
+                  .orderBy('id', 'asc'),
               )
-              .related("activities", (q3) =>
+              .related('activities', q3 =>
                 q3
-                  .related("account", (q4) =>
-                    q4.related("opportunities").related("contacts"),
+                  .related('account', q4 =>
+                    q4.related('opportunities').related('contacts'),
                   )
-                  .related("contact", (q4) =>
-                    q4.related("notes").related("activities"),
+                  .related('contact', q4 =>
+                    q4.related('notes').related('activities'),
                   )
-                  .related("opportunity", (q4) =>
-                    q4.related("stage").related("account"),
+                  .related('opportunity', q4 =>
+                    q4.related('stage').related('account'),
                   )
-                  .related("type", (q4) => q4.related("activities"))
-                  .related("performer", (q4) =>
-                    q4.related("friends").related("messages"),
+                  .related('type', q4 => q4.related('activities'))
+                  .related('performer', q4 =>
+                    q4.related('friends').related('messages'),
                   )
-                  .orderBy("id", "asc"),
+                  .orderBy('id', 'asc'),
               )
-              .related("notes", (q3) =>
+              .related('notes', q3 =>
                 q3
-                  .related("account", (q4) =>
-                    q4.related("contacts").related("opportunities"),
+                  .related('account', q4 =>
+                    q4.related('contacts').related('opportunities'),
                   )
-                  .related("contact", (q4) =>
-                    q4.related("activities").related("account"),
+                  .related('contact', q4 =>
+                    q4.related('activities').related('account'),
                   )
-                  .related("author", (q4) =>
-                    q4.related("messages").related("friends"),
+                  .related('author', q4 =>
+                    q4.related('messages').related('friends'),
                   )
-                  .orderBy("id", "asc"),
+                  .orderBy('id', 'asc'),
               ),
           )
-          .related("stage", (q2) =>
+          .related('stage', q2 =>
             q2
-              .related("opportunities", (q3) =>
+              .related('opportunities', q3 =>
                 q3
-                  .related("account", (q4) => q4.related("activities"))
-                  .related("activities", (q4) => q4.related("type"))
-                  .orderBy("id", "asc"),
+                  .related('account', q4 => q4.related('activities'))
+                  .related('activities', q4 => q4.related('type'))
+                  .orderBy('id', 'asc'),
               )
-              .related("historyEntries", (q3) =>
+              .related('historyEntries', q3 =>
                 q3
-                  .related("opportunity", (q4) => q4.related("account"))
-                  .related("changedBy", (q4) => q4.related("messages"))
-                  .orderBy("id", "asc"),
+                  .related('opportunity', q4 => q4.related('account'))
+                  .related('changedBy', q4 => q4.related('messages'))
+                  .orderBy('id', 'asc'),
               ),
           )
-          .related("activities", (q2) =>
+          .related('activities', q2 =>
             q2
-              .related("account", (q3) =>
-                q3.related("opportunities").related("contacts"),
+              .related('account', q3 =>
+                q3.related('opportunities').related('contacts'),
               )
-              .related("contact", (q3) =>
-                q3.related("notes").related("activities"),
+              .related('contact', q3 =>
+                q3.related('notes').related('activities'),
               )
-              .related("opportunity", (q3) =>
-                q3.related("stage").related("account"),
+              .related('opportunity', q3 =>
+                q3.related('stage').related('account'),
               )
-              .related("type", (q3) => q3.related("activities"))
-              .related("performer", (q3) => q3.related("messages"))
-              .orderBy("id", "asc"),
+              .related('type', q3 => q3.related('activities'))
+              .related('performer', q3 => q3.related('messages'))
+              .orderBy('id', 'asc'),
           )
-          .related("historyEntries", (q2) =>
+          .related('historyEntries', q2 =>
             q2
-              .related("opportunity", (q3) =>
-                q3.related("account").related("stage"),
+              .related('opportunity', q3 =>
+                q3.related('account').related('stage'),
               )
-              .related("stage", (q3) =>
-                q3.related("opportunities").related("historyEntries"),
+              .related('stage', q3 =>
+                q3.related('opportunities').related('historyEntries'),
               )
-              .related("changedBy", (q3) => q3.related("friends"))
-              .orderBy("id", "asc"),
+              .related('changedBy', q3 => q3.related('friends'))
+              .orderBy('id', 'asc'),
           ),
       )
-      .related("items", (q) =>
+      .related('items', q =>
         q
-          .related("order", (q2) =>
+          .related('order', q2 =>
             q2
-              .related("customer", (q3) =>
-                q3.related("messages").related("friends"),
+              .related('customer', q3 =>
+                q3.related('messages').related('friends'),
               )
-              .related("opportunity", (q3) =>
-                q3.related("account").related("stage").related("activities"),
+              .related('opportunity', q3 =>
+                q3.related('account').related('stage').related('activities'),
               )
-              .related("items", (q3) =>
-                q3.related("variant").related("order").orderBy("id", "asc"),
+              .related('items', q3 =>
+                q3.related('variant').related('order').orderBy('id', 'asc'),
               )
-              .related("payments", (q3) =>
-                q3.related("payment").related("order").orderBy("id", "asc"),
+              .related('payments', q3 =>
+                q3.related('payment').related('order').orderBy('id', 'asc'),
               )
-              .related("shipments", (q3) =>
-                q3.related("items").related("order").orderBy("id", "asc"),
+              .related('shipments', q3 =>
+                q3.related('items').related('order').orderBy('id', 'asc'),
               ),
           )
-          .related("variant", (q2) =>
+          .related('variant', q2 =>
             q2
-              .related("product", (q3) =>
+              .related('product', q3 =>
                 q3
-                  .related("category", (q4) =>
+                  .related('category', q4 =>
                     q4
-                      .related("parent", (q5) =>
+                      .related('parent', q5 =>
                         q5
-                          .related("parent", (q6) =>
-                            q6.related("children").related("products"),
+                          .related('parent', q6 =>
+                            q6.related('children').related('products'),
                           )
-                          .related("children", (q6) =>
+                          .related('children', q6 =>
                             q6
-                              .related("products")
-                              .related("parent")
-                              .orderBy("id", "asc"),
+                              .related('products')
+                              .related('parent')
+                              .orderBy('id', 'asc'),
                           )
-                          .related("products", (q6) =>
-                            q6.related("variants").related("media"),
+                          .related('products', q6 =>
+                            q6.related('variants').related('media'),
                           ),
                       )
-                      .related("children", (q5) =>
+                      .related('children', q5 =>
                         q5
-                          .related("parent", (q6) =>
-                            q6.related("products").related("children"),
+                          .related('parent', q6 =>
+                            q6.related('products').related('children'),
                           )
-                          .related("products", (q6) =>
-                            q6.related("category").related("variants"),
+                          .related('products', q6 =>
+                            q6.related('category').related('variants'),
                           )
-                          .related("children", (q6) =>
-                            q6.related("parent").related("products"),
+                          .related('children', q6 =>
+                            q6.related('parent').related('products'),
                           )
-                          .orderBy("id", "asc"),
+                          .orderBy('id', 'asc'),
                       )
-                      .related("products", (q5) =>
-                        q5.related("category").related("variants"),
+                      .related('products', q5 =>
+                        q5.related('category').related('variants'),
                       ),
                   )
-                  .related("variants", (q4) =>
+                  .related('variants', q4 =>
                     q4
-                      .related("product", (q5) =>
-                        q5.related("category").related("media"),
+                      .related('product', q5 =>
+                        q5.related('category').related('media'),
                       )
-                      .related("inventoryItems", (q5) =>
-                        q5.related("variant").orderBy("id", "asc"),
+                      .related('inventoryItems', q5 =>
+                        q5.related('variant').orderBy('id', 'asc'),
                       )
-                      .related("inventoryLevels", (q5) =>
+                      .related('inventoryLevels', q5 =>
                         q5
-                          .related("location", (q6) =>
-                            q6.related("levels").orderBy("id", "asc"),
+                          .related('location', q6 =>
+                            q6.related('levels').orderBy('id', 'asc'),
                           )
-                          .related("variant", (q6) =>
-                            q6.related("product").related("inventoryItems"),
+                          .related('variant', q6 =>
+                            q6.related('product').related('inventoryItems'),
                           )
-                          .orderBy("id", "asc"),
+                          .orderBy('id', 'asc'),
                       )
-                      .related("orderItems", (q5) =>
+                      .related('orderItems', q5 =>
                         q5
-                          .related("order")
-                          .related("variant")
-                          .orderBy("id", "asc"),
+                          .related('order')
+                          .related('variant')
+                          .orderBy('id', 'asc'),
                       )
-                      .orderBy("id", "asc"),
+                      .orderBy('id', 'asc'),
                   )
-                  .related("media", (q4) =>
-                    q4.related("product").orderBy("id", "asc"),
+                  .related('media', q4 =>
+                    q4.related('product').orderBy('id', 'asc'),
                   ),
               )
-              .related("inventoryItems", (q3) =>
-                q3.related("variant").orderBy("id", "asc"),
+              .related('inventoryItems', q3 =>
+                q3.related('variant').orderBy('id', 'asc'),
               )
-              .related("inventoryLevels", (q3) =>
+              .related('inventoryLevels', q3 =>
                 q3
-                  .related("location", (q4) =>
-                    q4.related("levels").orderBy("id", "asc"),
+                  .related('location', q4 =>
+                    q4.related('levels').orderBy('id', 'asc'),
                   )
-                  .related("variant", (q4) =>
-                    q4.related("product").related("orderItems"),
+                  .related('variant', q4 =>
+                    q4.related('product').related('orderItems'),
                   )
-                  .orderBy("id", "asc"),
+                  .orderBy('id', 'asc'),
               )
-              .related("orderItems", (q3) =>
-                q3.related("order").related("variant").orderBy("id", "asc"),
+              .related('orderItems', q3 =>
+                q3.related('order').related('variant').orderBy('id', 'asc'),
               ),
           )
-          .orderBy("id", "asc"),
+          .orderBy('id', 'asc'),
       )
-      .related("payments", (q) =>
+      .related('payments', q =>
         q
-          .related("order", (q2) =>
+          .related('order', q2 =>
             q2
-              .related("customer", (q3) =>
-                q3.related("messages").related("friends"),
+              .related('customer', q3 =>
+                q3.related('messages').related('friends'),
               )
-              .related("opportunity", (q3) =>
-                q3.related("account").related("stage"),
+              .related('opportunity', q3 =>
+                q3.related('account').related('stage'),
               )
-              .related("items", (q3) => q3.related("variant"))
-              .related("payments", (q3) =>
-                q3.related("payment").orderBy("id", "asc"),
+              .related('items', q3 => q3.related('variant'))
+              .related('payments', q3 =>
+                q3.related('payment').orderBy('id', 'asc'),
               )
-              .related("shipments", (q3) =>
-                q3.related("items").orderBy("id", "asc"),
+              .related('shipments', q3 =>
+                q3.related('items').orderBy('id', 'asc'),
               ),
           )
-          .related("payment")
-          .orderBy("id", "asc"),
+          .related('payment')
+          .orderBy('id', 'asc'),
       )
-      .related("shipments", (q) =>
+      .related('shipments', q =>
         q
-          .related("order", (q2) =>
+          .related('order', q2 =>
             q2
-              .related("customer", (q3) =>
-                q3.related("messages").related("friends"),
+              .related('customer', q3 =>
+                q3.related('messages').related('friends'),
               )
-              .related("opportunity", (q3) =>
-                q3.related("account").related("historyEntries"),
+              .related('opportunity', q3 =>
+                q3.related('account').related('historyEntries'),
               )
-              .related("items", (q3) => q3.related("variant"))
-              .related("payments", (q3) =>
-                q3.related("payment").related("order"),
-              )
-              .related("shipments", (q3) =>
-                q3.related("items").orderBy("id", "asc"),
+              .related('items', q3 => q3.related('variant'))
+              .related('payments', q3 => q3.related('payment').related('order'))
+              .related('shipments', q3 =>
+                q3.related('items').orderBy('id', 'asc'),
               ),
           )
-          .related("items", (q2) =>
+          .related('items', q2 =>
             q2
-              .related("shipment", (q3) =>
-                q3.related("order").related("items").orderBy("id", "asc"),
+              .related('shipment', q3 =>
+                q3.related('order').related('items').orderBy('id', 'asc'),
               )
-              .related("orderItem", (q3) =>
+              .related('orderItem', q3 =>
                 q3
-                  .related("order", (q4) =>
+                  .related('order', q4 =>
                     q4
-                      .related("customer", (q5) =>
-                        q5.related("messages").related("friends"),
+                      .related('customer', q5 =>
+                        q5.related('messages').related('friends'),
                       )
-                      .related("opportunity", (q5) =>
-                        q5.related("account").related("stage"),
+                      .related('opportunity', q5 =>
+                        q5.related('account').related('stage'),
                       )
-                      .related("items", (q5) => q5.related("variant"))
-                      .related("payments", (q5) => q5.related("payment"))
-                      .related("shipments", (q5) => q5.related("order")),
+                      .related('items', q5 => q5.related('variant'))
+                      .related('payments', q5 => q5.related('payment'))
+                      .related('shipments', q5 => q5.related('order')),
                   )
-                  .related("variant", (q4) =>
+                  .related('variant', q4 =>
                     q4
-                      .related("product", (q5) =>
-                        q5.related("category").related("variants"),
+                      .related('product', q5 =>
+                        q5.related('category').related('variants'),
                       )
-                      .related("inventoryItems")
-                      .related("inventoryLevels")
-                      .related("orderItems"),
+                      .related('inventoryItems')
+                      .related('inventoryLevels')
+                      .related('orderItems'),
                   ),
               )
-              .orderBy("id", "asc"),
+              .orderBy('id', 'asc'),
           )
-          .orderBy("id", "asc"),
+          .orderBy('id', 'asc'),
       )
       .one(),
 );

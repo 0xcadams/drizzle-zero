@@ -1,5 +1,5 @@
-import { zeroDrizzleConfig } from "../../src";
-import * as postgresSchemaCollision from "./postgres-schema-collision.schema";
+import {zeroDrizzleConfig} from '../../src';
+import * as postgresSchemaCollision from './postgres-schema-collision.schema';
 
 export const schema = zeroDrizzleConfig(postgresSchemaCollision, {
   tables: {
