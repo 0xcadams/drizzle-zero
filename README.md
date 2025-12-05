@@ -292,7 +292,3 @@ export default zeroDrizzleConfig(drizzleSchema, {
   - Many-to-many relationships with simple or extended configuration
   - Self-referential relationships
 - Handles custom schemas and column mappings
-
-## License
-
-[CC0](LICENSE)

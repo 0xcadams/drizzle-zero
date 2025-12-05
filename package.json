@@ -58,9 +58,8 @@
     "typescript",
     "ts"
   ],
-  "homepage": "https://github.com/rocicorp/zero-drizzle",
   "bugs": {
-    "url": "https://github.com/rocicorp/zero-drizzle/issues"
+    "url": "https://bugs.rocicorp.dev"
   },
   "peerDependencies": {
     "@rocicorp/zero": ">=0.22.2025081301",
