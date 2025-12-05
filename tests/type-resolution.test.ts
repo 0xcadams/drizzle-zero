@@ -10,6 +10,7 @@ describe("resolveCustomTypes", () => {
   test("resolves primitive column types", () => {
     const project = new Project({
       tsConfigFilePath: path.resolve(__dirname, "../tsconfig.json"),
+      skipAddingFilesFromTsConfig: true,
     });
 
     project.createSourceFile(
@@ -85,7 +86,9 @@ describe("resolveCustomTypes", () => {
   });
 
   test("returns empty map when there are no custom type requests", () => {
-    const project = new Project();
+    const project = new Project({
+      skipAddingFilesFromTsConfig: true,
+    });
 
     const resolved = resolveCustomTypes({
       project,
@@ -101,6 +104,7 @@ describe("resolveCustomTypes", () => {
   test("deduplicates repeated table/column requests", () => {
     const project = new Project({
       tsConfigFilePath: path.resolve(__dirname, "../tsconfig.json"),
+      skipAddingFilesFromTsConfig: true,
     });
 
     project.createSourceFile(
@@ -141,6 +145,7 @@ describe("resolveCustomTypes", () => {
   test("resolves ReadonlyJSONValue and includes it in the result map", () => {
     const project = new Project({
       tsConfigFilePath: path.resolve(__dirname, "../tsconfig.json"),
+      skipAddingFilesFromTsConfig: true,
     });
 
     project.createSourceFile(
