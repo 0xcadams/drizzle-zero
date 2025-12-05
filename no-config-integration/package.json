@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "zero-drizzle:generate": "zero-drizzle generate -f -s ../db/schema.ts --disable-legacy-mutators --disable-legacy-queries",
+    "zero-drizzle:generate": "zero-drizzle generate -f -s ../db/schema.ts",
     "pretest": "pnpm zero-drizzle:generate",
     "test": "pnpm build && vitest run"
   },

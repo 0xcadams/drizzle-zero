@@ -17,7 +17,10 @@ describe("getGeneratedSchema", () => {
   beforeEach(() => {
     tsProject = new Project({
       tsConfigFilePath: path.resolve(__dirname, "../tsconfig.json"),
+      skipAddingFilesFromTsConfig: true,
     });
+
+    tsProject.addSourceFileAtPath(schemaPath);
   });
 
   afterEach(async () => {
@@ -175,14 +178,26 @@ describe("getGeneratedSchema", () => {
       /**
        * Represents a row from the "users" table.
        * This type is auto-generated from your Drizzle schema definition.
+       *
+       * @deprecated Use Row["users"] instead from "@rocicorp/zero".
        */
-      export type User = Row<typeof usersTable>;
+      export type User = Row["users"];
 
+      /**
+       * Represents the ZQL query builder.
+       * This type is auto-generated from your Drizzle schema definition.
+       */
+      export const zql = createBuilder(schema);
       /**
        * Represents the Zero schema query builder.
        * This type is auto-generated from your Drizzle schema definition.
+       *
+       * @deprecated Use \`zql\` instead.
        */
-      export const builder = createBuilder(schema);
+      export const builder = zql;
+
+      /** Defines the default types for Zero */
+      declare module '@rocicorp/zero' { interface DefaultTypes { schema: Schema; } }
       "
     `);
   });
@@ -325,9 +340,7 @@ describe("getGeneratedSchema", () => {
     expect(generatedSchema).toContain("export type Schema = typeof schema;");
 
     // Check for the type exports
-    expect(generatedSchema).toContain(
-      "export type User = Row<typeof usersTable>;",
-    );
+    expect(generatedSchema).toContain('export type User = Row["users"];');
 
     // Verify null custom type handling with the correct type path
     const customTypeSchema = {
@@ -1043,14 +1056,9 @@ describe("getGeneratedSchema", () => {
       'import type { Row } from "@rocicorp/zero";',
     );
 
-    // Check for builder export
+    // Check for zql export
     expect(generatedSchema).toContain(
-      "export const builder = createBuilder(schema);",
-    );
-
-    // Check for builder JSDoc
-    expect(generatedSchema).toContain(
-      "Represents the Zero schema query builder",
+      "export const zql = createBuilder(schema);",
     );
   });
 
@@ -1106,20 +1114,8 @@ describe("getGeneratedSchema", () => {
     });
 
     // Check for table type exports with proper capitalization
-    expect(generatedSchema).toContain(
-      "export type User = Row<typeof usersTable>;",
-    );
-    expect(generatedSchema).toContain(
-      "export type Post = Row<typeof postsTable>;",
-    );
-
-    // Check for JSDoc comments on table types
-    expect(generatedSchema).toContain(
-      'Represents a row from the "users" table',
-    );
-    expect(generatedSchema).toContain(
-      'Represents a row from the "posts" table',
-    );
+    expect(generatedSchema).toContain('export type User = Row["users"];');
+    expect(generatedSchema).toContain('export type Post = Row["posts"];');
   });
 
   it("should handle table names with various casing correctly", async () => {
@@ -1167,14 +1163,12 @@ describe("getGeneratedSchema", () => {
 
     // Check that capitalization works correctly for different naming conventions
     expect(generatedSchema).toContain(
-      "export type UserProfile = Row<typeof userProfilesTable>;",
+      'export type UserProfile = Row["userProfiles"];',
     );
     expect(generatedSchema).toContain(
-      "export type BlogPost = Row<typeof blogPostsTable>;",
+      'export type BlogPost = Row["blog_posts"];',
     );
-    expect(generatedSchema).toContain(
-      "export type User = Row<typeof userTable>;",
-    );
+    expect(generatedSchema).toContain('export type User = Row["user"];');
   });
 
   it("should include all new features in drizzle-kit type schemas", async () => {
@@ -1227,18 +1221,14 @@ describe("getGeneratedSchema", () => {
       'import type { Row } from "@rocicorp/zero";',
     );
 
-    // Check for builder export
+    // Check for zql export
     expect(generatedSchema).toContain(
-      "export const builder = createBuilder(schema);",
+      "export const zql = createBuilder(schema);",
     );
 
     // Check for table type exports
-    expect(generatedSchema).toContain(
-      "export type User = Row<typeof usersTable>;",
-    );
-    expect(generatedSchema).toContain(
-      "export type Post = Row<typeof postsTable>;",
-    );
+    expect(generatedSchema).toContain('export type User = Row["users"];');
+    expect(generatedSchema).toContain('export type Post = Row["posts"];');
 
     // Reset the mock after the test
     vi.restoreAllMocks();
@@ -1273,12 +1263,12 @@ describe("getGeneratedSchema", () => {
       'import type { Row } from "@rocicorp/zero";',
     );
     expect(generatedSchema).toContain(
-      "export const builder = createBuilder(schema);",
+      "export const zql = createBuilder(schema);",
     );
 
     // Should not have any table row type exports, but should still have Schema type
     expect(generatedSchema).toContain("export type Schema = typeof schema;");
-    expect(generatedSchema).not.toContain("Row<typeof");
+    expect(generatedSchema).not.toContain("Row['");
   });
 
   it("should skip generating table row types when skipTypes is true", async () => {
@@ -1315,14 +1305,14 @@ describe("getGeneratedSchema", () => {
     expect(generatedSchema).not.toContain(
       'import type { Row } from "@rocicorp/zero";',
     );
-    expect(generatedSchema).not.toContain("Row<typeof usersTable>");
+    expect(generatedSchema).not.toContain('Row["users"]');
 
     // Builder should still be present
     expect(generatedSchema).toContain(
       'import { createBuilder } from "@rocicorp/zero";',
     );
     expect(generatedSchema).toContain(
-      "export const builder = createBuilder(schema);",
+      "export const zql = createBuilder(schema);",
     );
   });
 
@@ -1360,20 +1350,16 @@ describe("getGeneratedSchema", () => {
     expect(generatedSchema).not.toContain(
       'import { createBuilder } from "@rocicorp/zero";',
     );
-    expect(generatedSchema).not.toContain(
-      "export const builder = createBuilder(schema);",
-    );
+    expect(generatedSchema).not.toContain("createBuilder(schema);");
 
     // Row types should still be present
     expect(generatedSchema).toContain(
       'import type { Row } from "@rocicorp/zero";',
     );
-    expect(generatedSchema).toContain(
-      "export type User = Row<typeof usersTable>;",
-    );
+    expect(generatedSchema).toContain('export type User = Row["users"];');
   });
 
-  it("should set enableLegacyMutators to false when disableLegacyMutators is true", async () => {
+  it("should set enableLegacyMutators to true", async () => {
     const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
       tsProject,
       configPath: schemaPath,
@@ -1401,127 +1387,15 @@ describe("getGeneratedSchema", () => {
         zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
       },
       outputFilePath,
-      disableLegacyMutators: true,
+      enableLegacyMutators: true,
     });
 
-    // Check that enableLegacyMutators is set to false in the generated schema
-    expect(generatedSchema).toContain('"enableLegacyMutators": false');
-    expect(generatedSchema).not.toContain('"enableLegacyMutators": true');
-  });
-
-  it("should set enableLegacyQueries to false when disableLegacyQueries is true", async () => {
-    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
-      tsProject,
-      configPath: schemaPath,
-      exportName: "schema",
-    });
-
-    const generatedSchema = await getGeneratedSchema({
-      tsProject,
-      result: {
-        type: "config",
-        zeroSchema: {
-          tables: {
-            users: {
-              name: "users",
-              primaryKey: ["id"],
-              columns: {
-                id: { type: "number", optional: false, customType: undefined },
-              },
-            },
-          },
-          relationships: {},
-          enableLegacyQueries: true,
-        },
-        exportName: "schema",
-        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
-      },
-      outputFilePath,
-      disableLegacyQueries: true,
-    });
-
-    // Check that enableLegacyQueries is set to false in the generated schema
-    expect(generatedSchema).toContain('"enableLegacyQueries": false');
-    expect(generatedSchema).not.toContain('"enableLegacyQueries": true');
-  });
-
-  it("should set both enableLegacyMutators and enableLegacyQueries to false when both disable flags are true", async () => {
-    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
-      tsProject,
-      configPath: schemaPath,
-      exportName: "schema",
-    });
-
-    const generatedSchema = await getGeneratedSchema({
-      tsProject,
-      result: {
-        type: "config",
-        zeroSchema: {
-          tables: {
-            users: {
-              name: "users",
-              primaryKey: ["id"],
-              columns: {
-                id: { type: "number", optional: false, customType: undefined },
-              },
-            },
-          },
-          relationships: {},
-          enableLegacyMutators: true,
-          enableLegacyQueries: true,
-        },
-        exportName: "schema",
-        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
-      },
-      outputFilePath,
-      disableLegacyMutators: true,
-      disableLegacyQueries: true,
-    });
-
-    // Check that both flags are set to false in the generated schema
-    expect(generatedSchema).toContain('"enableLegacyMutators": false');
-    expect(generatedSchema).toContain('"enableLegacyQueries": false');
-    expect(generatedSchema).not.toContain('"enableLegacyMutators": true');
-    expect(generatedSchema).not.toContain('"enableLegacyQueries": true');
-  });
-
-  it("should keep enableLegacyMutators as true when disableLegacyMutators is false", async () => {
-    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
-      tsProject,
-      configPath: schemaPath,
-      exportName: "schema",
-    });
-
-    const generatedSchema = await getGeneratedSchema({
-      tsProject,
-      result: {
-        type: "config",
-        zeroSchema: {
-          tables: {
-            users: {
-              name: "users",
-              primaryKey: ["id"],
-              columns: {
-                id: { type: "number", optional: false, customType: undefined },
-              },
-            },
-          },
-          relationships: {},
-          enableLegacyMutators: true,
-        },
-        exportName: "schema",
-        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
-      },
-      outputFilePath,
-      disableLegacyMutators: false,
-    });
-
-    // Check that enableLegacyMutators remains true in the generated schema
+    // Check that enableLegacyMutators is set to true in the generated schema
     expect(generatedSchema).toContain('"enableLegacyMutators": true');
     expect(generatedSchema).not.toContain('"enableLegacyMutators": false');
   });
 
-  it("should keep enableLegacyQueries as true when disableLegacyQueries is false", async () => {
+  it("should set enableLegacyQueries to true", async () => {
     const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
       tsProject,
       configPath: schemaPath,
@@ -1549,11 +1423,51 @@ describe("getGeneratedSchema", () => {
         zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
       },
       outputFilePath,
-      disableLegacyQueries: false,
+      enableLegacyQueries: true,
     });
 
-    // Check that enableLegacyQueries remains true in the generated schema
+    // Check that enableLegacyQueries is set to false in the generated schema
     expect(generatedSchema).toContain('"enableLegacyQueries": true');
+    expect(generatedSchema).not.toContain('"enableLegacyQueries": false');
+  });
+
+  it("should set both enableLegacyMutators and enableLegacyQueries to true when both enable flags are true", async () => {
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    const generatedSchema = await getGeneratedSchema({
+      tsProject,
+      result: {
+        type: "config",
+        zeroSchema: {
+          tables: {
+            users: {
+              name: "users",
+              primaryKey: ["id"],
+              columns: {
+                id: { type: "number", optional: false, customType: undefined },
+              },
+            },
+          },
+          relationships: {},
+          enableLegacyMutators: true,
+          enableLegacyQueries: true,
+        },
+        exportName: "schema",
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+      enableLegacyMutators: true,
+      enableLegacyQueries: true,
+    });
+
+    // Check that both flags are set to false in the generated schema
+    expect(generatedSchema).toContain('"enableLegacyMutators": true');
+    expect(generatedSchema).toContain('"enableLegacyQueries": true');
+    expect(generatedSchema).not.toContain('"enableLegacyMutators": false');
     expect(generatedSchema).not.toContain('"enableLegacyQueries": false');
   });
 });

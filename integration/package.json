@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "zero-drizzle:generate": "zero-drizzle generate -f --disable-legacy-mutators --disable-legacy-queries",
+    "zero-drizzle:generate": "zero-drizzle generate -f",
     "pretest": "pnpm zero-drizzle:generate",
     "test": "pnpm build && vitest run"
   },

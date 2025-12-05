@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-Core CLI logic lives in `src/`: `cli/` exposes the executable wrapper, `drizzle-to-zero.ts` coordinates schema translation, adapters sit in `node-postgres/` and `postgres-js/`, and helpers such as `tables.ts` or `relations.ts` centralize shared builders. Vitest unit suites reside in `tests/`, while end-to-end fixtures live under `integration/`, `no-config-integration/`, and `db/`. Generated bundles land in `dist/` and coverage reports in `coverage/`; treat them as expendable artifacts unless you are preparing a release.
+Core CLI logic lives in `src/`: `cli/` exposes the executable wrapper, `drizzle-to-zero.ts` coordinates schema translation, and helpers such as `tables.ts` or `relations.ts` centralize shared builders. Vitest unit suites reside in `tests/`, while end-to-end fixtures live under `integration/`, `no-config-integration/`, and `db/`. Generated bundles land in `dist/` and coverage reports in `coverage/`; treat them as expendable artifacts unless you are preparing a release.
 
 ## Build, Test, and Development Commands
 

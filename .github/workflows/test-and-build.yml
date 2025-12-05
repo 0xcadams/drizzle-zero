@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   build-and-test:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -44,7 +44,7 @@ jobs:
         run: pnpm run test:types
 
   integration-tests:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: build-and-test
 
     strategy:

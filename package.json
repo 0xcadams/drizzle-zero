@@ -1,6 +1,6 @@
 {
   "name": "zero-drizzle",
-  "version": "0.16.2",
+  "version": "0.1.0",
   "description": "Generate Zero schemas from Drizzle ORM schemas",
   "type": "module",
   "scripts": {
@@ -22,16 +22,6 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
-    },
-    "./node-postgres": {
-      "types": "./dist/node-postgres/index.d.ts",
-      "import": "./dist/node-postgres/index.js",
-      "require": "./dist/node-postgres/index.cjs"
-    },
-    "./postgres-js": {
-      "types": "./dist/postgres-js/index.d.ts",
-      "import": "./dist/postgres-js/index.js",
-      "require": "./dist/postgres-js/index.cjs"
     },
     "./package.json": "./package.json"
   },
@@ -62,7 +52,7 @@
     "url": "https://bugs.rocicorp.dev"
   },
   "peerDependencies": {
-    "@rocicorp/zero": ">=0.22.2025081301",
+    "@rocicorp/zero": "",
     "@types/pg": "",
     "drizzle-orm": ">=0.36.0",
     "pg": "",
@@ -97,17 +87,17 @@
     "@types/pg": "^8.15.6",
     "@types/pluralize": "^0.0.33",
     "@types/ws": "^8.18.1",
-    "@vitest/browser": "^4.0.14",
-    "@vitest/coverage-v8": "4.0.14",
-    "@vitest/ui": "^4.0.14",
-    "drizzle-kit": "^0.31.7",
-    "drizzle-orm": "^0.44.7",
-    "prettier": "^3.7.3",
+    "@vitest/browser": "^4.0.15",
+    "@vitest/coverage-v8": "4.0.15",
+    "@vitest/ui": "^4.0.15",
+    "drizzle-kit": "^0.31.8",
+    "drizzle-orm": "^0.45.0",
+    "prettier": "^3.7.4",
     "tsup": "^8.5.1",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^4.0.14",
+    "vitest": "^4.0.15",
     "ws": "^8.18.3"
   },
   "pnpm": {

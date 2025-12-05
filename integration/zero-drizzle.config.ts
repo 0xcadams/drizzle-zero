@@ -1,7 +1,7 @@
 import { zeroDrizzleConfig } from "zero-drizzle";
 import * as drizzleSchema from "../db/drizzle/schema";
 
-export * from "../db/drizzle/types";
+export * from "@zero-drizzle/db/types";
 
 export const schema = zeroDrizzleConfig(drizzleSchema, {
   tables: {

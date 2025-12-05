@@ -12,6 +12,7 @@ describe("ensureSourceFileInProject", () => {
   beforeEach(() => {
     tsProject = new Project({
       tsConfigFilePath: path.resolve(__dirname, "../tsconfig.json"),
+      skipAddingFilesFromTsConfig: true,
     });
   });
 
