@@ -27,7 +27,7 @@ export function addSourceFilesFromTsConfigSafe({
     if (isFsPermissionError(error)) {
       const pathInfo = error.path ? ` while reading ${error.path}` : "";
       console.warn(
-        `⚠️  drizzle-zero: Skipping files from ${tsConfigPath} due to a permission error${pathInfo} (${error.code}).`,
+        `⚠️  zero-drizzle: Skipping files from ${tsConfigPath} due to a permission error${pathInfo} (${error.code}).`,
       );
       if (debug) {
         console.warn(error);
@@ -61,7 +61,7 @@ export function ensureSourceFileInProject({
   } catch (error) {
     if (debug) {
       console.warn(
-        `⚠️  drizzle-zero: Could not load ${filePath} into the TypeScript project.`,
+        `⚠️  zero-drizzle: Could not load ${filePath} into the TypeScript project.`,
         error,
       );
     }

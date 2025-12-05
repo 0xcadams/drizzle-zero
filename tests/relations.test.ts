@@ -9,7 +9,7 @@ import {
 } from "@rocicorp/zero";
 import { describe, test } from "vitest";
 import {
-  drizzleZeroConfig,
+  zeroDrizzleConfig,
   type DrizzleToZeroSchema,
   type ZeroCustomType,
 } from "../src/relations";
@@ -18,7 +18,7 @@ import { assertEqual, expectSchemaDeepEqual } from "./utils";
 describe("relationships", () => {
   test("relationships - no tables", async ({ expect }) => {
     await expect(() =>
-      drizzleZeroConfig(
+      zeroDrizzleConfig(
         {},
         {
           tables: {
@@ -29,7 +29,7 @@ describe("relationships", () => {
         },
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `[Error: ❌ drizzle-zero: No tables found in the input - did you export tables and relations from the Drizzle schema passed to the \`drizzleZeroConfig\` function?]`,
+      `[Error: ❌ zero-drizzle: No tables found in the input - did you export tables and relations from the Drizzle schema passed to the \`zeroDrizzleConfig\` function?]`,
     );
   });
 
@@ -39,9 +39,9 @@ describe("relationships", () => {
     const { schema: zeroSchema } = await import("./schemas/one-to-many.zero");
 
     await expect(() =>
-      drizzleZeroConfig(zeroSchema),
+      zeroDrizzleConfig(zeroSchema),
     ).toThrowErrorMatchingInlineSnapshot(
-      `[Error: drizzle-zero: table or relation with key enableLegacyQueries is not defined]`,
+      `[Error: zero-drizzle: table or relation with key enableLegacyQueries is not defined]`,
     );
   });
 
@@ -49,7 +49,7 @@ describe("relationships", () => {
     await expect(
       import("./schemas/many-to-many-incorrect-many.zero"),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `[Error: drizzle-zero: Invalid many-to-many configuration for users.usersToGroups: Not all required fields were provided.]`,
+      `[Error: zero-drizzle: Invalid many-to-many configuration for users.usersToGroups: Not all required fields were provided.]`,
     );
   });
 
@@ -158,7 +158,7 @@ describe("relationships", () => {
     await expect(
       import("./schemas/many-to-many-duplicate-relationship.zero"),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `[Error: drizzle-zero: Duplicate relationship found for: usersToGroups (from users to users_to_group).]`,
+      `[Error: zero-drizzle: Duplicate relationship found for: usersToGroups (from users to users_to_group).]`,
     );
   });
 
@@ -218,7 +218,7 @@ describe("relationships", () => {
     await expect(
       import("./schemas/one-to-many-missing-named.zero"),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `[Error: drizzle-zero: No relationship found for: author (Many from users to posts). Did you forget to define a named relation "author"?]`,
+      `[Error: zero-drizzle: No relationship found for: author (Many from users to posts). Did you forget to define a named relation "author"?]`,
     );
   });
 
@@ -226,7 +226,7 @@ describe("relationships", () => {
     await expect(
       import("./schemas/one-to-many-missing-one.zero"),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `[Error: drizzle-zero: No relationship found for: author (Many from users to posts). Did you forget to define an opposite One relation?]`,
+      `[Error: zero-drizzle: No relationship found for: author (Many from users to posts). Did you forget to define an opposite One relation?]`,
     );
   });
 
@@ -234,7 +234,7 @@ describe("relationships", () => {
     await expect(
       import("./schemas/relation-name-conflicts-column.zero"),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `[Error: drizzle-zero: Invalid relationship name for users.posts: there is already a table column with the name posts and this cannot be used as a relationship name]`,
+      `[Error: zero-drizzle: Invalid relationship name for users.posts: there is already a table column with the name posts and this cannot be used as a relationship name]`,
     );
   });
 
@@ -244,7 +244,7 @@ describe("relationships", () => {
     await expect(
       import("./schemas/many-to-many-relation-name-conflicts-column.zero"),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `[Error: drizzle-zero: Invalid relationship name for users.groups: there is already a table column with the name groups and this cannot be used as a relationship name]`,
+      `[Error: zero-drizzle: Invalid relationship name for users.groups: there is already a table column with the name groups and this cannot be used as a relationship name]`,
     );
   });
 
@@ -327,7 +327,7 @@ describe("relationships", () => {
       expected.tables.users.columns.id.customType,
     );
 
-    const directMapping = drizzleZeroConfig(drizzleSchema);
+    const directMapping = zeroDrizzleConfig(drizzleSchema);
     assertEqual(
       directMapping.tables.users.columns.id.customType,
       expected.tables.users.columns.id.customType,
@@ -403,7 +403,7 @@ describe("relationships", () => {
       expected.tables.users.columns.id.customType,
     );
 
-    const directMapping = drizzleZeroConfig(drizzleSchema);
+    const directMapping = zeroDrizzleConfig(drizzleSchema);
     assertEqual(
       directMapping.tables.users.columns.id.customType,
       expected.tables.users.columns.id.customType,

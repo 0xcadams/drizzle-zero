@@ -1,7 +1,7 @@
-import { drizzleZeroConfig } from "../../src";
+import { zeroDrizzleConfig } from "../../src";
 import * as postgresSchemaCollision from "./postgres-schema-collision.schema";
 
-export const schema = drizzleZeroConfig(postgresSchemaCollision, {
+export const schema = zeroDrizzleConfig(postgresSchemaCollision, {
   tables: {
     authUsers: {
       id: true,

@@ -14,6 +14,6 @@ export const getTableConfigForDatabase = <T extends Table>(table: T) => {
   }
 
   throw new Error(
-    `drizzle-zero: Unsupported table type: ${getTableName(table)}. Only Postgres tables are supported.`,
+    `zero-drizzle: Unsupported table type: ${getTableName(table)}. Only Postgres tables are supported.`,
   );
 };

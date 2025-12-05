@@ -1,18 +1,18 @@
 {
-  "name": "@drizzle-zero/no-config-integration",
+  "name": "@zero-drizzle/no-config-integration",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "drizzle-zero:generate": "drizzle-zero generate -f -s ../db/schema.ts --disable-legacy-mutators --disable-legacy-queries",
-    "pretest": "pnpm drizzle-zero:generate",
+    "zero-drizzle:generate": "zero-drizzle generate -f -s ../db/schema.ts --disable-legacy-mutators --disable-legacy-queries",
+    "pretest": "pnpm zero-drizzle:generate",
     "test": "pnpm build && vitest run"
   },
   "dependencies": {
-    "@drizzle-zero/custom-types": "workspace:*",
-    "@drizzle-zero/db": "workspace:*",
+    "@zero-drizzle/custom-types": "workspace:*",
+    "@zero-drizzle/db": "workspace:*",
     "@hono/node-server": "^1.19.6",
-    "drizzle-zero": "workspace:*",
+    "zero-drizzle": "workspace:*",
     "hono": "^4.10.7",
     "zod": "^4.1.13"
   }

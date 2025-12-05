@@ -1,5 +1,5 @@
 {
-  "name": "drizzle-zero",
+  "name": "zero-drizzle",
   "version": "0.16.2",
   "description": "Generate Zero schemas from Drizzle ORM schemas",
   "type": "module",
@@ -12,7 +12,7 @@
     "test:ui": "vitest --ui"
   },
   "bin": {
-    "drizzle-zero": "./dist/cli/index.js"
+    "zero-drizzle": "./dist/cli/index.js"
   },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
@@ -42,7 +42,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/0xcadams/drizzle-zero.git"
+    "url": "git+https://github.com/rocicorp/zero-drizzle.git"
   },
   "keywords": [
     "zero",
@@ -58,11 +58,8 @@
     "typescript",
     "ts"
   ],
-  "author": "0xcadams",
-  "license": "Unlicense",
-  "homepage": "https://github.com/0xcadams/drizzle-zero",
   "bugs": {
-    "url": "https://github.com/0xcadams/drizzle-zero/issues"
+    "url": "https://bugs.rocicorp.dev"
   },
   "peerDependencies": {
     "@rocicorp/zero": ">=0.22.2025081301",

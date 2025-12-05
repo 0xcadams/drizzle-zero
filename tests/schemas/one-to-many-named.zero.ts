@@ -1,7 +1,7 @@
-import { drizzleZeroConfig } from "../../src";
+import { zeroDrizzleConfig } from "../../src";
 import * as oneToManyNamed from "./one-to-many-named.schema";
 
-export const schema = drizzleZeroConfig(oneToManyNamed, {
+export const schema = zeroDrizzleConfig(oneToManyNamed, {
   tables: {
     users: {
       id: true,

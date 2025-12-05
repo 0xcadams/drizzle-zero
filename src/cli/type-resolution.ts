@@ -65,7 +65,7 @@ export function resolveCustomTypes({
   );
 
   resolverFile.addImportDeclaration({
-    moduleSpecifier: "drizzle-zero",
+    moduleSpecifier: "zero-drizzle",
     namedImports: [{ name: helperName }],
     isTypeOnly: true,
   });

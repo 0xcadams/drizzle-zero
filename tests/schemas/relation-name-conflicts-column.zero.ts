@@ -1,7 +1,7 @@
-import { drizzleZeroConfig } from "../../src";
+import { zeroDrizzleConfig } from "../../src";
 import * as relationNameConflictsColumn from "./relation-name-conflicts-column.schema";
 
-export const schema = drizzleZeroConfig(relationNameConflictsColumn, {
+export const schema = zeroDrizzleConfig(relationNameConflictsColumn, {
   tables: {
     users: {
       id: true,

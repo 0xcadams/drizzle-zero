@@ -12,7 +12,7 @@ import {
   ensureSourceFileInProject,
 } from "./ts-project";
 
-const defaultConfigFile = "./drizzle-zero.config.ts";
+const defaultConfigFile = "./zero-drizzle.config.ts";
 const defaultOutputFile = "./zero-schema.gen.ts";
 const defaultTsConfigFile = "./tsconfig.json";
 const defaultDrizzleKitConfigPath = "./drizzle.config.ts";
@@ -27,7 +27,7 @@ export async function loadPrettier() {
     return await import(pathToFileURL(path).href);
   } catch {
     throw new Error(
-      "⚠️  drizzle-zero: prettier could not be found. Install it locally with\n  npm i -D prettier",
+      "⚠️  zero-drizzle: prettier could not be found. Install it locally with\n  npm i -D prettier",
     );
   }
 }
@@ -39,7 +39,7 @@ export async function formatSchema(schema: string): Promise<string> {
       parser: "typescript",
     });
   } catch (error) {
-    console.warn("⚠️  drizzle-zero: prettier not found, skipping formatting");
+    console.warn("⚠️  zero-drizzle: prettier not found, skipping formatting");
     return schema;
   }
 }
@@ -84,7 +84,7 @@ async function main(opts: GeneratorOptions = {}) {
 
   if (!configFilePath) {
     console.log(
-      "😶‍🌫️  drizzle-zero: Using all tables/columns from Drizzle schema",
+      "😶‍🌫️  zero-drizzle: Using all tables/columns from Drizzle schema",
     );
   }
   const allTsConfigPaths = await discoverAllTsConfigs(resolvedTsConfigPath);
@@ -123,14 +123,14 @@ async function main(opts: GeneratorOptions = {}) {
 
   if (!result?.zeroSchema) {
     console.error(
-      "❌ drizzle-zero: No config found in the config file - did you export `default` or `schema`?",
+      "❌ zero-drizzle: No config found in the config file - did you export `default` or `schema`?",
     );
     process.exit(1);
   }
 
   if (Object.keys(result?.zeroSchema?.tables ?? {}).length === 0) {
     console.error(
-      "❌ drizzle-zero: No tables found in the Zero schema - did you export tables and relations from the input Drizzle schema?",
+      "❌ zero-drizzle: No tables found in the Zero schema - did you export tables and relations from the input Drizzle schema?",
     );
     process.exit(1);
   }
@@ -156,7 +156,7 @@ async function main(opts: GeneratorOptions = {}) {
 async function cli() {
   const program = new Command();
   program
-    .name("drizzle-zero")
+    .name("zero-drizzle")
     .description("The CLI for converting Drizzle ORM schemas to Zero schemas");
 
   program
@@ -200,7 +200,7 @@ async function cli() {
       false,
     )
     .action(async (command) => {
-      console.log(`⚙️  drizzle-zero: Generating zero schema...`);
+      console.log(`⚙️  zero-drizzle: Generating zero schema...`);
 
       const zeroSchema = await main({
         config: command.config,
@@ -220,7 +220,7 @@ async function cli() {
       if (command.output) {
         const outputPath = path.resolve(process.cwd(), command.output);
         await fs.writeFile(outputPath, zeroSchema);
-        console.log(`✅ drizzle-zero: Zero schema written to ${outputPath}`);
+        console.log(`✅ zero-drizzle: Zero schema written to ${outputPath}`);
       } else {
         console.log(zeroSchema);
       }
@@ -231,6 +231,6 @@ async function cli() {
 
 // Run the main function
 cli().catch((error) => {
-  console.error("❌ drizzle-zero error:", error);
+  console.error("❌ zero-drizzle error:", error);
   process.exit(1);
 });

@@ -1,17 +1,17 @@
-# drizzle-zero
+# zero-drizzle
 
 Generate [Zero](https://zero.rocicorp.dev/) schemas from [Drizzle ORM](https://orm.drizzle.team) schemas.
 
 ## Installation
 
 ```bash
-npm install drizzle-zero
+npm install zero-drizzle
 # or
-bun add drizzle-zero
+bun add zero-drizzle
 # or
-yarn add drizzle-zero
+yarn add zero-drizzle
 # or
-pnpm add drizzle-zero
+pnpm add zero-drizzle
 ```
 
 ## Usage
@@ -62,7 +62,7 @@ You can then add the schema generation script to your `package.json`:
 ```json
 {
   "scripts": {
-    "generate": "drizzle-zero generate --format",
+    "generate": "zero-drizzle generate --format",
     "postinstall": "npm generate"
   }
 }
@@ -135,22 +135,22 @@ function PostList() {
 }
 ```
 
-### Customize with `drizzle-zero.config.ts`
+### Customize with `zero-drizzle.config.ts`
 
 If you want to customize the tables/columns that are synced by Zero, you can optionally
-create a new config file at `drizzle-zero.config.ts` specifying the tables and/or columns you want to
+create a new config file at `zero-drizzle.config.ts` specifying the tables and/or columns you want to
 include in the CLI output:
 
 > **Important:** The config file currently struggles with types for large schemas. In those cases,
 > stick with the default CLI behavior.
 
 ```ts
-import { drizzleZeroConfig } from "drizzle-zero";
+import { zeroDrizzleConfig } from "zero-drizzle";
 // directly glob import your original Drizzle schema w/ tables/relations
 import * as drizzleSchema from "./drizzle-schema";
 
 // Define your configuration file for the CLI
-export default drizzleZeroConfig(drizzleSchema, {
+export default zeroDrizzleConfig(drizzleSchema, {
   // Specify which tables and columns to include in the Zero schema.
   // This allows for the "expand/migrate/contract" pattern recommended in the Zero docs.
 
@@ -186,18 +186,18 @@ export default drizzleZeroConfig(drizzleSchema, {
 
 You can customize this config file path with `-c, --config <input-file>`.
 
-**Important:** the `drizzle-zero.config.ts` file **must be included in the tsconfig**
+**Important:** the `zero-drizzle.config.ts` file **must be included in the tsconfig**
 for the type resolution to work. If they are not included, there will be an error similar to
 `Failed to find type definitions`.
 
 ## Many-to-Many Relationships
 
-drizzle-zero supports many-to-many relationships with a junction table. You can configure them in two ways:
+zero-drizzle supports many-to-many relationships with a junction table. You can configure them in two ways:
 
 ### Simple Configuration
 
 ```ts
-export default drizzleZeroConfig(drizzleSchema, {
+export default zeroDrizzleConfig(drizzleSchema, {
   tables: {
     user: {
       id: true,
@@ -247,7 +247,7 @@ console.log(user);
 For more complex scenarios like self-referential relationships:
 
 ```ts
-export default drizzleZeroConfig(drizzleSchema, {
+export default zeroDrizzleConfig(drizzleSchema, {
   tables: {
     user: {
       id: true,
@@ -292,7 +292,3 @@ export default drizzleZeroConfig(drizzleSchema, {
   - Many-to-many relationships with simple or extended configuration
   - Self-referential relationships
 - Handles custom schemas and column mappings
-
-## License
-
-[CC0](LICENSE)

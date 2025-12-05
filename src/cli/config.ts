@@ -5,7 +5,7 @@ import type { Project } from "ts-morph";
 import { tsImport } from "tsx/esm/api";
 import type { DrizzleToZeroSchema } from "../relations";
 
-export const defaultConfigFilePath = "drizzle-zero.config.ts";
+export const defaultConfigFilePath = "zero-drizzle.config.ts";
 
 export const getDefaultConfigFilePath = async () => {
   const fullConfigPath = path.resolve(process.cwd(), defaultConfigFilePath);
@@ -16,7 +16,7 @@ export const getDefaultConfigFilePath = async () => {
     return null;
   }
 
-  return "drizzle-zero.config.ts";
+  return "zero-drizzle.config.ts";
 };
 
 export const getConfigFromFile = async ({
@@ -32,7 +32,7 @@ export const getConfigFromFile = async ({
     await fs.access(fullConfigPath);
   } catch (error) {
     throw new Error(
-      `❌ drizzle-zero: Failed to find config file at ${fullConfigPath}`,
+      `❌ zero-drizzle: Failed to find config file at ${fullConfigPath}`,
     );
   }
 
@@ -61,7 +61,7 @@ export const getConfigFromFile = async ({
     } as const;
   } catch (error) {
     console.error(
-      `❌ drizzle-zero: Failed to import config file at ${fullConfigPath}${typeModuleErrorMessage}`,
+      `❌ zero-drizzle: Failed to import config file at ${fullConfigPath}${typeModuleErrorMessage}`,
       error,
     );
     process.exit(1);
@@ -83,7 +83,7 @@ export async function getZeroSchemaDefsFromConfig({
 
   if (!sourceFile) {
     throw new Error(
-      `❌ drizzle-zero: Failed to find type definitions for ${fileName}`,
+      `❌ zero-drizzle: Failed to find type definitions for ${fileName}`,
     );
   }
 
@@ -98,7 +98,7 @@ export async function getZeroSchemaDefsFromConfig({
   }
 
   throw new Error(
-    `❌ drizzle-zero: No config type found in the config file - did you export \`default\` or \`schema\`? Found: ${sourceFile
+    `❌ zero-drizzle: No config type found in the config file - did you export \`default\` or \`schema\`? Found: ${sourceFile
       .getVariableDeclarations()
       .map((v) => v.getName())
       .join(", ")}`,

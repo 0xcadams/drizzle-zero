@@ -4,7 +4,7 @@ import {
   db,
   shutdown,
   startPostgresAndZero,
-} from "@drizzle-zero/db/test-utils";
+} from "@zero-drizzle/db/test-utils";
 import { Zero } from "@rocicorp/zero";
 import { zeroDrizzle } from "@rocicorp/zero/server/adapters/drizzle";
 import type { Server } from "http";
@@ -36,7 +36,7 @@ import {
   type Schema,
   type User,
 } from "../zero-schema.gen";
-import { getShortCode } from "@drizzle-zero/db/types";
+import { getShortCode } from "@zero-drizzle/db/types";
 
 const zeroDb = zeroDrizzle(schema, db as any);
 

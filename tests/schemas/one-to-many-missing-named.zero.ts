@@ -1,7 +1,7 @@
-import { drizzleZeroConfig } from "../../src";
+import { zeroDrizzleConfig } from "../../src";
 import * as oneToManyMissingNamed from "./one-to-many-missing-named.schema";
 
-export const schema = drizzleZeroConfig(oneToManyMissingNamed, {
+export const schema = zeroDrizzleConfig(oneToManyMissingNamed, {
   tables: {
     users: {
       id: true,

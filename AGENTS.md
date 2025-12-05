@@ -27,4 +27,4 @@ Follow the conventional-commit style found in `git log` (`feat:`, `fix:`, `chore
 
 ## Configuration & Security Tips
 
-Ensure both `drizzle.config.ts` and any `drizzle-zero.config.ts` files stay inside the `tsconfig` `include` glob so type extraction works. Never commit credentials inside fixture configs—use environment variables or `.env.local` ignored by git. When adding new CLI flags, document them in `README.md` and consider wiring sanity tests in `integration/` to prevent regressions around schema casing or output paths.
+Ensure both `drizzle.config.ts` and any `zero-drizzle.config.ts` files stay inside the `tsconfig` `include` glob so type extraction works. Never commit credentials inside fixture configs—use environment variables or `.env.local` ignored by git. When adding new CLI flags, document them in `README.md` and consider wiring sanity tests in `integration/` to prevent regressions around schema casing or output paths.
