@@ -9,7 +9,7 @@ import {
 } from "@rocicorp/zero";
 import { describe, test } from "vitest";
 import {
-  drizzleZeroConfig,
+  zeroDrizzleConfig,
   type DrizzleToZeroSchema,
   type ZeroCustomType,
 } from "../src/relations";
@@ -18,7 +18,7 @@ import { assertEqual, expectSchemaDeepEqual } from "./utils";
 describe("relationships", () => {
   test("relationships - no tables", async ({ expect }) => {
     await expect(() =>
-      drizzleZeroConfig(
+      zeroDrizzleConfig(
         {},
         {
           tables: {
@@ -29,7 +29,7 @@ describe("relationships", () => {
         },
       ),
     ).toThrowErrorMatchingInlineSnapshot(
-      `[Error: ❌ zero-drizzle: No tables found in the input - did you export tables and relations from the Drizzle schema passed to the \`drizzleZeroConfig\` function?]`,
+      `[Error: ❌ zero-drizzle: No tables found in the input - did you export tables and relations from the Drizzle schema passed to the \`zeroDrizzleConfig\` function?]`,
     );
   });
 
@@ -39,7 +39,7 @@ describe("relationships", () => {
     const { schema: zeroSchema } = await import("./schemas/one-to-many.zero");
 
     await expect(() =>
-      drizzleZeroConfig(zeroSchema),
+      zeroDrizzleConfig(zeroSchema),
     ).toThrowErrorMatchingInlineSnapshot(
       `[Error: zero-drizzle: table or relation with key enableLegacyQueries is not defined]`,
     );
@@ -327,7 +327,7 @@ describe("relationships", () => {
       expected.tables.users.columns.id.customType,
     );
 
-    const directMapping = drizzleZeroConfig(drizzleSchema);
+    const directMapping = zeroDrizzleConfig(drizzleSchema);
     assertEqual(
       directMapping.tables.users.columns.id.customType,
       expected.tables.users.columns.id.customType,
@@ -403,7 +403,7 @@ describe("relationships", () => {
       expected.tables.users.columns.id.customType,
     );
 
-    const directMapping = drizzleZeroConfig(drizzleSchema);
+    const directMapping = zeroDrizzleConfig(drizzleSchema);
     assertEqual(
       directMapping.tables.users.columns.id.customType,
       expected.tables.users.columns.id.customType,

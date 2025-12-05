@@ -145,12 +145,12 @@ include in the CLI output:
 > stick with the default CLI behavior.
 
 ```ts
-import { drizzleZeroConfig } from "zero-drizzle";
+import { zeroDrizzleConfig } from "zero-drizzle";
 // directly glob import your original Drizzle schema w/ tables/relations
 import * as drizzleSchema from "./drizzle-schema";
 
 // Define your configuration file for the CLI
-export default drizzleZeroConfig(drizzleSchema, {
+export default zeroDrizzleConfig(drizzleSchema, {
   // Specify which tables and columns to include in the Zero schema.
   // This allows for the "expand/migrate/contract" pattern recommended in the Zero docs.
 
@@ -197,7 +197,7 @@ zero-drizzle supports many-to-many relationships with a junction table. You can 
 ### Simple Configuration
 
 ```ts
-export default drizzleZeroConfig(drizzleSchema, {
+export default zeroDrizzleConfig(drizzleSchema, {
   tables: {
     user: {
       id: true,
@@ -247,7 +247,7 @@ console.log(user);
 For more complex scenarios like self-referential relationships:
 
 ```ts
-export default drizzleZeroConfig(drizzleSchema, {
+export default zeroDrizzleConfig(drizzleSchema, {
   tables: {
     user: {
       id: true,

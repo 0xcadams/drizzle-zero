@@ -4,7 +4,7 @@ import * as path from "node:path";
 import * as url from "node:url";
 import type { Project } from "ts-morph";
 import { tsImport } from "tsx/esm/api";
-import { drizzleZeroConfig, type DrizzleToZeroSchema } from "../relations";
+import { zeroDrizzleConfig, type DrizzleToZeroSchema } from "../relations";
 import { ensureSourceFileInProject } from "./ts-project";
 
 export const getDefaultConfig = async ({
@@ -35,7 +35,7 @@ export const getDefaultConfig = async ({
     import.meta.url,
   );
 
-  const zeroSchema = drizzleZeroConfig(drizzleSchema, {
+  const zeroSchema = zeroDrizzleConfig(drizzleSchema, {
     casing: drizzleCasing ?? undefined,
     debug: Boolean(debug),
   });

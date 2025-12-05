@@ -1,8 +1,8 @@
 import { describe, expect, test } from "vitest";
-import { drizzleZeroConfig } from "../src/relations";
+import { zeroDrizzleConfig } from "../src/relations";
 import { pgTable, serial, text, primaryKey } from "drizzle-orm/pg-core";
 
-describe("drizzleZeroConfig with explicit table and column configuration", () => {
+describe("zeroDrizzleConfig with explicit table and column configuration", () => {
   const users = pgTable("users", {
     id: serial("id").primaryKey(),
     name: text("name").notNull(),
@@ -38,7 +38,7 @@ describe("drizzleZeroConfig with explicit table and column configuration", () =>
   const drizzleSchema = { users, posts, comments, usersToPosts };
 
   test("should include all tables and columns when no config is provided", () => {
-    const schema = drizzleZeroConfig(drizzleSchema);
+    const schema = zeroDrizzleConfig(drizzleSchema);
 
     // All tables should be present
     expect(Object.keys(schema.tables).length).toBe(4);
@@ -62,7 +62,7 @@ describe("drizzleZeroConfig with explicit table and column configuration", () =>
   });
 
   test("should handle explicit table and column configurations", () => {
-    const schema = drizzleZeroConfig(drizzleSchema, {
+    const schema = zeroDrizzleConfig(drizzleSchema, {
       tables: {
         users: true, // include all columns
         usersToPosts: {

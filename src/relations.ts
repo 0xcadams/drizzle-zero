@@ -207,7 +207,7 @@ type DrizzleToZeroSchema<
  * ```typescript
  * import { integer, pgTable, serial, text, varchar } from 'drizzle-orm/pg-core';
  * import { relations } from 'drizzle-orm';
- * import { drizzleZeroConfig } from 'zero-drizzle';
+ * import { zeroDrizzleConfig } from 'zero-drizzle';
  *
  * // Define Drizzle schema
  * const users = pgTable('users', {
@@ -229,7 +229,7 @@ type DrizzleToZeroSchema<
  * }));
  *
  * // Export the configuration for the Zero schema CLI
- * export default drizzleZeroConfig(
+ * export default zeroDrizzleConfig(
  *   { users, posts, usersRelations },
  *   {
  *     tables: {
@@ -247,7 +247,7 @@ type DrizzleToZeroSchema<
  * );
  * ```
  */
-const drizzleZeroConfig = <
+const zeroDrizzleConfig = <
   const TDrizzleSchema extends { [K in string]: unknown },
   const TColumnConfig extends
     TableColumnsConfig<TDrizzleSchema> = DefaultTableColumnsConfig<TDrizzleSchema>,
@@ -394,8 +394,8 @@ const drizzleZeroConfig = <
   if (tables.length === 0) {
     throw new Error(
       schema["tables"]
-        ? "❌ zero-drizzle: No tables found in the input - did you pass in a Zero schema to the `drizzleZeroConfig` function instead of a Drizzle schema?"
-        : "❌ zero-drizzle: No tables found in the input - did you export tables and relations from the Drizzle schema passed to the `drizzleZeroConfig` function?",
+        ? "❌ zero-drizzle: No tables found in the input - did you pass in a Zero schema to the `zeroDrizzleConfig` function instead of a Drizzle schema?"
+        : "❌ zero-drizzle: No tables found in the input - did you export tables and relations from the Drizzle schema passed to the `zeroDrizzleConfig` function?",
     );
   }
 
@@ -959,7 +959,7 @@ const getDrizzleKeyFromTable = ({
 };
 
 export {
-  drizzleZeroConfig,
+  zeroDrizzleConfig,
   type CustomType,
   type DrizzleToZeroSchema,
   type ZeroCustomType,

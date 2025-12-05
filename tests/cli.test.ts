@@ -313,7 +313,6 @@ describe("getGeneratedSchema", () => {
     expect(generatedSchema).toContain('"id": {');
     expect(generatedSchema).toContain('"name": {');
 
-    // Verify the import statements for DrizzleZeroTypes and DrizzleToZeroSchema
     expect(generatedSchema).toContain(
       'import type * as drizzleSchema from "./mock-drizzle-schema";',
     );
@@ -1573,9 +1572,8 @@ describe("drizzle-kit functions", () => {
   describe("getDrizzleSchemaSourceFile", () => {
     it("should return source file when it exists", async () => {
       // Import the function to test
-      const { getDrizzleSchemaSourceFile } = await import(
-        "../src/cli/drizzle-kit"
-      );
+      const { getDrizzleSchemaSourceFile } =
+        await import("../src/cli/drizzle-kit");
 
       // Call the function with valid path
       const sourceFile = await getDrizzleSchemaSourceFile({
@@ -1590,9 +1588,8 @@ describe("drizzle-kit functions", () => {
 
     it("should throw error when source file does not exist", async () => {
       // Import the function to test
-      const { getDrizzleSchemaSourceFile } = await import(
-        "../src/cli/drizzle-kit"
-      );
+      const { getDrizzleSchemaSourceFile } =
+        await import("../src/cli/drizzle-kit");
 
       // Call with invalid path and expect error
       await expect(
@@ -1607,9 +1604,8 @@ describe("drizzle-kit functions", () => {
   describe("getFullDrizzleSchemaFilePath", () => {
     it("should return the provided schema path when it exists", async () => {
       // Import the function to test
-      const { getFullDrizzleSchemaFilePath } = await import(
-        "../src/cli/drizzle-kit"
-      );
+      const { getFullDrizzleSchemaFilePath } =
+        await import("../src/cli/drizzle-kit");
 
       // Create a temporary test file
       const tempFilePath = path.resolve(process.cwd(), "temp-schema.ts");
@@ -1636,9 +1632,8 @@ describe("drizzle-kit functions", () => {
       vi.resetModules();
 
       // Import the function to test
-      const { getFullDrizzleSchemaFilePath } = await import(
-        "../src/cli/drizzle-kit"
-      );
+      const { getFullDrizzleSchemaFilePath } =
+        await import("../src/cli/drizzle-kit");
 
       // Mock process.exit to throw instead of exiting
       const mockExit = vi.spyOn(process, "exit").mockImplementation((() => {
@@ -1707,7 +1702,7 @@ describe("drizzle-kit functions", () => {
         }));
 
         vi.doMock("../src/relations", () => ({
-          drizzleZeroConfig: vi.fn().mockReturnValue({
+          zeroDrizzleConfig: vi.fn().mockReturnValue({
             tables: {
               users: { name: "users", primaryKey: ["id"], columns: {} },
             },
