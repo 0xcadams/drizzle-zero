@@ -1,4 +1,4 @@
-import { drizzleZeroConfig } from "drizzle-zero";
+import { drizzleZeroConfig } from "zero-drizzle";
 import * as drizzleSchema from "../db/drizzle/schema";
 
 export * from "../db/drizzle/types";

@@ -21,7 +21,7 @@ export async function resolveReferencePath(
     return resolvedPath;
   } catch {
     console.warn(
-      `⚠️  drizzle-zero: Could not resolve reference path: ${refPath}`,
+      `⚠️  zero-drizzle: Could not resolve reference path: ${refPath}`,
     );
     return;
   }
@@ -48,7 +48,7 @@ export async function discoverAllTsConfigs(
 
       if (errors.length > 0) {
         console.warn(
-          `⚠️  drizzle-zero: Found syntax errors in ${path.relative(process.cwd(), tsConfigPath)}. The resolver will attempt to continue.`,
+          `⚠️  zero-drizzle: Found syntax errors in ${path.relative(process.cwd(), tsConfigPath)}. The resolver will attempt to continue.`,
         );
       }
 
@@ -80,11 +80,11 @@ export async function discoverAllTsConfigs(
         error.code === "ENOENT"
       ) {
         console.warn(
-          `⚠️  drizzle-zero: Could not find tsconfig file: ${tsConfigPath}`,
+          `⚠️  zero-drizzle: Could not find tsconfig file: ${tsConfigPath}`,
         );
       } else {
         throw new Error(
-          `❌  drizzle-zero: Error processing tsconfig file: ${tsConfigPath}: ${error}`,
+          `❌  zero-drizzle: Error processing tsconfig file: ${tsConfigPath}: ${error}`,
         );
       }
       return [];

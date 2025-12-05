@@ -1,7 +1,7 @@
 import type {
   CustomJsonInterface,
   CustomJsonType,
-} from "@drizzle-zero/custom-types";
+} from "@zero-drizzle/custom-types";
 import { relations, sql } from "drizzle-orm";
 import {
   bigint,

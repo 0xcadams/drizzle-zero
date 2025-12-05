@@ -1558,7 +1558,7 @@ describe("tables", () => {
         invalid: "someinvalidtype",
       } as unknown as ColumnsConfig<typeof testTable>),
     ).toThrowErrorMatchingInlineSnapshot(
-      `[Error: drizzle-zero: Invalid column config for column invalid - expected boolean or ColumnBuilder but was string]`,
+      `[Error: zero-drizzle: Invalid column config for column invalid - expected boolean or ColumnBuilder but was string]`,
     );
   });
 
@@ -1574,7 +1574,7 @@ describe("tables", () => {
         invalid: "someinvalidtype",
       } as unknown as ColumnsConfig<typeof testTable>),
     ).toThrowErrorMatchingInlineSnapshot(
-      `[Error: drizzle-zero: Invalid column config for column invalid - expected boolean or ColumnBuilder but was string]`,
+      `[Error: zero-drizzle: Invalid column config for column invalid - expected boolean or ColumnBuilder but was string]`,
     );
   });
 
@@ -1694,7 +1694,7 @@ describe("tables", () => {
     // Should warn about unsupported interval types but not throw
     expect(consoleSpy).toHaveBeenCalledWith(
       expect.stringContaining(
-        "🚨  drizzle-zero: Unsupported column type: interval - PgInterval (string)",
+        "🚨  zero-drizzle: Unsupported column type: interval - PgInterval (string)",
       ),
     );
 
@@ -1717,7 +1717,7 @@ describe("tables", () => {
     // Should warn about unsupported cidr types but not throw
     expect(consoleSpy).toHaveBeenCalledWith(
       expect.stringContaining(
-        "🚨  drizzle-zero: Unsupported column type: cidr - PgCidr (string)",
+        "🚨  zero-drizzle: Unsupported column type: cidr - PgCidr (string)",
       ),
     );
 
@@ -1740,7 +1740,7 @@ describe("tables", () => {
     // Should warn about unsupported macaddr types but not throw
     expect(consoleSpy).toHaveBeenCalledWith(
       expect.stringContaining(
-        "🚨  drizzle-zero: Unsupported column type: macaddr - PgMacaddr (string)",
+        "🚨  zero-drizzle: Unsupported column type: macaddr - PgMacaddr (string)",
       ),
     );
 
@@ -1763,7 +1763,7 @@ describe("tables", () => {
     // Should warn about unsupported inet types but not throw
     expect(consoleSpy).toHaveBeenCalledWith(
       expect.stringContaining(
-        "🚨  drizzle-zero: Unsupported column type: inet - PgInet (string)",
+        "🚨  zero-drizzle: Unsupported column type: inet - PgInet (string)",
       ),
     );
 
@@ -1786,7 +1786,7 @@ describe("tables", () => {
     // Should warn about unsupported point types but not throw
     expect(consoleSpy).toHaveBeenCalledWith(
       expect.stringContaining(
-        "🚨  drizzle-zero: Unsupported column type: point - PgPointTuple (array)",
+        "🚨  zero-drizzle: Unsupported column type: point - PgPointTuple (array)",
       ),
     );
 
@@ -1809,7 +1809,7 @@ describe("tables", () => {
     // Should warn about unsupported line types but not throw
     expect(consoleSpy).toHaveBeenCalledWith(
       expect.stringContaining(
-        "🚨  drizzle-zero: Unsupported column type: line - PgLine (array)",
+        "🚨  zero-drizzle: Unsupported column type: line - PgLine (array)",
       ),
     );
 
@@ -1835,7 +1835,7 @@ describe("tables", () => {
 
     expect(consoleSpy).toHaveBeenCalledWith(
       expect.stringContaining(
-        "🚨  drizzle-zero: Unsupported column type: location - PgGeometryObject (json)",
+        "🚨  zero-drizzle: Unsupported column type: location - PgGeometryObject (json)",
       ),
     );
 
@@ -1966,7 +1966,7 @@ describe("tables", () => {
         id: true,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `[Error: drizzle-zero: No primary keys found in table - test. Did you forget to define a primary key?]`,
+      `[Error: zero-drizzle: No primary keys found in table - test. Did you forget to define a primary key?]`,
     );
   });
 
@@ -1982,7 +1982,7 @@ describe("tables", () => {
         name: true,
       }),
     ).toThrowErrorMatchingInlineSnapshot(
-      `[Error: drizzle-zero: Unsupported table type: test. Only Postgres tables are supported.]`,
+      `[Error: zero-drizzle: Unsupported table type: test. Only Postgres tables are supported.]`,
     );
   });
 });
