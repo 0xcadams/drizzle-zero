@@ -1374,7 +1374,7 @@ describe("getGeneratedSchema", () => {
     );
   });
 
-  it("should set enableLegacyMutators to false when disableLegacyMutators is true", async () => {
+  it("should set enableLegacyMutators to true", async () => {
     const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
       tsProject,
       configPath: schemaPath,
@@ -1402,127 +1402,15 @@ describe("getGeneratedSchema", () => {
         zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
       },
       outputFilePath,
-      disableLegacyMutators: true,
+      enableLegacyMutators: true,
     });
 
-    // Check that enableLegacyMutators is set to false in the generated schema
-    expect(generatedSchema).toContain('"enableLegacyMutators": false');
-    expect(generatedSchema).not.toContain('"enableLegacyMutators": true');
-  });
-
-  it("should set enableLegacyQueries to false when disableLegacyQueries is true", async () => {
-    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
-      tsProject,
-      configPath: schemaPath,
-      exportName: "schema",
-    });
-
-    const generatedSchema = await getGeneratedSchema({
-      tsProject,
-      result: {
-        type: "config",
-        zeroSchema: {
-          tables: {
-            users: {
-              name: "users",
-              primaryKey: ["id"],
-              columns: {
-                id: { type: "number", optional: false, customType: undefined },
-              },
-            },
-          },
-          relationships: {},
-          enableLegacyQueries: true,
-        },
-        exportName: "schema",
-        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
-      },
-      outputFilePath,
-      disableLegacyQueries: true,
-    });
-
-    // Check that enableLegacyQueries is set to false in the generated schema
-    expect(generatedSchema).toContain('"enableLegacyQueries": false');
-    expect(generatedSchema).not.toContain('"enableLegacyQueries": true');
-  });
-
-  it("should set both enableLegacyMutators and enableLegacyQueries to false when both disable flags are true", async () => {
-    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
-      tsProject,
-      configPath: schemaPath,
-      exportName: "schema",
-    });
-
-    const generatedSchema = await getGeneratedSchema({
-      tsProject,
-      result: {
-        type: "config",
-        zeroSchema: {
-          tables: {
-            users: {
-              name: "users",
-              primaryKey: ["id"],
-              columns: {
-                id: { type: "number", optional: false, customType: undefined },
-              },
-            },
-          },
-          relationships: {},
-          enableLegacyMutators: true,
-          enableLegacyQueries: true,
-        },
-        exportName: "schema",
-        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
-      },
-      outputFilePath,
-      disableLegacyMutators: true,
-      disableLegacyQueries: true,
-    });
-
-    // Check that both flags are set to false in the generated schema
-    expect(generatedSchema).toContain('"enableLegacyMutators": false');
-    expect(generatedSchema).toContain('"enableLegacyQueries": false');
-    expect(generatedSchema).not.toContain('"enableLegacyMutators": true');
-    expect(generatedSchema).not.toContain('"enableLegacyQueries": true');
-  });
-
-  it("should keep enableLegacyMutators as true when disableLegacyMutators is false", async () => {
-    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
-      tsProject,
-      configPath: schemaPath,
-      exportName: "schema",
-    });
-
-    const generatedSchema = await getGeneratedSchema({
-      tsProject,
-      result: {
-        type: "config",
-        zeroSchema: {
-          tables: {
-            users: {
-              name: "users",
-              primaryKey: ["id"],
-              columns: {
-                id: { type: "number", optional: false, customType: undefined },
-              },
-            },
-          },
-          relationships: {},
-          enableLegacyMutators: true,
-        },
-        exportName: "schema",
-        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
-      },
-      outputFilePath,
-      disableLegacyMutators: false,
-    });
-
-    // Check that enableLegacyMutators remains true in the generated schema
+    // Check that enableLegacyMutators is set to true in the generated schema
     expect(generatedSchema).toContain('"enableLegacyMutators": true');
     expect(generatedSchema).not.toContain('"enableLegacyMutators": false');
   });
 
-  it("should keep enableLegacyQueries as true when disableLegacyQueries is false", async () => {
+  it("should set enableLegacyQueries to true", async () => {
     const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
       tsProject,
       configPath: schemaPath,
@@ -1550,11 +1438,51 @@ describe("getGeneratedSchema", () => {
         zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
       },
       outputFilePath,
-      disableLegacyQueries: false,
+      enableLegacyQueries: true,
     });
 
-    // Check that enableLegacyQueries remains true in the generated schema
+    // Check that enableLegacyQueries is set to false in the generated schema
     expect(generatedSchema).toContain('"enableLegacyQueries": true');
+    expect(generatedSchema).not.toContain('"enableLegacyQueries": false');
+  });
+
+  it("should set both enableLegacyMutators and enableLegacyQueries to true when both enable flags are true", async () => {
+    const zeroSchemaTypeDecl = await getZeroSchemaDefsFromConfig({
+      tsProject,
+      configPath: schemaPath,
+      exportName: "schema",
+    });
+
+    const generatedSchema = await getGeneratedSchema({
+      tsProject,
+      result: {
+        type: "config",
+        zeroSchema: {
+          tables: {
+            users: {
+              name: "users",
+              primaryKey: ["id"],
+              columns: {
+                id: { type: "number", optional: false, customType: undefined },
+              },
+            },
+          },
+          relationships: {},
+          enableLegacyMutators: true,
+          enableLegacyQueries: true,
+        },
+        exportName: "schema",
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+      enableLegacyMutators: true,
+      enableLegacyQueries: true,
+    });
+
+    // Check that both flags are set to false in the generated schema
+    expect(generatedSchema).toContain('"enableLegacyMutators": true');
+    expect(generatedSchema).toContain('"enableLegacyQueries": true');
+    expect(generatedSchema).not.toContain('"enableLegacyMutators": false');
     expect(generatedSchema).not.toContain('"enableLegacyQueries": false');
   });
 });
@@ -1573,9 +1501,8 @@ describe("drizzle-kit functions", () => {
   describe("getDrizzleSchemaSourceFile", () => {
     it("should return source file when it exists", async () => {
       // Import the function to test
-      const { getDrizzleSchemaSourceFile } = await import(
-        "../src/cli/drizzle-kit"
-      );
+      const { getDrizzleSchemaSourceFile } =
+        await import("../src/cli/drizzle-kit");
 
       // Call the function with valid path
       const sourceFile = await getDrizzleSchemaSourceFile({
@@ -1590,9 +1517,8 @@ describe("drizzle-kit functions", () => {
 
     it("should throw error when source file does not exist", async () => {
       // Import the function to test
-      const { getDrizzleSchemaSourceFile } = await import(
-        "../src/cli/drizzle-kit"
-      );
+      const { getDrizzleSchemaSourceFile } =
+        await import("../src/cli/drizzle-kit");
 
       // Call with invalid path and expect error
       await expect(
@@ -1607,9 +1533,8 @@ describe("drizzle-kit functions", () => {
   describe("getFullDrizzleSchemaFilePath", () => {
     it("should return the provided schema path when it exists", async () => {
       // Import the function to test
-      const { getFullDrizzleSchemaFilePath } = await import(
-        "../src/cli/drizzle-kit"
-      );
+      const { getFullDrizzleSchemaFilePath } =
+        await import("../src/cli/drizzle-kit");
 
       // Create a temporary test file
       const tempFilePath = path.resolve(process.cwd(), "temp-schema.ts");
@@ -1636,9 +1561,8 @@ describe("drizzle-kit functions", () => {
       vi.resetModules();
 
       // Import the function to test
-      const { getFullDrizzleSchemaFilePath } = await import(
-        "../src/cli/drizzle-kit"
-      );
+      const { getFullDrizzleSchemaFilePath } =
+        await import("../src/cli/drizzle-kit");
 
       // Mock process.exit to throw instead of exiting
       const mockExit = vi.spyOn(process, "exit").mockImplementation((() => {
