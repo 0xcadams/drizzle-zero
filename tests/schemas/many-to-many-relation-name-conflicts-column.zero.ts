@@ -1,7 +1,7 @@
-import {zeroDrizzleConfig} from '../../src';
+import {drizzleZeroConfig} from '../../src';
 import * as manyToManyConflicts from './many-to-many-relation-name-conflicts-column.schema';
 
-export const schema = zeroDrizzleConfig(manyToManyConflicts, {
+export const schema = drizzleZeroConfig(manyToManyConflicts, {
   tables: {
     users: {
       id: true,

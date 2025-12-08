@@ -1,7 +1,7 @@
-import {zeroDrizzleConfig} from '../../src';
+import {drizzleZeroConfig} from '../../src';
 import * as manyToManySelfReferentialFk from './many-to-many-self-referential-fk.schema';
 
-export const schema = zeroDrizzleConfig(manyToManySelfReferentialFk, {
+export const schema = drizzleZeroConfig(manyToManySelfReferentialFk, {
   tables: {
     doc: {
       id: true,

@@ -10,6 +10,6 @@ export function debugLog(
   ...args: any[]
 ) {
   if (debug) {
-    console.log(`ℹ️ zero-drizzle: ${message}`, ...args);
+    console.log(`ℹ️ drizzle-zero: ${message}`, ...args);
   }
 }

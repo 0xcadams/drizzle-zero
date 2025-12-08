@@ -1,7 +1,7 @@
-import {zeroDrizzleConfig} from '../../src';
+import {drizzleZeroConfig} from '../../src';
 import * as customSchema from './custom-schema.schema';
 
-export const schema = zeroDrizzleConfig(customSchema, {
+export const schema = drizzleZeroConfig(customSchema, {
   tables: {
     users: {
       id: true,

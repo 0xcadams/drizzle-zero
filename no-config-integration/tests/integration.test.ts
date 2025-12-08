@@ -1,15 +1,16 @@
-import {startGetQueriesServer} from '../get-queries-server';
 import {
   ZERO_PORT,
   db,
   shutdown,
   startPostgresAndZero,
-} from '@zero-drizzle/db/test-utils';
+} from '@drizzle-zero/db/test-utils';
+import {getShortCode} from '@drizzle-zero/db/types';
 import {Zero} from '@rocicorp/zero';
 import {zeroDrizzle} from '@rocicorp/zero/server/adapters/drizzle';
 import type {Server} from 'http';
 import {
   afterAll,
+  assert,
   beforeAll,
   describe,
   expect,
@@ -17,7 +18,10 @@ import {
   test,
 } from 'vitest';
 import {WebSocket} from 'ws';
-import {stopGetQueriesServer} from '../get-queries-server';
+import {
+  startGetQueriesServer,
+  stopGetQueriesServer,
+} from '../get-queries-server';
 import {
   allTypesById,
   allUsers,
@@ -36,12 +40,11 @@ import {
   type Schema,
   type User,
 } from '../zero-schema.gen';
-import {getShortCode} from '@zero-drizzle/db/types';
 
-const zeroDb = zeroDrizzle(schema, db as any);
+const zeroDb = zeroDrizzle(schema, db);
 
 // Provide WebSocket on the global scope
-globalThis.WebSocket = WebSocket as any;
+globalThis.WebSocket = WebSocket as unknown as typeof globalThis.WebSocket;
 
 let queriesServer: Server;
 
@@ -795,7 +798,9 @@ describe('complex order', () => {
     });
 
     const query = complexOrderWithEverything(undefined, 'order-test-1');
-    const result = (await zero.run(query, {type: 'complete'})) as any;
+    const result = await zero.run(query, {type: 'complete'});
+
+    assert(result);
 
     // Order basic fields
     expect(result.id).toBe('order-test-1');
@@ -805,6 +810,8 @@ describe('complex order', () => {
     expect(result.customerId).toBe('cust-1');
     expect(result.opportunityId).toBe('opp-1');
 
+    assert(result.customer);
+
     // Customer relationship
     expect(result.customer).toBeDefined();
     expect(result.customer.id).toBe('cust-1');
@@ -813,20 +820,15 @@ describe('complex order', () => {
     expect(result.customer.partner).toBe(false);
     expect(result.customer.status).toBe('COMPLETED');
 
-    // Customer friends relationship (if available)
-    if (result.customer.friends) {
-      expect(result.customer.friends).toHaveLength(1);
-      expect(result.customer.friends[0].id).toBe('friend-1');
-      expect(result.customer.friends[0].name).toBe('Customer Friend');
-    }
+    assert(result.customer.messages?.[0]);
 
-    // Customer messages relationship (if available)
-    if (result.customer.messages) {
-      expect(result.customer.messages).toHaveLength(1);
-      expect(result.customer.messages[0].id).toBe('msg-cust-1');
-      expect(result.customer.messages[0].body).toBe('Hello from customer');
-      expect(result.customer.messages[0].metadata.key).toBe('cust-meta');
-    }
+    // Customer messages relationship
+    expect(result.customer.messages).toHaveLength(1);
+    expect(result.customer.messages[0].id).toBe('msg-cust-1');
+    expect(result.customer.messages[0].body).toBe('Hello from customer');
+    expect(result.customer.messages[0].metadata.key).toBe('cust-meta');
+
+    assert(result.opportunity);
 
     // Opportunity relationship
     expect(result.opportunity).toBeDefined();
@@ -835,6 +837,8 @@ describe('complex order', () => {
     expect(result.opportunity.amount).toBe(125000);
     expect(result.opportunity.accountId).toBe('acct-1');
 
+    assert(result.opportunity.account);
+
     // Opportunity account relationship
     expect(result.opportunity.account).toBeDefined();
     expect(result.opportunity.account.id).toBe('acct-1');
@@ -842,10 +846,14 @@ describe('complex order', () => {
     expect(result.opportunity.account.industry).toBe('Manufacturing');
     expect(result.opportunity.account.ownerId).toBe('owner-1');
 
+    assert(result.opportunity.historyEntries?.[0]);
+
     // Opportunity history entries
     expect(result.opportunity.historyEntries).toHaveLength(1);
     expect(result.opportunity.historyEntries[0].id).toBe('opp-hist-1');
     expect(result.opportunity.historyEntries[0].opportunityId).toBe('opp-1');
+
+    assert(result.items?.[0]);
 
     // Order items
     expect(result.items).toHaveLength(1);
@@ -855,6 +863,8 @@ describe('complex order', () => {
     expect(result.items[0].unitPrice).toBe(4999);
     expect(result.items[0].variantId).toBe('variant-1');
 
+    assert(result.items?.[0].variant);
+
     // Item variant relationship
     expect(result.items[0].variant).toBeDefined();
     expect(result.items[0].variant.id).toBe('variant-1');
@@ -862,6 +872,8 @@ describe('complex order', () => {
     expect(result.items[0].variant.price).toBe(4999);
     expect(result.items[0].variant.currency).toBe('USD');
     expect(result.items[0].variant.isActive).toBe(true);
+
+    assert(result.payments?.[0]);
 
     // Payments
     expect(result.payments).toHaveLength(1);
@@ -871,6 +883,8 @@ describe('complex order', () => {
     expect(result.payments[0].status).toBe('PENDING');
     expect(result.payments[0].paymentId).toBe('payment-test-1');
 
+    assert(result.payments?.[0].payment);
+
     // Payment relationship
     expect(result.payments[0].payment).toBeDefined();
     expect(result.payments[0].payment.id).toBe('payment-test-1');
@@ -879,12 +893,16 @@ describe('complex order', () => {
     expect(result.payments[0].payment.status).toBe('PENDING');
     expect(result.payments[0].payment.receivedById).toBe('sales-1');
 
+    assert(result.shipments?.[0]);
+
     // Shipments
     expect(result.shipments).toHaveLength(1);
     expect(result.shipments[0].id).toBe('shipment-test-1');
     expect(result.shipments[0].orderId).toBe('order-test-1');
     expect(result.shipments[0].carrier).toBe('UPS');
     expect(result.shipments[0].trackingNumber).toBe('1Z999');
+
+    assert(result.shipments?.[0].items?.[0]);
 
     // Shipment items
     expect(result.shipments[0].items).toHaveLength(1);

@@ -269,7 +269,7 @@ const createZeroTableBuilder = <
           !isColumnConfigOverride
         ) {
           throw new Error(
-            `zero-drizzle: Invalid column config for column ${resolvedColumnName} - expected boolean or ColumnBuilder but was ${typeof columnConfig}`,
+            `drizzle-zero: Invalid column config for column ${resolvedColumnName} - expected boolean or ColumnBuilder but was ${typeof columnConfig}`,
           );
         }
 
@@ -300,7 +300,7 @@ const createZeroTableBuilder = <
 
       if (type === null && !isColumnConfigOverride) {
         console.warn(
-          `🚨  zero-drizzle: Unsupported column type: ${resolvedColumnName} - ${column.columnType} (${column.dataType}). It will not be included in the output. Must be supported by Zero, e.g.: ${Object.keys({...drizzleDataTypeToZeroType, ...drizzleColumnTypeToZeroType}).join(' | ')}`,
+          `🚨  drizzle-zero: Unsupported column type: ${resolvedColumnName} - ${column.columnType} (${column.dataType}). It will not be included in the output. Must be supported by Zero, e.g.: ${Object.keys({...drizzleDataTypeToZeroType, ...drizzleColumnTypeToZeroType}).join(' | ')}`,
         );
 
         return acc;
@@ -316,7 +316,7 @@ const createZeroTableBuilder = <
           warnedServerDefaults.add(warningKey);
 
           console.warn(
-            `⚠️ zero-drizzle: Column ${actualTableName}.${resolvedColumnName} uses a database default that the Zero client will not be able to use. This probably won't work the way you expect. Set the value with mutators instead. See: https://github.com/rocicorp/zero-drizzle/issues/197`,
+            `⚠️ drizzle-zero: Column ${actualTableName}.${resolvedColumnName} uses a database default that the Zero client will not be able to use. This probably won't work the way you expect. Set the value with mutators instead. See: https://github.com/rocicorp/drizzle-zero/issues/197`,
           );
         }
       }
@@ -366,7 +366,7 @@ const createZeroTableBuilder = <
 
   if (primaryKeys.size === 0) {
     throw new Error(
-      `zero-drizzle: No primary keys found in table - ${actualTableName}. Did you forget to define a primary key?`,
+      `drizzle-zero: No primary keys found in table - ${actualTableName}. Did you forget to define a primary key?`,
     );
   }
 

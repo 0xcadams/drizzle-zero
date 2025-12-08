@@ -1,8 +1,9 @@
 import {describe, expect, test} from 'vitest';
-import {zeroDrizzleConfig} from '../src/relations';
+import {drizzleZeroConfig} from '../src/relations';
 import {pgTable, serial, text, primaryKey} from 'drizzle-orm/pg-core';
+import type {Schema} from '@rocicorp/zero';
 
-describe('zeroDrizzleConfig with explicit table and column configuration', () => {
+describe('drizzleZeroConfig with explicit table and column configuration', () => {
   const users = pgTable('users', {
     id: serial('id').primaryKey(),
     name: text('name').notNull(),
@@ -38,7 +39,7 @@ describe('zeroDrizzleConfig with explicit table and column configuration', () =>
   const drizzleSchema = {users, posts, comments, usersToPosts};
 
   test('should include all tables and columns when no config is provided', () => {
-    const schema = zeroDrizzleConfig(drizzleSchema);
+    const schema = drizzleZeroConfig(drizzleSchema);
 
     // All tables should be present
     expect(Object.keys(schema.tables).length).toBe(4);
@@ -47,22 +48,22 @@ describe('zeroDrizzleConfig with explicit table and column configuration', () =>
     );
 
     // All columns should be present
+    expect(new Set(Object.keys(schema.tables.users.columns))).toStrictEqual(
+      new Set(['id', 'name', 'email', 'phone']),
+    );
+    expect(new Set(Object.keys(schema.tables.posts.columns))).toStrictEqual(
+      new Set(['id', 'title', 'content', 'userId']),
+    );
+    expect(new Set(Object.keys(schema.tables.comments.columns))).toStrictEqual(
+      new Set(['id', 'content', 'postId']),
+    );
     expect(
-      new Set(Object.keys((schema.tables as any).users.columns)),
-    ).toStrictEqual(new Set(['id', 'name', 'email', 'phone']));
-    expect(
-      new Set(Object.keys((schema.tables as any).posts.columns)),
-    ).toStrictEqual(new Set(['id', 'title', 'content', 'userId']));
-    expect(
-      new Set(Object.keys((schema.tables as any).comments.columns)),
-    ).toStrictEqual(new Set(['id', 'content', 'postId']));
-    expect(
-      new Set(Object.keys((schema.tables as any).usersToPosts.columns)),
+      new Set(Object.keys(schema.tables.usersToPosts.columns)),
     ).toStrictEqual(new Set(['userId', 'postId', 'role']));
   });
 
   test('should handle explicit table and column configurations', () => {
-    const schema = zeroDrizzleConfig(drizzleSchema, {
+    const schema = drizzleZeroConfig(drizzleSchema, {
       tables: {
         users: true, // include all columns
         usersToPosts: {
@@ -81,8 +82,8 @@ describe('zeroDrizzleConfig with explicit table and column configuration', () =>
     );
 
     // `posts` and `comments` should be excluded
-    expect((schema.tables as any).posts).toBe(undefined);
-    expect((schema.tables as any).comments).toBe(undefined);
+    expect((schema.tables as Schema['tables']).posts).toBe(undefined);
+    expect((schema.tables as Schema['tables']).comments).toBe(undefined);
 
     // `users` table should have `id` (pk) and `name`
     expect(new Set(Object.keys(schema.tables.users.columns))).toStrictEqual(

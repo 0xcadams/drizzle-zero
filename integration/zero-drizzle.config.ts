@@ -1,9 +1,9 @@
-import {zeroDrizzleConfig} from 'zero-drizzle';
+import {drizzleZeroConfig} from 'drizzle-zero';
 import * as drizzleSchema from '../db/drizzle/schema';
 
-export * from '@zero-drizzle/db/types';
+export * from '@drizzle-zero/db/types';
 
-export const schema = zeroDrizzleConfig(drizzleSchema, {
+export const schema = drizzleZeroConfig(drizzleSchema, {
   tables: {
     allTypes: true,
     analyticsDashboard: true,

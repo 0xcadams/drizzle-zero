@@ -1,5 +1,5 @@
 {
-  "name": "@zero-drizzle/db",
+  "name": "@drizzle-zero/db",
   "private": true,
   "type": "module",
   "exports": {
@@ -11,9 +11,9 @@
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
-    "@zero-drizzle/custom-types": "workspace:*",
+    "@drizzle-zero/custom-types": "workspace:*",
     "drizzle-orm": "^0.45.0",
-    "zero-drizzle": "workspace:*"
+    "drizzle-zero": "workspace:*"
   },
   "devDependencies": {
     "@testcontainers/postgresql": "^11.9.0",

@@ -1,7 +1,7 @@
-import {zeroDrizzleConfig} from '../../src';
+import {drizzleZeroConfig} from '../../src';
 import * as oneToMany from './one-to-many-casing.schema';
 
-export const schema = zeroDrizzleConfig(oneToMany, {
+export const schema = drizzleZeroConfig(oneToMany, {
   tables: {
     users: {
       id: true,

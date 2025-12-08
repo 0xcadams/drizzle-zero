@@ -1,18 +1,18 @@
 {
-  "name": "@zero-drizzle/integration",
+  "name": "@drizzle-zero/integration",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "zero-drizzle:generate": "zero-drizzle generate -f",
-    "pretest": "pnpm zero-drizzle:generate",
+    "drizzle-zero:generate": "drizzle-zero generate -f",
+    "pretest": "pnpm drizzle-zero:generate",
     "test": "pnpm build && vitest run"
   },
   "dependencies": {
-    "@zero-drizzle/custom-types": "workspace:*",
-    "@zero-drizzle/db": "workspace:*",
+    "@drizzle-zero/custom-types": "workspace:*",
+    "@drizzle-zero/db": "workspace:*",
     "@hono/node-server": "^1.19.6",
-    "zero-drizzle": "workspace:*",
+    "drizzle-zero": "workspace:*",
     "hono": "^4.10.7",
     "zod": "^4.1.13"
   }
