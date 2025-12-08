@@ -17,7 +17,7 @@ describe('resolveCustomTypes', () => {
       'virtual-schema.ts',
       `
         import { pgTable, text, jsonb, pgEnum, number, boolean } from "drizzle-orm/pg-core";
-        import type { CustomJsonType } from "@zero-drizzle/custom-types";
+        import type { CustomJsonType } from "@drizzle-zero/custom-types";
 
         const customEnum = pgEnum("custom_enum", ["a", "b", "c"]);
         export const user = pgTable("user", {

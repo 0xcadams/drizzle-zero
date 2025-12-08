@@ -1,7 +1,7 @@
-import {zeroDrizzleConfig} from '../../src';
+import {drizzleZeroConfig} from '../../src';
 import * as manyToManySelfReferential from './many-to-many-self-referential.schema';
 
-export const schema = zeroDrizzleConfig(manyToManySelfReferential, {
+export const schema = drizzleZeroConfig(manyToManySelfReferential, {
   tables: {
     user: {
       id: true,

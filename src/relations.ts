@@ -207,7 +207,7 @@ type DrizzleToZeroSchema<
  * ```typescript
  * import { integer, pgTable, serial, text, varchar } from 'drizzle-orm/pg-core';
  * import { relations } from 'drizzle-orm';
- * import { zeroDrizzleConfig } from 'zero-drizzle';
+ * import { drizzleZeroConfig } from 'drizzle-zero';
  *
  * // Define Drizzle schema
  * const users = pgTable('users', {
@@ -229,7 +229,7 @@ type DrizzleToZeroSchema<
  * }));
  *
  * // Export the configuration for the Zero schema CLI
- * export default zeroDrizzleConfig(
+ * export default drizzleZeroConfig(
  *   { users, posts, usersRelations },
  *   {
  *     tables: {
@@ -247,7 +247,7 @@ type DrizzleToZeroSchema<
  * );
  * ```
  */
-const zeroDrizzleConfig = <
+const drizzleZeroConfig = <
   const TDrizzleSchema extends {[K in string]: unknown},
   const TColumnConfig extends TableColumnsConfig<TDrizzleSchema> =
     DefaultTableColumnsConfig<TDrizzleSchema>,
@@ -339,7 +339,7 @@ const zeroDrizzleConfig = <
 
     if (tableColumnNames?.has(relationName)) {
       throw new Error(
-        `zero-drizzle: Invalid relationship name for ${String(sourceTableName)}.${relationName}: there is already a table column with the name ${relationName} and this cannot be used as a relationship name`,
+        `drizzle-zero: Invalid relationship name for ${String(sourceTableName)}.${relationName}: there is already a table column with the name ${relationName} and this cannot be used as a relationship name`,
       );
     }
   };
@@ -347,7 +347,7 @@ const zeroDrizzleConfig = <
   for (const [tableName, tableOrRelations] of typedEntries(schema)) {
     if (!tableOrRelations) {
       throw new Error(
-        `zero-drizzle: table or relation with key ${String(tableName)} is not defined`,
+        `drizzle-zero: table or relation with key ${String(tableName)} is not defined`,
       );
     }
 
@@ -394,8 +394,8 @@ const zeroDrizzleConfig = <
   if (tables.length === 0) {
     throw new Error(
       schema['tables']
-        ? '❌ zero-drizzle: No tables found in the input - did you pass in a Zero schema to the `zeroDrizzleConfig` function instead of a Drizzle schema?'
-        : '❌ zero-drizzle: No tables found in the input - did you export tables and relations from the Drizzle schema passed to the `zeroDrizzleConfig` function?',
+        ? '❌ drizzle-zero: No tables found in the input - did you pass in a Zero schema to the `drizzleZeroConfig` function instead of a Drizzle schema?'
+        : '❌ drizzle-zero: No tables found in the input - did you export tables and relations from the Drizzle schema passed to the `drizzleZeroConfig` function?',
     );
   }
 
@@ -441,7 +441,7 @@ const zeroDrizzleConfig = <
             !is(junctionTable, Table)
           ) {
             throw new Error(
-              `zero-drizzle: Invalid many-to-many configuration for ${String(sourceTableName)}.${relationName}: Could not find ${!sourceTable ? 'source' : !destTable ? 'destination' : 'junction'} table`,
+              `drizzle-zero: Invalid many-to-many configuration for ${String(sourceTableName)}.${relationName}: Could not find ${!sourceTable ? 'source' : !destTable ? 'destination' : 'junction'} table`,
             );
           }
 
@@ -465,7 +465,7 @@ const zeroDrizzleConfig = <
             !sourceJunctionFields.destFieldNames.length
           ) {
             throw new Error(
-              `zero-drizzle: Invalid many-to-many configuration for ${String(sourceTableName)}.${relationName}: Could not find relationships in junction table ${junctionTableName}`,
+              `drizzle-zero: Invalid many-to-many configuration for ${String(sourceTableName)}.${relationName}: Could not find relationships in junction table ${junctionTableName}`,
             );
           }
 
@@ -541,7 +541,7 @@ const zeroDrizzleConfig = <
             !destTableName
           ) {
             throw new Error(
-              `zero-drizzle: Invalid many-to-many configuration for ${String(sourceTableName)}.${relationName}: Not all required fields were provided.`,
+              `drizzle-zero: Invalid many-to-many configuration for ${String(sourceTableName)}.${relationName}: Not all required fields were provided.`,
             );
           }
 
@@ -585,7 +585,7 @@ const zeroDrizzleConfig = <
   for (const [relationName, tableOrRelations] of typedEntries(schema)) {
     if (!tableOrRelations) {
       throw new Error(
-        `zero-drizzle: table or relation with key ${String(relationName)} is not defined`,
+        `drizzle-zero: table or relation with key ${String(relationName)} is not defined`,
       );
     }
 
@@ -642,7 +642,7 @@ const zeroDrizzleConfig = <
 
         if (!sourceFieldNames.length || !destFieldNames.length) {
           throw new Error(
-            `zero-drizzle: No relationship found for: ${relation.fieldName} (${is(relation, One) ? 'One' : 'Many'} from ${String(tableName)} to ${relation.referencedTableName}). Did you forget to define ${relation.relationName ? `a named relation "${relation.relationName}"` : `an opposite ${is(relation, One) ? 'Many' : 'One'} relation`}?`,
+            `drizzle-zero: No relationship found for: ${relation.fieldName} (${is(relation, One) ? 'One' : 'Many'} from ${String(tableName)} to ${relation.referencedTableName}). Did you forget to define ${relation.relationName ? `a named relation "${relation.relationName}"` : `an opposite ${is(relation, One) ? 'Many' : 'One'} relation`}?`,
           );
         }
 
@@ -674,7 +674,7 @@ const zeroDrizzleConfig = <
           ]
         ) {
           throw new Error(
-            `zero-drizzle: Duplicate relationship found for: ${relation.fieldName} (from ${String(tableName)} to ${relation.referencedTableName}).`,
+            `drizzle-zero: Duplicate relationship found for: ${relation.fieldName} (from ${String(tableName)} to ${relation.referencedTableName}).`,
           );
         }
 
@@ -949,12 +949,12 @@ const getDrizzleKeyFromTable = ({
   }
 
   throw new Error(
-    `zero-drizzle: Unable to resolve table key for ${table ? getTableUniqueName(table) : fallbackTableName}`,
+    `drizzle-zero: Unable to resolve table key for ${table ? getTableUniqueName(table) : fallbackTableName}`,
   );
 };
 
 export {
-  zeroDrizzleConfig,
+  drizzleZeroConfig,
   type CustomType,
   type DrizzleToZeroSchema,
   type ZeroCustomType,

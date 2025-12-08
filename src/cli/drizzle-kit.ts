@@ -4,7 +4,7 @@ import * as path from 'node:path';
 import * as url from 'node:url';
 import type {Project} from 'ts-morph';
 import {tsImport} from 'tsx/esm/api';
-import {zeroDrizzleConfig, type DrizzleToZeroSchema} from '../relations';
+import {drizzleZeroConfig, type DrizzleToZeroSchema} from '../relations';
 import {ensureSourceFileInProject} from './ts-project';
 
 export const getDefaultConfig = async ({
@@ -33,7 +33,7 @@ export const getDefaultConfig = async ({
     import.meta.url,
   );
 
-  const zeroSchema = zeroDrizzleConfig(drizzleSchema, {
+  const zeroSchema = drizzleZeroConfig(drizzleSchema, {
     casing: drizzleCasing ?? undefined,
     debug: Boolean(debug),
   });
@@ -76,7 +76,7 @@ export const getFullDrizzleSchemaFilePath = async ({
       };
     } catch {
       console.error(
-        `❌ zero-drizzle: could not find Drizzle schema file at ${fullPath}`,
+        `❌ drizzle-zero: could not find Drizzle schema file at ${fullPath}`,
       );
       process.exit(1);
     }
@@ -99,7 +99,7 @@ export const getFullDrizzleSchemaFilePath = async ({
       try {
         if (Array.isArray(drizzleKitConfig.schema)) {
           throw new Error(
-            '❌ zero-drizzle: Drizzle Kit config schema is an array. Please specify a single schema file for imports to be able to work correctly.',
+            '❌ drizzle-zero: Drizzle Kit config schema is an array. Please specify a single schema file for imports to be able to work correctly.',
           );
         }
 
@@ -115,7 +115,7 @@ export const getFullDrizzleSchemaFilePath = async ({
         }
       } catch (error) {
         console.error(
-          `❌ zero-drizzle: could not find Drizzle file pulled from Drizzle Kit config at ${JSON.stringify(drizzleKitConfig)}`,
+          `❌ drizzle-zero: could not find Drizzle file pulled from Drizzle Kit config at ${JSON.stringify(drizzleKitConfig)}`,
           error,
         );
         process.exit(1);
@@ -127,14 +127,14 @@ export const getFullDrizzleSchemaFilePath = async ({
       };
     } catch (error) {
       console.error(
-        `❌ zero-drizzle: could not find Drizzle Kit config file at ${drizzleKitConfigPath}${typeModuleErrorMessage}`,
+        `❌ drizzle-zero: could not find Drizzle Kit config file at ${drizzleKitConfigPath}${typeModuleErrorMessage}`,
         error,
       );
       process.exit(1);
     }
   }
 
-  console.error(`❌ zero-drizzle: could not find Drizzle Kit config file`);
+  console.error(`❌ drizzle-zero: could not find Drizzle Kit config file`);
   process.exit(1);
 };
 
@@ -149,7 +149,7 @@ export function getDrizzleSchemaSourceFile({
 
   if (!sourceFile) {
     throw new Error(
-      `❌ zero-drizzle: Failed to find type definitions for ${drizzleSchemaPath}`,
+      `❌ drizzle-zero: Failed to find type definitions for ${drizzleSchemaPath}`,
     );
   }
 

@@ -1,7 +1,7 @@
-import {zeroDrizzleConfig} from '../../src';
+import {drizzleZeroConfig} from '../../src';
 import * as manyToManyForeignKey from './many-to-many-missing-foreign-key.schema';
 
-export const schema = zeroDrizzleConfig(manyToManyForeignKey, {
+export const schema = drizzleZeroConfig(manyToManyForeignKey, {
   tables: {
     users: {
       id: true,

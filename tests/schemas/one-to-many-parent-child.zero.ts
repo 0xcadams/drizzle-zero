@@ -1,7 +1,7 @@
-import {zeroDrizzleConfig} from '../../src';
+import {drizzleZeroConfig} from '../../src';
 import * as oneToManyParentChild from './one-to-many-parent-child.schema';
 
-export const schema = zeroDrizzleConfig(oneToManyParentChild, {
+export const schema = drizzleZeroConfig(oneToManyParentChild, {
   tables: {
     filters: {
       id: true,

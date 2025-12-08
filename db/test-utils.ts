@@ -1,9 +1,9 @@
 import type {StartedPostgreSqlContainer} from '@testcontainers/postgresql';
 import {PostgreSqlContainer} from '@testcontainers/postgresql';
-import type {NodePgDatabase} from 'drizzle-orm/node-postgres';
 import {drizzle} from 'drizzle-orm/node-postgres';
 import path from 'path';
 import {Pool} from 'pg';
+import postgres from 'postgres';
 import type {StartedNetwork} from 'testcontainers';
 import {
   GenericContainer,
@@ -11,6 +11,7 @@ import {
   PullPolicy,
   type StartedTestContainer,
 } from 'testcontainers';
+import {getShortCode} from './drizzle/types';
 import * as drizzleSchema from './schema';
 import {
   allTypes,
@@ -91,8 +92,6 @@ import {
   timesheet,
   user,
 } from './schema';
-import postgres from 'postgres';
-import {getShortCode} from './drizzle/types';
 
 const versionInt = parseInt(process.env.PG_VERSION ?? '16');
 const PG_PORT = 5732 + (versionInt - 16);
@@ -114,7 +113,7 @@ let startedNetwork: StartedNetwork | null = null;
 let postgresContainer: StartedPostgreSqlContainer | null = null;
 let zeroContainer: StartedTestContainer | null = null;
 
-export const db: NodePgDatabase<typeof drizzleSchema> = drizzle(pool, {
+export const db = drizzle(pool, {
   schema: drizzleSchema,
 });
 
