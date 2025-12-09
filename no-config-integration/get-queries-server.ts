@@ -1,14 +1,10 @@
 import {serve} from '@hono/node-server';
-import {withValidation} from '@rocicorp/zero';
-import {handleGetQueriesRequest} from '@rocicorp/zero/server';
+import {handleQueryRequest} from '@rocicorp/zero/server';
 import {Hono} from 'hono';
 import type {Server} from 'http';
-import * as queries from './synced-queries';
+import {queries} from './synced-queries';
 import {schema} from './zero-schema.gen';
-
-const validated = Object.fromEntries(
-  Object.values(queries).map(q => [q.queryName, withValidation(q)]),
-);
+import {mustGetQuery} from '@rocicorp/zero';
 
 const app = new Hono();
 
@@ -16,16 +12,10 @@ app.post('/get-queries', async c => {
   try {
     const jsonBody = await c.req.json();
 
-    const response = await handleGetQueriesRequest(
+    const response = await handleQueryRequest(
       (name, args) => {
-        const q = validated[name];
-        if (!q) {
-          throw new Error(`Unknown query: ${name}`);
-        }
-
-        console.log('name', name, 'args', args);
-
-        return {query: q(undefined, ...args)};
+        const q = mustGetQuery(queries, name);
+        return q.fn({args, ctx: undefined});
       },
       schema,
       jsonBody,

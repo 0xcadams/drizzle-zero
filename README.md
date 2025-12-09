@@ -103,39 +103,7 @@ For more information on disabling legacy mutators and queries, see the [Zero doc
 type resolution to work. If they are not included, there will be an error similar to
 `Failed to find type definitions`.
 
-### Use Zero schema file
-
-Use the generated Zero schema:
-
-```tsx
-import {useEffect, useState} from 'react';
-import {useZero} from '@rocicorp/zero/react';
-import {syncedQuery} from '@rocicorp/zero';
-import {zql} from '../zero-schema.gen.ts';
-
-const postsQuery = syncedQuery('allPosts', z.tuple([]), () =>
-  zql.posts.related('author').limit(10),
-);
-
-function PostList() {
-  const z = useZero();
-
-  const [posts] = useQuery(postsQuery());
-
-  return (
-    <div>
-      {posts.map(post => (
-        <div key={post.id} className="post">
-          {/* Access the JSON content from Drizzle */}
-          <p>{post.content.textValue}</p>
-          <p>By: {post.author?.name}</p>
-          <p>Email: {post.author?.email}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
-```
+Please reference the Zero docs for how to use your new Zero schema: [https://zero.rocicorp.dev/docs/reading-data](https://zero.rocicorp.dev/docs/reading-data).
 
 ### Customize with `drizzle-zero.config.ts`
 

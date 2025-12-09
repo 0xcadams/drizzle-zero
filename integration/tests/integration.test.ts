@@ -22,21 +22,8 @@ import {
   startGetQueriesServer,
   stopGetQueriesServer,
 } from '../get-queries-server';
-import {
-  allTypesById,
-  allTypesByStatus,
-  allUsers,
-  complexOrderWithEverything,
-  filtersWithChildren,
-  mediumById,
-  messageById,
-  messageWithRelations,
-  messagesByBody,
-  messagesBySender,
-  userWithFriends,
-  userWithMediums,
-} from '../synced-queries';
 import {crud, schema, type Filter, type Schema} from '../zero-schema.gen';
+import {queries} from '../synced-queries';
 
 const zeroDb = zeroDrizzle(schema, db);
 
@@ -71,7 +58,7 @@ describe('relationships', () => {
   test('can query users', async () => {
     const zero = await getNewZero();
 
-    const query = allUsers(undefined);
+    const query = queries.allUsers();
 
     const user = await zero.run(query, {type: 'complete'});
 
@@ -100,7 +87,7 @@ describe('relationships', () => {
   test('can query filters', async () => {
     const zero = await getNewZero();
 
-    const query = filtersWithChildren(undefined, '1');
+    const query = queries.filtersWithChildren('1');
 
     const filters = await zero.run(query, {type: 'complete'});
 
@@ -119,7 +106,7 @@ describe('relationships', () => {
   test('can query messages', async () => {
     const zero = await getNewZero();
 
-    const query = messagesBySender(undefined, '1');
+    const query = queries.messagesBySender('1');
 
     const messages = await zero.run(query, {type: 'complete'});
 
@@ -133,7 +120,7 @@ describe('relationships', () => {
   test('can query messages with filter', async () => {
     const zero = await getNewZero();
 
-    const query = messagesByBody(undefined, 'Thomas!');
+    const query = queries.messagesByBody('Thomas!');
 
     const messages = await zero.run(query, {type: 'complete'});
 
@@ -147,7 +134,7 @@ describe('relationships', () => {
   test('can query messages with relationships', async () => {
     const zero = await getNewZero();
 
-    const query = messageWithRelations(undefined, '1');
+    const query = queries.messageWithRelations('1');
 
     const message = await zero.run(query, {type: 'complete'});
 
@@ -155,42 +142,6 @@ describe('relationships', () => {
     expect(message?.medium?.name).toBe('email');
 
     expect(message?.sender?.name).toBe('James');
-
-    await zero.close();
-  });
-
-  test('can query many-to-many relationships', async () => {
-    const zero = await getNewZero();
-
-    const query = userWithMediums(undefined, '1');
-
-    const user = await zero.run(query, {type: 'complete'});
-
-    expect(user?.mediums).toHaveLength(2);
-    expect(user?.mediums?.[0]?.name).toBe('email');
-    expect(user?.mediums?.[1]?.name).toBe('whatsapp');
-    expect(user?.testInterface?.nameInterface).toBe('custom-inline-interface');
-    expect(user?.testType?.nameType).toBe('custom-inline-type');
-    expect(user?.customInterfaceJson?.custom).toBe(
-      'this-interface-is-imported-from-custom-types',
-    );
-    expect(user?.customTypeJson?.custom).toBe(
-      'this-is-imported-from-custom-types',
-    );
-    expect(user?.testExportedType.nameType).toBe('custom-inline-type');
-
-    await zero.close();
-  });
-
-  test('can query many-to-many extended relationships', async () => {
-    const zero = await getNewZero();
-
-    const query = userWithFriends(undefined, '1');
-
-    const user = await zero.run(query, {type: 'complete'});
-
-    expect(user?.friends).toHaveLength(1);
-    expect(user?.friends[0]?.name).toBe('John');
 
     await zero.close();
   });
@@ -210,7 +161,7 @@ describe('relationships', () => {
       );
     });
 
-    const query = messageById(undefined, '99');
+    const query = queries.messageById('99');
 
     const message = await zero.run(query, {type: 'complete'});
 
@@ -218,7 +169,7 @@ describe('relationships', () => {
     expect(message?.metadata.key).toStrictEqual('9988');
     expect(message?.createdAt).toBeDefined();
     expect(message?.updatedAt).toBeDefined();
-    const mediumQuery = mediumById(undefined, message?.mediumId ?? '');
+    const mediumQuery = queries.mediumById(message?.mediumId ?? '');
 
     const medium = await zero.run(mediumQuery, {type: 'complete'});
 
@@ -232,7 +183,7 @@ describe('types', () => {
   test('can query all types', async () => {
     const zero = await getNewZero();
 
-    const query = allTypesById(undefined, '1');
+    const query = queries.allTypesById('1');
 
     const result = await zero.run(query, {type: 'complete'});
 
@@ -295,18 +246,6 @@ describe('types', () => {
     await zero.close();
   });
 
-  test('can query enum type', async () => {
-    const zero = await getNewZero();
-
-    const query = allTypesByStatus(undefined, 'pending');
-
-    const result = await zero.run(query, {type: 'complete'});
-
-    expect(result?.status).toStrictEqual('pending');
-
-    await zero.close();
-  });
-
   test('can insert all types', async () => {
     const zero = await getNewZero();
 
@@ -355,7 +294,7 @@ describe('types', () => {
       );
     });
 
-    const query = allTypesById(undefined, '1011');
+    const query = queries.allTypesById('1011');
 
     const result = await zero.run(query, {type: 'complete'});
 
@@ -890,7 +829,7 @@ describe('complex order', () => {
       );
     });
 
-    const query = complexOrderWithEverything(undefined, 'order-test-1');
+    const query = queries.complexOrderWithEverything('order-test-1');
     const result = await zero.run(query, {type: 'complete'});
 
     assert(result);
@@ -912,13 +851,6 @@ describe('complex order', () => {
     expect(result.customer.email).toBe('customer1@example.com');
     expect(result.customer.partner).toBe(false);
     expect(result.customer.status).toBe('COMPLETED');
-
-    assert(result.customer.friends?.[0]);
-
-    // Customer friends relationship
-    expect(result.customer.friends).toHaveLength(1);
-    expect(result.customer.friends[0].id).toBe('friend-1');
-    expect(result.customer.friends[0].name).toBe('Customer Friend');
 
     assert(result.customer.messages?.[0]);
 

@@ -22,17 +22,7 @@ import {
   startGetQueriesServer,
   stopGetQueriesServer,
 } from '../get-queries-server';
-import {
-  allTypesById,
-  allUsers,
-  complexOrderWithEverything,
-  filtersWithChildren,
-  mediumById,
-  messageById,
-  messageWithRelations,
-  messagesByBody,
-  messagesBySender,
-} from '../synced-queries';
+import {queries} from '../synced-queries';
 import {
   crud,
   schema,
@@ -75,7 +65,7 @@ describe('relationships', () => {
   test('can query users', async () => {
     const zero = await getNewZero();
 
-    const query = allUsers(undefined);
+    const query = queries.allUsers();
 
     const user = await zero.run(query, {type: 'complete'});
 
@@ -113,7 +103,7 @@ describe('relationships', () => {
   test('can query filters', async () => {
     const zero = await getNewZero();
 
-    const query = filtersWithChildren(undefined, '1');
+    const query = queries.filtersWithChildren('1');
 
     const filters = await zero.run(query, {type: 'complete'});
 
@@ -132,7 +122,7 @@ describe('relationships', () => {
   test('can query messages', async () => {
     const zero = await getNewZero();
 
-    const query = messagesBySender(undefined, '1');
+    const query = queries.messagesBySender('1');
 
     const messages = await zero.run(query, {type: 'complete'});
 
@@ -148,7 +138,7 @@ describe('relationships', () => {
   test('can query messages with filter', async () => {
     const zero = await getNewZero();
 
-    const query = messagesByBody(undefined, 'Thomas!');
+    const query = queries.messagesByBody('Thomas!');
 
     const messages = await zero.run(query, {type: 'complete'});
 
@@ -164,7 +154,7 @@ describe('relationships', () => {
   test('can query messages with relationships', async () => {
     const zero = await getNewZero();
 
-    const query = messageWithRelations(undefined, '1');
+    const query = queries.messageWithRelations('1');
 
     const message = await zero.run(query, {type: 'complete'});
 
@@ -192,7 +182,7 @@ describe('relationships', () => {
       );
     });
 
-    const query = messageById(undefined, '99');
+    const query = queries.messageById('99');
 
     const message = await zero.run(query, {type: 'complete'});
 
@@ -202,7 +192,7 @@ describe('relationships', () => {
     expect(message?.metadata.key).toStrictEqual('9988');
     expect(message?.createdAt).toBeDefined();
     expect(message?.updatedAt).toBeDefined();
-    const mediumQuery = mediumById(undefined, message?.mediumId ?? '');
+    const mediumQuery = queries.mediumById(message?.mediumId ?? '');
 
     const medium = await zero.run(mediumQuery, {type: 'complete'});
 
@@ -216,7 +206,7 @@ describe('types', () => {
   test('can query all types', async () => {
     const zero = await getNewZero();
 
-    const query = allTypesById(undefined, '1');
+    const query = queries.allTypesById('1');
 
     const result = await zero.run(query, {type: 'complete'});
 
@@ -326,7 +316,7 @@ describe('types', () => {
       );
     });
 
-    const query = allTypesById(undefined, '1011');
+    const query = queries.allTypesById('1011');
 
     const result = await zero.run(query, {type: 'complete'});
 
@@ -868,7 +858,7 @@ describe('complex order', () => {
       );
     });
 
-    const query = complexOrderWithEverything(undefined, 'order-test-1');
+    const query = queries.complexOrderWithEverything('order-test-1');
     const result = await zero.run(query, {type: 'complete'});
 
     assert(result);
