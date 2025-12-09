@@ -91,7 +91,8 @@ The CLI automatically detects whether `.js` file extensions are needed in import
 You can also control optional outputs from the generator:
 
 - **--skip-types**: Skip generating table `Row[]` type exports.
-- **--skip-builder**: Skip generating the query `builder` export.
+- **--skip-builder**: Skip generating the query `createBuilder` export.
+- **--skip-crud**: Skip generating the CRUD mutator `createCRUDBuilder` export.
 - **--skip-declare**: Skip generating the module augmentation for default types in Zero.
 - **--enable-legacy-mutators**: Enable legacy CRUD mutators (sets `enableLegacyMutators` to `true` in the generated schema).
 - **--enable-legacy-queries**: Enable legacy CRUD queries (sets `enableLegacyQueries` to `true` in the generated schema).
@@ -102,7 +103,7 @@ For more information on disabling legacy mutators and queries, see the [Zero doc
 type resolution to work. If they are not included, there will be an error similar to
 `Failed to find type definitions`.
 
-### Define Zero schema file
+### Use Zero schema file
 
 Use the generated Zero schema:
 
@@ -110,10 +111,10 @@ Use the generated Zero schema:
 import {useEffect, useState} from 'react';
 import {useZero} from '@rocicorp/zero/react';
 import {syncedQuery} from '@rocicorp/zero';
-import {builder} from '../zero-schema.gen.ts';
+import {zql} from '../zero-schema.gen.ts';
 
 const postsQuery = syncedQuery('allPosts', z.tuple([]), () =>
-  builder.posts.related('author').limit(10),
+  zql.posts.related('author').limit(10),
 );
 
 function PostList() {
