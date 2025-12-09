@@ -9533,10 +9533,3 @@ export const builder = zql;
  * This type is auto-generated from your Drizzle schema definition.
  */
 export const crud = createCRUDBuilder(schema);
-
-/** Defines the default types for Zero */
-declare module '@rocicorp/zero' {
-  interface DefaultTypes {
-    schema: Schema;
-  }
-}
