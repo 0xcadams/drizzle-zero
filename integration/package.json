@@ -4,8 +4,8 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "drizzle-zero:generate": "drizzle-zero generate -f",
-    "pretest": "pnpm drizzle-zero:generate",
+    "generate": "drizzle-zero generate -f --skip-declare",
+    "pretest": "pnpm generate",
     "test": "pnpm build && vitest run"
   },
   "dependencies": {

@@ -1677,7 +1677,7 @@ export const startZero = async (options: {getQueriesUrl: string}) => {
   const basePgUrlWithInternalPort = `${basePgUrl}@postgres-db:5432`;
 
   // Start Zero container
-  zeroContainer = await new GenericContainer(`rocicorp/zero:latest`)
+  zeroContainer = await new GenericContainer(`rocicorp/zero:0.25.0-canary.17`)
     .withExposedPorts({
       container: 4848,
       host: ZERO_PORT,

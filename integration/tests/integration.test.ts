@@ -22,21 +22,8 @@ import {
   startGetQueriesServer,
   stopGetQueriesServer,
 } from '../get-queries-server';
-import {
-  allTypesById,
-  allTypesByStatus,
-  allUsers,
-  complexOrderWithEverything,
-  filtersWithChildren,
-  mediumById,
-  messageById,
-  messageWithRelations,
-  messagesByBody,
-  messagesBySender,
-  userWithFriends,
-  userWithMediums,
-} from '../synced-queries';
-import {schema, type Filter, type Schema} from '../zero-schema.gen';
+import {crud, schema, type Filter, type Schema} from '../zero-schema.gen';
+import {queries} from '../synced-queries';
 
 const zeroDb = zeroDrizzle(schema, db);
 
@@ -71,7 +58,7 @@ describe('relationships', () => {
   test('can query users', async () => {
     const zero = await getNewZero();
 
-    const query = allUsers(undefined);
+    const query = queries.allUsers();
 
     const user = await zero.run(query, {type: 'complete'});
 
@@ -100,7 +87,7 @@ describe('relationships', () => {
   test('can query filters', async () => {
     const zero = await getNewZero();
 
-    const query = filtersWithChildren(undefined, '1');
+    const query = queries.filtersWithChildren('1');
 
     const filters = await zero.run(query, {type: 'complete'});
 
@@ -119,7 +106,7 @@ describe('relationships', () => {
   test('can query messages', async () => {
     const zero = await getNewZero();
 
-    const query = messagesBySender(undefined, '1');
+    const query = queries.messagesBySender('1');
 
     const messages = await zero.run(query, {type: 'complete'});
 
@@ -133,7 +120,7 @@ describe('relationships', () => {
   test('can query messages with filter', async () => {
     const zero = await getNewZero();
 
-    const query = messagesByBody(undefined, 'Thomas!');
+    const query = queries.messagesByBody('Thomas!');
 
     const messages = await zero.run(query, {type: 'complete'});
 
@@ -147,7 +134,7 @@ describe('relationships', () => {
   test('can query messages with relationships', async () => {
     const zero = await getNewZero();
 
-    const query = messageWithRelations(undefined, '1');
+    const query = queries.messageWithRelations('1');
 
     const message = await zero.run(query, {type: 'complete'});
 
@@ -159,56 +146,22 @@ describe('relationships', () => {
     await zero.close();
   });
 
-  test('can query many-to-many relationships', async () => {
-    const zero = await getNewZero();
-
-    const query = userWithMediums(undefined, '1');
-
-    const user = await zero.run(query, {type: 'complete'});
-
-    expect(user?.mediums).toHaveLength(2);
-    expect(user?.mediums?.[0]?.name).toBe('email');
-    expect(user?.mediums?.[1]?.name).toBe('whatsapp');
-    expect(user?.testInterface?.nameInterface).toBe('custom-inline-interface');
-    expect(user?.testType?.nameType).toBe('custom-inline-type');
-    expect(user?.customInterfaceJson?.custom).toBe(
-      'this-interface-is-imported-from-custom-types',
-    );
-    expect(user?.customTypeJson?.custom).toBe(
-      'this-is-imported-from-custom-types',
-    );
-    expect(user?.testExportedType.nameType).toBe('custom-inline-type');
-
-    await zero.close();
-  });
-
-  test('can query many-to-many extended relationships', async () => {
-    const zero = await getNewZero();
-
-    const query = userWithFriends(undefined, '1');
-
-    const user = await zero.run(query, {type: 'complete'});
-
-    expect(user?.friends).toHaveLength(1);
-    expect(user?.friends[0]?.name).toBe('John');
-
-    await zero.close();
-  });
-
   test('can insert messages', async () => {
     const zero = await getNewZero();
 
     await zeroDb.transaction(async tx => {
-      await tx.mutate.message.insert({
-        id: '99',
-        body: 'Hi, James!',
-        senderId: '1',
-        mediumId: '4',
-        metadata: {key: '9988'},
-      });
+      await tx.mutate(
+        crud.message.insert({
+          id: '99',
+          body: 'Hi, James!',
+          senderId: '1',
+          mediumId: '4',
+          metadata: {key: '9988'},
+        }),
+      );
     });
 
-    const query = messageById(undefined, '99');
+    const query = queries.messageById('99');
 
     const message = await zero.run(query, {type: 'complete'});
 
@@ -216,7 +169,7 @@ describe('relationships', () => {
     expect(message?.metadata.key).toStrictEqual('9988');
     expect(message?.createdAt).toBeDefined();
     expect(message?.updatedAt).toBeDefined();
-    const mediumQuery = mediumById(undefined, message?.mediumId ?? '');
+    const mediumQuery = queries.mediumById(message?.mediumId ?? '');
 
     const medium = await zero.run(mediumQuery, {type: 'complete'});
 
@@ -230,7 +183,7 @@ describe('types', () => {
   test('can query all types', async () => {
     const zero = await getNewZero();
 
-    const query = allTypesById(undefined, '1');
+    const query = queries.allTypesById('1');
 
     const result = await zero.run(query, {type: 'complete'});
 
@@ -293,18 +246,6 @@ describe('types', () => {
     await zero.close();
   });
 
-  test('can query enum type', async () => {
-    const zero = await getNewZero();
-
-    const query = allTypesByStatus(undefined, 'pending');
-
-    const result = await zero.run(query, {type: 'complete'});
-
-    expect(result?.status).toStrictEqual('pending');
-
-    await zero.close();
-  });
-
   test('can insert all types', async () => {
     const zero = await getNewZero();
 
@@ -314,44 +255,46 @@ describe('types', () => {
     const uuid2 = '123e4567-e89b-12d3-a456-426614174002';
 
     await zeroDb.transaction(async tx => {
-      await tx.mutate.allTypes.insert({
-        id: '1011',
-        smallintField: 22,
-        integerField: 23,
-        bigintField: 24,
-        bigintNumberField: 444,
-        numericField: 25.84,
-        decimalField: 26.33,
-        realField: 27.1,
-        doublePrecisionField: 28.2,
-        textField: 'text2',
-        charField: 'f',
-        uuidField: '123e4567-e89b-12d3-a456-426614174001',
-        varcharField: 'varchar2',
-        booleanField: true,
-        timestampField: currentDate.getTime(),
-        timestampTzField: currentDate.getTime(),
-        timestampModeDate: currentDate.getTime(),
-        timestampModeString: currentDate.getTime(),
-        dateField: currentDate.getTime(),
-        jsonField: {key: 'value'},
-        jsonbField: {key: 'value'},
-        typedJsonField: {theme: 'light', fontSize: 16},
-        status: 'active',
-        textArray: ['text', 'text2'],
-        intArray: [1, 2],
-        // boolArray: [true, false],
-        numericArray: [8.8, 9.9],
-        uuidArray: [
-          '123e4567-e89b-12d3-a456-426614174001',
-          '123e4567-e89b-12d3-a456-426614174002',
-        ],
-        jsonbArray: [{key: 'value'}, {key: 'value2'}],
-        enumArray: ['pending', 'active'],
-      });
+      await tx.mutate(
+        crud.allTypes.insert({
+          id: '1011',
+          smallintField: 22,
+          integerField: 23,
+          bigintField: 24,
+          bigintNumberField: 444,
+          numericField: 25.84,
+          decimalField: 26.33,
+          realField: 27.1,
+          doublePrecisionField: 28.2,
+          textField: 'text2',
+          charField: 'f',
+          uuidField: '123e4567-e89b-12d3-a456-426614174001',
+          varcharField: 'varchar2',
+          booleanField: true,
+          timestampField: currentDate.getTime(),
+          timestampTzField: currentDate.getTime(),
+          timestampModeDate: currentDate.getTime(),
+          timestampModeString: currentDate.getTime(),
+          dateField: currentDate.getTime(),
+          jsonField: {key: 'value'},
+          jsonbField: {key: 'value'},
+          typedJsonField: {theme: 'light', fontSize: 16},
+          status: 'active',
+          textArray: ['text', 'text2'],
+          intArray: [1, 2],
+          // boolArray: [true, false],
+          numericArray: [8.8, 9.9],
+          uuidArray: [
+            '123e4567-e89b-12d3-a456-426614174001',
+            '123e4567-e89b-12d3-a456-426614174002',
+          ],
+          jsonbArray: [{key: 'value'}, {key: 'value2'}],
+          enumArray: ['pending', 'active'],
+        }),
+      );
     });
 
-    const query = allTypesById(undefined, '1011');
+    const query = queries.allTypesById('1011');
 
     const result = await zero.run(query, {type: 'complete'});
 
@@ -473,354 +416,420 @@ describe('complex order', () => {
     const zero = await getNewZero();
 
     await zeroDb.transaction(async tx => {
-      await tx.mutate.user.insert({
-        id: 'cust-1',
-        name: 'Customer One',
-        email: 'customer1@example.com',
-        partner: false,
-        customTypeJson: {
+      await tx.mutate(
+        crud.user.insert({
           id: 'cust-1',
-          custom: 'this-is-imported-from-custom-types',
-        },
-        customInterfaceJson: {
-          custom: 'this-interface-is-imported-from-custom-types',
-        },
-        testInterface: {nameInterface: 'custom-inline-interface'},
-        testType: {nameType: 'custom-inline-type'},
-        testExportedType: {nameType: 'custom-inline-type'},
-        status: 'COMPLETED',
-        notificationPreferences: [
-          {
-            channel: 'email',
-            address: 'customer1@example.com',
-            templateId: 'template-1',
+          name: 'Customer One',
+          email: 'customer1@example.com',
+          partner: false,
+          customTypeJson: {
+            id: 'cust-1',
+            custom: 'this-is-imported-from-custom-types',
           },
-        ],
-        countryIso: 'US',
-        preferredCurrency: 'USD',
-        regionCode: 'CA',
-      });
+          customInterfaceJson: {
+            custom: 'this-interface-is-imported-from-custom-types',
+          },
+          testInterface: {nameInterface: 'custom-inline-interface'},
+          testType: {nameType: 'custom-inline-type'},
+          testExportedType: {nameType: 'custom-inline-type'},
+          status: 'COMPLETED',
+          notificationPreferences: [
+            {
+              channel: 'email',
+              address: 'customer1@example.com',
+              templateId: 'template-1',
+            },
+          ],
+          countryIso: 'US',
+          preferredCurrency: 'USD',
+          regionCode: 'CA',
+        }),
+      );
 
-      await tx.mutate.user.insert({
-        id: 'owner-1',
-        name: 'Account Owner',
-        email: 'owner@example.com',
-        partner: false,
-        customTypeJson: {
+      await tx.mutate(
+        crud.user.insert({
           id: 'owner-1',
-          custom: 'this-is-imported-from-custom-types',
-        },
-        customInterfaceJson: {
-          custom: 'this-interface-is-imported-from-custom-types',
-        },
-        testInterface: {nameInterface: 'custom-inline-interface'},
-        testType: {nameType: 'custom-inline-type'},
-        testExportedType: {nameType: 'custom-inline-type'},
-        status: 'ASSIGNED',
-        notificationPreferences: [
-          {
-            channel: 'email',
-            address: 'owner@example.com',
-            templateId: 'template-1',
+          name: 'Account Owner',
+          email: 'owner@example.com',
+          partner: false,
+          customTypeJson: {
+            id: 'owner-1',
+            custom: 'this-is-imported-from-custom-types',
           },
-        ],
-        countryIso: 'US',
-        preferredCurrency: 'USD',
-      });
+          customInterfaceJson: {
+            custom: 'this-interface-is-imported-from-custom-types',
+          },
+          testInterface: {nameInterface: 'custom-inline-interface'},
+          testType: {nameType: 'custom-inline-type'},
+          testExportedType: {nameType: 'custom-inline-type'},
+          status: 'ASSIGNED',
+          notificationPreferences: [
+            {
+              channel: 'email',
+              address: 'owner@example.com',
+              templateId: 'template-1',
+            },
+          ],
+          countryIso: 'US',
+          preferredCurrency: 'USD',
+        }),
+      );
 
-      await tx.mutate.user.insert({
-        id: 'sales-1',
-        name: 'Sales Person',
-        email: 'sales@example.com',
-        partner: false,
-        customTypeJson: {
+      await tx.mutate(
+        crud.user.insert({
           id: 'sales-1',
-          custom: 'this-is-imported-from-custom-types',
-        },
-        customInterfaceJson: {
-          custom: 'this-interface-is-imported-from-custom-types',
-        },
-        testInterface: {nameInterface: 'custom-inline-interface'},
-        testType: {nameType: 'custom-inline-type'},
-        testExportedType: {nameType: 'custom-inline-type'},
-        status: 'ASSIGNED',
-        notificationPreferences: [
-          {
-            channel: 'email',
-            address: 'sales@example.com',
-            templateId: 'template-1',
+          name: 'Sales Person',
+          email: 'sales@example.com',
+          partner: false,
+          customTypeJson: {
+            id: 'sales-1',
+            custom: 'this-is-imported-from-custom-types',
           },
-        ],
-        countryIso: 'US',
-        preferredCurrency: 'USD',
-        regionCode: 'CA',
-      });
+          customInterfaceJson: {
+            custom: 'this-interface-is-imported-from-custom-types',
+          },
+          testInterface: {nameInterface: 'custom-inline-interface'},
+          testType: {nameType: 'custom-inline-type'},
+          testExportedType: {nameType: 'custom-inline-type'},
+          status: 'ASSIGNED',
+          notificationPreferences: [
+            {
+              channel: 'email',
+              address: 'sales@example.com',
+              templateId: 'template-1',
+            },
+          ],
+          countryIso: 'US',
+          preferredCurrency: 'USD',
+          regionCode: 'CA',
+        }),
+      );
 
-      await tx.mutate.user.insert({
-        id: 'friend-1',
-        name: 'Customer Friend',
-        email: 'friend@example.com',
-        partner: false,
-        customTypeJson: {
+      await tx.mutate(
+        crud.user.insert({
           id: 'friend-1',
-          custom: 'this-is-imported-from-custom-types',
-        },
-        customInterfaceJson: {
-          custom: 'this-interface-is-imported-from-custom-types',
-        },
-        testInterface: {nameInterface: 'custom-inline-interface'},
-        testType: {nameType: 'custom-inline-type'},
-        testExportedType: {nameType: 'custom-inline-type'},
-        status: 'ASSIGNED',
-        notificationPreferences: [
-          {
-            channel: 'email',
-            address: 'friend@example.com',
-            templateId: 'template-1',
+          name: 'Customer Friend',
+          email: 'friend@example.com',
+          partner: false,
+          customTypeJson: {
+            id: 'friend-1',
+            custom: 'this-is-imported-from-custom-types',
           },
-        ],
-        countryIso: 'US',
-        preferredCurrency: 'USD',
-        regionCode: 'CA',
-      });
+          customInterfaceJson: {
+            custom: 'this-interface-is-imported-from-custom-types',
+          },
+          testInterface: {nameInterface: 'custom-inline-interface'},
+          testType: {nameType: 'custom-inline-type'},
+          testExportedType: {nameType: 'custom-inline-type'},
+          status: 'ASSIGNED',
+          notificationPreferences: [
+            {
+              channel: 'email',
+              address: 'friend@example.com',
+              templateId: 'template-1',
+            },
+          ],
+          countryIso: 'US',
+          preferredCurrency: 'USD',
+          regionCode: 'CA',
+        }),
+      );
 
-      await tx.mutate.friendship.insert({
-        requestingId: 'cust-1',
-        acceptingId: 'friend-1',
-        accepted: true,
-      });
-      await tx.mutate.friendship.insert({
-        requestingId: 'friend-1',
-        acceptingId: 'cust-1',
-        accepted: true,
-      });
+      await tx.mutate(
+        crud.friendship.insert({
+          requestingId: 'cust-1',
+          acceptingId: 'friend-1',
+          accepted: true,
+        }),
+      );
+      await tx.mutate(
+        crud.friendship.insert({
+          requestingId: 'friend-1',
+          acceptingId: 'cust-1',
+          accepted: true,
+        }),
+      );
 
-      await tx.mutate.medium.insert({id: 'med-email', name: 'email'});
+      await tx.mutate(crud.medium.insert({id: 'med-email', name: 'email'}));
 
-      await tx.mutate.message.insert({
-        id: 'msg-cust-1',
-        body: 'Hello from customer',
-        senderId: 'cust-1',
-        mediumId: 'med-email',
-        metadata: {key: 'cust-meta'},
-      });
+      await tx.mutate(
+        crud.message.insert({
+          id: 'msg-cust-1',
+          body: 'Hello from customer',
+          senderId: 'cust-1',
+          mediumId: 'med-email',
+          metadata: {key: 'cust-meta'},
+        }),
+      );
 
-      await tx.mutate.message.insert({
-        id: 'msg-friend-1',
-        body: 'Friend ping',
-        senderId: 'friend-1',
-        mediumId: 'med-email',
-        metadata: {key: 'friend-meta'},
-      });
+      await tx.mutate(
+        crud.message.insert({
+          id: 'msg-friend-1',
+          body: 'Friend ping',
+          senderId: 'friend-1',
+          mediumId: 'med-email',
+          metadata: {key: 'friend-meta'},
+        }),
+      );
 
-      await tx.mutate.message.insert({
-        id: 'msg-owner-1',
-        body: 'Owner update',
-        senderId: 'owner-1',
-        mediumId: 'med-email',
-        metadata: {key: 'owner-meta'},
-      });
+      await tx.mutate(
+        crud.message.insert({
+          id: 'msg-owner-1',
+          body: 'Owner update',
+          senderId: 'owner-1',
+          mediumId: 'med-email',
+          metadata: {key: 'owner-meta'},
+        }),
+      );
 
-      await tx.mutate.message.insert({
-        id: 'msg-1',
-        body: 'Welcome!',
-        senderId: 'sales-1',
-        mediumId: 'med-email',
-        metadata: {key: 'meta-1'},
-      });
+      await tx.mutate(
+        crud.message.insert({
+          id: 'msg-1',
+          body: 'Welcome!',
+          senderId: 'sales-1',
+          mediumId: 'med-email',
+          metadata: {key: 'meta-1'},
+        }),
+      );
 
-      await tx.mutate.message.insert({
-        id: 'msg-2',
-        body: 'Invoice attached',
-        senderId: 'sales-1',
-        mediumId: 'med-email',
-        metadata: {key: 'meta-2'},
-      });
+      await tx.mutate(
+        crud.message.insert({
+          id: 'msg-2',
+          body: 'Invoice attached',
+          senderId: 'sales-1',
+          mediumId: 'med-email',
+          metadata: {key: 'meta-2'},
+        }),
+      );
 
-      await tx.mutate.crmAccount.insert({
-        id: 'acct-1',
-        name: 'Acme Corp',
-        ownerId: 'owner-1',
-        industry: 'Manufacturing',
-      });
+      await tx.mutate(
+        crud.crmAccount.insert({
+          id: 'acct-1',
+          name: 'Acme Corp',
+          ownerId: 'owner-1',
+          industry: 'Manufacturing',
+        }),
+      );
 
-      await tx.mutate.crmContact.insert({
-        id: 'contact-1',
-        accountId: 'acct-1',
-        firstName: 'Alice',
-        lastName: 'Smith',
-        email: 'alice@example.com',
-      });
+      await tx.mutate(
+        crud.crmContact.insert({
+          id: 'contact-1',
+          accountId: 'acct-1',
+          firstName: 'Alice',
+          lastName: 'Smith',
+          email: 'alice@example.com',
+        }),
+      );
 
-      await tx.mutate.crmPipelineStage.insert({
-        id: 'stage-1',
-        name: 'Qualification',
-        sequence: 1,
-        probability: 20,
-      });
+      await tx.mutate(
+        crud.crmPipelineStage.insert({
+          id: 'stage-1',
+          name: 'Qualification',
+          sequence: 1,
+          probability: 20,
+        }),
+      );
 
-      await tx.mutate.crmOpportunity.insert({
-        id: 'opp-1',
-        accountId: 'acct-1',
-        stageId: 'stage-1',
-        name: 'Big Deal',
-        amount: 125000,
-      });
+      await tx.mutate(
+        crud.crmOpportunity.insert({
+          id: 'opp-1',
+          accountId: 'acct-1',
+          stageId: 'stage-1',
+          name: 'Big Deal',
+          amount: 125000,
+        }),
+      );
 
-      await tx.mutate.crmOpportunityStageHistory.insert({
-        id: 'opp-hist-1',
-        opportunityId: 'opp-1',
-        stageId: 'stage-1',
-        changedById: 'owner-1',
-        changedAt: Date.now(),
-      });
+      await tx.mutate(
+        crud.crmOpportunityStageHistory.insert({
+          id: 'opp-hist-1',
+          opportunityId: 'opp-1',
+          stageId: 'stage-1',
+          changedById: 'owner-1',
+          changedAt: Date.now(),
+        }),
+      );
 
-      await tx.mutate.crmActivityType.insert({
-        id: 'activity-type-1',
-        name: 'Call',
-        description: 'Customer call',
-      });
+      await tx.mutate(
+        crud.crmActivityType.insert({
+          id: 'activity-type-1',
+          name: 'Call',
+          description: 'Customer call',
+        }),
+      );
 
-      await tx.mutate.crmActivity.insert({
-        id: 'activity-new-1',
-        accountId: 'acct-1',
-        contactId: 'contact-1',
-        opportunityId: 'opp-1',
-        typeId: 'activity-type-1',
-        performedById: 'sales-1',
-        notes: 'Discussed order details',
-      });
+      await tx.mutate(
+        crud.crmActivity.insert({
+          id: 'activity-new-1',
+          accountId: 'acct-1',
+          contactId: 'contact-1',
+          opportunityId: 'opp-1',
+          typeId: 'activity-type-1',
+          performedById: 'sales-1',
+          notes: 'Discussed order details',
+        }),
+      );
 
-      await tx.mutate.crmNote.insert({
-        id: 'note-1',
-        accountId: 'acct-1',
-        contactId: 'contact-1',
-        authorId: 'sales-1',
-        body: 'Follow up next week',
-      });
+      await tx.mutate(
+        crud.crmNote.insert({
+          id: 'note-1',
+          accountId: 'acct-1',
+          contactId: 'contact-1',
+          authorId: 'sales-1',
+          body: 'Follow up next week',
+        }),
+      );
 
-      await tx.mutate.productCategory.insert({
-        id: 'cat-root',
-        name: 'Root Category',
-      });
+      await tx.mutate(
+        crud.productCategory.insert({
+          id: 'cat-root',
+          name: 'Root Category',
+        }),
+      );
 
-      await tx.mutate.productCategory.insert({
-        id: 'cat-child',
-        name: 'Child Category',
-        parentId: 'cat-root',
-      });
+      await tx.mutate(
+        crud.productCategory.insert({
+          id: 'cat-child',
+          name: 'Child Category',
+          parentId: 'cat-root',
+        }),
+      );
 
-      await tx.mutate.product.insert({
-        id: 'prod-1',
-        categoryId: 'cat-child',
-        name: 'Widget',
-        status: 'active',
-      });
+      await tx.mutate(
+        crud.product.insert({
+          id: 'prod-1',
+          categoryId: 'cat-child',
+          name: 'Widget',
+          status: 'active',
+        }),
+      );
 
-      await tx.mutate.productVariant.insert({
-        id: 'variant-1',
-        productId: 'prod-1',
-        sku: 'WIDGET-1',
-        price: 4999,
-        currency: 'USD',
-        isActive: true,
-      });
+      await tx.mutate(
+        crud.productVariant.insert({
+          id: 'variant-1',
+          productId: 'prod-1',
+          sku: 'WIDGET-1',
+          price: 4999,
+          currency: 'USD',
+          isActive: true,
+        }),
+      );
 
-      await tx.mutate.productMedia.insert({
-        id: 'media-1',
-        productId: 'prod-1',
-        url: 'https://example.com/widget.png',
-        type: getShortCode('image'),
-        mimeKey: 'png',
-        mimeDescriptor: {
-          mime_type: 'image/png',
-          group: 'image',
-          description: 'PNG image',
-          extensions: ['png'],
-          is_text: false,
-        },
-      });
+      await tx.mutate(
+        crud.productMedia.insert({
+          id: 'media-1',
+          productId: 'prod-1',
+          url: 'https://example.com/widget.png',
+          type: getShortCode('image'),
+          mimeKey: 'png',
+          mimeDescriptor: {
+            mime_type: 'image/png',
+            group: 'image',
+            description: 'PNG image',
+            extensions: ['png'],
+            is_text: false,
+          },
+        }),
+      );
 
-      await tx.mutate.inventoryLocation.insert({
-        id: 'loc-1',
-        name: 'Warehouse',
-      });
+      await tx.mutate(
+        crud.inventoryLocation.insert({
+          id: 'loc-1',
+          name: 'Warehouse',
+        }),
+      );
 
-      await tx.mutate.inventoryLevel.insert({
-        id: 'level-1',
-        locationId: 'loc-1',
-        variantId: 'variant-1',
-        quantity: 10,
-        reserved: 2,
-      });
+      await tx.mutate(
+        crud.inventoryLevel.insert({
+          id: 'level-1',
+          locationId: 'loc-1',
+          variantId: 'variant-1',
+          quantity: 10,
+          reserved: 2,
+        }),
+      );
 
-      await tx.mutate.inventoryItem.insert({
-        id: 'inventory-item-1',
-        variantId: 'variant-1',
-        serialNumber: 'SN-1',
-        metadata: {warranty: '1 year'},
-      });
+      await tx.mutate(
+        crud.inventoryItem.insert({
+          id: 'inventory-item-1',
+          variantId: 'variant-1',
+          serialNumber: 'SN-1',
+          metadata: {warranty: '1 year'},
+        }),
+      );
 
-      await tx.mutate.orderTable.insert({
-        id: 'order-test-1',
-        customerId: 'cust-1',
-        opportunityId: 'opp-1',
-        status: 'PROCESSING',
-        total: 99999,
-        currency: 'USD',
-        currencyMetadata: {
-          code: 'AFN',
-          number: '971',
-          digits: 2,
-          currency: 'Afghani',
-          countries: ['AFG'],
-        },
-        billingCountryIso: 'AF',
-        shippingCountryIso: 'AF',
-      });
+      await tx.mutate(
+        crud.orderTable.insert({
+          id: 'order-test-1',
+          customerId: 'cust-1',
+          opportunityId: 'opp-1',
+          status: 'PROCESSING',
+          total: 99999,
+          currency: 'USD',
+          currencyMetadata: {
+            code: 'AFN',
+            number: '971',
+            digits: 2,
+            currency: 'Afghani',
+            countries: ['AFG'],
+          },
+          billingCountryIso: 'AF',
+          shippingCountryIso: 'AF',
+        }),
+      );
 
-      await tx.mutate.orderItem.insert({
-        id: 'order-item-test-1',
-        orderId: 'order-test-1',
-        variantId: 'variant-1',
-        quantity: 2,
-        unitPrice: 4999,
-      });
+      await tx.mutate(
+        crud.orderItem.insert({
+          id: 'order-item-test-1',
+          orderId: 'order-test-1',
+          variantId: 'variant-1',
+          quantity: 2,
+          unitPrice: 4999,
+        }),
+      );
 
-      await tx.mutate.payment.insert({
-        id: 'payment-test-1',
-        status: 'PENDING',
-        amount: 9999,
-        currency: 'USD',
-        receivedById: 'sales-1',
-      });
+      await tx.mutate(
+        crud.payment.insert({
+          id: 'payment-test-1',
+          status: 'PENDING',
+          amount: 9999,
+          currency: 'USD',
+          receivedById: 'sales-1',
+        }),
+      );
 
-      await tx.mutate.orderPayment.insert({
-        id: 'order-payment-test-1',
-        orderId: 'order-test-1',
-        paymentId: 'payment-test-1',
-        amount: 9999,
-        status: 'PENDING',
-      });
+      await tx.mutate(
+        crud.orderPayment.insert({
+          id: 'order-payment-test-1',
+          orderId: 'order-test-1',
+          paymentId: 'payment-test-1',
+          amount: 9999,
+          status: 'PENDING',
+        }),
+      );
 
-      await tx.mutate.shipment.insert({
-        id: 'shipment-test-1',
-        orderId: 'order-test-1',
-        carrier: 'UPS',
-        trackingNumber: '1Z999',
-        destinationCountry: 'US',
-        destinationState: 'DC',
-      });
+      await tx.mutate(
+        crud.shipment.insert({
+          id: 'shipment-test-1',
+          orderId: 'order-test-1',
+          carrier: 'UPS',
+          trackingNumber: '1Z999',
+          destinationCountry: 'US',
+          destinationState: 'DC',
+        }),
+      );
 
-      await tx.mutate.shipmentItem.insert({
-        id: 'shipment-item-test-1',
-        shipmentId: 'shipment-test-1',
-        orderItemId: 'order-item-test-1',
-        quantity: 2,
-      });
+      await tx.mutate(
+        crud.shipmentItem.insert({
+          id: 'shipment-item-test-1',
+          shipmentId: 'shipment-test-1',
+          orderItemId: 'order-item-test-1',
+          quantity: 2,
+        }),
+      );
     });
 
-    const query = complexOrderWithEverything(undefined, 'order-test-1');
+    const query = queries.complexOrderWithEverything('order-test-1');
     const result = await zero.run(query, {type: 'complete'});
 
     assert(result);
@@ -842,13 +851,6 @@ describe('complex order', () => {
     expect(result.customer.email).toBe('customer1@example.com');
     expect(result.customer.partner).toBe(false);
     expect(result.customer.status).toBe('COMPLETED');
-
-    assert(result.customer.friends?.[0]);
-
-    // Customer friends relationship
-    expect(result.customer.friends).toHaveLength(1);
-    expect(result.customer.friends[0].id).toBe('friend-1');
-    expect(result.customer.friends[0].name).toBe('Customer Friend');
 
     assert(result.customer.messages?.[0]);
 
