@@ -33,8 +33,8 @@ importers:
         specifier: ^0.4.0
         version: 0.4.0
       '@rocicorp/zero':
-        specifier: 0.25.0-canary.18
-        version: 0.25.0-canary.18(@opentelemetry/core@2.2.0(@opentelemetry/api@1.9.0))
+        specifier: 0.25.0-canary.27
+        version: 0.25.0-canary.27(@opentelemetry/core@2.2.0(@opentelemetry/api@1.9.0))
       '@ts-morph/common':
         specifier: ^0.28.1
         version: 0.28.1
@@ -2125,10 +2125,10 @@ packages:
     engines: {bun: '>=1.1.0', node: 20.x || 22.x || 23.x || 24.x}
     hasBin: true
 
-  '@rocicorp/zero@0.25.0-canary.18':
+  '@rocicorp/zero@0.25.0-canary.27':
     resolution:
       {
-        integrity: sha512-CPzd/xALS3UccBh5w5jHfFeoYcebRZoW4buzlwFZVE8/IYMg40GU3aybzBfKOXi7fs67eUw2nO6UdvesBf+Z7A==,
+        integrity: sha512-iyRmyLkg3VDJygBUd1UualVx7pGnRCBovkhMjOzz520t9X7BC0dn8hUrLop4OxXIfSJw+AKAj0BEaEQl2YX1rA==,
       }
     engines: {node: '>=22'}
     hasBin: true
@@ -7131,7 +7131,7 @@ snapshots:
       bindings: 1.5.0
       prebuild-install: 7.1.3
 
-  '@rocicorp/zero@0.25.0-canary.18(@opentelemetry/core@2.2.0(@opentelemetry/api@1.9.0))':
+  '@rocicorp/zero@0.25.0-canary.27(@opentelemetry/core@2.2.0(@opentelemetry/api@1.9.0))':
     dependencies:
       '@badrap/valita': 0.3.11
       '@databases/escape-identifier': 1.0.3

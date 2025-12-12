@@ -61,7 +61,6 @@ export interface GeneratorOptions {
   jsFileExtension?: boolean;
   skipTypes?: boolean;
   skipBuilder?: boolean;
-  skipCrud?: boolean;
   skipDeclare?: boolean;
   enableLegacyMutators?: boolean;
   enableLegacyQueries?: boolean;
@@ -79,7 +78,6 @@ async function main(opts: GeneratorOptions = {}) {
     jsFileExtension,
     skipTypes,
     skipBuilder,
-    skipCrud,
     skipDeclare,
     enableLegacyMutators,
     enableLegacyQueries,
@@ -152,7 +150,6 @@ async function main(opts: GeneratorOptions = {}) {
     jsExtensionOverride: jsFileExtension ? 'force' : 'auto',
     skipTypes: Boolean(skipTypes),
     skipBuilder: Boolean(skipBuilder),
-    skipCrud: Boolean(skipCrud),
     skipDeclare: Boolean(skipDeclare),
     enableLegacyMutators: Boolean(enableLegacyMutators),
     enableLegacyQueries: Boolean(enableLegacyQueries),
@@ -204,7 +201,6 @@ function cli() {
     )
     .option('--skip-types', 'Skip generating table Row[] type exports', false)
     .option('--skip-builder', 'Skip generating the builder export', false)
-    .option('--skip-crud', 'Skip generating the CRUD builder export', false)
     .option(
       '--skip-declare',
       'Skip generating the module augmentation for default types in Zero',
@@ -234,7 +230,6 @@ function cli() {
         jsFileExtension: command.jsFileExtension,
         skipTypes: command.skipTypes,
         skipBuilder: command.skipBuilder,
-        skipCrud: command.skipCrud,
         skipDeclare: command.skipDeclare,
         enableLegacyMutators: command.enableLegacyMutators,
         enableLegacyQueries: command.enableLegacyQueries,

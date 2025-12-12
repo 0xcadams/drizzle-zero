@@ -2,7 +2,7 @@
 // You should NOT make any changes in this file as it will be overwritten.
 
 import type {ReadonlyJSONValue, Row} from '@rocicorp/zero';
-import {createBuilder, createCRUDBuilder} from '@rocicorp/zero';
+import {createBuilder} from '@rocicorp/zero';
 import type {ZeroCustomType} from 'drizzle-zero';
 import type {schema as zeroSchema} from './drizzle-zero.config';
 
@@ -9528,8 +9528,3 @@ export const zql = createBuilder(schema);
  * @deprecated Use `zql` instead.
  */
 export const builder = zql;
-/**
- * Represents the CRUD builder.
- * This type is auto-generated from your Drizzle schema definition.
- */
-export const crud = createCRUDBuilder(schema);

@@ -137,7 +137,7 @@ describe('getGeneratedSchema', () => {
       // You should NOT make any changes in this file as it will be overwritten.
 
       import type { Row } from "@rocicorp/zero";
-      import { createBuilder, createCRUDBuilder } from "@rocicorp/zero";
+      import { createBuilder } from "@rocicorp/zero";
       import type { ZeroCustomType } from "drizzle-zero";
       import type { schema as zeroSchema } from "./tests/schemas/one-to-one.zero";
 
@@ -188,11 +188,6 @@ describe('getGeneratedSchema', () => {
        * @deprecated Use \`zql\` instead.
        */
       export const builder = zql;
-      /**
-       * Represents the CRUD builder.
-       * This type is auto-generated from your Drizzle schema definition.
-       */
-      export const crud = createCRUDBuilder(schema);
 
       /** Defines the default types for Zero */
       declare module '@rocicorp/zero' { interface DefaultTypes { schema: Schema; } }
@@ -1048,7 +1043,7 @@ describe('getGeneratedSchema', () => {
 
     // Check for @rocicorp/zero imports
     expect(generatedSchema).toContain(
-      'import { createBuilder, createCRUDBuilder } from "@rocicorp/zero";',
+      'import { createBuilder } from "@rocicorp/zero";',
     );
     expect(generatedSchema).toContain(
       'import type { Row } from "@rocicorp/zero";',
@@ -1213,7 +1208,7 @@ describe('getGeneratedSchema', () => {
 
     // Check for all the new imports
     expect(generatedSchema).toContain(
-      'import { createBuilder, createCRUDBuilder } from "@rocicorp/zero";',
+      'import { createBuilder } from "@rocicorp/zero";',
     );
     expect(generatedSchema).toContain(
       'import type { Row } from "@rocicorp/zero";',
@@ -1255,7 +1250,7 @@ describe('getGeneratedSchema', () => {
 
     // Should still include builder export but not Row import when no tables
     expect(generatedSchema).toContain(
-      'import { createBuilder, createCRUDBuilder } from "@rocicorp/zero";',
+      'import { createBuilder } from "@rocicorp/zero";',
     );
     expect(generatedSchema).not.toContain(
       'import type { Row } from "@rocicorp/zero";',
@@ -1307,7 +1302,7 @@ describe('getGeneratedSchema', () => {
 
     // Builder should still be present
     expect(generatedSchema).toContain(
-      'import { createBuilder, createCRUDBuilder } from "@rocicorp/zero";',
+      'import { createBuilder } from "@rocicorp/zero";',
     );
     expect(generatedSchema).toContain(
       'export const zql = createBuilder(schema);',
