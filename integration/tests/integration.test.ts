@@ -23,7 +23,7 @@ import {
   stopGetQueriesServer,
 } from '../get-queries-server';
 import {schema, type Filter, type Schema} from '../zero-schema.gen';
-import {queries} from '@/synced-queries';
+import {queries} from '../synced-queries';
 
 const zeroDb = zeroDrizzle(schema, db);
 

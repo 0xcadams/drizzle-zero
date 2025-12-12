@@ -29,7 +29,7 @@ import {
   type Schema,
   type User,
 } from '../zero-schema.gen';
-import {queries} from '@/synced-queries';
+import {queries} from '../synced-queries';
 
 const zeroDb = zeroDrizzle(schema, db);
 
