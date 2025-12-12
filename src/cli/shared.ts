@@ -17,7 +17,6 @@ export function getGeneratedSchema({
   jsExtensionOverride = 'auto',
   skipTypes = false,
   skipBuilder = false,
-  skipCrud = false,
   skipDeclare = false,
   enableLegacyMutators = false,
   enableLegacyQueries = false,
@@ -31,7 +30,6 @@ export function getGeneratedSchema({
   jsExtensionOverride?: 'auto' | 'force' | 'none';
   skipTypes?: boolean;
   skipBuilder?: boolean;
-  skipCrud?: boolean;
   skipDeclare?: boolean;
   enableLegacyMutators?: boolean;
   enableLegacyQueries?: boolean;
@@ -565,30 +563,6 @@ export function getGeneratedSchema({
     builderVariable.addJsDoc({
       description:
         '\nRepresents the Zero schema query builder.\nThis type is auto-generated from your Drizzle schema definition.\n\n@deprecated Use `zql` instead.',
-    });
-  }
-
-  // Add CRUD builder export
-  if (!skipCrud) {
-    zeroSchemaGenerated.addImportDeclaration({
-      moduleSpecifier: '@rocicorp/zero',
-      namedImports: [{name: 'createCRUDBuilder'}],
-    });
-
-    const crudVariable = zeroSchemaGenerated.addVariableStatement({
-      declarationKind: VariableDeclarationKind.Const,
-      isExported: true,
-      declarations: [
-        {
-          name: 'crud',
-          initializer: `createCRUDBuilder(${schemaObjectName})`,
-        },
-      ],
-    });
-
-    crudVariable.addJsDoc({
-      description:
-        '\nRepresents the CRUD builder.\nThis type is auto-generated from your Drizzle schema definition.',
     });
   }
 
