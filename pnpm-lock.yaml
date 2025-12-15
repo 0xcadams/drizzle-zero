@@ -68,10 +68,10 @@ importers:
         version: 0.45.0(@opentelemetry/api@1.9.0)(@types/pg@8.15.6)(pg@8.16.3)(postgres@3.4.7)
       oxlint:
         specifier: ^1.31.0
-        version: 1.31.0(oxlint-tsgolint@0.8.3)
+        version: 1.31.0(oxlint-tsgolint@0.9.0)
       oxlint-tsgolint:
-        specifier: ^0.8.3
-        version: 0.8.3
+        specifier: ^0.9.0
+        version: 0.9.0
       prettier:
         specifier: ^3.7.4
         version: 3.7.4
@@ -1289,33 +1289,33 @@ packages:
     peerDependencies:
       '@opentelemetry/api': ^1.1.0
 
-  '@oxlint-tsgolint/darwin-arm64@0.8.3':
-    resolution: {integrity: sha512-BhCcCtddJyQL1fvkGmQqqLfZzJg3vRHMHz0x06juPJupo/3HQOEz46iUXlfLiW1SbcwiRSzxWRGLXM3TiVxNPg==}
+  '@oxlint-tsgolint/darwin-arm64@0.9.0':
+    resolution: {integrity: sha512-dztZZwzSzX58pgwQoYex5svEdISDNpEM0A0cB0ISeaD3mFsro7h2idMK6q373hxnhNw4Rs1eu/4dwPpKEz6ouw==}
     cpu: [arm64]
     os: [darwin]
 
-  '@oxlint-tsgolint/darwin-x64@0.8.3':
-    resolution: {integrity: sha512-PqA/jb+zdR31fLvQnQ1TRm/pDEmYhPUn504+UxBu8EfuYWxDeRXr7E34PphJpYwE+RlqKLfthbuYVbVaGjx6yw==}
+  '@oxlint-tsgolint/darwin-x64@0.9.0':
+    resolution: {integrity: sha512-GK/TOqKTqP41/yHyCwO4tJ0jF4vAwlsTXhgGXMD6GgTXv4t8kPcX4EFHZOfgMf+E84vE4MsvLFNI+NXfVIqWzQ==}
     cpu: [x64]
     os: [darwin]
 
-  '@oxlint-tsgolint/linux-arm64@0.8.3':
-    resolution: {integrity: sha512-Dk62XzusCxnnEG82AB10LWpGq2ikdsjk9r0C9k5u8SUGfbXDID27Jbo9NCG0/ob+uG/SGdJKGAuY9rVYXO0/Mg==}
+  '@oxlint-tsgolint/linux-arm64@0.9.0':
+    resolution: {integrity: sha512-Rc+ea/v2Y+AmZrCOMWMV2NxQ7h967ivELqn7+gCIw53dCnvwp0JsGfL4e1tNkLddXaCfrC11zW61Ayie224GNA==}
     cpu: [arm64]
     os: [linux]
 
-  '@oxlint-tsgolint/linux-x64@0.8.3':
-    resolution: {integrity: sha512-yKNhHL1r2Xl59Av8UmE0ZeA89SojTyK/ByNleFhGFhLzIvEGJHFbC7jMGHMokfnrh73tR83g8KHNEz6iP8Iw/w==}
+  '@oxlint-tsgolint/linux-x64@0.9.0':
+    resolution: {integrity: sha512-i3QRMXHCIGxGQTvFyE8LTy96SBvToZpkHPirBs6dvtKfDFHeKMX2WSc44rUdoU/LhjF5qYyU0lTITzj4VFEY/w==}
     cpu: [x64]
     os: [linux]
 
-  '@oxlint-tsgolint/win32-arm64@0.8.3':
-    resolution: {integrity: sha512-UC2oUZ2MtaJ7jWP0kHtzx4Rkw+nTykGtncv72xKphFooKJWXi4MSQuVQ7RTsbmZa4poPYkYW1vaQayQU8Q586Q==}
+  '@oxlint-tsgolint/win32-arm64@0.9.0':
+    resolution: {integrity: sha512-D6jeKoCfNAwBXJyxab4gZk8Rw9BjzGgQPd7DdLRLjDRY6DkdK4PVUwNzbboZk2SAxluO/UkSUXpoEoTJdl+cIQ==}
     cpu: [arm64]
     os: [win32]
 
-  '@oxlint-tsgolint/win32-x64@0.8.3':
-    resolution: {integrity: sha512-EACSsZjLe7l8VYXIGZGuqrJMIZymE/zDsmaQRy1MXeuWqg4F89zKh7b7KTBCiOLpkapkHiVWGCPqkoVZ2Lyvnw==}
+  '@oxlint-tsgolint/win32-x64@0.9.0':
+    resolution: {integrity: sha512-v7yGASaDJ2GXrvlDLwhrASRyM8zpOxU8oi3BLqE1mqbKSNbWNeTAaBfRNLyCUztiV1eFvx54hnF0AElPfglVYQ==}
     cpu: [x64]
     os: [win32]
 
@@ -2826,8 +2826,8 @@ packages:
     resolution: {integrity: sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==}
     engines: {node: '>=8'}
 
-  nwsapi@2.2.22:
-    resolution: {integrity: sha512-ujSMe1OWVn55euT1ihwCI1ZcAaAU3nxUiDwfDQldc51ZXaB9m2AyOn6/jh1BLe2t/G8xd6uKG1UBF2aZJeg2SQ==}
+  nwsapi@2.2.23:
+    resolution: {integrity: sha512-7wfH4sLbt4M0gCDzGE6vzQBo0bfTKjU7Sfpqy/7gs1qBfYz2vEJH6vXcBKpO3+6Yu1telwd0t9HpyOoLEQQbIQ==}
 
   object-assign@4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
@@ -2854,8 +2854,8 @@ packages:
     resolution: {integrity: sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg==}
     engines: {node: '>=6'}
 
-  oxlint-tsgolint@0.8.3:
-    resolution: {integrity: sha512-R/pqgXPC4DRQyrODa5xyqiHZNiCcX+R96Bu3qsAMkeSJOKarL8wEszNVNlR+bx8gbWYjPDFuRnlYionTHNjFPA==}
+  oxlint-tsgolint@0.9.0:
+    resolution: {integrity: sha512-JzZ3w7DAgf3RE3O7a4uNLtLUy8Q46r4SN4NOsfRv7lwuhLNhaXoVwOpwdPvAdfQeIJ+HSMgNkjP44vdSdC7O9A==}
     hasBin: true
 
   oxlint@1.31.0:
@@ -4781,22 +4781,22 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.2.0(@opentelemetry/api@1.9.0)
 
-  '@oxlint-tsgolint/darwin-arm64@0.8.3':
+  '@oxlint-tsgolint/darwin-arm64@0.9.0':
     optional: true
 
-  '@oxlint-tsgolint/darwin-x64@0.8.3':
+  '@oxlint-tsgolint/darwin-x64@0.9.0':
     optional: true
 
-  '@oxlint-tsgolint/linux-arm64@0.8.3':
+  '@oxlint-tsgolint/linux-arm64@0.9.0':
     optional: true
 
-  '@oxlint-tsgolint/linux-x64@0.8.3':
+  '@oxlint-tsgolint/linux-x64@0.9.0':
     optional: true
 
-  '@oxlint-tsgolint/win32-arm64@0.8.3':
+  '@oxlint-tsgolint/win32-arm64@0.9.0':
     optional: true
 
-  '@oxlint-tsgolint/win32-x64@0.8.3':
+  '@oxlint-tsgolint/win32-x64@0.9.0':
     optional: true
 
   '@oxlint/darwin-arm64@1.31.0':
@@ -6140,7 +6140,7 @@ snapshots:
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.6
       is-potential-custom-element-name: 1.0.1
-      nwsapi: 2.2.22
+      nwsapi: 2.2.23
       parse5: 7.3.0
       rrweb-cssom: 0.8.0
       saxes: 6.0.0
@@ -6287,7 +6287,7 @@ snapshots:
     dependencies:
       path-key: 3.1.1
 
-  nwsapi@2.2.22:
+  nwsapi@2.2.23:
     optional: true
 
   object-assign@4.1.1: {}
@@ -6308,16 +6308,16 @@ snapshots:
     dependencies:
       mimic-fn: 2.1.0
 
-  oxlint-tsgolint@0.8.3:
+  oxlint-tsgolint@0.9.0:
     optionalDependencies:
-      '@oxlint-tsgolint/darwin-arm64': 0.8.3
-      '@oxlint-tsgolint/darwin-x64': 0.8.3
-      '@oxlint-tsgolint/linux-arm64': 0.8.3
-      '@oxlint-tsgolint/linux-x64': 0.8.3
-      '@oxlint-tsgolint/win32-arm64': 0.8.3
-      '@oxlint-tsgolint/win32-x64': 0.8.3
+      '@oxlint-tsgolint/darwin-arm64': 0.9.0
+      '@oxlint-tsgolint/darwin-x64': 0.9.0
+      '@oxlint-tsgolint/linux-arm64': 0.9.0
+      '@oxlint-tsgolint/linux-x64': 0.9.0
+      '@oxlint-tsgolint/win32-arm64': 0.9.0
+      '@oxlint-tsgolint/win32-x64': 0.9.0
 
-  oxlint@1.31.0(oxlint-tsgolint@0.8.3):
+  oxlint@1.31.0(oxlint-tsgolint@0.9.0):
     optionalDependencies:
       '@oxlint/darwin-arm64': 1.31.0
       '@oxlint/darwin-x64': 1.31.0
@@ -6327,7 +6327,7 @@ snapshots:
       '@oxlint/linux-x64-musl': 1.31.0
       '@oxlint/win32-arm64': 1.31.0
       '@oxlint/win32-x64': 1.31.0
-      oxlint-tsgolint: 0.8.3
+      oxlint-tsgolint: 0.9.0
 
   package-json-from-dist@1.0.1: {}
 
