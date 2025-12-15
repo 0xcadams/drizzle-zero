@@ -2,8 +2,7 @@ import type {
   CustomJsonInterface,
   CustomJsonType,
 } from '@drizzle-zero/custom-types';
-import {sql} from 'drizzle-orm';
-import {relations} from 'drizzle-orm/_relations';
+import {defineRelations, sql} from 'drizzle-orm';
 import {
   bigint,
   bigserial,
@@ -108,19 +107,11 @@ export const user = pgTable('user', {
   status: text('status', {enum: ['ASSIGNED', 'COMPLETED']}),
 });
 
-export const userRelations = relations(user, ({many}) => ({
-  messages: many(message),
-}));
-
 export const medium = pgTable('medium', {
   ...sharedColumns,
   id: text('id').primaryKey(),
   name: text('name').notNull(),
 });
-
-export const mediumRelations = relations(medium, ({many}) => ({
-  messages: many(message),
-}));
 
 export const message = pgTable('message', {
   ...sharedColumns,
@@ -131,17 +122,6 @@ export const message = pgTable('message', {
   metadata: jsonb('metadata').$type<{key: string}>().notNull(),
   omittedColumn: text('omitted_column'),
 });
-
-export const messageRelations = relations(message, ({one}) => ({
-  medium: one(medium, {
-    fields: [message.mediumId],
-    references: [medium.id],
-  }),
-  sender: one(user, {
-    fields: [message.senderId],
-    references: [user.id],
-  }),
-}));
 
 export const statusEnum = pgEnum('status_type', [
   'active',
@@ -231,14 +211,6 @@ export const filters = pgTable('filters', {
   name: text('name'),
   parentId: text('parent_id'),
 });
-
-export const filtersRelations = relations(filters, ({one, many}) => ({
-  parent: one(filters, {
-    fields: [filters.parentId],
-    references: [filters.id],
-  }),
-  children: many(filters),
-}));
 
 export const omittedTable = pgTable('omitted_table', {
   id: text('id').primaryKey(),
@@ -353,112 +325,6 @@ export const projectAudit = pgTable('project_audit', {
   details: jsonb('details').$type<SchemaDriftFinding[] | null>(),
 });
 
-export const projectTagRelations = relations(projectTag, ({many}) => ({
-  taskLinks: many(projectTaskTag),
-}));
-
-export const projectRelations = relations(project, ({one, many}) => ({
-  owner: one(user, {
-    fields: [project.ownerId],
-    references: [user.id],
-  }),
-  phases: many(projectPhase),
-  tasks: many(projectTask),
-  notes: many(projectNote),
-  audits: many(projectAudit),
-}));
-
-export const projectPhaseRelations = relations(projectPhase, ({one, many}) => ({
-  project: one(project, {
-    fields: [projectPhase.projectId],
-    references: [project.id],
-  }),
-  tasks: many(projectTask),
-}));
-
-export const projectTaskRelations = relations(projectTask, ({one, many}) => ({
-  project: one(project, {
-    fields: [projectTask.projectId],
-    references: [project.id],
-  }),
-  phase: one(projectPhase, {
-    fields: [projectTask.phaseId],
-    references: [projectPhase.id],
-  }),
-  assignments: many(projectAssignment),
-  comments: many(projectComment),
-  attachments: many(projectAttachment),
-  tags: many(projectTaskTag),
-}));
-
-export const projectAssignmentRelations = relations(
-  projectAssignment,
-  ({one}) => ({
-    task: one(projectTask, {
-      fields: [projectAssignment.taskId],
-      references: [projectTask.id],
-    }),
-    user: one(user, {
-      fields: [projectAssignment.userId],
-      references: [user.id],
-    }),
-  }),
-);
-
-export const projectCommentRelations = relations(projectComment, ({one}) => ({
-  task: one(projectTask, {
-    fields: [projectComment.taskId],
-    references: [projectTask.id],
-  }),
-  author: one(user, {
-    fields: [projectComment.authorId],
-    references: [user.id],
-  }),
-}));
-
-export const projectAttachmentRelations = relations(
-  projectAttachment,
-  ({one}) => ({
-    task: one(projectTask, {
-      fields: [projectAttachment.taskId],
-      references: [projectTask.id],
-    }),
-  }),
-);
-
-export const projectTaskTagRelations = relations(projectTaskTag, ({one}) => ({
-  task: one(projectTask, {
-    fields: [projectTaskTag.taskId],
-    references: [projectTask.id],
-  }),
-  tag: one(projectTag, {
-    fields: [projectTaskTag.tagId],
-    references: [projectTag.id],
-  }),
-}));
-
-export const projectNoteRelations = relations(projectNote, ({one}) => ({
-  project: one(project, {
-    fields: [projectNote.projectId],
-    references: [project.id],
-  }),
-  author: one(user, {
-    fields: [projectNote.authorId],
-    references: [user.id],
-  }),
-}));
-
-export const projectAuditRelations = relations(projectAudit, ({one}) => ({
-  project: one(project, {
-    fields: [projectAudit.projectId],
-    references: [project.id],
-  }),
-  actor: one(user, {
-    fields: [projectAudit.actorId],
-    references: [user.id],
-  }),
-}));
-
 export const featureFlag = pgTable('feature_flag', {
   ...sharedColumns,
   id: text('id').primaryKey(),
@@ -470,13 +336,6 @@ export const featureFlag = pgTable('feature_flag', {
   releaseTrack: text('release_track').$type<ReleaseTrack>().notNull(),
 });
 
-export const featureFlagRelations = relations(featureFlag, ({one}) => ({
-  owner: one(user, {
-    fields: [featureFlag.ownerId],
-    references: [user.id],
-  }),
-}));
-
 export const telemetryRollup = pgTable('telemetry_rollup', {
   ...sharedColumns,
   id: text('id').primaryKey(),
@@ -487,29 +346,12 @@ export const telemetryRollup = pgTable('telemetry_rollup', {
     .notNull(),
 });
 
-export const telemetryRollupRelations = relations(telemetryRollup, ({one}) => ({
-  project: one(project, {
-    fields: [telemetryRollup.projectId],
-    references: [project.id],
-  }),
-}));
-
 export const webhookSubscription = pgTable('webhook_subscription', {
   ...sharedColumns,
   id: text('id').primaryKey(),
   projectId: text('project_id').references(() => project.id),
   config: jsonb('config').$type<WebhookConfig>().notNull(),
 });
-
-export const webhookSubscriptionRelations = relations(
-  webhookSubscription,
-  ({one}) => ({
-    project: one(project, {
-      fields: [webhookSubscription.projectId],
-      references: [project.id],
-    }),
-  }),
-);
 
 export const crmAccount = pgTable('crm_account', {
   ...sharedColumns,
@@ -612,113 +454,6 @@ export const crmNote = pgTable('crm_note', {
   authorId: text('author_id').references(() => user.id),
   body: text('body').notNull(),
 });
-
-export const crmAccountRelations = relations(crmAccount, ({one, many}) => ({
-  owner: one(user, {
-    fields: [crmAccount.ownerId],
-    references: [user.id],
-  }),
-  contacts: many(crmContact),
-  opportunities: many(crmOpportunity),
-  activities: many(crmActivity),
-  notes: many(crmNote),
-}));
-
-export const crmContactRelations = relations(crmContact, ({one, many}) => ({
-  account: one(crmAccount, {
-    fields: [crmContact.accountId],
-    references: [crmAccount.id],
-  }),
-  activities: many(crmActivity),
-  notes: many(crmNote),
-}));
-
-export const crmPipelineStageRelations = relations(
-  crmPipelineStage,
-  ({many}) => ({
-    opportunities: many(crmOpportunity),
-    historyEntries: many(crmOpportunityStageHistory),
-  }),
-);
-
-export const crmOpportunityRelations = relations(
-  crmOpportunity,
-  ({one, many}) => ({
-    account: one(crmAccount, {
-      fields: [crmOpportunity.accountId],
-      references: [crmAccount.id],
-    }),
-    stage: one(crmPipelineStage, {
-      fields: [crmOpportunity.stageId],
-      references: [crmPipelineStage.id],
-    }),
-    activities: many(crmActivity),
-    historyEntries: many(crmOpportunityStageHistory),
-  }),
-);
-
-export const crmOpportunityStageHistoryRelations = relations(
-  crmOpportunityStageHistory,
-  ({one}) => ({
-    opportunity: one(crmOpportunity, {
-      fields: [crmOpportunityStageHistory.opportunityId],
-      references: [crmOpportunity.id],
-    }),
-    stage: one(crmPipelineStage, {
-      fields: [crmOpportunityStageHistory.stageId],
-      references: [crmPipelineStage.id],
-    }),
-    changedBy: one(user, {
-      fields: [crmOpportunityStageHistory.changedById],
-      references: [user.id],
-    }),
-  }),
-);
-
-export const crmActivityTypeRelations = relations(
-  crmActivityType,
-  ({many}) => ({
-    activities: many(crmActivity),
-  }),
-);
-
-export const crmActivityRelations = relations(crmActivity, ({one}) => ({
-  account: one(crmAccount, {
-    fields: [crmActivity.accountId],
-    references: [crmAccount.id],
-  }),
-  contact: one(crmContact, {
-    fields: [crmActivity.contactId],
-    references: [crmContact.id],
-  }),
-  opportunity: one(crmOpportunity, {
-    fields: [crmActivity.opportunityId],
-    references: [crmOpportunity.id],
-  }),
-  type: one(crmActivityType, {
-    fields: [crmActivity.typeId],
-    references: [crmActivityType.id],
-  }),
-  performer: one(user, {
-    fields: [crmActivity.performedById],
-    references: [user.id],
-  }),
-}));
-
-export const crmNoteRelations = relations(crmNote, ({one}) => ({
-  account: one(crmAccount, {
-    fields: [crmNote.accountId],
-    references: [crmAccount.id],
-  }),
-  contact: one(crmContact, {
-    fields: [crmNote.contactId],
-    references: [crmContact.id],
-  }),
-  author: one(user, {
-    fields: [crmNote.authorId],
-    references: [user.id],
-  }),
-}));
 
 export const productCategory = pgTable(
   'product_category',
@@ -889,127 +624,6 @@ export const shipmentItem = pgTable('shipment_item', {
   quantity: integer('quantity').notNull(),
 });
 
-export const productCategoryRelations = relations(
-  productCategory,
-  ({one, many}) => ({
-    parent: one(productCategory, {
-      fields: [productCategory.parentId],
-      references: [productCategory.id],
-    }),
-    children: many(productCategory),
-    products: many(product),
-  }),
-);
-
-export const productRelations = relations(product, ({one, many}) => ({
-  category: one(productCategory, {
-    fields: [product.categoryId],
-    references: [productCategory.id],
-  }),
-  variants: many(productVariant),
-  media: many(productMedia),
-}));
-
-export const productVariantRelations = relations(
-  productVariant,
-  ({one, many}) => ({
-    product: one(product, {
-      fields: [productVariant.productId],
-      references: [product.id],
-    }),
-    inventoryItems: many(inventoryItem),
-    inventoryLevels: many(inventoryLevel),
-    orderItems: many(orderItem),
-  }),
-);
-
-export const productMediaRelations = relations(productMedia, ({one}) => ({
-  product: one(product, {
-    fields: [productMedia.productId],
-    references: [product.id],
-  }),
-}));
-
-export const inventoryLocationRelations = relations(
-  inventoryLocation,
-  ({many}) => ({
-    levels: many(inventoryLevel),
-  }),
-);
-
-export const inventoryItemRelations = relations(inventoryItem, ({one}) => ({
-  variant: one(productVariant, {
-    fields: [inventoryItem.variantId],
-    references: [productVariant.id],
-  }),
-}));
-
-export const inventoryLevelRelations = relations(inventoryLevel, ({one}) => ({
-  location: one(inventoryLocation, {
-    fields: [inventoryLevel.locationId],
-    references: [inventoryLocation.id],
-  }),
-  variant: one(productVariant, {
-    fields: [inventoryLevel.variantId],
-    references: [productVariant.id],
-  }),
-}));
-
-export const orderRelations = relations(orderTable, ({one, many}) => ({
-  customer: one(user, {
-    fields: [orderTable.customerId],
-    references: [user.id],
-  }),
-  opportunity: one(crmOpportunity, {
-    fields: [orderTable.opportunityId],
-    references: [crmOpportunity.id],
-  }),
-  items: many(orderItem),
-  payments: many(orderPayment),
-  shipments: many(shipment),
-}));
-
-export const orderItemRelations = relations(orderItem, ({one}) => ({
-  order: one(orderTable, {
-    fields: [orderItem.orderId],
-    references: [orderTable.id],
-  }),
-  variant: one(productVariant, {
-    fields: [orderItem.variantId],
-    references: [productVariant.id],
-  }),
-}));
-
-export const orderPaymentRelations = relations(orderPayment, ({one}) => ({
-  order: one(orderTable, {
-    fields: [orderPayment.orderId],
-    references: [orderTable.id],
-  }),
-  payment: one(payment, {
-    fields: [orderPayment.paymentId],
-    references: [payment.id],
-  }),
-}));
-
-export const shipmentRelations = relations(shipment, ({one, many}) => ({
-  order: one(orderTable, {
-    fields: [shipment.orderId],
-    references: [orderTable.id],
-  }),
-  items: many(shipmentItem),
-}));
-
-export const shipmentItemRelations = relations(shipmentItem, ({one}) => ({
-  shipment: one(shipment, {
-    fields: [shipmentItem.shipmentId],
-    references: [shipment.id],
-  }),
-  orderItem: one(orderItem, {
-    fields: [shipmentItem.orderItemId],
-    references: [orderItem.id],
-  }),
-}));
-
 export const department = pgTable('department', {
   ...sharedColumns,
   id: text('id').primaryKey(),
@@ -1110,118 +724,6 @@ export const benefitEnrollment = pgTable('benefit_enrollment', {
   coverageLevel: text('coverage_level'),
 });
 
-export const departmentRelations = relations(department, ({one, many}) => ({
-  manager: one(user, {
-    fields: [department.managerId],
-    references: [user.id],
-  }),
-  teams: many(team),
-  employees: many(employeeProfile),
-}));
-
-export const employeeProfileRelations = relations(
-  employeeProfile,
-  ({one, many}) => ({
-    user: one(user, {
-      fields: [employeeProfile.userId],
-      references: [user.id],
-    }),
-    department: one(department, {
-      fields: [employeeProfile.departmentId],
-      references: [department.id],
-    }),
-    team: one(team, {
-      fields: [employeeProfile.teamId],
-      references: [team.id],
-    }),
-    employmentHistory: many(employmentHistory),
-    documents: many(employeeDocument),
-    timesheets: many(timesheet),
-    benefitEnrollments: many(benefitEnrollment),
-  }),
-);
-
-export const teamRelations = relations(team, ({one, many}) => ({
-  department: one(department, {
-    fields: [team.departmentId],
-    references: [department.id],
-  }),
-  lead: one(user, {
-    fields: [team.leadId],
-    references: [user.id],
-  }),
-  employees: many(employeeProfile),
-}));
-
-export const employmentHistoryRelations = relations(
-  employmentHistory,
-  ({one}) => ({
-    employee: one(employeeProfile, {
-      fields: [employmentHistory.employeeId],
-      references: [employeeProfile.id],
-    }),
-  }),
-);
-
-export const employeeDocumentRelations = relations(
-  employeeDocument,
-  ({one}) => ({
-    employee: one(employeeProfile, {
-      fields: [employeeDocument.employeeId],
-      references: [employeeProfile.id],
-    }),
-    uploader: one(user, {
-      fields: [employeeDocument.uploadedById],
-      references: [user.id],
-    }),
-  }),
-);
-
-export const timesheetRelations = relations(timesheet, ({one, many}) => ({
-  employee: one(employeeProfile, {
-    fields: [timesheet.employeeId],
-    references: [employeeProfile.id],
-  }),
-  submittedBy: one(user, {
-    fields: [timesheet.submittedById],
-    references: [user.id],
-  }),
-  entries: many(timeEntry),
-}));
-
-export const timeEntryRelations = relations(timeEntry, ({one}) => ({
-  timesheet: one(timesheet, {
-    fields: [timeEntry.timesheetId],
-    references: [timesheet.id],
-  }),
-  task: one(projectTask, {
-    fields: [timeEntry.taskId],
-    references: [projectTask.id],
-  }),
-}));
-
-export const benefitPlanRelations = relations(benefitPlan, ({one, many}) => ({
-  administrator: one(user, {
-    fields: [benefitPlan.administratorId],
-    references: [user.id],
-  }),
-  enrollments: many(benefitEnrollment),
-}));
-
-export const benefitEnrollmentRelations = relations(
-  benefitEnrollment,
-  ({one}) => ({
-    benefitPlan: one(benefitPlan, {
-      fields: [benefitEnrollment.benefitPlanId],
-      references: [benefitPlan.id],
-    }),
-    employee: one(employeeProfile, {
-      fields: [benefitEnrollment.employeeId],
-      references: [employeeProfile.id],
-    }),
-  }),
-);
-
 export const supportTicket = pgTable('support_ticket', {
   ...sharedColumns,
   id: text('id').primaryKey(),
@@ -1283,87 +785,6 @@ export const supportTicketAudit = pgTable('support_ticket_audit', {
   action: text('action').notNull(),
   details: jsonb('details'),
 });
-
-export const supportTicketRelations = relations(
-  supportTicket,
-  ({one, many}) => ({
-    customer: one(user, {
-      fields: [supportTicket.customerId],
-      references: [user.id],
-    }),
-    assignedTeam: one(team, {
-      fields: [supportTicket.assignedTeamId],
-      references: [team.id],
-    }),
-    messages: many(supportTicketMessage),
-    tags: many(supportTicketTagLink),
-    assignments: many(supportTicketAssignment),
-    audits: many(supportTicketAudit),
-  }),
-);
-
-export const supportTicketMessageRelations = relations(
-  supportTicketMessage,
-  ({one}) => ({
-    ticket: one(supportTicket, {
-      fields: [supportTicketMessage.ticketId],
-      references: [supportTicket.id],
-    }),
-    author: one(user, {
-      fields: [supportTicketMessage.authorId],
-      references: [user.id],
-    }),
-  }),
-);
-
-export const supportTicketTagRelations = relations(
-  supportTicketTag,
-  ({many}) => ({
-    ticketLinks: many(supportTicketTagLink),
-  }),
-);
-
-export const supportTicketTagLinkRelations = relations(
-  supportTicketTagLink,
-  ({one}) => ({
-    ticket: one(supportTicket, {
-      fields: [supportTicketTagLink.ticketId],
-      references: [supportTicket.id],
-    }),
-    tag: one(supportTicketTag, {
-      fields: [supportTicketTagLink.tagId],
-      references: [supportTicketTag.id],
-    }),
-  }),
-);
-
-export const supportTicketAssignmentRelations = relations(
-  supportTicketAssignment,
-  ({one}) => ({
-    ticket: one(supportTicket, {
-      fields: [supportTicketAssignment.ticketId],
-      references: [supportTicket.id],
-    }),
-    assignee: one(user, {
-      fields: [supportTicketAssignment.assigneeId],
-      references: [user.id],
-    }),
-  }),
-);
-
-export const supportTicketAuditRelations = relations(
-  supportTicketAudit,
-  ({one}) => ({
-    ticket: one(supportTicket, {
-      fields: [supportTicketAudit.ticketId],
-      references: [supportTicket.id],
-    }),
-    actor: one(user, {
-      fields: [supportTicketAudit.actorId],
-      references: [user.id],
-    }),
-  }),
-);
 
 export const billingInvoice = pgTable('billing_invoice', {
   ...sharedColumns,
@@ -1478,115 +899,6 @@ export const budgetLine = pgTable('budget_line', {
   amount: numeric('amount', {precision: 12, scale: 2}).notNull(),
 });
 
-export const billingInvoiceRelations = relations(
-  billingInvoice,
-  ({one, many}) => ({
-    account: one(crmAccount, {
-      fields: [billingInvoice.accountId],
-      references: [crmAccount.id],
-    }),
-    contact: one(crmContact, {
-      fields: [billingInvoice.contactId],
-      references: [crmContact.id],
-    }),
-    issuer: one(user, {
-      fields: [billingInvoice.issuedById],
-      references: [user.id],
-    }),
-    lines: many(billingInvoiceLine),
-  }),
-);
-
-export const billingInvoiceLineRelations = relations(
-  billingInvoiceLine,
-  ({one}) => ({
-    invoice: one(billingInvoice, {
-      fields: [billingInvoiceLine.invoiceId],
-      references: [billingInvoice.id],
-    }),
-    orderItem: one(orderItem, {
-      fields: [billingInvoiceLine.orderItemId],
-      references: [orderItem.id],
-    }),
-  }),
-);
-
-export const expenseReportRelations = relations(
-  expenseReport,
-  ({one, many}) => ({
-    owner: one(user, {
-      fields: [expenseReport.ownerId],
-      references: [user.id],
-    }),
-    department: one(department, {
-      fields: [expenseReport.departmentId],
-      references: [department.id],
-    }),
-    items: many(expenseItem),
-  }),
-);
-
-export const expenseItemRelations = relations(expenseItem, ({one}) => ({
-  report: one(expenseReport, {
-    fields: [expenseItem.reportId],
-    references: [expenseReport.id],
-  }),
-}));
-
-export const ledgerAccountRelations = relations(
-  ledgerAccount,
-  ({one, many}) => ({
-    parent: one(ledgerAccount, {
-      fields: [ledgerAccount.parentAccountId],
-      references: [ledgerAccount.id],
-    }),
-    children: many(ledgerAccount),
-    entries: many(ledgerEntry),
-    budgetLines: many(budgetLine),
-  }),
-);
-
-export const ledgerTransactionRelations = relations(
-  ledgerTransaction,
-  ({one, many}) => ({
-    creator: one(user, {
-      fields: [ledgerTransaction.createdById],
-      references: [user.id],
-    }),
-    entries: many(ledgerEntry),
-  }),
-);
-
-export const ledgerEntryRelations = relations(ledgerEntry, ({one}) => ({
-  transaction: one(ledgerTransaction, {
-    fields: [ledgerEntry.transactionId],
-    references: [ledgerTransaction.id],
-  }),
-  account: one(ledgerAccount, {
-    fields: [ledgerEntry.accountId],
-    references: [ledgerAccount.id],
-  }),
-}));
-
-export const budgetRelations = relations(budget, ({one, many}) => ({
-  department: one(department, {
-    fields: [budget.departmentId],
-    references: [department.id],
-  }),
-  lines: many(budgetLine),
-}));
-
-export const budgetLineRelations = relations(budgetLine, ({one}) => ({
-  budget: one(budget, {
-    fields: [budgetLine.budgetId],
-    references: [budget.id],
-  }),
-  account: one(ledgerAccount, {
-    fields: [budgetLine.accountId],
-    references: [ledgerAccount.id],
-  }),
-}));
-
 export const marketingCampaign = pgTable('marketing_campaign', {
   ...sharedColumns,
   id: text('id').primaryKey(),
@@ -1638,60 +950,6 @@ export const marketingCampaignAudience = pgTable(
       .notNull()
       .references(() => marketingAudience.id),
   },
-);
-
-export const marketingCampaignRelations = relations(
-  marketingCampaign,
-  ({one, many}) => ({
-    owner: one(user, {
-      fields: [marketingCampaign.ownerId],
-      references: [user.id],
-    }),
-    channels: many(marketingCampaignChannel),
-    audiences: many(marketingCampaignAudience),
-  }),
-);
-
-export const marketingChannelRelations = relations(
-  marketingChannel,
-  ({many}) => ({
-    campaignChannels: many(marketingCampaignChannel),
-  }),
-);
-
-export const marketingCampaignChannelRelations = relations(
-  marketingCampaignChannel,
-  ({one}) => ({
-    campaign: one(marketingCampaign, {
-      fields: [marketingCampaignChannel.campaignId],
-      references: [marketingCampaign.id],
-    }),
-    channel: one(marketingChannel, {
-      fields: [marketingCampaignChannel.channelId],
-      references: [marketingChannel.id],
-    }),
-  }),
-);
-
-export const marketingAudienceRelations = relations(
-  marketingAudience,
-  ({many}) => ({
-    campaignAudiences: many(marketingCampaignAudience),
-  }),
-);
-
-export const marketingCampaignAudienceRelations = relations(
-  marketingCampaignAudience,
-  ({one}) => ({
-    campaign: one(marketingCampaign, {
-      fields: [marketingCampaignAudience.campaignId],
-      references: [marketingCampaign.id],
-    }),
-    audience: one(marketingAudience, {
-      fields: [marketingCampaignAudience.audienceId],
-      references: [marketingAudience.id],
-    }),
-  }),
 );
 
 // Test tables for PK with default value issue
@@ -1789,38 +1047,6 @@ export const analyticsWidgetQuery = pgTable('analytics_widget_query', {
   refreshIntervalSeconds: integer('refresh_interval_seconds'),
 });
 
-export const analyticsDashboardRelations = relations(
-  analyticsDashboard,
-  ({one, many}) => ({
-    owner: one(user, {
-      fields: [analyticsDashboard.ownerId],
-      references: [user.id],
-    }),
-    widgets: many(analyticsWidget),
-  }),
-);
-
-export const analyticsWidgetRelations = relations(
-  analyticsWidget,
-  ({one, many}) => ({
-    dashboard: one(analyticsDashboard, {
-      fields: [analyticsWidget.dashboardId],
-      references: [analyticsDashboard.id],
-    }),
-    queries: many(analyticsWidgetQuery),
-  }),
-);
-
-export const analyticsWidgetQueryRelations = relations(
-  analyticsWidgetQuery,
-  ({one}) => ({
-    widget: one(analyticsWidget, {
-      fields: [analyticsWidgetQuery.widgetId],
-      references: [analyticsWidget.id],
-    }),
-  }),
-);
-
 export const integrationWebhook = pgTable('integration_webhook', {
   ...sharedColumns,
   id: text('id').primaryKey(),
@@ -1844,31 +1070,6 @@ export const integrationEvent = pgTable('integration_event', {
   status: text('status').notNull(),
 });
 
-export const integrationWebhookRelations = relations(
-  integrationWebhook,
-  ({one, many}) => ({
-    project: one(project, {
-      fields: [integrationWebhook.projectId],
-      references: [project.id],
-    }),
-    account: one(crmAccount, {
-      fields: [integrationWebhook.accountId],
-      references: [crmAccount.id],
-    }),
-    events: many(integrationEvent),
-  }),
-);
-
-export const integrationEventRelations = relations(
-  integrationEvent,
-  ({one}) => ({
-    webhook: one(integrationWebhook, {
-      fields: [integrationEvent.webhookId],
-      references: [integrationWebhook.id],
-    }),
-  }),
-);
-
 export const integrationCredential = pgTable('integration_credential', {
   ...sharedColumns,
   id: text('id').primaryKey(),
@@ -1878,16 +1079,6 @@ export const integrationCredential = pgTable('integration_credential', {
   clientSecret: text('client_secret'),
   metadata: jsonb('metadata'),
 });
-
-export const integrationCredentialRelations = relations(
-  integrationCredential,
-  ({one}) => ({
-    webhook: one(integrationWebhook, {
-      fields: [integrationCredential.webhookId],
-      references: [integrationWebhook.id],
-    }),
-  }),
-);
 
 export const documentLibrary = pgTable('document_library', {
   ...sharedColumns,
@@ -1953,71 +1144,782 @@ export const documentSharing = pgTable('document_sharing', {
   permission: text('permission').notNull(),
 });
 
-export const documentLibraryRelations = relations(
-  documentLibrary,
-  ({one, many}) => ({
-    project: one(project, {
-      fields: [documentLibrary.projectId],
-      references: [project.id],
-    }),
-    folders: many(documentFolder),
+export const relations = defineRelations(
+  {
+    user,
+    medium,
+    message,
+    allTypes,
+    friendship,
+    filters,
+    omittedTable,
+    projectTag,
+    project,
+    projectPhase,
+    projectTask,
+    projectAssignment,
+    projectComment,
+    projectAttachment,
+    projectTaskTag,
+    projectNote,
+    projectAudit,
+    featureFlag,
+    telemetryRollup,
+    webhookSubscription,
+    crmAccount,
+    crmContact,
+    crmPipelineStage,
+    crmOpportunity,
+    crmOpportunityStageHistory,
+    crmActivityType,
+    crmActivity,
+    crmNote,
+    productCategory,
+    product,
+    productVariant,
+    productMedia,
+    inventoryLocation,
+    inventoryItem,
+    inventoryLevel,
+    orderTable,
+    orderItem,
+    payment,
+    orderPayment,
+    shipment,
+    shipmentItem,
+    department,
+    team,
+    employeeProfile,
+    employmentHistory,
+    employeeDocument,
+    timesheet,
+    timeEntry,
+    benefitPlan,
+    benefitEnrollment,
+    supportTicket,
+    supportTicketMessage,
+    supportTicketTag,
+    supportTicketTagLink,
+    supportTicketAssignment,
+    supportTicketAudit,
+    billingInvoice,
+    billingInvoiceLine,
+    expenseReport,
+    expenseItem,
+    ledgerAccount,
+    ledgerTransaction,
+    ledgerEntry,
+    budget,
+    budgetLine,
+    marketingCampaign,
+    marketingChannel,
+    marketingCampaignChannel,
+    marketingAudience,
+    marketingCampaignAudience,
+    testSerialPk,
+    testBigSerialPk,
+    testUuidPk,
+    testUuidSqlDefaultPk,
+    testTextDefaultPk,
+    testTimestampDefaultPk,
+    testIntegerDefaultPk,
+    testCompositePkBothDefaults,
+    testCompositePkOneDefault,
+    analyticsDashboard,
+    analyticsWidget,
+    analyticsWidgetQuery,
+    integrationWebhook,
+    integrationEvent,
+    integrationCredential,
+    documentLibrary,
+    documentFolder,
+    documentFile,
+    documentFileVersion,
+    documentSharing,
+  },
+  r => ({
+    user: {
+      messages: r.many.message(),
+    },
+    medium: {
+      messages: r.many.message(),
+    },
+    message: {
+      medium: r.one.medium({
+        from: r.message.mediumId,
+        to: r.medium.id,
+      }),
+      sender: r.one.user({
+        from: r.message.senderId,
+        to: r.user.id,
+      }),
+    },
+    filters: {
+      parent: r.one.filters({
+        from: r.filters.parentId,
+        to: r.filters.id,
+      }),
+      children: r.many.filters(),
+    },
+    projectTag: {
+      taskLinks: r.many.projectTaskTag(),
+    },
+    project: {
+      owner: r.one.user({
+        from: r.project.ownerId,
+        to: r.user.id,
+      }),
+      phases: r.many.projectPhase(),
+      tasks: r.many.projectTask(),
+      notes: r.many.projectNote(),
+      audits: r.many.projectAudit(),
+    },
+    projectPhase: {
+      project: r.one.project({
+        from: r.projectPhase.projectId,
+        to: r.project.id,
+      }),
+      tasks: r.many.projectTask(),
+    },
+    projectTask: {
+      project: r.one.project({
+        from: r.projectTask.projectId,
+        to: r.project.id,
+      }),
+      phase: r.one.projectPhase({
+        from: r.projectTask.phaseId,
+        to: r.projectPhase.id,
+      }),
+      assignments: r.many.projectAssignment(),
+      comments: r.many.projectComment(),
+      attachments: r.many.projectAttachment(),
+      tags: r.many.projectTaskTag(),
+    },
+    projectAssignment: {
+      task: r.one.projectTask({
+        from: r.projectAssignment.taskId,
+        to: r.projectTask.id,
+      }),
+      user: r.one.user({
+        from: r.projectAssignment.userId,
+        to: r.user.id,
+      }),
+    },
+    projectComment: {
+      task: r.one.projectTask({
+        from: r.projectComment.taskId,
+        to: r.projectTask.id,
+      }),
+      author: r.one.user({
+        from: r.projectComment.authorId,
+        to: r.user.id,
+      }),
+    },
+    projectAttachment: {
+      task: r.one.projectTask({
+        from: r.projectAttachment.taskId,
+        to: r.projectTask.id,
+      }),
+    },
+    projectTaskTag: {
+      task: r.one.projectTask({
+        from: r.projectTaskTag.taskId,
+        to: r.projectTask.id,
+      }),
+      tag: r.one.projectTag({
+        from: r.projectTaskTag.tagId,
+        to: r.projectTag.id,
+      }),
+    },
+    projectNote: {
+      project: r.one.project({
+        from: r.projectNote.projectId,
+        to: r.project.id,
+      }),
+      author: r.one.user({
+        from: r.projectNote.authorId,
+        to: r.user.id,
+      }),
+    },
+    projectAudit: {
+      project: r.one.project({
+        from: r.projectAudit.projectId,
+        to: r.project.id,
+      }),
+      actor: r.one.user({
+        from: r.projectAudit.actorId,
+        to: r.user.id,
+      }),
+    },
+    featureFlag: {
+      owner: r.one.user({
+        from: r.featureFlag.ownerId,
+        to: r.user.id,
+      }),
+    },
+    telemetryRollup: {
+      project: r.one.project({
+        from: r.telemetryRollup.projectId,
+        to: r.project.id,
+      }),
+    },
+    webhookSubscription: {
+      project: r.one.project({
+        from: r.webhookSubscription.projectId,
+        to: r.project.id,
+      }),
+    },
+    crmAccount: {
+      owner: r.one.user({
+        from: r.crmAccount.ownerId,
+        to: r.user.id,
+      }),
+      contacts: r.many.crmContact(),
+      opportunities: r.many.crmOpportunity(),
+      activities: r.many.crmActivity(),
+      notes: r.many.crmNote(),
+    },
+    crmContact: {
+      account: r.one.crmAccount({
+        from: r.crmContact.accountId,
+        to: r.crmAccount.id,
+      }),
+      activities: r.many.crmActivity(),
+      notes: r.many.crmNote(),
+    },
+    crmPipelineStage: {
+      opportunities: r.many.crmOpportunity(),
+      historyEntries: r.many.crmOpportunityStageHistory(),
+    },
+    crmOpportunity: {
+      account: r.one.crmAccount({
+        from: r.crmOpportunity.accountId,
+        to: r.crmAccount.id,
+      }),
+      stage: r.one.crmPipelineStage({
+        from: r.crmOpportunity.stageId,
+        to: r.crmPipelineStage.id,
+      }),
+      activities: r.many.crmActivity(),
+      historyEntries: r.many.crmOpportunityStageHistory(),
+    },
+    crmOpportunityStageHistory: {
+      opportunity: r.one.crmOpportunity({
+        from: r.crmOpportunityStageHistory.opportunityId,
+        to: r.crmOpportunity.id,
+      }),
+      stage: r.one.crmPipelineStage({
+        from: r.crmOpportunityStageHistory.stageId,
+        to: r.crmPipelineStage.id,
+      }),
+      changedBy: r.one.user({
+        from: r.crmOpportunityStageHistory.changedById,
+        to: r.user.id,
+      }),
+    },
+    crmActivityType: {
+      activities: r.many.crmActivity(),
+    },
+    crmActivity: {
+      account: r.one.crmAccount({
+        from: r.crmActivity.accountId,
+        to: r.crmAccount.id,
+      }),
+      contact: r.one.crmContact({
+        from: r.crmActivity.contactId,
+        to: r.crmContact.id,
+      }),
+      opportunity: r.one.crmOpportunity({
+        from: r.crmActivity.opportunityId,
+        to: r.crmOpportunity.id,
+      }),
+      type: r.one.crmActivityType({
+        from: r.crmActivity.typeId,
+        to: r.crmActivityType.id,
+      }),
+      performer: r.one.user({
+        from: r.crmActivity.performedById,
+        to: r.user.id,
+      }),
+    },
+    crmNote: {
+      account: r.one.crmAccount({
+        from: r.crmNote.accountId,
+        to: r.crmAccount.id,
+      }),
+      contact: r.one.crmContact({
+        from: r.crmNote.contactId,
+        to: r.crmContact.id,
+      }),
+      author: r.one.user({
+        from: r.crmNote.authorId,
+        to: r.user.id,
+      }),
+    },
+    productCategory: {
+      parent: r.one.productCategory({
+        from: r.productCategory.parentId,
+        to: r.productCategory.id,
+      }),
+      children: r.many.productCategory(),
+      products: r.many.product(),
+    },
+    product: {
+      category: r.one.productCategory({
+        from: r.product.categoryId,
+        to: r.productCategory.id,
+      }),
+      variants: r.many.productVariant(),
+      media: r.many.productMedia(),
+    },
+    productVariant: {
+      product: r.one.product({
+        from: r.productVariant.productId,
+        to: r.product.id,
+      }),
+      inventoryItems: r.many.inventoryItem(),
+      inventoryLevels: r.many.inventoryLevel(),
+      orderItems: r.many.orderItem(),
+    },
+    productMedia: {
+      product: r.one.product({
+        from: r.productMedia.productId,
+        to: r.product.id,
+      }),
+    },
+    inventoryLocation: {
+      levels: r.many.inventoryLevel(),
+    },
+    inventoryItem: {
+      variant: r.one.productVariant({
+        from: r.inventoryItem.variantId,
+        to: r.productVariant.id,
+      }),
+    },
+    inventoryLevel: {
+      location: r.one.inventoryLocation({
+        from: r.inventoryLevel.locationId,
+        to: r.inventoryLocation.id,
+      }),
+      variant: r.one.productVariant({
+        from: r.inventoryLevel.variantId,
+        to: r.productVariant.id,
+      }),
+    },
+    orderTable: {
+      customer: r.one.user({
+        from: r.orderTable.customerId,
+        to: r.user.id,
+      }),
+      opportunity: r.one.crmOpportunity({
+        from: r.orderTable.opportunityId,
+        to: r.crmOpportunity.id,
+      }),
+      items: r.many.orderItem(),
+      payments: r.many.orderPayment(),
+      shipments: r.many.shipment(),
+    },
+    orderItem: {
+      order: r.one.orderTable({
+        from: r.orderItem.orderId,
+        to: r.orderTable.id,
+      }),
+      variant: r.one.productVariant({
+        from: r.orderItem.variantId,
+        to: r.productVariant.id,
+      }),
+    },
+    orderPayment: {
+      order: r.one.orderTable({
+        from: r.orderPayment.orderId,
+        to: r.orderTable.id,
+      }),
+      payment: r.one.payment({
+        from: r.orderPayment.paymentId,
+        to: r.payment.id,
+      }),
+    },
+    shipment: {
+      order: r.one.orderTable({
+        from: r.shipment.orderId,
+        to: r.orderTable.id,
+      }),
+      items: r.many.shipmentItem(),
+    },
+    shipmentItem: {
+      shipment: r.one.shipment({
+        from: r.shipmentItem.shipmentId,
+        to: r.shipment.id,
+      }),
+      orderItem: r.one.orderItem({
+        from: r.shipmentItem.orderItemId,
+        to: r.orderItem.id,
+      }),
+    },
+    department: {
+      manager: r.one.user({
+        from: r.department.managerId,
+        to: r.user.id,
+      }),
+      teams: r.many.team(),
+      employees: r.many.employeeProfile(),
+    },
+    employeeProfile: {
+      user: r.one.user({
+        from: r.employeeProfile.userId,
+        to: r.user.id,
+      }),
+      department: r.one.department({
+        from: r.employeeProfile.departmentId,
+        to: r.department.id,
+      }),
+      team: r.one.team({
+        from: r.employeeProfile.teamId,
+        to: r.team.id,
+      }),
+      employmentHistory: r.many.employmentHistory(),
+      documents: r.many.employeeDocument(),
+      timesheets: r.many.timesheet(),
+      benefitEnrollments: r.many.benefitEnrollment(),
+    },
+    team: {
+      department: r.one.department({
+        from: r.team.departmentId,
+        to: r.department.id,
+      }),
+      lead: r.one.user({
+        from: r.team.leadId,
+        to: r.user.id,
+      }),
+      employees: r.many.employeeProfile(),
+    },
+    employmentHistory: {
+      employee: r.one.employeeProfile({
+        from: r.employmentHistory.employeeId,
+        to: r.employeeProfile.id,
+      }),
+    },
+    employeeDocument: {
+      employee: r.one.employeeProfile({
+        from: r.employeeDocument.employeeId,
+        to: r.employeeProfile.id,
+      }),
+      uploader: r.one.user({
+        from: r.employeeDocument.uploadedById,
+        to: r.user.id,
+      }),
+    },
+    timesheet: {
+      employee: r.one.employeeProfile({
+        from: r.timesheet.employeeId,
+        to: r.employeeProfile.id,
+      }),
+      submittedBy: r.one.user({
+        from: r.timesheet.submittedById,
+        to: r.user.id,
+      }),
+      entries: r.many.timeEntry(),
+    },
+    timeEntry: {
+      timesheet: r.one.timesheet({
+        from: r.timeEntry.timesheetId,
+        to: r.timesheet.id,
+      }),
+      task: r.one.projectTask({
+        from: r.timeEntry.taskId,
+        to: r.projectTask.id,
+      }),
+    },
+    benefitPlan: {
+      administrator: r.one.user({
+        from: r.benefitPlan.administratorId,
+        to: r.user.id,
+      }),
+      enrollments: r.many.benefitEnrollment(),
+    },
+    benefitEnrollment: {
+      benefitPlan: r.one.benefitPlan({
+        from: r.benefitEnrollment.benefitPlanId,
+        to: r.benefitPlan.id,
+      }),
+      employee: r.one.employeeProfile({
+        from: r.benefitEnrollment.employeeId,
+        to: r.employeeProfile.id,
+      }),
+    },
+    supportTicket: {
+      customer: r.one.user({
+        from: r.supportTicket.customerId,
+        to: r.user.id,
+      }),
+      assignedTeam: r.one.team({
+        from: r.supportTicket.assignedTeamId,
+        to: r.team.id,
+      }),
+      messages: r.many.supportTicketMessage(),
+      tags: r.many.supportTicketTagLink(),
+      assignments: r.many.supportTicketAssignment(),
+      audits: r.many.supportTicketAudit(),
+    },
+    supportTicketMessage: {
+      ticket: r.one.supportTicket({
+        from: r.supportTicketMessage.ticketId,
+        to: r.supportTicket.id,
+      }),
+      author: r.one.user({
+        from: r.supportTicketMessage.authorId,
+        to: r.user.id,
+      }),
+    },
+    supportTicketTag: {
+      ticketLinks: r.many.supportTicketTagLink(),
+    },
+    supportTicketTagLink: {
+      ticket: r.one.supportTicket({
+        from: r.supportTicketTagLink.ticketId,
+        to: r.supportTicket.id,
+      }),
+      tag: r.one.supportTicketTag({
+        from: r.supportTicketTagLink.tagId,
+        to: r.supportTicketTag.id,
+      }),
+    },
+    supportTicketAssignment: {
+      ticket: r.one.supportTicket({
+        from: r.supportTicketAssignment.ticketId,
+        to: r.supportTicket.id,
+      }),
+      assignee: r.one.user({
+        from: r.supportTicketAssignment.assigneeId,
+        to: r.user.id,
+      }),
+    },
+    supportTicketAudit: {
+      ticket: r.one.supportTicket({
+        from: r.supportTicketAudit.ticketId,
+        to: r.supportTicket.id,
+      }),
+      actor: r.one.user({
+        from: r.supportTicketAudit.actorId,
+        to: r.user.id,
+      }),
+    },
+    billingInvoice: {
+      account: r.one.crmAccount({
+        from: r.billingInvoice.accountId,
+        to: r.crmAccount.id,
+      }),
+      contact: r.one.crmContact({
+        from: r.billingInvoice.contactId,
+        to: r.crmContact.id,
+      }),
+      issuer: r.one.user({
+        from: r.billingInvoice.issuedById,
+        to: r.user.id,
+      }),
+      lines: r.many.billingInvoiceLine(),
+    },
+    billingInvoiceLine: {
+      invoice: r.one.billingInvoice({
+        from: r.billingInvoiceLine.invoiceId,
+        to: r.billingInvoice.id,
+      }),
+      orderItem: r.one.orderItem({
+        from: r.billingInvoiceLine.orderItemId,
+        to: r.orderItem.id,
+      }),
+    },
+    expenseReport: {
+      owner: r.one.user({
+        from: r.expenseReport.ownerId,
+        to: r.user.id,
+      }),
+      department: r.one.department({
+        from: r.expenseReport.departmentId,
+        to: r.department.id,
+      }),
+      items: r.many.expenseItem(),
+    },
+    expenseItem: {
+      report: r.one.expenseReport({
+        from: r.expenseItem.reportId,
+        to: r.expenseReport.id,
+      }),
+    },
+    ledgerAccount: {
+      parent: r.one.ledgerAccount({
+        from: r.ledgerAccount.parentAccountId,
+        to: r.ledgerAccount.id,
+      }),
+      children: r.many.ledgerAccount(),
+      entries: r.many.ledgerEntry(),
+      budgetLines: r.many.budgetLine(),
+    },
+    ledgerTransaction: {
+      creator: r.one.user({
+        from: r.ledgerTransaction.createdById,
+        to: r.user.id,
+      }),
+      entries: r.many.ledgerEntry(),
+    },
+    ledgerEntry: {
+      transaction: r.one.ledgerTransaction({
+        from: r.ledgerEntry.transactionId,
+        to: r.ledgerTransaction.id,
+      }),
+      account: r.one.ledgerAccount({
+        from: r.ledgerEntry.accountId,
+        to: r.ledgerAccount.id,
+      }),
+    },
+    budget: {
+      department: r.one.department({
+        from: r.budget.departmentId,
+        to: r.department.id,
+      }),
+      lines: r.many.budgetLine(),
+    },
+    budgetLine: {
+      budget: r.one.budget({
+        from: r.budgetLine.budgetId,
+        to: r.budget.id,
+      }),
+      account: r.one.ledgerAccount({
+        from: r.budgetLine.accountId,
+        to: r.ledgerAccount.id,
+      }),
+    },
+    marketingCampaign: {
+      owner: r.one.user({
+        from: r.marketingCampaign.ownerId,
+        to: r.user.id,
+      }),
+      channels: r.many.marketingCampaignChannel(),
+      audiences: r.many.marketingCampaignAudience(),
+    },
+    marketingChannel: {
+      campaignChannels: r.many.marketingCampaignChannel(),
+    },
+    marketingCampaignChannel: {
+      campaign: r.one.marketingCampaign({
+        from: r.marketingCampaignChannel.campaignId,
+        to: r.marketingCampaign.id,
+      }),
+      channel: r.one.marketingChannel({
+        from: r.marketingCampaignChannel.channelId,
+        to: r.marketingChannel.id,
+      }),
+    },
+    marketingAudience: {
+      campaignAudiences: r.many.marketingCampaignAudience(),
+    },
+    marketingCampaignAudience: {
+      campaign: r.one.marketingCampaign({
+        from: r.marketingCampaignAudience.campaignId,
+        to: r.marketingCampaign.id,
+      }),
+      audience: r.one.marketingAudience({
+        from: r.marketingCampaignAudience.audienceId,
+        to: r.marketingAudience.id,
+      }),
+    },
+    analyticsDashboard: {
+      owner: r.one.user({
+        from: r.analyticsDashboard.ownerId,
+        to: r.user.id,
+      }),
+      widgets: r.many.analyticsWidget(),
+    },
+    analyticsWidget: {
+      dashboard: r.one.analyticsDashboard({
+        from: r.analyticsWidget.dashboardId,
+        to: r.analyticsDashboard.id,
+      }),
+      queries: r.many.analyticsWidgetQuery(),
+    },
+    analyticsWidgetQuery: {
+      widget: r.one.analyticsWidget({
+        from: r.analyticsWidgetQuery.widgetId,
+        to: r.analyticsWidget.id,
+      }),
+    },
+    integrationWebhook: {
+      project: r.one.project({
+        from: r.integrationWebhook.projectId,
+        to: r.project.id,
+      }),
+      account: r.one.crmAccount({
+        from: r.integrationWebhook.accountId,
+        to: r.crmAccount.id,
+      }),
+      events: r.many.integrationEvent(),
+    },
+    integrationEvent: {
+      webhook: r.one.integrationWebhook({
+        from: r.integrationEvent.webhookId,
+        to: r.integrationWebhook.id,
+      }),
+    },
+    integrationCredential: {
+      webhook: r.one.integrationWebhook({
+        from: r.integrationCredential.webhookId,
+        to: r.integrationWebhook.id,
+      }),
+    },
+    documentLibrary: {
+      project: r.one.project({
+        from: r.documentLibrary.projectId,
+        to: r.project.id,
+      }),
+      folders: r.many.documentFolder(),
+    },
+    documentFolder: {
+      library: r.one.documentLibrary({
+        from: r.documentFolder.libraryId,
+        to: r.documentLibrary.id,
+      }),
+      parent: r.one.documentFolder({
+        from: r.documentFolder.parentId,
+        to: r.documentFolder.id,
+      }),
+      children: r.many.documentFolder(),
+      files: r.many.documentFile(),
+    },
+    documentFile: {
+      folder: r.one.documentFolder({
+        from: r.documentFile.folderId,
+        to: r.documentFolder.id,
+      }),
+      uploader: r.one.user({
+        from: r.documentFile.uploadedById,
+        to: r.user.id,
+      }),
+      versions: r.many.documentFileVersion(),
+      sharings: r.many.documentSharing(),
+    },
+    documentFileVersion: {
+      file: r.one.documentFile({
+        from: r.documentFileVersion.fileId,
+        to: r.documentFile.id,
+      }),
+      uploader: r.one.user({
+        from: r.documentFileVersion.uploadedById,
+        to: r.user.id,
+      }),
+    },
+    documentSharing: {
+      file: r.one.documentFile({
+        from: r.documentSharing.fileId,
+        to: r.documentFile.id,
+      }),
+      user: r.one.user({
+        from: r.documentSharing.sharedWithUserId,
+        to: r.user.id,
+      }),
+      team: r.one.team({
+        from: r.documentSharing.sharedWithTeamId,
+        to: r.team.id,
+      }),
+    },
   }),
 );
-
-export const documentFolderRelations = relations(
-  documentFolder,
-  ({one, many}) => ({
-    library: one(documentLibrary, {
-      fields: [documentFolder.libraryId],
-      references: [documentLibrary.id],
-    }),
-    parent: one(documentFolder, {
-      fields: [documentFolder.parentId],
-      references: [documentFolder.id],
-    }),
-    children: many(documentFolder),
-    files: many(documentFile),
-  }),
-);
-
-export const documentFileRelations = relations(documentFile, ({one, many}) => ({
-  folder: one(documentFolder, {
-    fields: [documentFile.folderId],
-    references: [documentFolder.id],
-  }),
-  uploader: one(user, {
-    fields: [documentFile.uploadedById],
-    references: [user.id],
-  }),
-  versions: many(documentFileVersion),
-  sharings: many(documentSharing),
-}));
-
-export const documentFileVersionRelations = relations(
-  documentFileVersion,
-  ({one}) => ({
-    file: one(documentFile, {
-      fields: [documentFileVersion.fileId],
-      references: [documentFile.id],
-    }),
-    uploader: one(user, {
-      fields: [documentFileVersion.uploadedById],
-      references: [user.id],
-    }),
-  }),
-);
-
-export const documentSharingRelations = relations(documentSharing, ({one}) => ({
-  file: one(documentFile, {
-    fields: [documentSharing.fileId],
-    references: [documentFile.id],
-  }),
-  user: one(user, {
-    fields: [documentSharing.sharedWithUserId],
-    references: [user.id],
-  }),
-  team: one(team, {
-    fields: [documentSharing.sharedWithTeamId],
-    references: [team.id],
-  }),
-}));
