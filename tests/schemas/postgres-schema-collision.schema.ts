@@ -1,4 +1,4 @@
-import {relations} from 'drizzle-orm';
+import {relations} from 'drizzle-orm/_relations';
 import {pgSchema, pgTable, text} from 'drizzle-orm/pg-core';
 
 const auth = pgSchema('auth');

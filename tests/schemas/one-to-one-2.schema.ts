@@ -1,5 +1,5 @@
-import type {SQL} from 'drizzle-orm';
-import {relations} from 'drizzle-orm';
+import type {SQL} from 'drizzle-orm/_relations';
+import {relations} from 'drizzle-orm/_relations';
 import {
   boolean,
   customType,

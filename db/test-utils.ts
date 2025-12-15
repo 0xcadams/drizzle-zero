@@ -113,7 +113,8 @@ let startedNetwork: StartedNetwork | null = null;
 let postgresContainer: StartedPostgreSqlContainer | null = null;
 let zeroContainer: StartedTestContainer | null = null;
 
-export const db = drizzle(pool, {
+export const db = drizzle({
+  client: pool,
   schema: drizzleSchema,
 });
 

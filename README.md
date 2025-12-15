@@ -23,7 +23,7 @@ Here's an example of how to convert a Drizzle schema to a Zero schema with bidir
 You should have an existing Drizzle schema, e.g.:
 
 ```ts
-import {relations} from 'drizzle-orm';
+import {relations} from 'drizzle-orm/_relations';
 import {pgTable, text, jsonb} from 'drizzle-orm/pg-core';
 
 export const users = pgTable('user', {

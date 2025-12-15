@@ -2,7 +2,8 @@ import type {
   CustomJsonInterface,
   CustomJsonType,
 } from '@drizzle-zero/custom-types';
-import {relations, sql} from 'drizzle-orm';
+import {sql} from 'drizzle-orm';
+import {relations} from 'drizzle-orm/_relations';
 import {
   bigint,
   bigserial,

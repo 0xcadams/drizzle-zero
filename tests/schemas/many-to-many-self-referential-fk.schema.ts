@@ -1,5 +1,5 @@
 import {foreignKey, pgTable, primaryKey, text} from 'drizzle-orm/pg-core';
-import {relations} from 'drizzle-orm/relations';
+import {relations} from 'drizzle-orm/_relations';
 
 export const doc = pgTable('doc', {
   id: text().primaryKey().notNull(),
