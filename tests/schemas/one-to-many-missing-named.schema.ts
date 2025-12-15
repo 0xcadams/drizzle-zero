@@ -1,15 +1,10 @@
-import {relations} from 'drizzle-orm/_relations';
+import {defineRelations} from 'drizzle-orm';
 import {pgTable, text} from 'drizzle-orm/pg-core';
 
 export const users = pgTable('users', {
   id: text('id').primaryKey(),
   name: text('name'),
 });
-
-export const usersRelations = relations(users, ({many}) => ({
-  author: many(posts, {relationName: 'author'}),
-  reviewer: many(posts, {relationName: 'reviewer'}),
-}));
 
 export const posts = pgTable('posts', {
   id: text('id').primaryKey(),
@@ -18,15 +13,21 @@ export const posts = pgTable('posts', {
   reviewerId: text('reviewer_id'),
 });
 
-export const postsRelations = relations(posts, ({one}) => ({
-  author: one(users, {
-    fields: [posts.authorId],
-    references: [users.id],
-    // relationName: "author", // missing
-  }),
-  reviewer: one(users, {
-    fields: [posts.reviewerId],
-    references: [users.id],
-    relationName: 'reviewer',
-  }),
+export const relations = defineRelations({users, posts}, r => ({
+  users: {
+    author: r.many.posts({alias: 'author'}),
+    reviewer: r.many.posts({alias: 'reviewer'}),
+  },
+  posts: {
+    author: r.one.users({
+      from: r.posts.authorId,
+      to: r.users.id,
+      // alias: 'author', // missing
+    }),
+    reviewer: r.one.users({
+      from: r.posts.reviewerId,
+      to: r.users.id,
+      alias: 'reviewer',
+    }),
+  },
 }));

@@ -1,4 +1,4 @@
-import {relations} from 'drizzle-orm/_relations';
+import {defineRelations} from 'drizzle-orm';
 import {pgSchema, pgTable, text} from 'drizzle-orm/pg-core';
 
 const auth = pgSchema('auth');
@@ -19,21 +19,21 @@ export const groups = pgTable('group', {
   userId: text('user_id').references(() => users.id),
 });
 
-export const authUsersRelations = relations(authUsers, ({many}) => ({
-  groups: many(groups),
-}));
-
-export const usersRelations = relations(users, ({many}) => ({
-  groups: many(groups),
-}));
-
-export const groupsRelations = relations(groups, ({one}) => ({
-  authUser: one(authUsers, {
-    fields: [groups.authUserId],
-    references: [authUsers.id],
-  }),
-  user: one(users, {
-    fields: [groups.userId],
-    references: [users.id],
-  }),
+export const relations = defineRelations({authUsers, users, groups}, r => ({
+  authUsers: {
+    groups: r.many.groups(),
+  },
+  users: {
+    groups: r.many.groups(),
+  },
+  groups: {
+    authUser: r.one.authUsers({
+      from: r.groups.authUserId,
+      to: r.authUsers.id,
+    }),
+    user: r.one.users({
+      from: r.groups.userId,
+      to: r.users.id,
+    }),
+  },
 }));

@@ -1,4 +1,4 @@
-import {relations} from 'drizzle-orm/_relations';
+import {defineRelations} from 'drizzle-orm';
 import {pgTable, text} from 'drizzle-orm/pg-core';
 
 export const filters = pgTable('filter', {
@@ -7,10 +7,12 @@ export const filters = pgTable('filter', {
   parentId: text('parent_id'),
 });
 
-export const filtersRelations = relations(filters, ({one, many}) => ({
-  parent: one(filters, {
-    fields: [filters.parentId],
-    references: [filters.id],
-  }),
-  children: many(filters),
+export const relations = defineRelations({filters}, r => ({
+  filters: {
+    parent: r.one.filters({
+      from: r.filters.parentId,
+      to: r.filters.id,
+    }),
+    children: r.many.filters(),
+  },
 }));

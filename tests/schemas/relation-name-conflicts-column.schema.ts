@@ -1,4 +1,4 @@
-import {relations} from 'drizzle-orm/_relations';
+import {defineRelations} from 'drizzle-orm';
 import {pgTable, text} from 'drizzle-orm/pg-core';
 
 export const users = pgTable('user', {
@@ -13,13 +13,14 @@ export const posts = pgTable('post', {
   authorId: text('author_id').references(() => users.id),
 });
 
-export const usersRelations = relations(users, ({many}) => ({
-  posts: many(posts),
-}));
-
-export const postsRelations = relations(posts, ({one}) => ({
-  author: one(users, {
-    fields: [posts.authorId],
-    references: [users.id],
-  }),
+export const relations = defineRelations({users, posts}, r => ({
+  users: {
+    posts: r.many.posts(),
+  },
+  posts: {
+    author: r.one.users({
+      from: r.posts.authorId,
+      to: r.users.id,
+    }),
+  },
 }));

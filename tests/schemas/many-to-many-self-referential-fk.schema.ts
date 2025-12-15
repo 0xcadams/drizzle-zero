@@ -1,5 +1,5 @@
 import {foreignKey, pgTable, primaryKey, text} from 'drizzle-orm/pg-core';
-import {relations} from 'drizzle-orm/_relations';
+import {defineRelations} from 'drizzle-orm';
 
 export const doc = pgTable('doc', {
   id: text().primaryKey().notNull(),
@@ -30,24 +30,21 @@ export const related = pgTable(
   ],
 );
 
-export const relatedRelations = relations(related, ({one}) => ({
-  doc_fk_from_doc: one(doc, {
-    fields: [related.fk_from_doc],
-    references: [doc.id],
-    relationName: 'related_fk_from_doc_doc_id',
-  }),
-  doc_fk_to_doc: one(doc, {
-    fields: [related.fk_to_doc],
-    references: [doc.id],
-    relationName: 'related_fk_to_doc_doc_id',
-  }),
-}));
-
-export const docRelations = relations(doc, ({many}) => ({
-  relateds_fk_from_doc: many(related, {
-    relationName: 'related_fk_from_doc_doc_id',
-  }),
-  relateds_fk_to_doc: many(related, {
-    relationName: 'related_fk_to_doc_doc_id',
-  }),
+export const relations = defineRelations({doc, related}, r => ({
+  related: {
+    doc_fk_from_doc: r.one.doc({
+      from: r.related.fk_from_doc,
+      to: r.doc.id,
+      alias: 'related_fk_from_doc_doc_id',
+    }),
+    doc_fk_to_doc: r.one.doc({
+      from: r.related.fk_to_doc,
+      to: r.doc.id,
+      alias: 'related_fk_to_doc_doc_id',
+    }),
+  },
+  doc: {
+    relateds_fk_from_doc: r.many.related({alias: 'related_fk_from_doc_doc_id'}),
+    relateds_fk_to_doc: r.many.related({alias: 'related_fk_to_doc_doc_id'}),
+  },
 }));

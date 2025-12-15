@@ -1,5 +1,4 @@
-import type {SQL} from 'drizzle-orm/_relations';
-import {relations} from 'drizzle-orm/_relations';
+import {defineRelations, type SQL} from 'drizzle-orm';
 import {
   boolean,
   customType,
@@ -42,18 +41,10 @@ export const userTable = pgTable('user', {
   createdAt: customColumnType('created_at').notNull(),
 });
 
-export const userRelations = relations(userTable, ({many}) => ({
-  messages: many(messageTable),
-}));
-
 export const mediumTable = pgTable('medium', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
 });
-
-export const mediumRelations = relations(mediumTable, ({many}) => ({
-  messages: many(messageTable),
-}));
 
 export const messageTable = pgTable('message', {
   id: text('id').primaryKey(),
@@ -62,13 +53,24 @@ export const messageTable = pgTable('message', {
   body: text('body').notNull(),
 });
 
-export const messageRelations = relations(messageTable, ({one}) => ({
-  medium: one(mediumTable, {
-    fields: [messageTable.mediumId],
-    references: [mediumTable.id],
+export const relations = defineRelations(
+  {userTable, mediumTable, messageTable},
+  r => ({
+    userTable: {
+      messages: r.many.messageTable(),
+    },
+    mediumTable: {
+      messages: r.many.messageTable(),
+    },
+    messageTable: {
+      medium: r.one.mediumTable({
+        from: r.messageTable.mediumId,
+        to: r.mediumTable.id,
+      }),
+      sender: r.one.userTable({
+        from: r.messageTable.senderId,
+        to: r.userTable.id,
+      }),
+    },
   }),
-  sender: one(userTable, {
-    fields: [messageTable.senderId],
-    references: [userTable.id],
-  }),
-}));
+);
