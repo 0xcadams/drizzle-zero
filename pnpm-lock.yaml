@@ -34,8 +34,8 @@ importers:
         specifier: ^0.4.0
         version: 0.4.0
       '@rocicorp/zero':
-        specifier: 0.25.1
-        version: 0.25.1(@opentelemetry/core@2.2.0(@opentelemetry/api@1.9.0))
+        specifier: 0.25.2
+        version: 0.25.2(@opentelemetry/core@2.2.0(@opentelemetry/api@1.9.0))
       '@ts-morph/common':
         specifier: ^0.28.1
         version: 0.28.1
@@ -248,8 +248,8 @@ packages:
   '@databases/validate-unicode@1.0.0':
     resolution: {integrity: sha512-dLKqxGcymeVwEb/6c44KjOnzaAafFf0Wxa8xcfEjx/qOl3rdijsKYBAtIGhtVtOlpPf/PFKfgTuFurSPn/3B/g==}
 
-  '@dotenvx/dotenvx@1.51.1':
-    resolution: {integrity: sha512-fqcQxcxC4LOaUlW8IkyWw8x0yirlLUkbxohz9OnWvVWjf73J5yyw7jxWnkOJaUKXZotcGEScDox9MU6rSkcDgg==}
+  '@dotenvx/dotenvx@1.51.2':
+    resolution: {integrity: sha512-+693mNflujDZxudSEqSNGpn92QgFhJlBn9q2mDQ9yGWyHuz3hZ8B5g3EXCwdAz4DMJAI+OFCIbfEFZS+YRdrEA==}
     hasBin: true
 
   '@drdgvhbh/postgres-error-codes@0.0.6':
@@ -746,6 +746,10 @@ packages:
 
   '@grpc/grpc-js@1.14.1':
     resolution: {integrity: sha512-sPxgEWtPUR3EnRJCEtbGZG2iX8LQDUls2wUS3o27jg07KqJFMq6YDeWvMo1wfpmy3rqRdS0rivpLwhqQtEyCuQ==}
+    engines: {node: '>=12.10.0'}
+
+  '@grpc/grpc-js@1.14.3':
+    resolution: {integrity: sha512-Iq8QQQ/7X3Sac15oB6p0FmUg/klxQvXLeileoqrTRGJYLV+/9tubbr9ipz0GKHjmXVsgFPo/+W+2cA8eNcR+XA==}
     engines: {node: '>=12.10.0'}
 
   '@grpc/proto-loader@0.7.15':
@@ -1417,13 +1421,13 @@ packages:
     resolution: {integrity: sha512-TfjMTQp9cNNqNtHFfa+XHEGdA7NnmDRu+ZJH4YF3dso0Xk/b9DMhg/sl+b6CR4ThFZArXXDsG1j8Mwl34wcOZQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
-  '@rocicorp/zero-sqlite3@1.0.12':
-    resolution: {integrity: sha512-i5pWo6k9Sq1eHMBBjJdCqnDgo3AGsdtAa3UbKWuOrEJcCe5Qxw67LMZWaxD/SfrZltAlckAF0Sla2jBAwmXz6A==}
+  '@rocicorp/zero-sqlite3@1.0.13':
+    resolution: {integrity: sha512-WZ2UlM8kdW3DyHwsRTsaQFxvV/gz+sZNKwNnw9FkxBJNwLUd1/JoiGTdQqAJdd5fEd226huVEh/Nv9hkGgVWyg==}
     engines: {bun: '>=1.1.0', node: 20.x || 22.x || 23.x || 24.x}
     hasBin: true
 
-  '@rocicorp/zero@0.25.1':
-    resolution: {integrity: sha512-XarXIvv82rEfHPOG9ye9efvVf7oGF9UT2gMJn//xUeOc7LMvH2zKYow0EFAGP8bOvQwHVq0F5Nqx8e8ijRD0jA==}
+  '@rocicorp/zero@0.25.2':
+    resolution: {integrity: sha512-iaeStn4/riUP7sH5u9bfoIMfj1qx69YCQ4jYJooTN4Bd05BloTF4TIhTpqNd2Y7y82a9RmE1y4m7ksgjmlVmyQ==}
     engines: {node: '>=22'}
     hasBin: true
     peerDependencies:
@@ -2084,8 +2088,8 @@ packages:
     resolution: {integrity: sha512-5IKcdX0nnYavi6G7TtOhwkYzyjfJlatbjMjuLSfE2kYT5pMDOilZ4OvMhi637CcDICTmz3wARPoyhqyX1Y+XvA==}
     engines: {node: ^14.18.0 || >=16.10.0}
 
-  cookie@1.0.2:
-    resolution: {integrity: sha512-9Kr/j4O16ISv8zBBhJoi4bXOYNTkFLOqSL3UDB0njXxCXNezjeyVrJyGOWtgfs/q2km1gwBcfH8q1yEGoMYunA==}
+  cookie@1.1.1:
+    resolution: {integrity: sha512-ei8Aos7ja0weRpFzJnEA9UHJ/7XQmqglbRwnf2ATjcB9Wq874VKH9kfjjirM6UhU2/E5fFYadylyhFldcqSidQ==}
     engines: {node: '>=18'}
 
   core-util-is@1.0.3:
@@ -2391,8 +2395,8 @@ packages:
   fastify-plugin@5.1.0:
     resolution: {integrity: sha512-FAIDA8eovSt5qcDgcBvDuX/v0Cjz0ohGhENZ/wpc3y+oZCY2afZ9Baqql3g/lC+OHRnciQol4ww7tuthOb9idw==}
 
-  fastify@5.6.1:
-    resolution: {integrity: sha512-WjjlOciBF0K8pDUPZoGPhqhKrQJ02I8DKaDIfO51EL0kbSMwQFl85cRwhOvmSDWoukNOdTo27gLN549pLCcH7Q==}
+  fastify@5.6.2:
+    resolution: {integrity: sha512-dPugdGnsvYkBlENLhCgX8yhyGCsCPrpA8lFWbTNU428l+YOnLgYHR69hzV8HWPC79n536EqzqQtvhtdaCE0dKg==}
 
   fastq@1.19.1:
     resolution: {integrity: sha512-GwLTyxkCXjXbxqIhTsMI2Nui8huMPtnxg7krajPJAjnEG/iiOS7i+zCtWGZR9G0NBKbXKh6X9m9UIsYX/N6vvQ==}
@@ -2575,8 +2579,8 @@ packages:
   ini@1.3.8:
     resolution: {integrity: sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew==}
 
-  ipaddr.js@2.2.0:
-    resolution: {integrity: sha512-Ag3wB2o37wslZS19hZqorUnrnzSkpOVy+IiiDEiTqNubEYpYuHWIf6K4psgN2ZWKExS4xhVCrRVfb/wfW8fWJA==}
+  ipaddr.js@2.3.0:
+    resolution: {integrity: sha512-Zv/pA+ciVFbCSBBjGfaKUya/CcGmUHzTydLMaTwrUUEM2DIEO3iZvueGxmacvmN50fGpGVKeTXpb2LcYQxeVdg==}
     engines: {node: '>= 10'}
 
   is-arguments@1.2.0:
@@ -2805,8 +2809,8 @@ packages:
   napi-build-utils@2.0.0:
     resolution: {integrity: sha512-GEbrYkbfF7MoNaoh2iGG84Mnf/WZfB0GdGEsM8wz7Expx/LlWf5U8t9nvJKXSp3qr5IsEbK04cBGhol/KwOsWA==}
 
-  node-abi@3.80.0:
-    resolution: {integrity: sha512-LyPuZJcI9HVwzXK1GPxWNzrr+vr8Hp/3UqlmWxxh8p54U1ZbclOqbSog9lWHaCX+dBaiGi6n/hIX+mKu74GmPA==}
+  node-abi@3.85.0:
+    resolution: {integrity: sha512-zsFhmbkAzwhTft6nd3VxcG0cvJsT70rL+BIGHWVq5fi6MwGrHwzqKaxXE+Hl2GmnGItnDKPPkO5/LQqjVkIdFg==}
     engines: {node: '>=10'}
 
   node-fetch@2.7.0:
@@ -2826,8 +2830,8 @@ packages:
     resolution: {integrity: sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==}
     engines: {node: '>=8'}
 
-  nwsapi@2.2.22:
-    resolution: {integrity: sha512-ujSMe1OWVn55euT1ihwCI1ZcAaAU3nxUiDwfDQldc51ZXaB9m2AyOn6/jh1BLe2t/G8xd6uKG1UBF2aZJeg2SQ==}
+  nwsapi@2.2.23:
+    resolution: {integrity: sha512-7wfH4sLbt4M0gCDzGE6vzQBo0bfTKjU7Sfpqy/7gs1qBfYz2vEJH6vXcBKpO3+6Yu1telwd0t9HpyOoLEQQbIQ==}
 
   object-assign@4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
@@ -2945,8 +2949,8 @@ packages:
   pino-std-serializers@7.0.0:
     resolution: {integrity: sha512-e906FRY0+tV27iq4juKzSYPbUj2do2X2JX4EzSca1631EB2QJQUqGbDuERal7LCtOpxl6x3+nvo9NPZcmjkiFA==}
 
-  pino@9.14.0:
-    resolution: {integrity: sha512-8OEwKp5juEvb/MjpIc4hjqfgCNysrS94RIOMXYvpYCdm/jglrKEiAYmiumbmGhCvs+IcInsphYDFwqrjr7398w==}
+  pino@10.1.0:
+    resolution: {integrity: sha512-0zZC2ygfdqvqK8zJIr1e+wT1T/L+LF6qvqvbzEQ6tiMAoTqEVK9a1K3YRu8HEUvGEvNqZyPJTtb2sNIoTkB83w==}
     hasBin: true
 
   pirates@4.0.7:
@@ -3726,7 +3730,7 @@ snapshots:
 
   '@databases/validate-unicode@1.0.0': {}
 
-  '@dotenvx/dotenvx@1.51.1':
+  '@dotenvx/dotenvx@1.51.2':
     dependencies:
       commander: 11.1.0
       dotenv: 17.2.3
@@ -4004,7 +4008,7 @@ snapshots:
   '@fastify/proxy-addr@5.1.0':
     dependencies:
       '@fastify/forwarded': 3.0.1
-      ipaddr.js: 2.2.0
+      ipaddr.js: 2.3.0
 
   '@fastify/websocket@11.2.0':
     dependencies:
@@ -4018,6 +4022,11 @@ snapshots:
   '@google-cloud/precise-date@4.0.0': {}
 
   '@grpc/grpc-js@1.14.1':
+    dependencies:
+      '@grpc/proto-loader': 0.8.0
+      '@js-sdsl/ordered-map': 4.4.2
+
+  '@grpc/grpc-js@1.14.3':
     dependencies:
       '@grpc/proto-loader': 0.8.0
       '@js-sdsl/ordered-map': 4.4.2
@@ -4161,7 +4170,7 @@ snapshots:
 
   '@opentelemetry/exporter-logs-otlp-grpc@0.203.0(@opentelemetry/api@1.9.0)':
     dependencies:
-      '@grpc/grpc-js': 1.14.1
+      '@grpc/grpc-js': 1.14.3
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/otlp-exporter-base': 0.203.0(@opentelemetry/api@1.9.0)
@@ -4191,7 +4200,7 @@ snapshots:
 
   '@opentelemetry/exporter-metrics-otlp-grpc@0.203.0(@opentelemetry/api@1.9.0)':
     dependencies:
-      '@grpc/grpc-js': 1.14.1
+      '@grpc/grpc-js': 1.14.3
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/exporter-metrics-otlp-http': 0.203.0(@opentelemetry/api@1.9.0)
@@ -4229,7 +4238,7 @@ snapshots:
 
   '@opentelemetry/exporter-trace-otlp-grpc@0.203.0(@opentelemetry/api@1.9.0)':
     dependencies:
-      '@grpc/grpc-js': 1.14.1
+      '@grpc/grpc-js': 1.14.3
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/otlp-exporter-base': 0.203.0(@opentelemetry/api@1.9.0)
@@ -4621,7 +4630,7 @@ snapshots:
 
   '@opentelemetry/otlp-grpc-exporter-base@0.203.0(@opentelemetry/api@1.9.0)':
     dependencies:
-      '@grpc/grpc-js': 1.14.1
+      '@grpc/grpc-js': 1.14.3
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 2.0.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/otlp-exporter-base': 0.203.0(@opentelemetry/api@1.9.0)
@@ -4867,17 +4876,17 @@ snapshots:
 
   '@rocicorp/resolver@1.0.2': {}
 
-  '@rocicorp/zero-sqlite3@1.0.12':
+  '@rocicorp/zero-sqlite3@1.0.13':
     dependencies:
       bindings: 1.5.0
       prebuild-install: 7.1.3
 
-  '@rocicorp/zero@0.25.1(@opentelemetry/core@2.2.0(@opentelemetry/api@1.9.0))':
+  '@rocicorp/zero@0.25.2(@opentelemetry/core@2.2.0(@opentelemetry/api@1.9.0))':
     dependencies:
       '@badrap/valita': 0.3.11
       '@databases/escape-identifier': 1.0.3
       '@databases/sql': 3.3.0
-      '@dotenvx/dotenvx': 1.51.1
+      '@dotenvx/dotenvx': 1.51.2
       '@drdgvhbh/postgres-error-codes': 0.0.6
       '@fastify/cors': 10.1.0
       '@fastify/websocket': 11.2.0
@@ -4894,7 +4903,7 @@ snapshots:
       '@rocicorp/lock': 1.0.4
       '@rocicorp/logger': 5.4.0
       '@rocicorp/resolver': 1.0.2
-      '@rocicorp/zero-sqlite3': 1.0.12
+      '@rocicorp/zero-sqlite3': 1.0.13
       '@standard-schema/spec': 1.0.0
       '@types/basic-auth': 1.1.8
       basic-auth: 2.0.1
@@ -4907,7 +4916,7 @@ snapshots:
       compare-utf8: 0.1.1
       defu: 6.1.4
       eventemitter3: 5.0.1
-      fastify: 5.6.1
+      fastify: 5.6.2
       is-in-subnet: 4.0.1
       jose: 5.10.0
       js-xxhash: 4.0.0
@@ -5546,7 +5555,7 @@ snapshots:
 
   consola@3.4.2: {}
 
-  cookie@1.0.2: {}
+  cookie@1.1.1: {}
 
   core-util-is@1.0.3: {}
 
@@ -5845,7 +5854,7 @@ snapshots:
 
   fastify-plugin@5.1.0: {}
 
-  fastify@5.6.1:
+  fastify@5.6.2:
     dependencies:
       '@fastify/ajv-compiler': 4.0.5
       '@fastify/error': 4.2.0
@@ -5856,7 +5865,7 @@ snapshots:
       fast-json-stringify: 6.1.1
       find-my-way: 9.3.0
       light-my-request: 6.6.0
-      pino: 9.14.0
+      pino: 10.1.0
       process-warning: 5.0.0
       rfdc: 1.4.1
       secure-json-parse: 4.1.0
@@ -6049,7 +6058,7 @@ snapshots:
 
   ini@1.3.8: {}
 
-  ipaddr.js@2.2.0: {}
+  ipaddr.js@2.3.0: {}
 
   is-arguments@1.2.0:
     dependencies:
@@ -6140,7 +6149,7 @@ snapshots:
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.6
       is-potential-custom-element-name: 1.0.1
-      nwsapi: 2.2.22
+      nwsapi: 2.2.23
       parse5: 7.3.0
       rrweb-cssom: 0.8.0
       saxes: 6.0.0
@@ -6181,7 +6190,7 @@ snapshots:
 
   light-my-request@6.6.0:
     dependencies:
-      cookie: 1.0.2
+      cookie: 1.1.1
       process-warning: 4.0.1
       set-cookie-parser: 2.7.2
 
@@ -6273,7 +6282,7 @@ snapshots:
 
   napi-build-utils@2.0.0: {}
 
-  node-abi@3.80.0:
+  node-abi@3.85.0:
     dependencies:
       semver: 7.7.3
 
@@ -6287,7 +6296,7 @@ snapshots:
     dependencies:
       path-key: 3.1.1
 
-  nwsapi@2.2.22:
+  nwsapi@2.2.23:
     optional: true
 
   object-assign@4.1.1: {}
@@ -6400,7 +6409,7 @@ snapshots:
 
   pino-std-serializers@7.0.0: {}
 
-  pino@9.14.0:
+  pino@10.1.0:
     dependencies:
       '@pinojs/redact': 0.4.0
       atomic-sleep: 1.0.0
@@ -6466,7 +6475,7 @@ snapshots:
       minimist: 1.2.8
       mkdirp-classic: 0.5.3
       napi-build-utils: 2.0.0
-      node-abi: 3.80.0
+      node-abi: 3.85.0
       pump: 3.0.3
       rc: 1.2.8
       simple-get: 4.0.1
