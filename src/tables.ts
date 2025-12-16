@@ -30,6 +30,8 @@ import type {
 } from './types';
 import {debugLog, typedEntries} from './util';
 
+const warnedServerDefaults = new Set<string>();
+
 export type {ColumnBuilder, ReadonlyJSONValue, TableBuilderWithColumns};
 
 /**
@@ -307,6 +309,17 @@ const createZeroTableBuilder = <
       const isPrimaryKey = primaryKeys.has(String(key));
       const hasServerDefault =
         column.hasDefault || typeof column.defaultFn !== 'undefined';
+
+      if (hasServerDefault) {
+        const warningKey = `${actualTableName}.${resolvedColumnName}`;
+        if (!warnedServerDefaults.has(warningKey)) {
+          warnedServerDefaults.add(warningKey);
+
+          console.warn(
+            `⚠️ drizzle-zero: Column ${actualTableName}.${resolvedColumnName} uses a database default that the Zero client will not be able to use. This probably won't work the way you expect. Set the value with mutators instead. See: https://github.com/rocicorp/drizzle-zero/issues/197`,
+          );
+        }
+      }
 
       const isColumnOptional =
         typeof columnConfig === 'boolean' || typeof columnConfig === 'undefined'
