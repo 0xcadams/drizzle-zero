@@ -1957,6 +1957,59 @@ describe('tables', () => {
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
   });
 
+  describe('default value warnings', () => {
+    test('pg - should warn for columns with database defaults when suppressDefaultsWarning is not set', ({
+      expect,
+    }) => {
+      const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      const testTable = pgTable('test_defaults_warn', {
+        id: text().primaryKey(),
+        name: text().notNull().default('unnamed'),
+      });
+
+      createZeroTableBuilder('test_defaults_warn', testTable, {
+        id: true,
+        name: true,
+      });
+
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining(
+          '⚠️ drizzle-zero: Column test_defaults_warn.name uses a database default',
+        ),
+      );
+
+      consoleSpy.mockRestore();
+    });
+
+    test('pg - should not warn for columns with database defaults when suppressDefaultsWarning is true', ({
+      expect,
+    }) => {
+      const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      const testTable = pgTable('test_defaults_suppressed', {
+        id: text().primaryKey(),
+        name: text().notNull().default('unnamed'),
+      });
+
+      createZeroTableBuilder(
+        'test_defaults_suppressed',
+        testTable,
+        {
+          id: true,
+          name: true,
+        },
+        undefined, // debug
+        undefined, // casing
+        true, // suppressDefaultsWarning
+      );
+
+      expect(consoleSpy).not.toHaveBeenCalled();
+
+      consoleSpy.mockRestore();
+    });
+  });
+
   test('pg - no primary key', ({expect}) => {
     const testTable = pgTable('test', {
       id: text(),

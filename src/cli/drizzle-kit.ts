@@ -12,11 +12,13 @@ export const getDefaultConfig = async ({
   drizzleKitConfigPath,
   tsProject,
   debug,
+  suppressDefaultsWarning,
 }: {
   drizzleSchemaPath: string | undefined;
   drizzleKitConfigPath: string | undefined;
   tsProject: Project;
   debug?: boolean;
+  suppressDefaultsWarning?: boolean;
 }) => {
   const {drizzleSchemaPath: resolvedDrizzleSchemaPath, casing: drizzleCasing} =
     await getFullDrizzleSchemaFilePath({
@@ -36,6 +38,7 @@ export const getDefaultConfig = async ({
   const zeroSchema = drizzleZeroConfig(drizzleSchema, {
     casing: drizzleCasing ?? undefined,
     debug: Boolean(debug),
+    suppressDefaultsWarning: Boolean(suppressDefaultsWarning),
   });
 
   ensureSourceFileInProject({

@@ -214,6 +214,10 @@ const createZeroTableBuilder = <
    * The casing to use for the table name.
    */
   casing?: TCasing,
+  /**
+   * Whether to hide warnings for columns with default values.
+   */
+  suppressDefaultsWarning?: boolean,
 ): ZeroTableBuilder<TTableName, TTable, TColumnConfig> => {
   const actualTableName = getTableName(table);
   const tableColumns = getTableColumns(table);
@@ -310,7 +314,7 @@ const createZeroTableBuilder = <
       const hasServerDefault =
         column.hasDefault || typeof column.defaultFn !== 'undefined';
 
-      if (hasServerDefault) {
+      if (hasServerDefault && !suppressDefaultsWarning) {
         const warningKey = `${actualTableName}.${resolvedColumnName}`;
         if (!warnedServerDefaults.has(warningKey)) {
           warnedServerDefaults.add(warningKey);

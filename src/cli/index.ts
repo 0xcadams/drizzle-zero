@@ -64,6 +64,7 @@ export interface GeneratorOptions {
   skipDeclare?: boolean;
   enableLegacyMutators?: boolean;
   enableLegacyQueries?: boolean;
+  suppressDefaultsWarning?: boolean;
 }
 
 async function main(opts: GeneratorOptions = {}) {
@@ -81,6 +82,7 @@ async function main(opts: GeneratorOptions = {}) {
     skipDeclare,
     enableLegacyMutators,
     enableLegacyQueries,
+    suppressDefaultsWarning,
   } = {...opts};
 
   const resolvedTsConfigPath = tsConfigPath ?? defaultTsConfigFile;
@@ -127,6 +129,7 @@ async function main(opts: GeneratorOptions = {}) {
         drizzleKitConfigPath,
         tsProject,
         debug: Boolean(debug),
+        suppressDefaultsWarning: Boolean(suppressDefaultsWarning),
       });
 
   if (!result?.zeroSchema) {
@@ -216,6 +219,11 @@ function cli() {
       'Enable legacy CRUD queries (sets enableLegacyQueries to true)',
       false,
     )
+    .option(
+      '--suppress-defaults-warning',
+      'Hide warnings for columns with default values',
+      false,
+    )
     .action(async command => {
       console.log(`⚙️  drizzle-zero: Generating zero schema...`);
 
@@ -233,6 +241,7 @@ function cli() {
         skipDeclare: command.skipDeclare,
         enableLegacyMutators: command.enableLegacyMutators,
         enableLegacyQueries: command.enableLegacyQueries,
+        suppressDefaultsWarning: command.suppressDefaultsWarning,
       });
 
       if (command.output) {

@@ -321,6 +321,16 @@ const drizzleZeroConfig = <
      * ```
      */
     readonly debug?: boolean;
+    /**
+     * Whether to hide warnings for columns with default values.
+     *
+     * @example
+     * ```ts
+     * { suppressDefaultsWarning: true }
+     * ```
+     * @see https://github.com/rocicorp/drizzle-zero/issues/197
+     */
+    readonly suppressDefaultsWarning?: boolean;
   },
 ): Flatten<DrizzleToZeroSchema<TDrizzleSchema, TColumnConfig>> => {
   let tables: any[] = [];
@@ -377,6 +387,7 @@ const drizzleZeroConfig = <
         tableConfig,
         config?.debug,
         config?.casing,
+        config?.suppressDefaultsWarning,
       );
 
       tables.push(tableSchema);
