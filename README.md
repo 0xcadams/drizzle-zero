@@ -95,6 +95,7 @@ You can also control optional outputs from the generator:
 - **--skip-declare**: Skip generating the module augmentation for default types in Zero.
 - **--enable-legacy-mutators**: Enable legacy CRUD mutators (sets `enableLegacyMutators` to `true` in the generated schema).
 - **--enable-legacy-queries**: Enable legacy CRUD queries (sets `enableLegacyQueries` to `true` in the generated schema).
+- **--suppress-defaults-warning**: Hide warnings for columns with database default values. By default, drizzle-zero warns when columns use database defaults (`.default()` or `.defaultFn()`) since these won't be available on the Zero client.
 
 For more information on disabling legacy mutators and queries, see the [Zero documentation](https://zero.rocicorp.dev/docs/custom-mutators#disabling-crud-mutators).
 
