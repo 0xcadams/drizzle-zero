@@ -12,18 +12,18 @@
   },
   "dependencies": {
     "@drizzle-zero/custom-types": "workspace:*",
-    "drizzle-orm": "^0.45.0",
+    "drizzle-orm": "^0.45.1",
     "drizzle-zero": "workspace:*"
   },
   "devDependencies": {
-    "@testcontainers/postgresql": "^11.9.0",
-    "@types/pg": "^8.15.6",
-    "@vitest/browser": "^4.0.15",
+    "@testcontainers/postgresql": "^11.11.0",
+    "@types/pg": "^8.16.0",
+    "@vitest/browser": "^4.0.16",
     "drizzle-kit": "^0.31.8",
     "pg": "^8.16.3",
-    "postgres": "^3.4.7",
+    "postgres": "^3.4.8",
     "prettier": "^3.7.4",
-    "testcontainers": "^11.9.0",
-    "zod": "^4.1.13"
+    "testcontainers": "^11.11.0",
+    "zod": "^4.3.5"
   }
 }
