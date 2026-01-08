@@ -1,11 +1,19 @@
 import {createSchema} from '@rocicorp/zero';
 import {getColumnTable, getTableName, getTableUniqueName, is, Table} from 'drizzle-orm';
-import type {Many} from 'drizzle-orm/_relations';
+// Old API (legacy) - keep for backwards compatibility
 import {
   createTableRelationsHelpers,
+  Many,
   One,
   Relations,
 } from 'drizzle-orm/_relations';
+// New API (Drizzle 1.0) - for defineRelations() support
+import {
+  Relation as RelationV2,
+  One as OneV2,
+  Many as ManyV2,
+  type TablesRelationalConfig,
+} from 'drizzle-orm/relations';
 import type {
   DrizzleColumnTypeToZeroType,
   DrizzleDataTypeToZeroType,
@@ -25,6 +33,95 @@ import type {
   TableColumnsConfig,
 } from './types';
 import {debugLog, typedEntries} from './util';
+
+/**
+ * Detects if a value is a TablesRelationalConfig from Drizzle 1.0's defineRelations().
+ * The structure has: { [tableName]: { table, name, relations: { [relName]: One | Many } } }
+ */
+function isTablesRelationalConfig(
+  value: unknown,
+): value is TablesRelationalConfig {
+  if (!value || typeof value !== 'object') return false;
+  const entries = Object.entries(value);
+  if (entries.length === 0) return false;
+  const firstEntry = entries[0];
+  if (!firstEntry) return false;
+  const first = firstEntry[1];
+  return (
+    first !== null &&
+    typeof first === 'object' &&
+    'table' in first &&
+    'relations' in first
+  );
+}
+
+type RelationInfoResult = {
+  targetTableName: string;
+  sourceColumns: {name: string; table: Table | undefined}[];
+  targetColumns: {name: string; table: Table | undefined}[];
+  isOne: boolean;
+  isMany: boolean;
+  fieldName: string;
+  relationName: string | undefined;
+};
+
+/**
+ * Extracts relation info from either the old or new Drizzle API.
+ * Returns null if the relation type is not recognized.
+ */
+function getRelationInfo(relation: unknown): RelationInfoResult | null {
+  // Check for V2 first (new API from defineRelations)
+  if (is(relation, RelationV2)) {
+    const rel = relation as RelationV2;
+    return {
+      targetTableName: rel.targetTableName,
+      sourceColumns: (rel.sourceColumns ?? []).map(col => ({
+        name: col.name,
+        table: getColumnTable(col),
+      })),
+      targetColumns: (rel.targetColumns ?? []).map(col => ({
+        name: col.name,
+        table: getColumnTable(col),
+      })),
+      isOne: is(relation, OneV2),
+      isMany: is(relation, ManyV2),
+      fieldName: rel.fieldName,
+      relationName: undefined,
+    };
+  }
+  // Old API (relations() helper)
+  if (is(relation, One)) {
+    const rel = relation as One;
+    return {
+      targetTableName: rel.referencedTableName,
+      sourceColumns: (rel.config?.fields ?? []).map(f => ({
+        name: f.name,
+        table: getColumnTable(f),
+      })),
+      targetColumns: (rel.config?.references ?? []).map(f => ({
+        name: f.name,
+        table: getColumnTable(f),
+      })),
+      isOne: true,
+      isMany: false,
+      fieldName: rel.fieldName,
+      relationName: rel.relationName,
+    };
+  }
+  if (is(relation, Many)) {
+    const rel = relation as Many<any>;
+    return {
+      targetTableName: rel.referencedTableName,
+      sourceColumns: [],
+      targetColumns: [],
+      isOne: false,
+      isMany: true,
+      fieldName: rel.fieldName,
+      relationName: rel.relationName,
+    };
+  }
+  return null;
+}
 
 type IsAny<T> = 0 extends 1 & T ? true : false;
 
@@ -578,23 +675,180 @@ const drizzleZeroConfig = <
     }
   }
 
-  // get relationships from relations
-  for (const [relationName, tableOrRelations] of typedEntries(schema)) {
+  // get relationships from relations (supports both old and new API)
+  for (const [schemaKey, tableOrRelations] of typedEntries(schema)) {
     if (!tableOrRelations) {
       throw new Error(
-        `drizzle-zero: table or relation with key ${String(relationName)} is not defined`,
+        `drizzle-zero: table or relation with key ${String(schemaKey)} is not defined`,
       );
     }
 
+    // New API: Handle TablesRelationalConfig from defineRelations() (Drizzle 1.0)
+    if (isTablesRelationalConfig(tableOrRelations)) {
+      debugLog(
+        config?.debug,
+        `Processing TablesRelationalConfig (Drizzle 1.0 API) from key: ${String(schemaKey)}`,
+      );
+
+      const tablesConfig = tableOrRelations as TablesRelationalConfig;
+      for (const [tableName, tableConfig] of Object.entries(tablesConfig)) {
+        // tableConfig has: { table, name, relations: { [relName]: One | Many } }
+        const sourceTable = tableConfig.table;
+        if (!is(sourceTable, Table)) continue;
+
+        const sourceTableKey = getDrizzleKeyFromTable({
+          schema,
+          table: sourceTable,
+          fallbackTableName: tableName,
+        });
+
+        for (const [relName, relation] of Object.entries(
+          tableConfig.relations,
+        )) {
+          const relInfo = getRelationInfo(relation);
+          if (!relInfo) continue;
+
+          let sourceFieldNames: string[] = [];
+          let destFieldNames: string[] = [];
+
+          // V2 relations have sourceColumns and targetColumns directly
+          if (relInfo.sourceColumns.length && relInfo.targetColumns.length) {
+            const rel = relation as RelationV2;
+            sourceFieldNames = relInfo.sourceColumns.map(col =>
+              getDrizzleColumnKeyFromColumnName({
+                columnName: col.name,
+                table: col.table ?? (rel.sourceTable as Table),
+              }),
+            );
+            destFieldNames = relInfo.targetColumns.map(col =>
+              getDrizzleColumnKeyFromColumnName({
+                columnName: col.name,
+                table: col.table ?? (rel.targetTable as Table),
+              }),
+            );
+          }
+
+          // If we still don't have fields, try to find them from the schema (for Many relations)
+          if (!sourceFieldNames.length || !destFieldNames.length) {
+            // For V2, search in the TablesRelationalConfig for the reverse relation
+            const targetTableConfig = tablesConfig[relInfo.targetTableName];
+            if (targetTableConfig) {
+              // Find a One relation from target back to source
+              for (const reverseRel of Object.values(
+                targetTableConfig.relations,
+              )) {
+                const reverseInfo = getRelationInfo(reverseRel);
+                if (!reverseInfo) continue;
+                if (
+                  reverseInfo.isOne &&
+                  reverseInfo.targetTableName === tableName
+                ) {
+                  // Reverse the fields for the Many side
+                  if (
+                    reverseInfo.targetColumns.length &&
+                    reverseInfo.sourceColumns.length
+                  ) {
+                    const reverseRelV2 = reverseRel as RelationV2;
+                    sourceFieldNames = reverseInfo.targetColumns.map(col =>
+                      getDrizzleColumnKeyFromColumnName({
+                        columnName: col.name,
+                        table: col.table ?? (reverseRelV2.targetTable as Table),
+                      }),
+                    );
+                    destFieldNames = reverseInfo.sourceColumns.map(col =>
+                      getDrizzleColumnKeyFromColumnName({
+                        columnName: col.name,
+                        table: col.table ?? (reverseRelV2.sourceTable as Table),
+                      }),
+                    );
+                    break;
+                  }
+                }
+              }
+            }
+          }
+
+          if (!sourceFieldNames.length || !destFieldNames.length) {
+            throw new Error(
+              `drizzle-zero: No relationship found for: ${relName} (${relInfo.isOne ? 'One' : 'Many'} from ${tableName} to ${relInfo.targetTableName}). Did you forget to define the inverse relation?`,
+            );
+          }
+
+          const referencedTableKey = getDrizzleKeyFromTable({
+            schema,
+            table: (relation as RelationV2).targetTable as Table,
+            fallbackTableName: relInfo.targetTableName,
+          });
+
+          if (
+            typeof config?.tables !== 'undefined' &&
+            (!config?.tables?.[sourceTableKey as keyof typeof config.tables] ||
+              !config?.tables?.[
+                referencedTableKey as keyof typeof config.tables
+              ])
+          ) {
+            debugLog(
+              config?.debug,
+              `Skipping relation - tables not in schema config:`,
+              {
+                sourceTable: sourceTableKey,
+                referencedTable: referencedTableKey,
+              },
+            );
+            continue;
+          }
+
+          if (
+            relationships[sourceTableKey as keyof typeof relationships]?.[
+              relName
+            ]
+          ) {
+            throw new Error(
+              `drizzle-zero: Duplicate relationship found for: ${relName} (from ${sourceTableKey} to ${relInfo.targetTableName}).`,
+            );
+          }
+
+          assertRelationNameIsNotAColumnName({
+            sourceTableName: sourceTableKey,
+            relationName: relName,
+          });
+
+          relationships[sourceTableKey as keyof typeof relationships] = {
+            ...relationships?.[sourceTableKey as keyof typeof relationships],
+            [relName]: [
+              {
+                sourceField: sourceFieldNames,
+                destField: destFieldNames,
+                destSchema: referencedTableKey,
+                cardinality: relInfo.isOne ? 'one' : 'many',
+              },
+            ],
+          } as unknown as (typeof relationships)[keyof typeof relationships];
+
+          debugLog(config?.debug, `Added V2 relationship:`, {
+            sourceTable: sourceTableKey,
+            relationName: relName,
+            relationship:
+              relationships[sourceTableKey as keyof typeof relationships]?.[
+                relName
+              ],
+          });
+        }
+      }
+      continue; // Skip to next schema entry after processing TablesRelationalConfig
+    }
+
+    // Old API: Handle Relations class from relations() helper
     if (is(tableOrRelations, Relations)) {
-      const actualTableName = getTableName(tableOrRelations.table);
+      const relationsObj = tableOrRelations as Relations;
+      const actualTableName = getTableName(relationsObj.table);
       const tableName = getDrizzleKeyFromTable({
         schema,
-        table: tableOrRelations.table,
+        table: relationsObj.table,
         fallbackTableName: actualTableName,
       });
 
-      const relationsConfig = getRelationsConfig(tableOrRelations);
+      const relationsConfig = getRelationsConfig(relationsObj);
 
       for (const relation of Object.values(relationsConfig)) {
         let sourceFieldNames: string[] = [];
@@ -761,6 +1015,82 @@ const findRelationSourceAndDestFields = (
 
   // We search through all relations in the schema
   for (const tableOrRelations of Object.values(schema)) {
+    // Handle new API (TablesRelationalConfig from defineRelations)
+    if (isTablesRelationalConfig(tableOrRelations)) {
+      const tablesConfig = tableOrRelations as TablesRelationalConfig;
+      for (const tableConfig of Object.values(tablesConfig)) {
+        for (const relationConfig of Object.values(tableConfig.relations)) {
+          const relInfo = getRelationInfo(relationConfig);
+          if (!relInfo || !relInfo.isOne) continue;
+
+          const rel = relationConfig as RelationV2;
+          const foundSourceName = is(rel.sourceTable, Table)
+            ? getTableUniqueName(rel.sourceTable)
+            : undefined;
+          // V2 targetTableName is the key name, get the actual table's unique name
+          const foundReferencedName = is(rel.targetTable, Table)
+            ? getTableUniqueName(rel.targetTable as Table)
+            : relInfo.targetTableName;
+
+          // We check the relation where the source table is the referenced table
+          // and the referenced table is the source table
+          if (
+            foundSourceName === referencedTableName &&
+            foundReferencedName === sourceTableName
+          ) {
+            const sourceFieldNames = relInfo.targetColumns.map(col =>
+              getDrizzleColumnKeyFromColumnName({
+                columnName: col.name,
+                table: col.table ?? (rel.targetTable as Table),
+              }),
+            );
+
+            const destFieldNames = relInfo.sourceColumns.map(col =>
+              getDrizzleColumnKeyFromColumnName({
+                columnName: col.name,
+                table: col.table ?? (rel.sourceTable as Table),
+              }),
+            );
+
+            if (sourceFieldNames.length && destFieldNames.length) {
+              return {
+                sourceFieldNames,
+                destFieldNames,
+              };
+            }
+          }
+
+          // Check if this is a One relation from source table to referenced table
+          if (
+            foundSourceName === sourceTableName &&
+            foundReferencedName === referencedTableName
+          ) {
+            const sourceFieldNames = relInfo.sourceColumns.map(col =>
+              getDrizzleColumnKeyFromColumnName({
+                columnName: col.name,
+                table: col.table ?? (rel.sourceTable as Table),
+              }),
+            );
+
+            const destFieldNames = relInfo.targetColumns.map(col =>
+              getDrizzleColumnKeyFromColumnName({
+                columnName: col.name,
+                table: col.table ?? (rel.targetTable as Table),
+              }),
+            );
+
+            if (sourceFieldNames.length && destFieldNames.length) {
+              return {
+                sourceFieldNames,
+                destFieldNames,
+              };
+            }
+          }
+        }
+      }
+    }
+
+    // Handle old API (Relations class)
     if (is(tableOrRelations, Relations)) {
       const relationsConfig = getRelationsConfig(tableOrRelations);
 

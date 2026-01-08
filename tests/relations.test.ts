@@ -157,7 +157,7 @@ describe('relationships', () => {
     await expect(
       import('./schemas/many-to-many-duplicate-relationship.zero'),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `[Error: drizzle-zero: Duplicate relationship found for: usersToGroups (from users to users_to_group).]`,
+      `[Error: drizzle-zero: Duplicate relationship found for: usersToGroups (from users to usersToGroups).]`,
     );
   });
 
@@ -216,7 +216,7 @@ describe('relationships', () => {
     await expect(
       import('./schemas/one-to-many-missing-named.zero'),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `[Error: drizzle-zero: No relationship found for: author (Many from users to posts). Did you forget to define a named relation "author"?]`,
+      `[Error: relations -> users: { author: r.many.posts(...) }: not enough data provided to build the relation - "from"/"to" are not defined, and there is no reverse relation of table "posts" with alias "author"]`,
     );
   });
 
@@ -224,7 +224,7 @@ describe('relationships', () => {
     await expect(
       import('./schemas/one-to-many-missing-one.zero'),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `[Error: drizzle-zero: No relationship found for: author (Many from users to posts). Did you forget to define an opposite One relation?]`,
+      `[Error: relations -> users: { author: r.many.posts(...) }: not enough data provided to build the relation - "from"/"to" are not defined, and no reverse relation of table "posts" with target table "users" was found]`,
     );
   });
 
@@ -232,7 +232,7 @@ describe('relationships', () => {
     await expect(
       import('./schemas/relation-name-conflicts-column.zero'),
     ).rejects.toThrowErrorMatchingInlineSnapshot(
-      `[Error: drizzle-zero: Invalid relationship name for users.posts: there is already a table column with the name posts and this cannot be used as a relationship name]`,
+      `[Error: relations -> users: { posts: r.many.posts(...) }: relation name collides with column "posts" of table "users"]`,
     );
   });
 
