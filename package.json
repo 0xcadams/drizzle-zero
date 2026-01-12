@@ -85,7 +85,7 @@
   },
   "devDependencies": {
     "@rocicorp/prettier-config": "^0.4.0",
-    "@rocicorp/zero": "0.25.7",
+    "@rocicorp/zero": "0.25.8",
     "@ts-morph/common": "^0.28.1",
     "@types/node": "^25.0.3",
     "@types/pg": "^8.16.0",
