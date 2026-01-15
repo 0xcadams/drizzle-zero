@@ -1,6 +1,6 @@
 {
   "name": "drizzle-zero",
-  "version": "0.17.1",
+  "version": "0.17.2",
   "description": "Generate Zero schemas from Drizzle ORM schemas",
   "type": "module",
   "scripts": {

@@ -9064,466 +9064,518 @@ export type Schema = typeof schema;
  * Represents a row from the "allTypes" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type AllType = Row<typeof schema>['allTypes'];
+export type AllType = Row<(typeof schema)['tables']['allTypes']>;
 /**
  * Represents a row from the "analyticsDashboard" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type AnalyticsDashboard = Row<typeof schema>['analyticsDashboard'];
+export type AnalyticsDashboard = Row<
+  (typeof schema)['tables']['analyticsDashboard']
+>;
 /**
  * Represents a row from the "analyticsWidget" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type AnalyticsWidget = Row<typeof schema>['analyticsWidget'];
+export type AnalyticsWidget = Row<(typeof schema)['tables']['analyticsWidget']>;
 /**
  * Represents a row from the "analyticsWidgetQuery" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type AnalyticsWidgetQuery = Row<typeof schema>['analyticsWidgetQuery'];
+export type AnalyticsWidgetQuery = Row<
+  (typeof schema)['tables']['analyticsWidgetQuery']
+>;
 /**
  * Represents a row from the "benefitEnrollment" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type BenefitEnrollment = Row<typeof schema>['benefitEnrollment'];
+export type BenefitEnrollment = Row<
+  (typeof schema)['tables']['benefitEnrollment']
+>;
 /**
  * Represents a row from the "benefitPlan" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type BenefitPlan = Row<typeof schema>['benefitPlan'];
+export type BenefitPlan = Row<(typeof schema)['tables']['benefitPlan']>;
 /**
  * Represents a row from the "billingInvoice" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type BillingInvoice = Row<typeof schema>['billingInvoice'];
+export type BillingInvoice = Row<(typeof schema)['tables']['billingInvoice']>;
 /**
  * Represents a row from the "billingInvoiceLine" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type BillingInvoiceLine = Row<typeof schema>['billingInvoiceLine'];
+export type BillingInvoiceLine = Row<
+  (typeof schema)['tables']['billingInvoiceLine']
+>;
 /**
  * Represents a row from the "budget" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Budget = Row<typeof schema>['budget'];
+export type Budget = Row<(typeof schema)['tables']['budget']>;
 /**
  * Represents a row from the "budgetLine" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type BudgetLine = Row<typeof schema>['budgetLine'];
+export type BudgetLine = Row<(typeof schema)['tables']['budgetLine']>;
 /**
  * Represents a row from the "crmAccount" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type CrmAccount = Row<typeof schema>['crmAccount'];
+export type CrmAccount = Row<(typeof schema)['tables']['crmAccount']>;
 /**
  * Represents a row from the "crmActivity" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type CrmActivity = Row<typeof schema>['crmActivity'];
+export type CrmActivity = Row<(typeof schema)['tables']['crmActivity']>;
 /**
  * Represents a row from the "crmActivityType" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type CrmActivityType = Row<typeof schema>['crmActivityType'];
+export type CrmActivityType = Row<(typeof schema)['tables']['crmActivityType']>;
 /**
  * Represents a row from the "crmContact" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type CrmContact = Row<typeof schema>['crmContact'];
+export type CrmContact = Row<(typeof schema)['tables']['crmContact']>;
 /**
  * Represents a row from the "crmNote" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type CrmNote = Row<typeof schema>['crmNote'];
+export type CrmNote = Row<(typeof schema)['tables']['crmNote']>;
 /**
  * Represents a row from the "crmOpportunity" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type CrmOpportunity = Row<typeof schema>['crmOpportunity'];
+export type CrmOpportunity = Row<(typeof schema)['tables']['crmOpportunity']>;
 /**
  * Represents a row from the "crmOpportunityStageHistory" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type CrmOpportunityStageHistory = Row<
-  typeof schema
->['crmOpportunityStageHistory'];
+  (typeof schema)['tables']['crmOpportunityStageHistory']
+>;
 /**
  * Represents a row from the "crmPipelineStage" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type CrmPipelineStage = Row<typeof schema>['crmPipelineStage'];
+export type CrmPipelineStage = Row<
+  (typeof schema)['tables']['crmPipelineStage']
+>;
 /**
  * Represents a row from the "department" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Department = Row<typeof schema>['department'];
+export type Department = Row<(typeof schema)['tables']['department']>;
 /**
  * Represents a row from the "documentFile" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type DocumentFile = Row<typeof schema>['documentFile'];
+export type DocumentFile = Row<(typeof schema)['tables']['documentFile']>;
 /**
  * Represents a row from the "documentFileVersion" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type DocumentFileVersion = Row<typeof schema>['documentFileVersion'];
+export type DocumentFileVersion = Row<
+  (typeof schema)['tables']['documentFileVersion']
+>;
 /**
  * Represents a row from the "documentFolder" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type DocumentFolder = Row<typeof schema>['documentFolder'];
+export type DocumentFolder = Row<(typeof schema)['tables']['documentFolder']>;
 /**
  * Represents a row from the "documentLibrary" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type DocumentLibrary = Row<typeof schema>['documentLibrary'];
+export type DocumentLibrary = Row<(typeof schema)['tables']['documentLibrary']>;
 /**
  * Represents a row from the "documentSharing" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type DocumentSharing = Row<typeof schema>['documentSharing'];
+export type DocumentSharing = Row<(typeof schema)['tables']['documentSharing']>;
 /**
  * Represents a row from the "employeeDocument" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type EmployeeDocument = Row<typeof schema>['employeeDocument'];
+export type EmployeeDocument = Row<
+  (typeof schema)['tables']['employeeDocument']
+>;
 /**
  * Represents a row from the "employeeProfile" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type EmployeeProfile = Row<typeof schema>['employeeProfile'];
+export type EmployeeProfile = Row<(typeof schema)['tables']['employeeProfile']>;
 /**
  * Represents a row from the "employmentHistory" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type EmploymentHistory = Row<typeof schema>['employmentHistory'];
+export type EmploymentHistory = Row<
+  (typeof schema)['tables']['employmentHistory']
+>;
 /**
  * Represents a row from the "expenseItem" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ExpenseItem = Row<typeof schema>['expenseItem'];
+export type ExpenseItem = Row<(typeof schema)['tables']['expenseItem']>;
 /**
  * Represents a row from the "expenseReport" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ExpenseReport = Row<typeof schema>['expenseReport'];
+export type ExpenseReport = Row<(typeof schema)['tables']['expenseReport']>;
 /**
  * Represents a row from the "featureFlag" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type FeatureFlag = Row<typeof schema>['featureFlag'];
+export type FeatureFlag = Row<(typeof schema)['tables']['featureFlag']>;
 /**
  * Represents a row from the "filters" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Filter = Row<typeof schema>['filters'];
+export type Filter = Row<(typeof schema)['tables']['filters']>;
 /**
  * Represents a row from the "friendship" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Friendship = Row<typeof schema>['friendship'];
+export type Friendship = Row<(typeof schema)['tables']['friendship']>;
 /**
  * Represents a row from the "integrationCredential" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type IntegrationCredential = Row<typeof schema>['integrationCredential'];
+export type IntegrationCredential = Row<
+  (typeof schema)['tables']['integrationCredential']
+>;
 /**
  * Represents a row from the "integrationEvent" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type IntegrationEvent = Row<typeof schema>['integrationEvent'];
+export type IntegrationEvent = Row<
+  (typeof schema)['tables']['integrationEvent']
+>;
 /**
  * Represents a row from the "integrationWebhook" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type IntegrationWebhook = Row<typeof schema>['integrationWebhook'];
+export type IntegrationWebhook = Row<
+  (typeof schema)['tables']['integrationWebhook']
+>;
 /**
  * Represents a row from the "inventoryItem" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type InventoryItem = Row<typeof schema>['inventoryItem'];
+export type InventoryItem = Row<(typeof schema)['tables']['inventoryItem']>;
 /**
  * Represents a row from the "inventoryLevel" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type InventoryLevel = Row<typeof schema>['inventoryLevel'];
+export type InventoryLevel = Row<(typeof schema)['tables']['inventoryLevel']>;
 /**
  * Represents a row from the "inventoryLocation" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type InventoryLocation = Row<typeof schema>['inventoryLocation'];
+export type InventoryLocation = Row<
+  (typeof schema)['tables']['inventoryLocation']
+>;
 /**
  * Represents a row from the "ledgerAccount" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type LedgerAccount = Row<typeof schema>['ledgerAccount'];
+export type LedgerAccount = Row<(typeof schema)['tables']['ledgerAccount']>;
 /**
  * Represents a row from the "ledgerEntry" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type LedgerEntry = Row<typeof schema>['ledgerEntry'];
+export type LedgerEntry = Row<(typeof schema)['tables']['ledgerEntry']>;
 /**
  * Represents a row from the "ledgerTransaction" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type LedgerTransaction = Row<typeof schema>['ledgerTransaction'];
+export type LedgerTransaction = Row<
+  (typeof schema)['tables']['ledgerTransaction']
+>;
 /**
  * Represents a row from the "marketingAudience" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type MarketingAudience = Row<typeof schema>['marketingAudience'];
+export type MarketingAudience = Row<
+  (typeof schema)['tables']['marketingAudience']
+>;
 /**
  * Represents a row from the "marketingCampaign" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type MarketingCampaign = Row<typeof schema>['marketingCampaign'];
+export type MarketingCampaign = Row<
+  (typeof schema)['tables']['marketingCampaign']
+>;
 /**
  * Represents a row from the "marketingCampaignAudience" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type MarketingCampaignAudience = Row<
-  typeof schema
->['marketingCampaignAudience'];
+  (typeof schema)['tables']['marketingCampaignAudience']
+>;
 /**
  * Represents a row from the "marketingCampaignChannel" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type MarketingCampaignChannel = Row<
-  typeof schema
->['marketingCampaignChannel'];
+  (typeof schema)['tables']['marketingCampaignChannel']
+>;
 /**
  * Represents a row from the "marketingChannel" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type MarketingChannel = Row<typeof schema>['marketingChannel'];
+export type MarketingChannel = Row<
+  (typeof schema)['tables']['marketingChannel']
+>;
 /**
  * Represents a row from the "medium" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Medium = Row<typeof schema>['medium'];
+export type Medium = Row<(typeof schema)['tables']['medium']>;
 /**
  * Represents a row from the "message" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Message = Row<typeof schema>['message'];
+export type Message = Row<(typeof schema)['tables']['message']>;
 /**
  * Represents a row from the "omittedTable" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type OmittedTable = Row<typeof schema>['omittedTable'];
+export type OmittedTable = Row<(typeof schema)['tables']['omittedTable']>;
 /**
  * Represents a row from the "orderItem" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type OrderItem = Row<typeof schema>['orderItem'];
+export type OrderItem = Row<(typeof schema)['tables']['orderItem']>;
 /**
  * Represents a row from the "orderPayment" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type OrderPayment = Row<typeof schema>['orderPayment'];
+export type OrderPayment = Row<(typeof schema)['tables']['orderPayment']>;
 /**
  * Represents a row from the "orderTable" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type OrderTable = Row<typeof schema>['orderTable'];
+export type OrderTable = Row<(typeof schema)['tables']['orderTable']>;
 /**
  * Represents a row from the "payment" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Payment = Row<typeof schema>['payment'];
+export type Payment = Row<(typeof schema)['tables']['payment']>;
 /**
  * Represents a row from the "product" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Product = Row<typeof schema>['product'];
+export type Product = Row<(typeof schema)['tables']['product']>;
 /**
  * Represents a row from the "productCategory" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProductCategory = Row<typeof schema>['productCategory'];
+export type ProductCategory = Row<(typeof schema)['tables']['productCategory']>;
 /**
  * Represents a row from the "productMedia" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProductMedia = Row<typeof schema>['productMedia'];
+export type ProductMedia = Row<(typeof schema)['tables']['productMedia']>;
 /**
  * Represents a row from the "productVariant" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProductVariant = Row<typeof schema>['productVariant'];
+export type ProductVariant = Row<(typeof schema)['tables']['productVariant']>;
 /**
  * Represents a row from the "project" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Project = Row<typeof schema>['project'];
+export type Project = Row<(typeof schema)['tables']['project']>;
 /**
  * Represents a row from the "projectAssignment" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProjectAssignment = Row<typeof schema>['projectAssignment'];
+export type ProjectAssignment = Row<
+  (typeof schema)['tables']['projectAssignment']
+>;
 /**
  * Represents a row from the "projectAttachment" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProjectAttachment = Row<typeof schema>['projectAttachment'];
+export type ProjectAttachment = Row<
+  (typeof schema)['tables']['projectAttachment']
+>;
 /**
  * Represents a row from the "projectAudit" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProjectAudit = Row<typeof schema>['projectAudit'];
+export type ProjectAudit = Row<(typeof schema)['tables']['projectAudit']>;
 /**
  * Represents a row from the "projectComment" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProjectComment = Row<typeof schema>['projectComment'];
+export type ProjectComment = Row<(typeof schema)['tables']['projectComment']>;
 /**
  * Represents a row from the "projectNote" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProjectNote = Row<typeof schema>['projectNote'];
+export type ProjectNote = Row<(typeof schema)['tables']['projectNote']>;
 /**
  * Represents a row from the "projectPhase" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProjectPhase = Row<typeof schema>['projectPhase'];
+export type ProjectPhase = Row<(typeof schema)['tables']['projectPhase']>;
 /**
  * Represents a row from the "projectTag" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProjectTag = Row<typeof schema>['projectTag'];
+export type ProjectTag = Row<(typeof schema)['tables']['projectTag']>;
 /**
  * Represents a row from the "projectTask" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProjectTask = Row<typeof schema>['projectTask'];
+export type ProjectTask = Row<(typeof schema)['tables']['projectTask']>;
 /**
  * Represents a row from the "projectTaskTag" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ProjectTaskTag = Row<typeof schema>['projectTaskTag'];
+export type ProjectTaskTag = Row<(typeof schema)['tables']['projectTaskTag']>;
 /**
  * Represents a row from the "shipment" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Shipment = Row<typeof schema>['shipment'];
+export type Shipment = Row<(typeof schema)['tables']['shipment']>;
 /**
  * Represents a row from the "shipmentItem" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type ShipmentItem = Row<typeof schema>['shipmentItem'];
+export type ShipmentItem = Row<(typeof schema)['tables']['shipmentItem']>;
 /**
  * Represents a row from the "supportTicket" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type SupportTicket = Row<typeof schema>['supportTicket'];
+export type SupportTicket = Row<(typeof schema)['tables']['supportTicket']>;
 /**
  * Represents a row from the "supportTicketAssignment" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type SupportTicketAssignment = Row<
-  typeof schema
->['supportTicketAssignment'];
+  (typeof schema)['tables']['supportTicketAssignment']
+>;
 /**
  * Represents a row from the "supportTicketAudit" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type SupportTicketAudit = Row<typeof schema>['supportTicketAudit'];
+export type SupportTicketAudit = Row<
+  (typeof schema)['tables']['supportTicketAudit']
+>;
 /**
  * Represents a row from the "supportTicketMessage" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type SupportTicketMessage = Row<typeof schema>['supportTicketMessage'];
+export type SupportTicketMessage = Row<
+  (typeof schema)['tables']['supportTicketMessage']
+>;
 /**
  * Represents a row from the "supportTicketTag" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type SupportTicketTag = Row<typeof schema>['supportTicketTag'];
+export type SupportTicketTag = Row<
+  (typeof schema)['tables']['supportTicketTag']
+>;
 /**
  * Represents a row from the "supportTicketTagLink" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type SupportTicketTagLink = Row<typeof schema>['supportTicketTagLink'];
+export type SupportTicketTagLink = Row<
+  (typeof schema)['tables']['supportTicketTagLink']
+>;
 /**
  * Represents a row from the "team" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Team = Row<typeof schema>['team'];
+export type Team = Row<(typeof schema)['tables']['team']>;
 /**
  * Represents a row from the "telemetryRollup" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type TelemetryRollup = Row<typeof schema>['telemetryRollup'];
+export type TelemetryRollup = Row<(typeof schema)['tables']['telemetryRollup']>;
 /**
  * Represents a row from the "testBigSerialPk" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type TestBigSerialPk = Row<typeof schema>['testBigSerialPk'];
+export type TestBigSerialPk = Row<(typeof schema)['tables']['testBigSerialPk']>;
 /**
  * Represents a row from the "testCompositePkBothDefaults" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type TestCompositePkBothDefault = Row<
-  typeof schema
->['testCompositePkBothDefaults'];
+  (typeof schema)['tables']['testCompositePkBothDefaults']
+>;
 /**
  * Represents a row from the "testCompositePkOneDefault" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type TestCompositePkOneDefault = Row<
-  typeof schema
->['testCompositePkOneDefault'];
+  (typeof schema)['tables']['testCompositePkOneDefault']
+>;
 /**
  * Represents a row from the "testIntegerDefaultPk" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type TestIntegerDefaultPk = Row<typeof schema>['testIntegerDefaultPk'];
+export type TestIntegerDefaultPk = Row<
+  (typeof schema)['tables']['testIntegerDefaultPk']
+>;
 /**
  * Represents a row from the "testSerialPk" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type TestSerialPk = Row<typeof schema>['testSerialPk'];
+export type TestSerialPk = Row<(typeof schema)['tables']['testSerialPk']>;
 /**
  * Represents a row from the "testTextDefaultPk" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type TestTextDefaultPk = Row<typeof schema>['testTextDefaultPk'];
+export type TestTextDefaultPk = Row<
+  (typeof schema)['tables']['testTextDefaultPk']
+>;
 /**
  * Represents a row from the "testTimestampDefaultPk" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
 export type TestTimestampDefaultPk = Row<
-  typeof schema
->['testTimestampDefaultPk'];
+  (typeof schema)['tables']['testTimestampDefaultPk']
+>;
 /**
  * Represents a row from the "testUuidPk" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type TestUuidPk = Row<typeof schema>['testUuidPk'];
+export type TestUuidPk = Row<(typeof schema)['tables']['testUuidPk']>;
 /**
  * Represents a row from the "testUuidSqlDefaultPk" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type TestUuidSqlDefaultPk = Row<typeof schema>['testUuidSqlDefaultPk'];
+export type TestUuidSqlDefaultPk = Row<
+  (typeof schema)['tables']['testUuidSqlDefaultPk']
+>;
 /**
  * Represents a row from the "timeEntry" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type TimeEntry = Row<typeof schema>['timeEntry'];
+export type TimeEntry = Row<(typeof schema)['tables']['timeEntry']>;
 /**
  * Represents a row from the "timesheet" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type Timesheet = Row<typeof schema>['timesheet'];
+export type Timesheet = Row<(typeof schema)['tables']['timesheet']>;
 /**
  * Represents a row from the "user" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type User = Row<typeof schema>['user'];
+export type User = Row<(typeof schema)['tables']['user']>;
 /**
  * Represents a row from the "webhookSubscription" table.
  * This type is auto-generated from your Drizzle schema definition.
  */
-export type WebhookSubscription = Row<typeof schema>['webhookSubscription'];
+export type WebhookSubscription = Row<
+  (typeof schema)['tables']['webhookSubscription']
+>;
 
 /**
  * Represents the ZQL query builder.
