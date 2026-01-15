@@ -172,7 +172,7 @@ describe('getGeneratedSchema', () => {
        * Represents a row from the "users" table.
        * This type is auto-generated from your Drizzle schema definition.
        */
-      export type User = Row<typeof schema>["users"];
+      export type User = Row<(typeof schema)["tables"]["users"]>;
 
       /**
        * Represents the ZQL query builder.
@@ -330,7 +330,7 @@ describe('getGeneratedSchema', () => {
 
     // Check for the type exports
     expect(generatedSchema).toContain(
-      'export type User = Row<typeof schema>["users"];',
+      'export type User = Row<(typeof schema)["tables"]["users"]>;',
     );
 
     // Verify null custom type handling with the correct type path
@@ -1106,10 +1106,10 @@ describe('getGeneratedSchema', () => {
 
     // Check for table type exports with proper capitalization
     expect(generatedSchema).toContain(
-      'export type User = Row<typeof schema>["users"];',
+      'export type User = Row<(typeof schema)["tables"]["users"]>;',
     );
     expect(generatedSchema).toContain(
-      'export type Post = Row<typeof schema>["posts"];',
+      'export type Post = Row<(typeof schema)["tables"]["posts"]>;',
     );
   });
 
@@ -1158,13 +1158,13 @@ describe('getGeneratedSchema', () => {
 
     // Check that capitalization works correctly for different naming conventions
     expect(generatedSchema).toContain(
-      'export type UserProfile = Row<typeof schema>["userProfiles"];',
+      'export type UserProfile = Row<(typeof schema)["tables"]["userProfiles"]>;',
     );
     expect(generatedSchema).toContain(
-      'export type BlogPost = Row<typeof schema>["blog_posts"];',
+      'export type BlogPost = Row<(typeof schema)["tables"]["blog_posts"]>;',
     );
     expect(generatedSchema).toContain(
-      'export type User = Row<typeof schema>["user"];',
+      'export type User = Row<(typeof schema)["tables"]["user"]>;',
     );
   });
 
@@ -1225,10 +1225,10 @@ describe('getGeneratedSchema', () => {
 
     // Check for table type exports
     expect(generatedSchema).toContain(
-      'export type User = Row<typeof schema>["users"];',
+      'export type User = Row<(typeof schema)["tables"]["users"]>;',
     );
     expect(generatedSchema).toContain(
-      'export type Post = Row<typeof schema>["posts"];',
+      'export type Post = Row<(typeof schema)["tables"]["posts"]>;',
     );
 
     // Reset the mock after the test
@@ -1306,7 +1306,7 @@ describe('getGeneratedSchema', () => {
     expect(generatedSchema).not.toContain(
       'import type { Row } from "@rocicorp/zero";',
     );
-    expect(generatedSchema).not.toContain('Row<typeof schema>["users"]');
+    expect(generatedSchema).not.toContain('Row<');
 
     // Builder should still be present
     expect(generatedSchema).toContain(
@@ -1358,7 +1358,7 @@ describe('getGeneratedSchema', () => {
       'import type { Row } from "@rocicorp/zero";',
     );
     expect(generatedSchema).toContain(
-      'export type User = Row<typeof schema>["users"];',
+      'export type User = Row<(typeof schema)["tables"]["users"]>;',
     );
   });
 

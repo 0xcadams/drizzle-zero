@@ -517,7 +517,7 @@ export function getGeneratedSchema({
       const tableTypeAlias = zeroSchemaGenerated.addTypeAlias({
         name: typeName,
         isExported: true,
-        type: `Row<typeof ${schemaObjectName}>["${tableName}"]`,
+        type: `Row<(typeof ${schemaObjectName})["tables"]["${tableName}"]>`,
       });
 
       tableTypeAlias.addJsDoc({
