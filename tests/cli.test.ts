@@ -329,7 +329,9 @@ describe('getGeneratedSchema', () => {
     expect(generatedSchema).toContain('export type Schema = typeof schema;');
 
     // Check for the type exports
-    expect(generatedSchema).toContain('export type User = Row<typeof schema>["users"];');
+    expect(generatedSchema).toContain(
+      'export type User = Row<typeof schema>["users"];',
+    );
 
     // Verify null custom type handling with the correct type path
     const customTypeSchema = {
@@ -1103,8 +1105,12 @@ describe('getGeneratedSchema', () => {
     });
 
     // Check for table type exports with proper capitalization
-    expect(generatedSchema).toContain('export type User = Row<typeof schema>["users"];');
-    expect(generatedSchema).toContain('export type Post = Row<typeof schema>["posts"];');
+    expect(generatedSchema).toContain(
+      'export type User = Row<typeof schema>["users"];',
+    );
+    expect(generatedSchema).toContain(
+      'export type Post = Row<typeof schema>["posts"];',
+    );
   });
 
   it('should handle table names with various casing correctly', () => {
@@ -1157,7 +1163,9 @@ describe('getGeneratedSchema', () => {
     expect(generatedSchema).toContain(
       'export type BlogPost = Row<typeof schema>["blog_posts"];',
     );
-    expect(generatedSchema).toContain('export type User = Row<typeof schema>["user"];');
+    expect(generatedSchema).toContain(
+      'export type User = Row<typeof schema>["user"];',
+    );
   });
 
   it('should include all new features in drizzle-kit type schemas', () => {
@@ -1216,8 +1224,12 @@ describe('getGeneratedSchema', () => {
     );
 
     // Check for table type exports
-    expect(generatedSchema).toContain('export type User = Row<typeof schema>["users"];');
-    expect(generatedSchema).toContain('export type Post = Row<typeof schema>["posts"];');
+    expect(generatedSchema).toContain(
+      'export type User = Row<typeof schema>["users"];',
+    );
+    expect(generatedSchema).toContain(
+      'export type Post = Row<typeof schema>["posts"];',
+    );
 
     // Reset the mock after the test
     vi.restoreAllMocks();
@@ -1345,7 +1357,9 @@ describe('getGeneratedSchema', () => {
     expect(generatedSchema).toContain(
       'import type { Row } from "@rocicorp/zero";',
     );
-    expect(generatedSchema).toContain('export type User = Row<typeof schema>["users"];');
+    expect(generatedSchema).toContain(
+      'export type User = Row<typeof schema>["users"];',
+    );
   });
 
   it('should set enableLegacyMutators to true', () => {
