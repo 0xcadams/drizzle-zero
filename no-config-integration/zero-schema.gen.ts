@@ -9063,633 +9063,467 @@ export type Schema = typeof schema;
 /**
  * Represents a row from the "allTypes" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["allTypes"] instead from "@rocicorp/zero".
  */
-export type AllType = Row['allTypes'];
+export type AllType = Row<typeof schema>['allTypes'];
 /**
  * Represents a row from the "analyticsDashboard" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["analyticsDashboard"] instead from "@rocicorp/zero".
  */
-export type AnalyticsDashboard = Row['analyticsDashboard'];
+export type AnalyticsDashboard = Row<typeof schema>['analyticsDashboard'];
 /**
  * Represents a row from the "analyticsWidget" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["analyticsWidget"] instead from "@rocicorp/zero".
  */
-export type AnalyticsWidget = Row['analyticsWidget'];
+export type AnalyticsWidget = Row<typeof schema>['analyticsWidget'];
 /**
  * Represents a row from the "analyticsWidgetQuery" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["analyticsWidgetQuery"] instead from "@rocicorp/zero".
  */
-export type AnalyticsWidgetQuery = Row['analyticsWidgetQuery'];
+export type AnalyticsWidgetQuery = Row<typeof schema>['analyticsWidgetQuery'];
 /**
  * Represents a row from the "benefitEnrollment" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["benefitEnrollment"] instead from "@rocicorp/zero".
  */
-export type BenefitEnrollment = Row['benefitEnrollment'];
+export type BenefitEnrollment = Row<typeof schema>['benefitEnrollment'];
 /**
  * Represents a row from the "benefitPlan" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["benefitPlan"] instead from "@rocicorp/zero".
  */
-export type BenefitPlan = Row['benefitPlan'];
+export type BenefitPlan = Row<typeof schema>['benefitPlan'];
 /**
  * Represents a row from the "billingInvoice" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["billingInvoice"] instead from "@rocicorp/zero".
  */
-export type BillingInvoice = Row['billingInvoice'];
+export type BillingInvoice = Row<typeof schema>['billingInvoice'];
 /**
  * Represents a row from the "billingInvoiceLine" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["billingInvoiceLine"] instead from "@rocicorp/zero".
  */
-export type BillingInvoiceLine = Row['billingInvoiceLine'];
+export type BillingInvoiceLine = Row<typeof schema>['billingInvoiceLine'];
 /**
  * Represents a row from the "budget" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["budget"] instead from "@rocicorp/zero".
  */
-export type Budget = Row['budget'];
+export type Budget = Row<typeof schema>['budget'];
 /**
  * Represents a row from the "budgetLine" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["budgetLine"] instead from "@rocicorp/zero".
  */
-export type BudgetLine = Row['budgetLine'];
+export type BudgetLine = Row<typeof schema>['budgetLine'];
 /**
  * Represents a row from the "crmAccount" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["crmAccount"] instead from "@rocicorp/zero".
  */
-export type CrmAccount = Row['crmAccount'];
+export type CrmAccount = Row<typeof schema>['crmAccount'];
 /**
  * Represents a row from the "crmActivity" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["crmActivity"] instead from "@rocicorp/zero".
  */
-export type CrmActivity = Row['crmActivity'];
+export type CrmActivity = Row<typeof schema>['crmActivity'];
 /**
  * Represents a row from the "crmActivityType" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["crmActivityType"] instead from "@rocicorp/zero".
  */
-export type CrmActivityType = Row['crmActivityType'];
+export type CrmActivityType = Row<typeof schema>['crmActivityType'];
 /**
  * Represents a row from the "crmContact" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["crmContact"] instead from "@rocicorp/zero".
  */
-export type CrmContact = Row['crmContact'];
+export type CrmContact = Row<typeof schema>['crmContact'];
 /**
  * Represents a row from the "crmNote" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["crmNote"] instead from "@rocicorp/zero".
  */
-export type CrmNote = Row['crmNote'];
+export type CrmNote = Row<typeof schema>['crmNote'];
 /**
  * Represents a row from the "crmOpportunity" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["crmOpportunity"] instead from "@rocicorp/zero".
  */
-export type CrmOpportunity = Row['crmOpportunity'];
+export type CrmOpportunity = Row<typeof schema>['crmOpportunity'];
 /**
  * Represents a row from the "crmOpportunityStageHistory" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["crmOpportunityStageHistory"] instead from "@rocicorp/zero".
  */
-export type CrmOpportunityStageHistory = Row['crmOpportunityStageHistory'];
+export type CrmOpportunityStageHistory = Row<
+  typeof schema
+>['crmOpportunityStageHistory'];
 /**
  * Represents a row from the "crmPipelineStage" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["crmPipelineStage"] instead from "@rocicorp/zero".
  */
-export type CrmPipelineStage = Row['crmPipelineStage'];
+export type CrmPipelineStage = Row<typeof schema>['crmPipelineStage'];
 /**
  * Represents a row from the "department" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["department"] instead from "@rocicorp/zero".
  */
-export type Department = Row['department'];
+export type Department = Row<typeof schema>['department'];
 /**
  * Represents a row from the "documentFile" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["documentFile"] instead from "@rocicorp/zero".
  */
-export type DocumentFile = Row['documentFile'];
+export type DocumentFile = Row<typeof schema>['documentFile'];
 /**
  * Represents a row from the "documentFileVersion" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["documentFileVersion"] instead from "@rocicorp/zero".
  */
-export type DocumentFileVersion = Row['documentFileVersion'];
+export type DocumentFileVersion = Row<typeof schema>['documentFileVersion'];
 /**
  * Represents a row from the "documentFolder" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["documentFolder"] instead from "@rocicorp/zero".
  */
-export type DocumentFolder = Row['documentFolder'];
+export type DocumentFolder = Row<typeof schema>['documentFolder'];
 /**
  * Represents a row from the "documentLibrary" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["documentLibrary"] instead from "@rocicorp/zero".
  */
-export type DocumentLibrary = Row['documentLibrary'];
+export type DocumentLibrary = Row<typeof schema>['documentLibrary'];
 /**
  * Represents a row from the "documentSharing" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["documentSharing"] instead from "@rocicorp/zero".
  */
-export type DocumentSharing = Row['documentSharing'];
+export type DocumentSharing = Row<typeof schema>['documentSharing'];
 /**
  * Represents a row from the "employeeDocument" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["employeeDocument"] instead from "@rocicorp/zero".
  */
-export type EmployeeDocument = Row['employeeDocument'];
+export type EmployeeDocument = Row<typeof schema>['employeeDocument'];
 /**
  * Represents a row from the "employeeProfile" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["employeeProfile"] instead from "@rocicorp/zero".
  */
-export type EmployeeProfile = Row['employeeProfile'];
+export type EmployeeProfile = Row<typeof schema>['employeeProfile'];
 /**
  * Represents a row from the "employmentHistory" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["employmentHistory"] instead from "@rocicorp/zero".
  */
-export type EmploymentHistory = Row['employmentHistory'];
+export type EmploymentHistory = Row<typeof schema>['employmentHistory'];
 /**
  * Represents a row from the "expenseItem" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["expenseItem"] instead from "@rocicorp/zero".
  */
-export type ExpenseItem = Row['expenseItem'];
+export type ExpenseItem = Row<typeof schema>['expenseItem'];
 /**
  * Represents a row from the "expenseReport" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["expenseReport"] instead from "@rocicorp/zero".
  */
-export type ExpenseReport = Row['expenseReport'];
+export type ExpenseReport = Row<typeof schema>['expenseReport'];
 /**
  * Represents a row from the "featureFlag" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["featureFlag"] instead from "@rocicorp/zero".
  */
-export type FeatureFlag = Row['featureFlag'];
+export type FeatureFlag = Row<typeof schema>['featureFlag'];
 /**
  * Represents a row from the "filters" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["filters"] instead from "@rocicorp/zero".
  */
-export type Filter = Row['filters'];
+export type Filter = Row<typeof schema>['filters'];
 /**
  * Represents a row from the "friendship" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["friendship"] instead from "@rocicorp/zero".
  */
-export type Friendship = Row['friendship'];
+export type Friendship = Row<typeof schema>['friendship'];
 /**
  * Represents a row from the "integrationCredential" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["integrationCredential"] instead from "@rocicorp/zero".
  */
-export type IntegrationCredential = Row['integrationCredential'];
+export type IntegrationCredential = Row<typeof schema>['integrationCredential'];
 /**
  * Represents a row from the "integrationEvent" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["integrationEvent"] instead from "@rocicorp/zero".
  */
-export type IntegrationEvent = Row['integrationEvent'];
+export type IntegrationEvent = Row<typeof schema>['integrationEvent'];
 /**
  * Represents a row from the "integrationWebhook" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["integrationWebhook"] instead from "@rocicorp/zero".
  */
-export type IntegrationWebhook = Row['integrationWebhook'];
+export type IntegrationWebhook = Row<typeof schema>['integrationWebhook'];
 /**
  * Represents a row from the "inventoryItem" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["inventoryItem"] instead from "@rocicorp/zero".
  */
-export type InventoryItem = Row['inventoryItem'];
+export type InventoryItem = Row<typeof schema>['inventoryItem'];
 /**
  * Represents a row from the "inventoryLevel" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["inventoryLevel"] instead from "@rocicorp/zero".
  */
-export type InventoryLevel = Row['inventoryLevel'];
+export type InventoryLevel = Row<typeof schema>['inventoryLevel'];
 /**
  * Represents a row from the "inventoryLocation" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["inventoryLocation"] instead from "@rocicorp/zero".
  */
-export type InventoryLocation = Row['inventoryLocation'];
+export type InventoryLocation = Row<typeof schema>['inventoryLocation'];
 /**
  * Represents a row from the "ledgerAccount" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["ledgerAccount"] instead from "@rocicorp/zero".
  */
-export type LedgerAccount = Row['ledgerAccount'];
+export type LedgerAccount = Row<typeof schema>['ledgerAccount'];
 /**
  * Represents a row from the "ledgerEntry" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["ledgerEntry"] instead from "@rocicorp/zero".
  */
-export type LedgerEntry = Row['ledgerEntry'];
+export type LedgerEntry = Row<typeof schema>['ledgerEntry'];
 /**
  * Represents a row from the "ledgerTransaction" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["ledgerTransaction"] instead from "@rocicorp/zero".
  */
-export type LedgerTransaction = Row['ledgerTransaction'];
+export type LedgerTransaction = Row<typeof schema>['ledgerTransaction'];
 /**
  * Represents a row from the "marketingAudience" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["marketingAudience"] instead from "@rocicorp/zero".
  */
-export type MarketingAudience = Row['marketingAudience'];
+export type MarketingAudience = Row<typeof schema>['marketingAudience'];
 /**
  * Represents a row from the "marketingCampaign" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["marketingCampaign"] instead from "@rocicorp/zero".
  */
-export type MarketingCampaign = Row['marketingCampaign'];
+export type MarketingCampaign = Row<typeof schema>['marketingCampaign'];
 /**
  * Represents a row from the "marketingCampaignAudience" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["marketingCampaignAudience"] instead from "@rocicorp/zero".
  */
-export type MarketingCampaignAudience = Row['marketingCampaignAudience'];
+export type MarketingCampaignAudience = Row<
+  typeof schema
+>['marketingCampaignAudience'];
 /**
  * Represents a row from the "marketingCampaignChannel" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["marketingCampaignChannel"] instead from "@rocicorp/zero".
  */
-export type MarketingCampaignChannel = Row['marketingCampaignChannel'];
+export type MarketingCampaignChannel = Row<
+  typeof schema
+>['marketingCampaignChannel'];
 /**
  * Represents a row from the "marketingChannel" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["marketingChannel"] instead from "@rocicorp/zero".
  */
-export type MarketingChannel = Row['marketingChannel'];
+export type MarketingChannel = Row<typeof schema>['marketingChannel'];
 /**
  * Represents a row from the "medium" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["medium"] instead from "@rocicorp/zero".
  */
-export type Medium = Row['medium'];
+export type Medium = Row<typeof schema>['medium'];
 /**
  * Represents a row from the "message" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["message"] instead from "@rocicorp/zero".
  */
-export type Message = Row['message'];
+export type Message = Row<typeof schema>['message'];
 /**
  * Represents a row from the "omittedTable" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["omittedTable"] instead from "@rocicorp/zero".
  */
-export type OmittedTable = Row['omittedTable'];
+export type OmittedTable = Row<typeof schema>['omittedTable'];
 /**
  * Represents a row from the "orderItem" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["orderItem"] instead from "@rocicorp/zero".
  */
-export type OrderItem = Row['orderItem'];
+export type OrderItem = Row<typeof schema>['orderItem'];
 /**
  * Represents a row from the "orderPayment" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["orderPayment"] instead from "@rocicorp/zero".
  */
-export type OrderPayment = Row['orderPayment'];
+export type OrderPayment = Row<typeof schema>['orderPayment'];
 /**
  * Represents a row from the "orderTable" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["orderTable"] instead from "@rocicorp/zero".
  */
-export type OrderTable = Row['orderTable'];
+export type OrderTable = Row<typeof schema>['orderTable'];
 /**
  * Represents a row from the "payment" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["payment"] instead from "@rocicorp/zero".
  */
-export type Payment = Row['payment'];
+export type Payment = Row<typeof schema>['payment'];
 /**
  * Represents a row from the "product" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["product"] instead from "@rocicorp/zero".
  */
-export type Product = Row['product'];
+export type Product = Row<typeof schema>['product'];
 /**
  * Represents a row from the "productCategory" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["productCategory"] instead from "@rocicorp/zero".
  */
-export type ProductCategory = Row['productCategory'];
+export type ProductCategory = Row<typeof schema>['productCategory'];
 /**
  * Represents a row from the "productMedia" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["productMedia"] instead from "@rocicorp/zero".
  */
-export type ProductMedia = Row['productMedia'];
+export type ProductMedia = Row<typeof schema>['productMedia'];
 /**
  * Represents a row from the "productVariant" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["productVariant"] instead from "@rocicorp/zero".
  */
-export type ProductVariant = Row['productVariant'];
+export type ProductVariant = Row<typeof schema>['productVariant'];
 /**
  * Represents a row from the "project" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["project"] instead from "@rocicorp/zero".
  */
-export type Project = Row['project'];
+export type Project = Row<typeof schema>['project'];
 /**
  * Represents a row from the "projectAssignment" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["projectAssignment"] instead from "@rocicorp/zero".
  */
-export type ProjectAssignment = Row['projectAssignment'];
+export type ProjectAssignment = Row<typeof schema>['projectAssignment'];
 /**
  * Represents a row from the "projectAttachment" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["projectAttachment"] instead from "@rocicorp/zero".
  */
-export type ProjectAttachment = Row['projectAttachment'];
+export type ProjectAttachment = Row<typeof schema>['projectAttachment'];
 /**
  * Represents a row from the "projectAudit" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["projectAudit"] instead from "@rocicorp/zero".
  */
-export type ProjectAudit = Row['projectAudit'];
+export type ProjectAudit = Row<typeof schema>['projectAudit'];
 /**
  * Represents a row from the "projectComment" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["projectComment"] instead from "@rocicorp/zero".
  */
-export type ProjectComment = Row['projectComment'];
+export type ProjectComment = Row<typeof schema>['projectComment'];
 /**
  * Represents a row from the "projectNote" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["projectNote"] instead from "@rocicorp/zero".
  */
-export type ProjectNote = Row['projectNote'];
+export type ProjectNote = Row<typeof schema>['projectNote'];
 /**
  * Represents a row from the "projectPhase" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["projectPhase"] instead from "@rocicorp/zero".
  */
-export type ProjectPhase = Row['projectPhase'];
+export type ProjectPhase = Row<typeof schema>['projectPhase'];
 /**
  * Represents a row from the "projectTag" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["projectTag"] instead from "@rocicorp/zero".
  */
-export type ProjectTag = Row['projectTag'];
+export type ProjectTag = Row<typeof schema>['projectTag'];
 /**
  * Represents a row from the "projectTask" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["projectTask"] instead from "@rocicorp/zero".
  */
-export type ProjectTask = Row['projectTask'];
+export type ProjectTask = Row<typeof schema>['projectTask'];
 /**
  * Represents a row from the "projectTaskTag" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["projectTaskTag"] instead from "@rocicorp/zero".
  */
-export type ProjectTaskTag = Row['projectTaskTag'];
+export type ProjectTaskTag = Row<typeof schema>['projectTaskTag'];
 /**
  * Represents a row from the "shipment" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["shipment"] instead from "@rocicorp/zero".
  */
-export type Shipment = Row['shipment'];
+export type Shipment = Row<typeof schema>['shipment'];
 /**
  * Represents a row from the "shipmentItem" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["shipmentItem"] instead from "@rocicorp/zero".
  */
-export type ShipmentItem = Row['shipmentItem'];
+export type ShipmentItem = Row<typeof schema>['shipmentItem'];
 /**
  * Represents a row from the "supportTicket" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["supportTicket"] instead from "@rocicorp/zero".
  */
-export type SupportTicket = Row['supportTicket'];
+export type SupportTicket = Row<typeof schema>['supportTicket'];
 /**
  * Represents a row from the "supportTicketAssignment" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["supportTicketAssignment"] instead from "@rocicorp/zero".
  */
-export type SupportTicketAssignment = Row['supportTicketAssignment'];
+export type SupportTicketAssignment = Row<
+  typeof schema
+>['supportTicketAssignment'];
 /**
  * Represents a row from the "supportTicketAudit" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["supportTicketAudit"] instead from "@rocicorp/zero".
  */
-export type SupportTicketAudit = Row['supportTicketAudit'];
+export type SupportTicketAudit = Row<typeof schema>['supportTicketAudit'];
 /**
  * Represents a row from the "supportTicketMessage" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["supportTicketMessage"] instead from "@rocicorp/zero".
  */
-export type SupportTicketMessage = Row['supportTicketMessage'];
+export type SupportTicketMessage = Row<typeof schema>['supportTicketMessage'];
 /**
  * Represents a row from the "supportTicketTag" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["supportTicketTag"] instead from "@rocicorp/zero".
  */
-export type SupportTicketTag = Row['supportTicketTag'];
+export type SupportTicketTag = Row<typeof schema>['supportTicketTag'];
 /**
  * Represents a row from the "supportTicketTagLink" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["supportTicketTagLink"] instead from "@rocicorp/zero".
  */
-export type SupportTicketTagLink = Row['supportTicketTagLink'];
+export type SupportTicketTagLink = Row<typeof schema>['supportTicketTagLink'];
 /**
  * Represents a row from the "team" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["team"] instead from "@rocicorp/zero".
  */
-export type Team = Row['team'];
+export type Team = Row<typeof schema>['team'];
 /**
  * Represents a row from the "telemetryRollup" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["telemetryRollup"] instead from "@rocicorp/zero".
  */
-export type TelemetryRollup = Row['telemetryRollup'];
+export type TelemetryRollup = Row<typeof schema>['telemetryRollup'];
 /**
  * Represents a row from the "testBigSerialPk" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["testBigSerialPk"] instead from "@rocicorp/zero".
  */
-export type TestBigSerialPk = Row['testBigSerialPk'];
+export type TestBigSerialPk = Row<typeof schema>['testBigSerialPk'];
 /**
  * Represents a row from the "testCompositePkBothDefaults" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["testCompositePkBothDefaults"] instead from "@rocicorp/zero".
  */
-export type TestCompositePkBothDefault = Row['testCompositePkBothDefaults'];
+export type TestCompositePkBothDefault = Row<
+  typeof schema
+>['testCompositePkBothDefaults'];
 /**
  * Represents a row from the "testCompositePkOneDefault" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["testCompositePkOneDefault"] instead from "@rocicorp/zero".
  */
-export type TestCompositePkOneDefault = Row['testCompositePkOneDefault'];
+export type TestCompositePkOneDefault = Row<
+  typeof schema
+>['testCompositePkOneDefault'];
 /**
  * Represents a row from the "testIntegerDefaultPk" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["testIntegerDefaultPk"] instead from "@rocicorp/zero".
  */
-export type TestIntegerDefaultPk = Row['testIntegerDefaultPk'];
+export type TestIntegerDefaultPk = Row<typeof schema>['testIntegerDefaultPk'];
 /**
  * Represents a row from the "testSerialPk" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["testSerialPk"] instead from "@rocicorp/zero".
  */
-export type TestSerialPk = Row['testSerialPk'];
+export type TestSerialPk = Row<typeof schema>['testSerialPk'];
 /**
  * Represents a row from the "testTextDefaultPk" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["testTextDefaultPk"] instead from "@rocicorp/zero".
  */
-export type TestTextDefaultPk = Row['testTextDefaultPk'];
+export type TestTextDefaultPk = Row<typeof schema>['testTextDefaultPk'];
 /**
  * Represents a row from the "testTimestampDefaultPk" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["testTimestampDefaultPk"] instead from "@rocicorp/zero".
  */
-export type TestTimestampDefaultPk = Row['testTimestampDefaultPk'];
+export type TestTimestampDefaultPk = Row<
+  typeof schema
+>['testTimestampDefaultPk'];
 /**
  * Represents a row from the "testUuidPk" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["testUuidPk"] instead from "@rocicorp/zero".
  */
-export type TestUuidPk = Row['testUuidPk'];
+export type TestUuidPk = Row<typeof schema>['testUuidPk'];
 /**
  * Represents a row from the "testUuidSqlDefaultPk" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["testUuidSqlDefaultPk"] instead from "@rocicorp/zero".
  */
-export type TestUuidSqlDefaultPk = Row['testUuidSqlDefaultPk'];
+export type TestUuidSqlDefaultPk = Row<typeof schema>['testUuidSqlDefaultPk'];
 /**
  * Represents a row from the "timeEntry" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["timeEntry"] instead from "@rocicorp/zero".
  */
-export type TimeEntry = Row['timeEntry'];
+export type TimeEntry = Row<typeof schema>['timeEntry'];
 /**
  * Represents a row from the "timesheet" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["timesheet"] instead from "@rocicorp/zero".
  */
-export type Timesheet = Row['timesheet'];
+export type Timesheet = Row<typeof schema>['timesheet'];
 /**
  * Represents a row from the "user" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["user"] instead from "@rocicorp/zero".
  */
-export type User = Row['user'];
+export type User = Row<typeof schema>['user'];
 /**
  * Represents a row from the "webhookSubscription" table.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use Row["webhookSubscription"] instead from "@rocicorp/zero".
  */
-export type WebhookSubscription = Row['webhookSubscription'];
+export type WebhookSubscription = Row<typeof schema>['webhookSubscription'];
 
 /**
  * Represents the ZQL query builder.
@@ -9699,8 +9533,6 @@ export const zql = createBuilder(schema);
 /**
  * Represents the Zero schema query builder.
  * This type is auto-generated from your Drizzle schema definition.
- *
- * @deprecated Use `zql` instead.
  */
 export const builder = zql;
 
