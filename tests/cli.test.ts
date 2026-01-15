@@ -171,8 +171,6 @@ describe('getGeneratedSchema', () => {
       /**
        * Represents a row from the "users" table.
        * This type is auto-generated from your Drizzle schema definition.
-       *
-       * @deprecated Use Row["users"] instead from "@rocicorp/zero".
        */
       export type User = Row["users"];
 
@@ -184,8 +182,6 @@ describe('getGeneratedSchema', () => {
       /**
        * Represents the Zero schema query builder.
        * This type is auto-generated from your Drizzle schema definition.
-       *
-       * @deprecated Use \`zql\` instead.
        */
       export const builder = zql;
 
