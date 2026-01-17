@@ -328,7 +328,7 @@ const drizzleZeroConfig = <
      * ```ts
      * { suppressDefaultsWarning: true }
      * ```
-     * @see https://github.com/rocicorp/drizzle-zero/issues/197
+     * @see https://bugs.rocicorp.dev/p/zero/issue/3465
      */
     readonly suppressDefaultsWarning?: boolean;
   },

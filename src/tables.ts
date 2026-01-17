@@ -320,7 +320,7 @@ const createZeroTableBuilder = <
           warnedServerDefaults.add(warningKey);
 
           console.warn(
-            `⚠️ drizzle-zero: Column ${actualTableName}.${resolvedColumnName} uses a database default that the Zero client will not be able to use. This probably won't work the way you expect. Set the value with mutators instead. See: https://github.com/rocicorp/drizzle-zero/issues/197`,
+            `⚠️ drizzle-zero: Column ${actualTableName}.${resolvedColumnName} uses a database default that the Zero client will not be able to use. This probably won't work the way you expect. Set the value with mutators instead. See: https://bugs.rocicorp.dev/p/zero/issue/3465`,
           );
         }
       }
