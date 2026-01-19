@@ -357,7 +357,7 @@ describe('types', () => {
     expect(result?.enumArray).toStrictEqual(['pending', 'active']);
 
     const dbResult = await db.query.allTypes.findFirst({
-      where: (table, {eq}) => eq(table.id, '1011'),
+      where: {id: '1011'},
     });
 
     expect(dbResult?.id).toStrictEqual('1011');

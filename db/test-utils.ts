@@ -116,6 +116,7 @@ let zeroContainer: StartedTestContainer | null = null;
 export const db = drizzle({
   client: pool,
   schema: drizzleSchema,
+  relations: drizzleSchema.relations,
 });
 
 export const seed = async () => {
