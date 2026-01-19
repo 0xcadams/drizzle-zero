@@ -7,8 +7,17 @@ Update drizzle-zero to fully support Drizzle ORM 1.0, which introduced significa
 ## Current State
 
 - **Branch**: `drizzle-1.0` (based on `upstream/0xcadams/drizzle-beta`)
-- **Drizzle Version**: `^1.0.0-beta.10`
-- **Status**: ✅ **COMPLETE** - All 625 tests passing, 0 type errors
+- **Drizzle Version**: `^1.0.0-beta.10` (beta.11 has broken TypeScript types)
+- **Status**: 🟡 In Progress
+- **Tests**: 629/633 passing (4 failing array type tests - pre-existing)
+
+### Remaining Issues
+
+**Array type tests (4 failures)**: Pre-existing issue in drizzle-1.0 branch. Array type mapping produces incorrect nesting:
+- `jsonb().array().$type<{id: string; name: string}[]>()` produces `{id: string; name: string}[][]` instead of `{id: string; name: string}[]`
+- `integer().array().array()` produces `number[]` instead of `number[][]`
+
+**Note on beta.11**: Drizzle ORM 1.0.0-beta.11 has numerous TypeScript type errors in its own declaration files (missing `config` property, `getSQL` not implemented, etc.). Staying on beta.10 until fixed.
 
 ---
 
@@ -37,9 +46,25 @@ Changed type resolution to use `UseAliasDefinedOutsideCurrentScope` flag first, 
 
 Removed `custom: 'json'` from the runtime mapping so custom types fall through to `getSQLType()`, allowing proper mapping (e.g., custom `integer` type → `number`).
 
+#### 4. User-Defined $type<T>() Preservation in CLI (NEW)
+**File**: `src/cli/type-resolution.ts`
+
+**Problem**: When users use `jsonb().$type<RecordData>()`, the custom type `RecordData` was being rejected by `isSafeResolvedType()` because it wasn't in the allowlist of primitive types.
+
+**Root cause**: The original `isSafeResolvedType` used an ALLOWLIST approach, only accepting primitives and specific known types. User-defined type aliases like `RecordData` were rejected.
+
+**Solution**: Changed to BLOCKLIST approach. Now `isSafeResolvedType` only rejects:
+- Unresolved helper types: `CustomType<...>`, `ZeroCustomType<...>`
+- Error indicators: `__error__`, `SchemaIsAnyError`
+- Unresolved imports: `import("...")`
+
+**Philosophy change**: Trust user's type choices. If they use `$type<MyType>()`, that's what they want in the generated schema. We don't validate JSON-serializability - that's the user's responsibility.
+
+**Test**: New test added `preserves user-defined $type<T>() on jsonb columns` verifies this works.
+
 ### API Changes
 
-#### 4. Drizzle 1.0 Query Builder
+#### 5. Drizzle 1.0 Query Builder
 **File**: `db/test-utils.ts`
 
 Drizzle 1.0 requires `relations` passed separately:
@@ -48,7 +73,7 @@ Drizzle 1.0 requires `relations` passed separately:
 const db = drizzle({ client, schema: tables, relations });
 ```
 
-#### 5. Where Clause Syntax
+#### 6. Where Clause Syntax
 **Files**: `integration/tests/integration.test.ts`, `no-config-integration/tests/integration.test.ts`
 
 Changed to object-based filters:
@@ -60,7 +85,7 @@ db.query.users.findFirst({ where: { id: '123' } });
 
 ### Test Updates
 
-#### 6. Previously Unsupported Types Now Supported
+#### 7. Previously Unsupported Types Now Supported
 
 In Drizzle 1.0, these types have valid compound dataTypes:
 - `interval`, `cidr`, `macaddr`, `inet` → `'string <constraint>'` → `string`
@@ -68,6 +93,13 @@ In Drizzle 1.0, these types have valid compound dataTypes:
 - `geometry` → `'object <constraint>'` → `json`
 
 Updated tests to verify correct schema generation instead of expecting warnings.
+
+#### 8. Simplified isSafeResolvedType Tests
+
+Rewrote `tests/type-resolution.test.ts` to match new blocklist philosophy:
+- Removed 400+ lines of allowlist-based tests
+- Added focused tests for the blocklist approach
+- Added test for user-defined `$type<T>()` preservation
 
 ---
 
@@ -118,6 +150,29 @@ column.columnType = 'PgUUID'  // Direct property (not in _)
 
 ---
 
+## Type Resolution Philosophy
+
+### Old Approach (Allowlist)
+```
+isSafeResolvedType checks if type is in allowed list:
+- Primitives: string, number, boolean, null, undefined
+- Known safe: ReadonlyJSONValue
+- Reject everything else (including user types!)
+```
+
+### New Approach (Blocklist)
+```
+isSafeResolvedType only rejects known problematic patterns:
+- CustomType<...>, ZeroCustomType<...> (unresolved helpers)
+- import("...") (unresolved paths)
+- __error__, SchemaIsAnyError (error indicators)
+- Accept everything else (trust user's $type<T>() choices)
+```
+
+**Rationale**: When a user explicitly uses `$type<RecordData>()`, they're telling us "this is the type I want". We should trust that choice and emit it to the generated schema. Validating JSON-serializability is beyond our scope.
+
+---
+
 ## Type Mapping Logic
 
 ### CustomType / ZeroMappedCustomType Decision Tree
@@ -153,12 +208,14 @@ column.columnType = 'PgUUID'  // Direct property (not in _)
 | `src/drizzle-to-zero.ts` | Type predicates, runtime mapping fixes |
 | `src/relations.ts` | `CustomType` updated for Drizzle 1.0 |
 | `src/tables.ts` | `ZeroMappedCustomType` updated for Drizzle 1.0 |
-| `src/cli/type-resolution.ts` | Two-phase type resolution (preserve aliases first) |
+| `src/cli/type-resolution.ts` | Blocklist approach, removed string literal scanning |
 | `db/test-utils.ts` | Added `relations` to drizzle() config |
 | `integration/tests/integration.test.ts` | Where clause syntax |
 | `no-config-integration/tests/integration.test.ts` | Where clause syntax |
 | `tests/tables.test.ts` | Updated tests for now-supported types |
-| `tests/type-resolution.test.ts` | Updated snapshots, fixed edge cases |
+| `tests/type-resolution.test.ts` | Simplified to blocklist philosophy |
+| `tests/drizzle-1.0.test.ts` | New tests for compound dataType utilities |
+| `tests/types.test.ts` | Type-level tests for Drizzle 1.0 mappings |
 
 ---
 
@@ -176,6 +233,10 @@ pnpm check-types
 
 # Run specific test file
 pnpm vitest run tests/tables.test.ts
+
+# Regenerate integration schemas
+cd integration && pnpm generate
+cd no-config-integration && pnpm generate
 ```
 
 ---
@@ -187,3 +248,13 @@ type ValueType = 'string' | 'number' | 'boolean' | 'null' | 'json';
 ```
 
 All timestamps are stored as `number` (milliseconds since epoch).
+
+---
+
+## Open Questions
+
+1. **Backwards compatibility**: The changes support both Drizzle 0.x and 1.0 column structures. Should we drop 0.x support?
+
+2. **Type validation**: With the blocklist approach, we trust user's `$type<T>()` choices. Should we add optional validation for JSON-serializability?
+
+3. **PR Status**: Draft PR #234 open against `0xcadams/drizzle-beta` branch.

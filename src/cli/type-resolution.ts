@@ -255,6 +255,12 @@ function buildObjectLiteralFromType(
   }
 }
 
+/**
+ * Set of identifiers that are allowed in resolved types.
+ * Only lowercase primitive types are allowed - any PascalCase identifier
+ * (like Date, Map, custom interfaces) will cause the type to be rejected,
+ * falling back to the ZeroCustomType helper for runtime resolution.
+ */
 const allowedTypeIdentifiers = new Set<string>([
   'boolean',
   'number',
@@ -266,131 +272,30 @@ const allowedTypeIdentifiers = new Set<string>([
 ]);
 
 /**
- * Build a set of character index ranges that are inside string literals.
- * This handles single quotes, double quotes, and template literals.
- * For template literals (backticks), ${...} interpolations are NOT marked as
- * string content, but nested string literals inside interpolations ARE scanned.
+ * Check if a resolved type is safe to include in the generated schema.
+ *
+ * This function uses an ALLOWLIST approach - only primitive types and
+ * simple structures built from them are accepted. Any PascalCase identifiers
+ * (like Date, Map, user-defined types) cause rejection.
+ *
+ * When a type is rejected, the schema generator falls back to using the
+ * ZeroCustomType<typeof drizzleSchema, "table", "col"> helper, which
+ * resolves the type at compile time by referencing the Drizzle schema.
+ *
+ * This means user-defined $type<RecordData>() DOES work - it just uses
+ * the ZeroCustomType helper instead of emitting the type name directly.
  */
-function buildStringLiteralRanges(
-  text: string,
-): Array<{start: number; end: number}> {
-  const ranges: Array<{start: number; end: number}> = [];
-  let i = 0;
-
-  while (i < text.length) {
-    const char = text[i];
-    if (char === '"' || char === "'") {
-      // Single/double quotes: entire content is a string literal
-      const quoteChar = char;
-      const start = i;
-      i++; // move past opening quote
-
-      // Find the closing quote, handling escapes
-      while (i < text.length) {
-        if (text[i] === '\\') {
-          // Skip escaped character
-          i += 2;
-        } else if (text[i] === quoteChar) {
-          // Found closing quote
-          i++; // move past closing quote
-          break;
-        } else {
-          i++;
-        }
-      }
-
-      // Range includes both quotes and everything between
-      ranges.push({start, end: i});
-    } else if (char === '`') {
-      // Template literal: need to handle ${...} interpolations
-      // Only the literal text parts are "inside string", not the interpolations
-      let literalStart = i; // start of current literal part
-      i++; // move past opening backtick
-
-      while (i < text.length) {
-        if (text[i] === '\\') {
-          // Skip escaped character
-          i += 2;
-        } else if (text[i] === '$' && text[i + 1] === '{') {
-          // Start of interpolation - mark the literal part before it (including the backtick)
-          ranges.push({start: literalStart, end: i});
-          // Skip past the ${
-          i += 2;
-          // Scan inside the interpolation for nested string literals
-          let braceDepth = 1;
-          while (i < text.length && braceDepth > 0) {
-            if (text[i] === '{') {
-              braceDepth++;
-              i++;
-            } else if (text[i] === '}') {
-              braceDepth--;
-              if (braceDepth > 0) i++;
-            } else if (text[i] === '"' || text[i] === "'") {
-              // Found a string literal inside the interpolation - scan it
-              const quoteChar = text[i];
-              const stringStart = i;
-              i++; // move past opening quote
-              while (i < text.length) {
-                if (text[i] === '\\') {
-                  i += 2;
-                } else if (text[i] === quoteChar) {
-                  i++;
-                  break;
-                } else {
-                  i++;
-                }
-              }
-              ranges.push({start: stringStart, end: i});
-            } else {
-              i++;
-            }
-          }
-          if (braceDepth === 0) {
-            i++; // move past the closing }
-          }
-          // Start a new literal part after the interpolation
-          literalStart = i;
-        } else if (text[i] === '`') {
-          // End of template literal - mark the final literal part
-          ranges.push({start: literalStart, end: i + 1});
-          i++; // move past closing backtick
-          break;
-        } else {
-          i++;
-        }
-      }
-    } else {
-      i++;
-    }
-  }
-
-  return ranges;
-}
-
-/**
- * Check if an index is inside any of the given string literal ranges.
- */
-function isInsideStringLiteral(
-  index: number,
-  ranges: Array<{start: number; end: number}>,
-): boolean {
-  for (const range of ranges) {
-    if (index > range.start && index < range.end) {
-      return true;
-    }
-  }
-  return false;
-}
-
 export const isSafeResolvedType = (typeText: string | undefined): boolean => {
   if (!typeText) {
     return false;
   }
 
-  if (typeText === 'ReadonlyJSONValue') {
+  // Special case: ReadonlyJSONValue and ReadonlyJSONObject are safe
+  if (typeText === 'ReadonlyJSONValue' || typeText === 'ReadonlyJSONObject') {
     return true;
   }
 
+  // Block known problematic patterns
   if (
     typeText === 'unknown' ||
     typeText === 'any' ||
@@ -405,9 +310,7 @@ export const isSafeResolvedType = (typeText: string | undefined): boolean => {
     return false;
   }
 
-  // Pre-compute string literal ranges to properly detect identifiers inside strings
-  const stringRanges = buildStringLiteralRanges(typeText);
-
+  // Helper to find previous non-whitespace character
   const getPrevNonWhitespace = (index: number) => {
     for (let i = index - 1; i >= 0; i--) {
       const char = typeText[i] ?? '';
@@ -415,10 +318,10 @@ export const isSafeResolvedType = (typeText: string | undefined): boolean => {
         return char;
       }
     }
-
     return '';
   };
 
+  // Helper to find next non-whitespace character
   const getNextNonWhitespace = (index: number) => {
     for (let i = index; i < typeText.length; i++) {
       const char = typeText[i] ?? '';
@@ -426,10 +329,10 @@ export const isSafeResolvedType = (typeText: string | undefined): boolean => {
         return char;
       }
     }
-
     return '';
   };
 
+  // Scan for identifiers and check each one
   const identifierRegex = /\b[A-Za-z_]\w*\b/g;
   const matches = typeText.matchAll(identifierRegex);
 
@@ -440,29 +343,33 @@ export const isSafeResolvedType = (typeText: string | undefined): boolean => {
     const prevChar = getPrevNonWhitespace(startIndex);
     const nextChar = getNextNonWhitespace(endIndex);
 
-    // Skip identifiers that are inside string literals
-    if (isInsideStringLiteral(startIndex, stringRanges)) {
+    // Skip identifiers inside string literals
+    if (prevChar === "'" || prevChar === '"' || prevChar === '`') {
       continue;
     }
 
+    // Skip indexed access patterns like { }_["key"]
     if (/^_+$/.test(identifier) && prevChar === '}') {
       continue;
     }
 
+    // Skip property names (identifier followed by colon)
     if (nextChar === ':') {
       continue;
     }
 
+    // Skip optional property names (identifier followed by ?: )
     if (nextChar === '?' && getNextNonWhitespace(endIndex + 1) === ':') {
       continue;
     }
 
+    // Check if identifier is in allowlist (must be lowercase and allowed)
     const normalized = identifier.toLowerCase();
-
     if (identifier === normalized && allowedTypeIdentifiers.has(normalized)) {
       continue;
     }
 
+    // Any other identifier (PascalCase, unknown lowercase) is not safe
     return false;
   }
 

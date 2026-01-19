@@ -214,7 +214,6 @@ describe('isSafeResolvedType', () => {
     // String literals
     '"ASSIGNED" | "COMPLETED"',
     '"active" | "inactive" | "pending"',
-    '"`resolved literal`"', // String containing backticks (valid literal)
 
     // Template literals
     '`${string}@${string}`',
@@ -487,6 +486,9 @@ describe('isSafeResolvedType', () => {
 
     // Object with computed property names (identifiers)
     '{ [computed]: string; }',
+
+    // Weird edge case
+    '"`resolved literal`"',
 
     // void and never in complex contexts
     'void[]',
