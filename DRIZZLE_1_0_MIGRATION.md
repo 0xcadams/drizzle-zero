@@ -46,21 +46,16 @@ Changed type resolution to use `UseAliasDefinedOutsideCurrentScope` flag first, 
 
 Removed `custom: 'json'` from the runtime mapping so custom types fall through to `getSQLType()`, allowing proper mapping (e.g., custom `integer` type → `number`).
 
-#### 4. User-Defined $type<T>() Preservation in CLI (NEW)
+#### 4. User-Defined $type<T>() via ZeroCustomType Helper
 **File**: `src/cli/type-resolution.ts`
 
-**Problem**: When users use `jsonb().$type<RecordData>()`, the custom type `RecordData` was being rejected by `isSafeResolvedType()` because it wasn't in the allowlist of primitive types.
+**How it works**: When users use `jsonb().$type<RecordData>()`, the type is preserved via the `ZeroCustomType` helper:
+1. `isSafeResolvedType` uses an ALLOWLIST approach (only primitives like `string`, `number`, `boolean`)
+2. User-defined types like `RecordData` are NOT in the allowlist, so they're "rejected"
+3. The schema generator falls back to `ZeroCustomType<typeof drizzleSchema, "table", "col">`
+4. This helper resolves to the correct type at compile time by referencing the Drizzle schema
 
-**Root cause**: The original `isSafeResolvedType` used an ALLOWLIST approach, only accepting primitives and specific known types. User-defined type aliases like `RecordData` were rejected.
-
-**Solution**: Changed to BLOCKLIST approach. Now `isSafeResolvedType` only rejects:
-- Unresolved helper types: `CustomType<...>`, `ZeroCustomType<...>`
-- Error indicators: `__error__`, `SchemaIsAnyError`
-- Unresolved imports: `import("...")`
-
-**Philosophy change**: Trust user's type choices. If they use `$type<MyType>()`, that's what they want in the generated schema. We don't validate JSON-serializability - that's the user's responsibility.
-
-**Test**: New test added `preserves user-defined $type<T>() on jsonb columns` verifies this works.
+**Result**: User's `$type<RecordData>()` IS preserved - just via the helper, not by emitting the type name directly.
 
 ### API Changes
 
@@ -149,27 +144,6 @@ column.columnType = 'PgUUID'  // Direct property (not in _)
 **Drizzle 1.0:** `column._ = { data: T, ... }` (no `$type`, `data` is set directly)
 
 ---
-
-## Type Resolution Philosophy
-
-### Old Approach (Allowlist)
-```
-isSafeResolvedType checks if type is in allowed list:
-- Primitives: string, number, boolean, null, undefined
-- Known safe: ReadonlyJSONValue
-- Reject everything else (including user types!)
-```
-
-### New Approach (Blocklist)
-```
-isSafeResolvedType only rejects known problematic patterns:
-- CustomType<...>, ZeroCustomType<...> (unresolved helpers)
-- import("...") (unresolved paths)
-- __error__, SchemaIsAnyError (error indicators)
-- Accept everything else (trust user's $type<T>() choices)
-```
-
-**Rationale**: When a user explicitly uses `$type<RecordData>()`, they're telling us "this is the type I want". We should trust that choice and emit it to the generated schema. Validating JSON-serializability is beyond our scope.
 
 ---
 
