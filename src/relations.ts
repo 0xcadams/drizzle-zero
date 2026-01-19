@@ -17,6 +17,11 @@ import {
 import type {
   DrizzleColumnTypeToZeroType,
   DrizzleDataTypeToZeroType,
+  IsBigIntDataType,
+  IsExactType,
+  IsStringNumericDataType,
+  IsTimestampDataType,
+  MapDrizzle1DataTypeToZero,
   ZeroTypeToTypescriptType,
 } from './drizzle-to-zero';
 import {
@@ -131,14 +136,19 @@ type SchemaIsAnyError = {
 
 /**
  * Maps a column definition to its Zero type (string, number, boolean, json).
+ * Supports both Drizzle 0.x and 1.0 column structures.
  */
-type DirectZeroType<CD> = CD extends {
-  columnType: keyof DrizzleColumnTypeToZeroType;
-}
-  ? DrizzleColumnTypeToZeroType[CD['columnType']]
-  : CD extends {dataType: keyof DrizzleDataTypeToZeroType}
-    ? DrizzleDataTypeToZeroType[CD['dataType']]
-    : never;
+type DirectZeroType<CD> =
+  // Drizzle 0.x: Check columnType in _ object
+  CD extends {columnType: keyof DrizzleColumnTypeToZeroType}
+    ? DrizzleColumnTypeToZeroType[CD['columnType']]
+    : // Drizzle 0.x: Check simple dataType
+      CD extends {dataType: keyof DrizzleDataTypeToZeroType}
+      ? DrizzleDataTypeToZeroType[CD['dataType']]
+      : // Drizzle 1.0: Handle compound dataType
+        CD extends {dataType: infer DT extends string}
+        ? MapDrizzle1DataTypeToZero<DT>
+        : never;
 
 /**
  * Maps column types to their default TypeScript types when no custom type is specified.
@@ -151,6 +161,10 @@ type DefaultColumnType<CD> =
 /**
  * Direct extraction of the custom type from Drizzle schema. This falls back
  * to the default TypeScript type if no custom type is specified.
+ * Supports both Drizzle 0.x and 1.0 column structures.
+ *
+ * In Drizzle 1.0, $type<T>() sets data: T directly (no $type property).
+ * In Drizzle 0.x, $type<T>() adds $type: T to the _ object.
  *
  * @template DrizzleSchema - The Drizzle schema object (typeof drizzleSchema)
  * @template TableKey - The key of the table in the schema
@@ -164,19 +178,62 @@ type CustomType<
   ? DrizzleSchema[TableKey] extends Table
     ? ColumnKey extends keyof DrizzleSchema[TableKey]
       ? DrizzleSchema[TableKey][ColumnKey] extends {_: infer CD}
-        ? CD extends {columnType: 'PgCustomColumn'; data: infer TData}
-          ? TData
-          : CD extends {columnType: 'PgEnumColumn'; data: infer TData}
+        ? // Drizzle 0.x: Check for $type override in _ object
+          CD extends {$type: infer TType}
+          ? TType
+          : // Drizzle 0.x: PgCustomColumn
+            CD extends {columnType: 'PgCustomColumn'; data: infer TData}
             ? TData
-            : CD extends {columnType: 'PgText'; data: infer TData}
-              ? TData extends string
-                ? TData
-                : string
-              : CD extends {columnType: 'PgArray'; data: infer TArrayData}
-                ? TArrayData
-                : CD extends {$type: infer TType}
-                  ? TType
-                  : DefaultColumnType<CD>
+            : // Drizzle 0.x: PgEnumColumn
+              CD extends {columnType: 'PgEnumColumn'; data: infer TData}
+              ? TData
+              : // Drizzle 0.x: PgText with string literal type
+                CD extends {columnType: 'PgText'; data: infer TData}
+                ? TData extends string
+                  ? TData
+                  : string
+                : // Drizzle 0.x: PgArray
+                  CD extends {columnType: 'PgArray'; data: infer TArrayData}
+                  ? TArrayData
+                  : // Drizzle 1.0: Handle special data types
+                    CD extends {dataType: infer DT extends string; data: infer TData}
+                    ? // Timestamps: return number unless $type<T>() override with non-default type
+                      IsTimestampDataType<DT> extends true
+                      ? // If data is exactly Date or string (defaults), convert to number for Zero
+                        // If data is a branded/custom type (explicit $type override), preserve it
+                        unknown extends TData
+                        ? number
+                        : IsExactType<TData, Date> extends true
+                          ? number
+                          : IsExactType<TData, string> extends true
+                            ? number
+                            : TData
+                      : // Bigints: return number unless $type<T>() override with non-default type
+                        IsBigIntDataType<DT> extends true
+                        ? // If data is exactly bigint (default), convert to number for Zero
+                          unknown extends TData
+                          ? number
+                          : IsExactType<TData, bigint> extends true
+                            ? number
+                            : TData
+                        : // Numerics: return number unless $type<T>() override with non-default type
+                          IsStringNumericDataType<DT> extends true
+                          ? // If data is exactly string (default numeric mode), convert to number for Zero
+                            unknown extends TData
+                            ? number
+                            : IsExactType<TData, string> extends true
+                              ? number
+                              : TData
+                          : // Other types: use data if known, otherwise default
+                            unknown extends TData
+                            ? DefaultColumnType<CD>
+                            : TData
+                    : // Fallback for no dataType
+                      CD extends {data: infer TData}
+                      ? unknown extends TData
+                        ? DefaultColumnType<CD>
+                        : TData
+                      : DefaultColumnType<CD>
         : unknown
       : unknown
     : unknown
