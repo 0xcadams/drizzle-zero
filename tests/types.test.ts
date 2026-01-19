@@ -9,6 +9,8 @@ import {
   customType,
   varchar,
   serial,
+  bigint,
+  numeric,
 } from 'drizzle-orm/pg-core';
 import {describe, expectTypeOf, test} from 'vitest';
 import type {CustomType} from '../src/relations';
@@ -689,5 +691,52 @@ describe('CustomType', () => {
 
     expectTypeOf<ExtractedCreatedAt>().toEqualTypeOf<string>();
     expectTypeOf<ExtractedOptionalDefault>().toEqualTypeOf<string>();
+  });
+});
+
+describe('Drizzle 1.0 type mapping', () => {
+  test('timestamp/bigint/numeric all map to number by default', () => {
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      // Timestamps (all modes)
+      timestampDefault: timestamp('ts_default').notNull(),
+      timestampModeDate: timestamp('ts_date', {mode: 'date'}).notNull(),
+      timestampModeString: timestamp('ts_string', {mode: 'string'}).notNull(),
+      // Bigints (all modes)
+      bigintDefault: bigint('bi_default', {mode: 'bigint'}).notNull(),
+      bigintNumber: bigint('bi_number', {mode: 'number'}).notNull(),
+      // Numerics
+      numericDefault: numeric('num_default').notNull(),
+    });
+
+    const schema = {testTable};
+
+    // All should map to number in Zero
+    expectTypeOf<CustomType<typeof schema, 'testTable', 'timestampDefault'>>().toEqualTypeOf<number>();
+    expectTypeOf<CustomType<typeof schema, 'testTable', 'timestampModeDate'>>().toEqualTypeOf<number>();
+    expectTypeOf<CustomType<typeof schema, 'testTable', 'timestampModeString'>>().toEqualTypeOf<number>();
+    expectTypeOf<CustomType<typeof schema, 'testTable', 'bigintDefault'>>().toEqualTypeOf<number>();
+    expectTypeOf<CustomType<typeof schema, 'testTable', 'bigintNumber'>>().toEqualTypeOf<number>();
+    expectTypeOf<CustomType<typeof schema, 'testTable', 'numericDefault'>>().toEqualTypeOf<number>();
+  });
+
+  test('$type<T>() preserves custom types on timestamp/bigint/numeric', () => {
+    type ISODateString = string & {__brand: 'ISODateString'};
+    type BigIntId = bigint & {__brand: 'BigIntId'};
+    type MoneyString = string & {__brand: 'MoneyString'};
+
+    const testTable = pgTable('test', {
+      id: text('id').primaryKey(),
+      customTimestamp: timestamp('custom_ts').$type<ISODateString>().notNull(),
+      customBigint: bigint('custom_bi', {mode: 'bigint'}).$type<BigIntId>().notNull(),
+      customNumeric: numeric('custom_num').$type<MoneyString>().notNull(),
+    });
+
+    const schema = {testTable};
+
+    // Custom branded types should be preserved
+    expectTypeOf<CustomType<typeof schema, 'testTable', 'customTimestamp'>>().toEqualTypeOf<ISODateString>();
+    expectTypeOf<CustomType<typeof schema, 'testTable', 'customBigint'>>().toEqualTypeOf<BigIntId>();
+    expectTypeOf<CustomType<typeof schema, 'testTable', 'customNumeric'>>().toEqualTypeOf<MoneyString>();
   });
 });
