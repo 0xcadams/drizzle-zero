@@ -214,6 +214,10 @@ const createZeroTableBuilder = <
    * The casing to use for the table name.
    */
   casing?: TCasing,
+  /**
+   * Whether to hide warnings for columns with default values.
+   */
+  suppressDefaultsWarning?: boolean,
 ): ZeroTableBuilder<TTableName, TTable, TColumnConfig> => {
   const actualTableName = getTableName(table);
   const tableColumns = getTableColumns(table);
@@ -310,13 +314,13 @@ const createZeroTableBuilder = <
       const hasServerDefault =
         column.hasDefault || typeof column.defaultFn !== 'undefined';
 
-      if (hasServerDefault) {
+      if (hasServerDefault && !suppressDefaultsWarning) {
         const warningKey = `${actualTableName}.${resolvedColumnName}`;
         if (!warnedServerDefaults.has(warningKey)) {
           warnedServerDefaults.add(warningKey);
 
           console.warn(
-            `⚠️ drizzle-zero: Column ${actualTableName}.${resolvedColumnName} uses a database default that the Zero client will not be able to use. This probably won't work the way you expect. Set the value with mutators instead. See: https://github.com/rocicorp/drizzle-zero/issues/197`,
+            `⚠️ drizzle-zero: Column ${actualTableName}.${resolvedColumnName} uses a database default that the Zero client will not be able to use. This probably won't work the way you expect. Set the value with mutators instead. See: https://bugs.rocicorp.dev/p/zero/issue/3465`,
           );
         }
       }

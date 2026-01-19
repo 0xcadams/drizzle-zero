@@ -517,11 +517,11 @@ export function getGeneratedSchema({
       const tableTypeAlias = zeroSchemaGenerated.addTypeAlias({
         name: typeName,
         isExported: true,
-        type: `Row["${tableName}"]`,
+        type: `Row<(typeof ${schemaObjectName})["tables"]["${tableName}"]>`,
       });
 
       tableTypeAlias.addJsDoc({
-        description: `\nRepresents a row from the "${tableName}" table.\nThis type is auto-generated from your Drizzle schema definition.\n\n@deprecated Use Row["${tableName}"] instead from "@rocicorp/zero".`,
+        description: `\nRepresents a row from the "${tableName}" table.\nThis type is auto-generated from your Drizzle schema definition.`,
       });
     }
   }
@@ -562,7 +562,7 @@ export function getGeneratedSchema({
 
     builderVariable.addJsDoc({
       description:
-        '\nRepresents the Zero schema query builder.\nThis type is auto-generated from your Drizzle schema definition.\n\n@deprecated Use `zql` instead.',
+        '\nRepresents the Zero schema query builder.\nThis type is auto-generated from your Drizzle schema definition.',
     });
   }
 
