@@ -4622,7 +4622,6 @@ const productMediaTable = {
         | 'undefined'
         | 'object'
         | 'json'
-        | 'sqlite'
         | 'null'
         | 'unknown'
         | 'iso'
@@ -4797,6 +4796,7 @@ const productMediaTable = {
         | 'snap'
         | 'so'
         | 'sql'
+        | 'sqlite'
         | 'srt'
         | 'sum'
         | 'svg'
@@ -6348,11 +6348,22 @@ const telemetryRollupTable = {
     windowedStats: {
       type: 'json',
       optional: false,
-      customType: null as unknown as CustomType<
-        typeof drizzleSchema,
-        'telemetryRollup',
-        'windowedStats'
-      >,
+      customType: null as unknown as {
+        window: '1h' | '6h' | '24h' | '7d';
+        aggregate: 'sum' | 'avg' | 'p95' | 'count';
+        datapoints: [
+          {
+            atIso: string;
+            value: number;
+            payload?: {dimension: string; metric: string};
+          },
+          ...{
+            atIso: string;
+            value: number;
+            payload?: {dimension: string; metric: string};
+          }[],
+        ];
+      },
       serverName: 'windowed_stats',
     },
   },
@@ -6659,61 +6670,81 @@ const userTable = {
     customTypeJson: {
       type: 'json',
       optional: false,
-      customType: null as unknown as CustomType<
-        typeof drizzleSchema,
-        'user',
-        'customTypeJson'
-      >,
+      customType: null as unknown as {
+        id: string;
+        custom: `this-is-imported-from-custom-types`;
+      },
       serverName: 'custom_type_json',
     },
     customInterfaceJson: {
       type: 'json',
       optional: false,
-      customType: null as unknown as CustomType<
-        typeof drizzleSchema,
-        'user',
-        'customInterfaceJson'
-      >,
+      customType: null as unknown as {
+        custom: 'this-interface-is-imported-from-custom-types';
+      },
       serverName: 'custom_interface_json',
     },
     testInterface: {
       type: 'json',
       optional: false,
-      customType: null as unknown as CustomType<
-        typeof drizzleSchema,
-        'user',
-        'testInterface'
-      >,
+      customType: null as unknown as {nameInterface: 'custom-inline-interface'},
       serverName: 'test_interface',
     },
     testType: {
       type: 'json',
       optional: false,
-      customType: null as unknown as CustomType<
-        typeof drizzleSchema,
-        'user',
-        'testType'
-      >,
+      customType: null as unknown as {nameType: 'custom-inline-type'},
       serverName: 'test_type',
     },
     testExportedType: {
       type: 'json',
       optional: false,
-      customType: null as unknown as CustomType<
-        typeof drizzleSchema,
-        'user',
-        'testExportedType'
-      >,
+      customType: null as unknown as {nameType: 'custom-inline-type'},
       serverName: 'test_exported_type',
     },
     notificationPreferences: {
       type: 'json',
       optional: false,
-      customType: null as unknown as CustomType<
-        typeof drizzleSchema,
-        'user',
-        'notificationPreferences'
-      >,
+      customType: null as unknown as [
+        (
+          | {channel: 'email'; address: string; templateId?: string | undefined}
+          | {
+              channel: 'sms';
+              countryCode: string;
+              number: string;
+              dndHours?: [number, number] | undefined;
+            }
+          | {
+              channel: 'push';
+              deviceTokens: string[];
+              platform: 'ios' | 'android' | 'web';
+            }
+          | {
+              channel: 'webhook';
+              endpoint: string;
+              secretVersion?: number | undefined;
+            }
+        ),
+        ...(
+          | {channel: 'email'; address: string; templateId?: string | undefined}
+          | {
+              channel: 'sms';
+              countryCode: string;
+              number: string;
+              dndHours?: [number, number] | undefined;
+            }
+          | {
+              channel: 'push';
+              deviceTokens: string[];
+              platform: 'ios' | 'android' | 'web';
+            }
+          | {
+              channel: 'webhook';
+              endpoint: string;
+              secretVersion?: number | undefined;
+            }
+        )[],
+      ],
       serverName: 'notification_preferences',
     },
     countryIso: {
@@ -7239,17 +7270,92 @@ const webhookSubscriptionTable = {
     config: {
       type: 'json',
       optional: false,
-      customType: null as unknown as CustomType<
-        typeof drizzleSchema,
-        'webhookSubscription',
-        'config'
-      >,
+      customType: null as unknown as {
+        name: string;
+        version: number;
+        secretRef: string;
+        retryPolicy:
+          | {mode: 'linear'; intervalSeconds: number; attempts: number}
+          | {
+              mode: 'exponential';
+              baseIntervalSeconds: number;
+              factor: number;
+              maxAttempts: number;
+            };
+        filters?: string[];
+      },
     },
   },
   primaryKey: ['id'],
   serverName: 'webhook_subscription',
 } as const;
-const analyticsDashboardRelationships = {
+const userRelationships = {
+  messages: [
+    {
+      sourceField: ['id'],
+      destField: ['senderId'],
+      destSchema: 'message',
+      cardinality: 'many',
+    },
+  ],
+} as const;
+const mediumRelationships = {
+  messages: [
+    {
+      sourceField: ['id'],
+      destField: ['mediumId'],
+      destSchema: 'message',
+      cardinality: 'many',
+    },
+  ],
+} as const;
+const messageRelationships = {
+  medium: [
+    {
+      sourceField: ['mediumId'],
+      destField: ['id'],
+      destSchema: 'medium',
+      cardinality: 'one',
+    },
+  ],
+  sender: [
+    {
+      sourceField: ['senderId'],
+      destField: ['id'],
+      destSchema: 'user',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const filtersRelationships = {
+  parent: [
+    {
+      sourceField: ['parentId'],
+      destField: ['id'],
+      destSchema: 'filters',
+      cardinality: 'one',
+    },
+  ],
+  children: [
+    {
+      sourceField: ['id'],
+      destField: ['parentId'],
+      destSchema: 'filters',
+      cardinality: 'many',
+    },
+  ],
+} as const;
+const projectTagRelationships = {
+  taskLinks: [
+    {
+      sourceField: ['id'],
+      destField: ['tagId'],
+      destSchema: 'projectTaskTag',
+      cardinality: 'many',
+    },
+  ],
+} as const;
+const projectRelationships = {
   owner: [
     {
       sourceField: ['ownerId'],
@@ -7258,164 +7364,234 @@ const analyticsDashboardRelationships = {
       cardinality: 'one',
     },
   ],
-  widgets: [
+  phases: [
     {
       sourceField: ['id'],
-      destField: ['dashboardId'],
-      destSchema: 'analyticsWidget',
+      destField: ['projectId'],
+      destSchema: 'projectPhase',
+      cardinality: 'many',
+    },
+  ],
+  tasks: [
+    {
+      sourceField: ['id'],
+      destField: ['projectId'],
+      destSchema: 'projectTask',
+      cardinality: 'many',
+    },
+  ],
+  notes: [
+    {
+      sourceField: ['id'],
+      destField: ['projectId'],
+      destSchema: 'projectNote',
+      cardinality: 'many',
+    },
+  ],
+  audits: [
+    {
+      sourceField: ['id'],
+      destField: ['projectId'],
+      destSchema: 'projectAudit',
       cardinality: 'many',
     },
   ],
 } as const;
-const analyticsWidgetQueryRelationships = {
-  widget: [
+const projectPhaseRelationships = {
+  project: [
     {
-      sourceField: ['widgetId'],
+      sourceField: ['projectId'],
       destField: ['id'],
-      destSchema: 'analyticsWidget',
+      destSchema: 'project',
       cardinality: 'one',
     },
   ],
-} as const;
-const analyticsWidgetRelationships = {
-  dashboard: [
-    {
-      sourceField: ['dashboardId'],
-      destField: ['id'],
-      destSchema: 'analyticsDashboard',
-      cardinality: 'one',
-    },
-  ],
-  queries: [
+  tasks: [
     {
       sourceField: ['id'],
-      destField: ['widgetId'],
-      destSchema: 'analyticsWidgetQuery',
+      destField: ['phaseId'],
+      destSchema: 'projectTask',
       cardinality: 'many',
     },
   ],
 } as const;
-const benefitEnrollmentRelationships = {
-  benefitPlan: [
+const projectTaskRelationships = {
+  project: [
     {
-      sourceField: ['benefitPlanId'],
+      sourceField: ['projectId'],
       destField: ['id'],
-      destSchema: 'benefitPlan',
+      destSchema: 'project',
       cardinality: 'one',
     },
   ],
-  employee: [
+  phase: [
     {
-      sourceField: ['employeeId'],
+      sourceField: ['phaseId'],
       destField: ['id'],
-      destSchema: 'employeeProfile',
+      destSchema: 'projectPhase',
       cardinality: 'one',
+    },
+  ],
+  assignments: [
+    {
+      sourceField: ['id'],
+      destField: ['taskId'],
+      destSchema: 'projectAssignment',
+      cardinality: 'many',
+    },
+  ],
+  comments: [
+    {
+      sourceField: ['id'],
+      destField: ['taskId'],
+      destSchema: 'projectComment',
+      cardinality: 'many',
+    },
+  ],
+  attachments: [
+    {
+      sourceField: ['id'],
+      destField: ['taskId'],
+      destSchema: 'projectAttachment',
+      cardinality: 'many',
+    },
+  ],
+  tags: [
+    {
+      sourceField: ['id'],
+      destField: ['taskId'],
+      destSchema: 'projectTaskTag',
+      cardinality: 'many',
     },
   ],
 } as const;
-const benefitPlanRelationships = {
-  administrator: [
+const projectAssignmentRelationships = {
+  task: [
     {
-      sourceField: ['administratorId'],
+      sourceField: ['taskId'],
+      destField: ['id'],
+      destSchema: 'projectTask',
+      cardinality: 'one',
+    },
+  ],
+  user: [
+    {
+      sourceField: ['userId'],
       destField: ['id'],
       destSchema: 'user',
       cardinality: 'one',
     },
   ],
-  enrollments: [
-    {
-      sourceField: ['id'],
-      destField: ['benefitPlanId'],
-      destSchema: 'benefitEnrollment',
-      cardinality: 'many',
-    },
-  ],
 } as const;
-const billingInvoiceLineRelationships = {
-  invoice: [
+const projectCommentRelationships = {
+  task: [
     {
-      sourceField: ['invoiceId'],
+      sourceField: ['taskId'],
       destField: ['id'],
-      destSchema: 'billingInvoice',
+      destSchema: 'projectTask',
       cardinality: 'one',
     },
   ],
-  orderItem: [
+  author: [
     {
-      sourceField: ['orderItemId'],
-      destField: ['id'],
-      destSchema: 'orderItem',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const billingInvoiceRelationships = {
-  account: [
-    {
-      sourceField: ['accountId'],
-      destField: ['id'],
-      destSchema: 'crmAccount',
-      cardinality: 'one',
-    },
-  ],
-  contact: [
-    {
-      sourceField: ['contactId'],
-      destField: ['id'],
-      destSchema: 'crmContact',
-      cardinality: 'one',
-    },
-  ],
-  issuer: [
-    {
-      sourceField: ['issuedById'],
+      sourceField: ['authorId'],
       destField: ['id'],
       destSchema: 'user',
       cardinality: 'one',
     },
   ],
-  lines: [
-    {
-      sourceField: ['id'],
-      destField: ['invoiceId'],
-      destSchema: 'billingInvoiceLine',
-      cardinality: 'many',
-    },
-  ],
 } as const;
-const budgetLineRelationships = {
-  budget: [
+const projectAttachmentRelationships = {
+  task: [
     {
-      sourceField: ['budgetId'],
+      sourceField: ['taskId'],
       destField: ['id'],
-      destSchema: 'budget',
-      cardinality: 'one',
-    },
-  ],
-  account: [
-    {
-      sourceField: ['accountId'],
-      destField: ['id'],
-      destSchema: 'ledgerAccount',
+      destSchema: 'projectTask',
       cardinality: 'one',
     },
   ],
 } as const;
-const budgetRelationships = {
-  department: [
+const projectTaskTagRelationships = {
+  task: [
     {
-      sourceField: ['departmentId'],
+      sourceField: ['taskId'],
       destField: ['id'],
-      destSchema: 'department',
+      destSchema: 'projectTask',
       cardinality: 'one',
     },
   ],
-  lines: [
+  tag: [
     {
-      sourceField: ['id'],
-      destField: ['budgetId'],
-      destSchema: 'budgetLine',
-      cardinality: 'many',
+      sourceField: ['tagId'],
+      destField: ['id'],
+      destSchema: 'projectTag',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const projectNoteRelationships = {
+  project: [
+    {
+      sourceField: ['projectId'],
+      destField: ['id'],
+      destSchema: 'project',
+      cardinality: 'one',
+    },
+  ],
+  author: [
+    {
+      sourceField: ['authorId'],
+      destField: ['id'],
+      destSchema: 'user',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const projectAuditRelationships = {
+  project: [
+    {
+      sourceField: ['projectId'],
+      destField: ['id'],
+      destSchema: 'project',
+      cardinality: 'one',
+    },
+  ],
+  actor: [
+    {
+      sourceField: ['actorId'],
+      destField: ['id'],
+      destSchema: 'user',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const featureFlagRelationships = {
+  owner: [
+    {
+      sourceField: ['ownerId'],
+      destField: ['id'],
+      destSchema: 'user',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const telemetryRollupRelationships = {
+  project: [
+    {
+      sourceField: ['projectId'],
+      destField: ['id'],
+      destSchema: 'project',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const webhookSubscriptionRelationships = {
+  project: [
+    {
+      sourceField: ['projectId'],
+      destField: ['id'],
+      destSchema: 'project',
+      cardinality: 'one',
     },
   ],
 } as const;
@@ -7461,58 +7637,6 @@ const crmAccountRelationships = {
     },
   ],
 } as const;
-const crmActivityRelationships = {
-  account: [
-    {
-      sourceField: ['accountId'],
-      destField: ['id'],
-      destSchema: 'crmAccount',
-      cardinality: 'one',
-    },
-  ],
-  contact: [
-    {
-      sourceField: ['contactId'],
-      destField: ['id'],
-      destSchema: 'crmContact',
-      cardinality: 'one',
-    },
-  ],
-  opportunity: [
-    {
-      sourceField: ['opportunityId'],
-      destField: ['id'],
-      destSchema: 'crmOpportunity',
-      cardinality: 'one',
-    },
-  ],
-  type: [
-    {
-      sourceField: ['typeId'],
-      destField: ['id'],
-      destSchema: 'crmActivityType',
-      cardinality: 'one',
-    },
-  ],
-  performer: [
-    {
-      sourceField: ['performedById'],
-      destField: ['id'],
-      destSchema: 'user',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const crmActivityTypeRelationships = {
-  activities: [
-    {
-      sourceField: ['id'],
-      destField: ['typeId'],
-      destSchema: 'crmActivity',
-      cardinality: 'many',
-    },
-  ],
-} as const;
 const crmContactRelationships = {
   account: [
     {
@@ -7539,29 +7663,21 @@ const crmContactRelationships = {
     },
   ],
 } as const;
-const crmNoteRelationships = {
-  account: [
+const crmPipelineStageRelationships = {
+  opportunities: [
     {
-      sourceField: ['accountId'],
-      destField: ['id'],
-      destSchema: 'crmAccount',
-      cardinality: 'one',
+      sourceField: ['id'],
+      destField: ['stageId'],
+      destSchema: 'crmOpportunity',
+      cardinality: 'many',
     },
   ],
-  contact: [
+  historyEntries: [
     {
-      sourceField: ['contactId'],
-      destField: ['id'],
-      destSchema: 'crmContact',
-      cardinality: 'one',
-    },
-  ],
-  author: [
-    {
-      sourceField: ['authorId'],
-      destField: ['id'],
-      destSchema: 'user',
-      cardinality: 'one',
+      sourceField: ['id'],
+      destField: ['stageId'],
+      destSchema: 'crmOpportunityStageHistory',
+      cardinality: 'many',
     },
   ],
 } as const;
@@ -7625,21 +7741,329 @@ const crmOpportunityStageHistoryRelationships = {
     },
   ],
 } as const;
-const crmPipelineStageRelationships = {
-  opportunities: [
+const crmActivityTypeRelationships = {
+  activities: [
     {
       sourceField: ['id'],
-      destField: ['stageId'],
-      destSchema: 'crmOpportunity',
+      destField: ['typeId'],
+      destSchema: 'crmActivity',
       cardinality: 'many',
     },
   ],
-  historyEntries: [
+} as const;
+const crmActivityRelationships = {
+  account: [
+    {
+      sourceField: ['accountId'],
+      destField: ['id'],
+      destSchema: 'crmAccount',
+      cardinality: 'one',
+    },
+  ],
+  contact: [
+    {
+      sourceField: ['contactId'],
+      destField: ['id'],
+      destSchema: 'crmContact',
+      cardinality: 'one',
+    },
+  ],
+  opportunity: [
+    {
+      sourceField: ['opportunityId'],
+      destField: ['id'],
+      destSchema: 'crmOpportunity',
+      cardinality: 'one',
+    },
+  ],
+  type: [
+    {
+      sourceField: ['typeId'],
+      destField: ['id'],
+      destSchema: 'crmActivityType',
+      cardinality: 'one',
+    },
+  ],
+  performer: [
+    {
+      sourceField: ['performedById'],
+      destField: ['id'],
+      destSchema: 'user',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const crmNoteRelationships = {
+  account: [
+    {
+      sourceField: ['accountId'],
+      destField: ['id'],
+      destSchema: 'crmAccount',
+      cardinality: 'one',
+    },
+  ],
+  contact: [
+    {
+      sourceField: ['contactId'],
+      destField: ['id'],
+      destSchema: 'crmContact',
+      cardinality: 'one',
+    },
+  ],
+  author: [
+    {
+      sourceField: ['authorId'],
+      destField: ['id'],
+      destSchema: 'user',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const productCategoryRelationships = {
+  parent: [
+    {
+      sourceField: ['parentId'],
+      destField: ['id'],
+      destSchema: 'productCategory',
+      cardinality: 'one',
+    },
+  ],
+  children: [
     {
       sourceField: ['id'],
-      destField: ['stageId'],
-      destSchema: 'crmOpportunityStageHistory',
+      destField: ['parentId'],
+      destSchema: 'productCategory',
       cardinality: 'many',
+    },
+  ],
+  products: [
+    {
+      sourceField: ['id'],
+      destField: ['categoryId'],
+      destSchema: 'product',
+      cardinality: 'many',
+    },
+  ],
+} as const;
+const productRelationships = {
+  category: [
+    {
+      sourceField: ['categoryId'],
+      destField: ['id'],
+      destSchema: 'productCategory',
+      cardinality: 'one',
+    },
+  ],
+  variants: [
+    {
+      sourceField: ['id'],
+      destField: ['productId'],
+      destSchema: 'productVariant',
+      cardinality: 'many',
+    },
+  ],
+  media: [
+    {
+      sourceField: ['id'],
+      destField: ['productId'],
+      destSchema: 'productMedia',
+      cardinality: 'many',
+    },
+  ],
+} as const;
+const productVariantRelationships = {
+  product: [
+    {
+      sourceField: ['productId'],
+      destField: ['id'],
+      destSchema: 'product',
+      cardinality: 'one',
+    },
+  ],
+  inventoryItems: [
+    {
+      sourceField: ['id'],
+      destField: ['variantId'],
+      destSchema: 'inventoryItem',
+      cardinality: 'many',
+    },
+  ],
+  inventoryLevels: [
+    {
+      sourceField: ['id'],
+      destField: ['variantId'],
+      destSchema: 'inventoryLevel',
+      cardinality: 'many',
+    },
+  ],
+  orderItems: [
+    {
+      sourceField: ['id'],
+      destField: ['variantId'],
+      destSchema: 'orderItem',
+      cardinality: 'many',
+    },
+  ],
+} as const;
+const productMediaRelationships = {
+  product: [
+    {
+      sourceField: ['productId'],
+      destField: ['id'],
+      destSchema: 'product',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const inventoryLocationRelationships = {
+  levels: [
+    {
+      sourceField: ['id'],
+      destField: ['locationId'],
+      destSchema: 'inventoryLevel',
+      cardinality: 'many',
+    },
+  ],
+} as const;
+const inventoryItemRelationships = {
+  variant: [
+    {
+      sourceField: ['variantId'],
+      destField: ['id'],
+      destSchema: 'productVariant',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const inventoryLevelRelationships = {
+  location: [
+    {
+      sourceField: ['locationId'],
+      destField: ['id'],
+      destSchema: 'inventoryLocation',
+      cardinality: 'one',
+    },
+  ],
+  variant: [
+    {
+      sourceField: ['variantId'],
+      destField: ['id'],
+      destSchema: 'productVariant',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const orderTableRelationships = {
+  customer: [
+    {
+      sourceField: ['customerId'],
+      destField: ['id'],
+      destSchema: 'user',
+      cardinality: 'one',
+    },
+  ],
+  opportunity: [
+    {
+      sourceField: ['opportunityId'],
+      destField: ['id'],
+      destSchema: 'crmOpportunity',
+      cardinality: 'one',
+    },
+  ],
+  items: [
+    {
+      sourceField: ['id'],
+      destField: ['orderId'],
+      destSchema: 'orderItem',
+      cardinality: 'many',
+    },
+  ],
+  payments: [
+    {
+      sourceField: ['id'],
+      destField: ['orderId'],
+      destSchema: 'orderPayment',
+      cardinality: 'many',
+    },
+  ],
+  shipments: [
+    {
+      sourceField: ['id'],
+      destField: ['orderId'],
+      destSchema: 'shipment',
+      cardinality: 'many',
+    },
+  ],
+} as const;
+const orderItemRelationships = {
+  order: [
+    {
+      sourceField: ['orderId'],
+      destField: ['id'],
+      destSchema: 'orderTable',
+      cardinality: 'one',
+    },
+  ],
+  variant: [
+    {
+      sourceField: ['variantId'],
+      destField: ['id'],
+      destSchema: 'productVariant',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const orderPaymentRelationships = {
+  order: [
+    {
+      sourceField: ['orderId'],
+      destField: ['id'],
+      destSchema: 'orderTable',
+      cardinality: 'one',
+    },
+  ],
+  payment: [
+    {
+      sourceField: ['paymentId'],
+      destField: ['id'],
+      destSchema: 'payment',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const shipmentRelationships = {
+  order: [
+    {
+      sourceField: ['orderId'],
+      destField: ['id'],
+      destSchema: 'orderTable',
+      cardinality: 'one',
+    },
+  ],
+  items: [
+    {
+      sourceField: ['id'],
+      destField: ['shipmentId'],
+      destSchema: 'shipmentItem',
+      cardinality: 'many',
+    },
+  ],
+} as const;
+const shipmentItemRelationships = {
+  shipment: [
+    {
+      sourceField: ['shipmentId'],
+      destField: ['id'],
+      destSchema: 'shipment',
+      cardinality: 'one',
+    },
+  ],
+  orderItem: [
+    {
+      sourceField: ['orderItemId'],
+      destField: ['id'],
+      destSchema: 'orderItem',
+      cardinality: 'one',
     },
   ],
 } as const;
@@ -7669,151 +8093,29 @@ const departmentRelationships = {
     },
   ],
 } as const;
-const documentFileRelationships = {
-  folder: [
+const teamRelationships = {
+  department: [
     {
-      sourceField: ['folderId'],
+      sourceField: ['departmentId'],
       destField: ['id'],
-      destSchema: 'documentFolder',
+      destSchema: 'department',
       cardinality: 'one',
     },
   ],
-  uploader: [
+  lead: [
     {
-      sourceField: ['uploadedById'],
+      sourceField: ['leadId'],
       destField: ['id'],
       destSchema: 'user',
       cardinality: 'one',
     },
   ],
-  versions: [
+  employees: [
     {
       sourceField: ['id'],
-      destField: ['fileId'],
-      destSchema: 'documentFileVersion',
-      cardinality: 'many',
-    },
-  ],
-  sharings: [
-    {
-      sourceField: ['id'],
-      destField: ['fileId'],
-      destSchema: 'documentSharing',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const documentFileVersionRelationships = {
-  file: [
-    {
-      sourceField: ['fileId'],
-      destField: ['id'],
-      destSchema: 'documentFile',
-      cardinality: 'one',
-    },
-  ],
-  uploader: [
-    {
-      sourceField: ['uploadedById'],
-      destField: ['id'],
-      destSchema: 'user',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const documentFolderRelationships = {
-  library: [
-    {
-      sourceField: ['libraryId'],
-      destField: ['id'],
-      destSchema: 'documentLibrary',
-      cardinality: 'one',
-    },
-  ],
-  parent: [
-    {
-      sourceField: ['parentId'],
-      destField: ['id'],
-      destSchema: 'documentFolder',
-      cardinality: 'one',
-    },
-  ],
-  children: [
-    {
-      sourceField: ['id'],
-      destField: ['parentId'],
-      destSchema: 'documentFolder',
-      cardinality: 'many',
-    },
-  ],
-  files: [
-    {
-      sourceField: ['id'],
-      destField: ['folderId'],
-      destSchema: 'documentFile',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const documentLibraryRelationships = {
-  project: [
-    {
-      sourceField: ['projectId'],
-      destField: ['id'],
-      destSchema: 'project',
-      cardinality: 'one',
-    },
-  ],
-  folders: [
-    {
-      sourceField: ['id'],
-      destField: ['libraryId'],
-      destSchema: 'documentFolder',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const documentSharingRelationships = {
-  file: [
-    {
-      sourceField: ['fileId'],
-      destField: ['id'],
-      destSchema: 'documentFile',
-      cardinality: 'one',
-    },
-  ],
-  user: [
-    {
-      sourceField: ['sharedWithUserId'],
-      destField: ['id'],
-      destSchema: 'user',
-      cardinality: 'one',
-    },
-  ],
-  team: [
-    {
-      sourceField: ['sharedWithTeamId'],
-      destField: ['id'],
-      destSchema: 'team',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const employeeDocumentRelationships = {
-  employee: [
-    {
-      sourceField: ['employeeId'],
-      destField: ['id'],
+      destField: ['teamId'],
       destSchema: 'employeeProfile',
-      cardinality: 'one',
-    },
-  ],
-  uploader: [
-    {
-      sourceField: ['uploadedById'],
-      destField: ['id'],
-      destSchema: 'user',
-      cardinality: 'one',
+      cardinality: 'many',
     },
   ],
 } as const;
@@ -7885,210 +8187,36 @@ const employmentHistoryRelationships = {
     },
   ],
 } as const;
-const expenseItemRelationships = {
-  report: [
+const employeeDocumentRelationships = {
+  employee: [
     {
-      sourceField: ['reportId'],
+      sourceField: ['employeeId'],
       destField: ['id'],
-      destSchema: 'expenseReport',
+      destSchema: 'employeeProfile',
       cardinality: 'one',
     },
   ],
-} as const;
-const expenseReportRelationships = {
-  owner: [
+  uploader: [
     {
-      sourceField: ['ownerId'],
-      destField: ['id'],
-      destSchema: 'user',
-      cardinality: 'one',
-    },
-  ],
-  department: [
-    {
-      sourceField: ['departmentId'],
-      destField: ['id'],
-      destSchema: 'department',
-      cardinality: 'one',
-    },
-  ],
-  items: [
-    {
-      sourceField: ['id'],
-      destField: ['reportId'],
-      destSchema: 'expenseItem',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const featureFlagRelationships = {
-  owner: [
-    {
-      sourceField: ['ownerId'],
+      sourceField: ['uploadedById'],
       destField: ['id'],
       destSchema: 'user',
       cardinality: 'one',
     },
   ],
 } as const;
-const filtersRelationships = {
-  parent: [
+const timesheetRelationships = {
+  employee: [
     {
-      sourceField: ['parentId'],
+      sourceField: ['employeeId'],
       destField: ['id'],
-      destSchema: 'filters',
+      destSchema: 'employeeProfile',
       cardinality: 'one',
     },
   ],
-  children: [
+  submittedBy: [
     {
-      sourceField: ['id'],
-      destField: ['parentId'],
-      destSchema: 'filters',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const integrationCredentialRelationships = {
-  webhook: [
-    {
-      sourceField: ['webhookId'],
-      destField: ['id'],
-      destSchema: 'integrationWebhook',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const integrationEventRelationships = {
-  webhook: [
-    {
-      sourceField: ['webhookId'],
-      destField: ['id'],
-      destSchema: 'integrationWebhook',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const integrationWebhookRelationships = {
-  project: [
-    {
-      sourceField: ['projectId'],
-      destField: ['id'],
-      destSchema: 'project',
-      cardinality: 'one',
-    },
-  ],
-  account: [
-    {
-      sourceField: ['accountId'],
-      destField: ['id'],
-      destSchema: 'crmAccount',
-      cardinality: 'one',
-    },
-  ],
-  events: [
-    {
-      sourceField: ['id'],
-      destField: ['webhookId'],
-      destSchema: 'integrationEvent',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const inventoryItemRelationships = {
-  variant: [
-    {
-      sourceField: ['variantId'],
-      destField: ['id'],
-      destSchema: 'productVariant',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const inventoryLevelRelationships = {
-  location: [
-    {
-      sourceField: ['locationId'],
-      destField: ['id'],
-      destSchema: 'inventoryLocation',
-      cardinality: 'one',
-    },
-  ],
-  variant: [
-    {
-      sourceField: ['variantId'],
-      destField: ['id'],
-      destSchema: 'productVariant',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const inventoryLocationRelationships = {
-  levels: [
-    {
-      sourceField: ['id'],
-      destField: ['locationId'],
-      destSchema: 'inventoryLevel',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const ledgerAccountRelationships = {
-  parent: [
-    {
-      sourceField: ['parentAccountId'],
-      destField: ['id'],
-      destSchema: 'ledgerAccount',
-      cardinality: 'one',
-    },
-  ],
-  children: [
-    {
-      sourceField: ['id'],
-      destField: ['parentAccountId'],
-      destSchema: 'ledgerAccount',
-      cardinality: 'many',
-    },
-  ],
-  entries: [
-    {
-      sourceField: ['id'],
-      destField: ['accountId'],
-      destSchema: 'ledgerEntry',
-      cardinality: 'many',
-    },
-  ],
-  budgetLines: [
-    {
-      sourceField: ['id'],
-      destField: ['accountId'],
-      destSchema: 'budgetLine',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const ledgerEntryRelationships = {
-  transaction: [
-    {
-      sourceField: ['transactionId'],
-      destField: ['id'],
-      destSchema: 'ledgerTransaction',
-      cardinality: 'one',
-    },
-  ],
-  account: [
-    {
-      sourceField: ['accountId'],
-      destField: ['id'],
-      destSchema: 'ledgerAccount',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const ledgerTransactionRelationships = {
-  creator: [
-    {
-      sourceField: ['createdById'],
+      sourceField: ['submittedById'],
       destField: ['id'],
       destSchema: 'user',
       cardinality: 'one',
@@ -8097,315 +8225,21 @@ const ledgerTransactionRelationships = {
   entries: [
     {
       sourceField: ['id'],
-      destField: ['transactionId'],
-      destSchema: 'ledgerEntry',
+      destField: ['timesheetId'],
+      destSchema: 'timeEntry',
       cardinality: 'many',
     },
   ],
 } as const;
-const marketingAudienceRelationships = {
-  campaignAudiences: [
+const timeEntryRelationships = {
+  timesheet: [
     {
-      sourceField: ['id'],
-      destField: ['audienceId'],
-      destSchema: 'marketingCampaignAudience',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const marketingCampaignAudienceRelationships = {
-  campaign: [
-    {
-      sourceField: ['campaignId'],
+      sourceField: ['timesheetId'],
       destField: ['id'],
-      destSchema: 'marketingCampaign',
+      destSchema: 'timesheet',
       cardinality: 'one',
     },
   ],
-  audience: [
-    {
-      sourceField: ['audienceId'],
-      destField: ['id'],
-      destSchema: 'marketingAudience',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const marketingCampaignChannelRelationships = {
-  campaign: [
-    {
-      sourceField: ['campaignId'],
-      destField: ['id'],
-      destSchema: 'marketingCampaign',
-      cardinality: 'one',
-    },
-  ],
-  channel: [
-    {
-      sourceField: ['channelId'],
-      destField: ['id'],
-      destSchema: 'marketingChannel',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const marketingCampaignRelationships = {
-  owner: [
-    {
-      sourceField: ['ownerId'],
-      destField: ['id'],
-      destSchema: 'user',
-      cardinality: 'one',
-    },
-  ],
-  channels: [
-    {
-      sourceField: ['id'],
-      destField: ['campaignId'],
-      destSchema: 'marketingCampaignChannel',
-      cardinality: 'many',
-    },
-  ],
-  audiences: [
-    {
-      sourceField: ['id'],
-      destField: ['campaignId'],
-      destSchema: 'marketingCampaignAudience',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const marketingChannelRelationships = {
-  campaignChannels: [
-    {
-      sourceField: ['id'],
-      destField: ['channelId'],
-      destSchema: 'marketingCampaignChannel',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const mediumRelationships = {
-  messages: [
-    {
-      sourceField: ['id'],
-      destField: ['mediumId'],
-      destSchema: 'message',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const messageRelationships = {
-  medium: [
-    {
-      sourceField: ['mediumId'],
-      destField: ['id'],
-      destSchema: 'medium',
-      cardinality: 'one',
-    },
-  ],
-  sender: [
-    {
-      sourceField: ['senderId'],
-      destField: ['id'],
-      destSchema: 'user',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const orderItemRelationships = {
-  order: [
-    {
-      sourceField: ['orderId'],
-      destField: ['id'],
-      destSchema: 'orderTable',
-      cardinality: 'one',
-    },
-  ],
-  variant: [
-    {
-      sourceField: ['variantId'],
-      destField: ['id'],
-      destSchema: 'productVariant',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const orderPaymentRelationships = {
-  order: [
-    {
-      sourceField: ['orderId'],
-      destField: ['id'],
-      destSchema: 'orderTable',
-      cardinality: 'one',
-    },
-  ],
-  payment: [
-    {
-      sourceField: ['paymentId'],
-      destField: ['id'],
-      destSchema: 'payment',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const orderTableRelationships = {
-  customer: [
-    {
-      sourceField: ['customerId'],
-      destField: ['id'],
-      destSchema: 'user',
-      cardinality: 'one',
-    },
-  ],
-  opportunity: [
-    {
-      sourceField: ['opportunityId'],
-      destField: ['id'],
-      destSchema: 'crmOpportunity',
-      cardinality: 'one',
-    },
-  ],
-  items: [
-    {
-      sourceField: ['id'],
-      destField: ['orderId'],
-      destSchema: 'orderItem',
-      cardinality: 'many',
-    },
-  ],
-  payments: [
-    {
-      sourceField: ['id'],
-      destField: ['orderId'],
-      destSchema: 'orderPayment',
-      cardinality: 'many',
-    },
-  ],
-  shipments: [
-    {
-      sourceField: ['id'],
-      destField: ['orderId'],
-      destSchema: 'shipment',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const productCategoryRelationships = {
-  parent: [
-    {
-      sourceField: ['parentId'],
-      destField: ['id'],
-      destSchema: 'productCategory',
-      cardinality: 'one',
-    },
-  ],
-  children: [
-    {
-      sourceField: ['id'],
-      destField: ['parentId'],
-      destSchema: 'productCategory',
-      cardinality: 'many',
-    },
-  ],
-  products: [
-    {
-      sourceField: ['id'],
-      destField: ['categoryId'],
-      destSchema: 'product',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const productMediaRelationships = {
-  product: [
-    {
-      sourceField: ['productId'],
-      destField: ['id'],
-      destSchema: 'product',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const productRelationships = {
-  category: [
-    {
-      sourceField: ['categoryId'],
-      destField: ['id'],
-      destSchema: 'productCategory',
-      cardinality: 'one',
-    },
-  ],
-  variants: [
-    {
-      sourceField: ['id'],
-      destField: ['productId'],
-      destSchema: 'productVariant',
-      cardinality: 'many',
-    },
-  ],
-  media: [
-    {
-      sourceField: ['id'],
-      destField: ['productId'],
-      destSchema: 'productMedia',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const productVariantRelationships = {
-  product: [
-    {
-      sourceField: ['productId'],
-      destField: ['id'],
-      destSchema: 'product',
-      cardinality: 'one',
-    },
-  ],
-  inventoryItems: [
-    {
-      sourceField: ['id'],
-      destField: ['variantId'],
-      destSchema: 'inventoryItem',
-      cardinality: 'many',
-    },
-  ],
-  inventoryLevels: [
-    {
-      sourceField: ['id'],
-      destField: ['variantId'],
-      destSchema: 'inventoryLevel',
-      cardinality: 'many',
-    },
-  ],
-  orderItems: [
-    {
-      sourceField: ['id'],
-      destField: ['variantId'],
-      destSchema: 'orderItem',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const projectAssignmentRelationships = {
-  task: [
-    {
-      sourceField: ['taskId'],
-      destField: ['id'],
-      destSchema: 'projectTask',
-      cardinality: 'one',
-    },
-  ],
-  user: [
-    {
-      sourceField: ['userId'],
-      destField: ['id'],
-      destSchema: 'user',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const projectAttachmentRelationships = {
   task: [
     {
       sourceField: ['taskId'],
@@ -8415,284 +8249,38 @@ const projectAttachmentRelationships = {
     },
   ],
 } as const;
-const projectAuditRelationships = {
-  project: [
+const benefitPlanRelationships = {
+  administrator: [
     {
-      sourceField: ['projectId'],
-      destField: ['id'],
-      destSchema: 'project',
-      cardinality: 'one',
-    },
-  ],
-  actor: [
-    {
-      sourceField: ['actorId'],
+      sourceField: ['administratorId'],
       destField: ['id'],
       destSchema: 'user',
       cardinality: 'one',
     },
   ],
-} as const;
-const projectCommentRelationships = {
-  task: [
-    {
-      sourceField: ['taskId'],
-      destField: ['id'],
-      destSchema: 'projectTask',
-      cardinality: 'one',
-    },
-  ],
-  author: [
-    {
-      sourceField: ['authorId'],
-      destField: ['id'],
-      destSchema: 'user',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const projectNoteRelationships = {
-  project: [
-    {
-      sourceField: ['projectId'],
-      destField: ['id'],
-      destSchema: 'project',
-      cardinality: 'one',
-    },
-  ],
-  author: [
-    {
-      sourceField: ['authorId'],
-      destField: ['id'],
-      destSchema: 'user',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const projectPhaseRelationships = {
-  project: [
-    {
-      sourceField: ['projectId'],
-      destField: ['id'],
-      destSchema: 'project',
-      cardinality: 'one',
-    },
-  ],
-  tasks: [
+  enrollments: [
     {
       sourceField: ['id'],
-      destField: ['phaseId'],
-      destSchema: 'projectTask',
+      destField: ['benefitPlanId'],
+      destSchema: 'benefitEnrollment',
       cardinality: 'many',
     },
   ],
 } as const;
-const projectRelationships = {
-  owner: [
+const benefitEnrollmentRelationships = {
+  benefitPlan: [
     {
-      sourceField: ['ownerId'],
+      sourceField: ['benefitPlanId'],
       destField: ['id'],
-      destSchema: 'user',
+      destSchema: 'benefitPlan',
       cardinality: 'one',
     },
   ],
-  phases: [
+  employee: [
     {
-      sourceField: ['id'],
-      destField: ['projectId'],
-      destSchema: 'projectPhase',
-      cardinality: 'many',
-    },
-  ],
-  tasks: [
-    {
-      sourceField: ['id'],
-      destField: ['projectId'],
-      destSchema: 'projectTask',
-      cardinality: 'many',
-    },
-  ],
-  notes: [
-    {
-      sourceField: ['id'],
-      destField: ['projectId'],
-      destSchema: 'projectNote',
-      cardinality: 'many',
-    },
-  ],
-  audits: [
-    {
-      sourceField: ['id'],
-      destField: ['projectId'],
-      destSchema: 'projectAudit',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const projectTagRelationships = {
-  taskLinks: [
-    {
-      sourceField: ['id'],
-      destField: ['tagId'],
-      destSchema: 'projectTaskTag',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const projectTaskRelationships = {
-  project: [
-    {
-      sourceField: ['projectId'],
+      sourceField: ['employeeId'],
       destField: ['id'],
-      destSchema: 'project',
-      cardinality: 'one',
-    },
-  ],
-  phase: [
-    {
-      sourceField: ['phaseId'],
-      destField: ['id'],
-      destSchema: 'projectPhase',
-      cardinality: 'one',
-    },
-  ],
-  assignments: [
-    {
-      sourceField: ['id'],
-      destField: ['taskId'],
-      destSchema: 'projectAssignment',
-      cardinality: 'many',
-    },
-  ],
-  comments: [
-    {
-      sourceField: ['id'],
-      destField: ['taskId'],
-      destSchema: 'projectComment',
-      cardinality: 'many',
-    },
-  ],
-  attachments: [
-    {
-      sourceField: ['id'],
-      destField: ['taskId'],
-      destSchema: 'projectAttachment',
-      cardinality: 'many',
-    },
-  ],
-  tags: [
-    {
-      sourceField: ['id'],
-      destField: ['taskId'],
-      destSchema: 'projectTaskTag',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const projectTaskTagRelationships = {
-  task: [
-    {
-      sourceField: ['taskId'],
-      destField: ['id'],
-      destSchema: 'projectTask',
-      cardinality: 'one',
-    },
-  ],
-  tag: [
-    {
-      sourceField: ['tagId'],
-      destField: ['id'],
-      destSchema: 'projectTag',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const shipmentItemRelationships = {
-  shipment: [
-    {
-      sourceField: ['shipmentId'],
-      destField: ['id'],
-      destSchema: 'shipment',
-      cardinality: 'one',
-    },
-  ],
-  orderItem: [
-    {
-      sourceField: ['orderItemId'],
-      destField: ['id'],
-      destSchema: 'orderItem',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const shipmentRelationships = {
-  order: [
-    {
-      sourceField: ['orderId'],
-      destField: ['id'],
-      destSchema: 'orderTable',
-      cardinality: 'one',
-    },
-  ],
-  items: [
-    {
-      sourceField: ['id'],
-      destField: ['shipmentId'],
-      destSchema: 'shipmentItem',
-      cardinality: 'many',
-    },
-  ],
-} as const;
-const supportTicketAssignmentRelationships = {
-  ticket: [
-    {
-      sourceField: ['ticketId'],
-      destField: ['id'],
-      destSchema: 'supportTicket',
-      cardinality: 'one',
-    },
-  ],
-  assignee: [
-    {
-      sourceField: ['assigneeId'],
-      destField: ['id'],
-      destSchema: 'user',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const supportTicketAuditRelationships = {
-  ticket: [
-    {
-      sourceField: ['ticketId'],
-      destField: ['id'],
-      destSchema: 'supportTicket',
-      cardinality: 'one',
-    },
-  ],
-  actor: [
-    {
-      sourceField: ['actorId'],
-      destField: ['id'],
-      destSchema: 'user',
-      cardinality: 'one',
-    },
-  ],
-} as const;
-const supportTicketMessageRelationships = {
-  ticket: [
-    {
-      sourceField: ['ticketId'],
-      destField: ['id'],
-      destSchema: 'supportTicket',
-      cardinality: 'one',
-    },
-  ],
-  author: [
-    {
-      sourceField: ['authorId'],
-      destField: ['id'],
-      destSchema: 'user',
+      destSchema: 'employeeProfile',
       cardinality: 'one',
     },
   ],
@@ -8747,6 +8335,34 @@ const supportTicketRelationships = {
     },
   ],
 } as const;
+const supportTicketMessageRelationships = {
+  ticket: [
+    {
+      sourceField: ['ticketId'],
+      destField: ['id'],
+      destSchema: 'supportTicket',
+      cardinality: 'one',
+    },
+  ],
+  author: [
+    {
+      sourceField: ['authorId'],
+      destField: ['id'],
+      destSchema: 'user',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const supportTicketTagRelationships = {
+  ticketLinks: [
+    {
+      sourceField: ['id'],
+      destField: ['tagId'],
+      destSchema: 'supportTicketTagLink',
+      cardinality: 'many',
+    },
+  ],
+} as const;
 const supportTicketTagLinkRelationships = {
   ticket: [
     {
@@ -8765,17 +8381,103 @@ const supportTicketTagLinkRelationships = {
     },
   ],
 } as const;
-const supportTicketTagRelationships = {
-  ticketLinks: [
+const supportTicketAssignmentRelationships = {
+  ticket: [
+    {
+      sourceField: ['ticketId'],
+      destField: ['id'],
+      destSchema: 'supportTicket',
+      cardinality: 'one',
+    },
+  ],
+  assignee: [
+    {
+      sourceField: ['assigneeId'],
+      destField: ['id'],
+      destSchema: 'user',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const supportTicketAuditRelationships = {
+  ticket: [
+    {
+      sourceField: ['ticketId'],
+      destField: ['id'],
+      destSchema: 'supportTicket',
+      cardinality: 'one',
+    },
+  ],
+  actor: [
+    {
+      sourceField: ['actorId'],
+      destField: ['id'],
+      destSchema: 'user',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const billingInvoiceRelationships = {
+  account: [
+    {
+      sourceField: ['accountId'],
+      destField: ['id'],
+      destSchema: 'crmAccount',
+      cardinality: 'one',
+    },
+  ],
+  contact: [
+    {
+      sourceField: ['contactId'],
+      destField: ['id'],
+      destSchema: 'crmContact',
+      cardinality: 'one',
+    },
+  ],
+  issuer: [
+    {
+      sourceField: ['issuedById'],
+      destField: ['id'],
+      destSchema: 'user',
+      cardinality: 'one',
+    },
+  ],
+  lines: [
     {
       sourceField: ['id'],
-      destField: ['tagId'],
-      destSchema: 'supportTicketTagLink',
+      destField: ['invoiceId'],
+      destSchema: 'billingInvoiceLine',
       cardinality: 'many',
     },
   ],
 } as const;
-const teamRelationships = {
+const billingInvoiceLineRelationships = {
+  invoice: [
+    {
+      sourceField: ['invoiceId'],
+      destField: ['id'],
+      destSchema: 'billingInvoice',
+      cardinality: 'one',
+    },
+  ],
+  orderItem: [
+    {
+      sourceField: ['orderItemId'],
+      destField: ['id'],
+      destSchema: 'orderItem',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const expenseReportRelationships = {
+  owner: [
+    {
+      sourceField: ['ownerId'],
+      destField: ['id'],
+      destSchema: 'user',
+      cardinality: 'one',
+    },
+  ],
   department: [
     {
       sourceField: ['departmentId'],
@@ -8784,63 +8486,63 @@ const teamRelationships = {
       cardinality: 'one',
     },
   ],
-  lead: [
-    {
-      sourceField: ['leadId'],
-      destField: ['id'],
-      destSchema: 'user',
-      cardinality: 'one',
-    },
-  ],
-  employees: [
+  items: [
     {
       sourceField: ['id'],
-      destField: ['teamId'],
-      destSchema: 'employeeProfile',
+      destField: ['reportId'],
+      destSchema: 'expenseItem',
       cardinality: 'many',
     },
   ],
 } as const;
-const telemetryRollupRelationships = {
-  project: [
+const expenseItemRelationships = {
+  report: [
     {
-      sourceField: ['projectId'],
+      sourceField: ['reportId'],
       destField: ['id'],
-      destSchema: 'project',
+      destSchema: 'expenseReport',
       cardinality: 'one',
     },
   ],
 } as const;
-const timeEntryRelationships = {
-  timesheet: [
+const ledgerAccountRelationships = {
+  parent: [
     {
-      sourceField: ['timesheetId'],
+      sourceField: ['parentAccountId'],
       destField: ['id'],
-      destSchema: 'timesheet',
+      destSchema: 'ledgerAccount',
       cardinality: 'one',
     },
   ],
-  task: [
+  children: [
     {
-      sourceField: ['taskId'],
-      destField: ['id'],
-      destSchema: 'projectTask',
-      cardinality: 'one',
+      sourceField: ['id'],
+      destField: ['parentAccountId'],
+      destSchema: 'ledgerAccount',
+      cardinality: 'many',
+    },
+  ],
+  entries: [
+    {
+      sourceField: ['id'],
+      destField: ['accountId'],
+      destSchema: 'ledgerEntry',
+      cardinality: 'many',
+    },
+  ],
+  budgetLines: [
+    {
+      sourceField: ['id'],
+      destField: ['accountId'],
+      destSchema: 'budgetLine',
+      cardinality: 'many',
     },
   ],
 } as const;
-const timesheetRelationships = {
-  employee: [
+const ledgerTransactionRelationships = {
+  creator: [
     {
-      sourceField: ['employeeId'],
-      destField: ['id'],
-      destSchema: 'employeeProfile',
-      cardinality: 'one',
-    },
-  ],
-  submittedBy: [
-    {
-      sourceField: ['submittedById'],
+      sourceField: ['createdById'],
       destField: ['id'],
       destSchema: 'user',
       cardinality: 'one',
@@ -8849,28 +8551,366 @@ const timesheetRelationships = {
   entries: [
     {
       sourceField: ['id'],
-      destField: ['timesheetId'],
-      destSchema: 'timeEntry',
+      destField: ['transactionId'],
+      destSchema: 'ledgerEntry',
       cardinality: 'many',
     },
   ],
 } as const;
-const userRelationships = {
-  messages: [
+const ledgerEntryRelationships = {
+  transaction: [
+    {
+      sourceField: ['transactionId'],
+      destField: ['id'],
+      destSchema: 'ledgerTransaction',
+      cardinality: 'one',
+    },
+  ],
+  account: [
+    {
+      sourceField: ['accountId'],
+      destField: ['id'],
+      destSchema: 'ledgerAccount',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const budgetRelationships = {
+  department: [
+    {
+      sourceField: ['departmentId'],
+      destField: ['id'],
+      destSchema: 'department',
+      cardinality: 'one',
+    },
+  ],
+  lines: [
     {
       sourceField: ['id'],
-      destField: ['senderId'],
-      destSchema: 'message',
+      destField: ['budgetId'],
+      destSchema: 'budgetLine',
       cardinality: 'many',
     },
   ],
 } as const;
-const webhookSubscriptionRelationships = {
+const budgetLineRelationships = {
+  budget: [
+    {
+      sourceField: ['budgetId'],
+      destField: ['id'],
+      destSchema: 'budget',
+      cardinality: 'one',
+    },
+  ],
+  account: [
+    {
+      sourceField: ['accountId'],
+      destField: ['id'],
+      destSchema: 'ledgerAccount',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const marketingCampaignRelationships = {
+  owner: [
+    {
+      sourceField: ['ownerId'],
+      destField: ['id'],
+      destSchema: 'user',
+      cardinality: 'one',
+    },
+  ],
+  channels: [
+    {
+      sourceField: ['id'],
+      destField: ['campaignId'],
+      destSchema: 'marketingCampaignChannel',
+      cardinality: 'many',
+    },
+  ],
+  audiences: [
+    {
+      sourceField: ['id'],
+      destField: ['campaignId'],
+      destSchema: 'marketingCampaignAudience',
+      cardinality: 'many',
+    },
+  ],
+} as const;
+const marketingChannelRelationships = {
+  campaignChannels: [
+    {
+      sourceField: ['id'],
+      destField: ['channelId'],
+      destSchema: 'marketingCampaignChannel',
+      cardinality: 'many',
+    },
+  ],
+} as const;
+const marketingCampaignChannelRelationships = {
+  campaign: [
+    {
+      sourceField: ['campaignId'],
+      destField: ['id'],
+      destSchema: 'marketingCampaign',
+      cardinality: 'one',
+    },
+  ],
+  channel: [
+    {
+      sourceField: ['channelId'],
+      destField: ['id'],
+      destSchema: 'marketingChannel',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const marketingAudienceRelationships = {
+  campaignAudiences: [
+    {
+      sourceField: ['id'],
+      destField: ['audienceId'],
+      destSchema: 'marketingCampaignAudience',
+      cardinality: 'many',
+    },
+  ],
+} as const;
+const marketingCampaignAudienceRelationships = {
+  campaign: [
+    {
+      sourceField: ['campaignId'],
+      destField: ['id'],
+      destSchema: 'marketingCampaign',
+      cardinality: 'one',
+    },
+  ],
+  audience: [
+    {
+      sourceField: ['audienceId'],
+      destField: ['id'],
+      destSchema: 'marketingAudience',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const analyticsDashboardRelationships = {
+  owner: [
+    {
+      sourceField: ['ownerId'],
+      destField: ['id'],
+      destSchema: 'user',
+      cardinality: 'one',
+    },
+  ],
+  widgets: [
+    {
+      sourceField: ['id'],
+      destField: ['dashboardId'],
+      destSchema: 'analyticsWidget',
+      cardinality: 'many',
+    },
+  ],
+} as const;
+const analyticsWidgetRelationships = {
+  dashboard: [
+    {
+      sourceField: ['dashboardId'],
+      destField: ['id'],
+      destSchema: 'analyticsDashboard',
+      cardinality: 'one',
+    },
+  ],
+  queries: [
+    {
+      sourceField: ['id'],
+      destField: ['widgetId'],
+      destSchema: 'analyticsWidgetQuery',
+      cardinality: 'many',
+    },
+  ],
+} as const;
+const analyticsWidgetQueryRelationships = {
+  widget: [
+    {
+      sourceField: ['widgetId'],
+      destField: ['id'],
+      destSchema: 'analyticsWidget',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const integrationWebhookRelationships = {
   project: [
     {
       sourceField: ['projectId'],
       destField: ['id'],
       destSchema: 'project',
+      cardinality: 'one',
+    },
+  ],
+  account: [
+    {
+      sourceField: ['accountId'],
+      destField: ['id'],
+      destSchema: 'crmAccount',
+      cardinality: 'one',
+    },
+  ],
+  events: [
+    {
+      sourceField: ['id'],
+      destField: ['webhookId'],
+      destSchema: 'integrationEvent',
+      cardinality: 'many',
+    },
+  ],
+} as const;
+const integrationEventRelationships = {
+  webhook: [
+    {
+      sourceField: ['webhookId'],
+      destField: ['id'],
+      destSchema: 'integrationWebhook',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const integrationCredentialRelationships = {
+  webhook: [
+    {
+      sourceField: ['webhookId'],
+      destField: ['id'],
+      destSchema: 'integrationWebhook',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const documentLibraryRelationships = {
+  project: [
+    {
+      sourceField: ['projectId'],
+      destField: ['id'],
+      destSchema: 'project',
+      cardinality: 'one',
+    },
+  ],
+  folders: [
+    {
+      sourceField: ['id'],
+      destField: ['libraryId'],
+      destSchema: 'documentFolder',
+      cardinality: 'many',
+    },
+  ],
+} as const;
+const documentFolderRelationships = {
+  library: [
+    {
+      sourceField: ['libraryId'],
+      destField: ['id'],
+      destSchema: 'documentLibrary',
+      cardinality: 'one',
+    },
+  ],
+  parent: [
+    {
+      sourceField: ['parentId'],
+      destField: ['id'],
+      destSchema: 'documentFolder',
+      cardinality: 'one',
+    },
+  ],
+  children: [
+    {
+      sourceField: ['id'],
+      destField: ['parentId'],
+      destSchema: 'documentFolder',
+      cardinality: 'many',
+    },
+  ],
+  files: [
+    {
+      sourceField: ['id'],
+      destField: ['folderId'],
+      destSchema: 'documentFile',
+      cardinality: 'many',
+    },
+  ],
+} as const;
+const documentFileRelationships = {
+  folder: [
+    {
+      sourceField: ['folderId'],
+      destField: ['id'],
+      destSchema: 'documentFolder',
+      cardinality: 'one',
+    },
+  ],
+  uploader: [
+    {
+      sourceField: ['uploadedById'],
+      destField: ['id'],
+      destSchema: 'user',
+      cardinality: 'one',
+    },
+  ],
+  versions: [
+    {
+      sourceField: ['id'],
+      destField: ['fileId'],
+      destSchema: 'documentFileVersion',
+      cardinality: 'many',
+    },
+  ],
+  sharings: [
+    {
+      sourceField: ['id'],
+      destField: ['fileId'],
+      destSchema: 'documentSharing',
+      cardinality: 'many',
+    },
+  ],
+} as const;
+const documentFileVersionRelationships = {
+  file: [
+    {
+      sourceField: ['fileId'],
+      destField: ['id'],
+      destSchema: 'documentFile',
+      cardinality: 'one',
+    },
+  ],
+  uploader: [
+    {
+      sourceField: ['uploadedById'],
+      destField: ['id'],
+      destSchema: 'user',
+      cardinality: 'one',
+    },
+  ],
+} as const;
+const documentSharingRelationships = {
+  file: [
+    {
+      sourceField: ['fileId'],
+      destField: ['id'],
+      destSchema: 'documentFile',
+      cardinality: 'one',
+    },
+  ],
+  user: [
+    {
+      sourceField: ['sharedWithUserId'],
+      destField: ['id'],
+      destSchema: 'user',
+      cardinality: 'one',
+    },
+  ],
+  team: [
+    {
+      sourceField: ['sharedWithTeamId'],
+      destField: ['id'],
+      destSchema: 'team',
       cardinality: 'one',
     },
   ],
@@ -8973,83 +9013,83 @@ export const schema = {
     webhookSubscription: webhookSubscriptionTable,
   },
   relationships: {
-    analyticsDashboard: analyticsDashboardRelationships,
-    analyticsWidgetQuery: analyticsWidgetQueryRelationships,
-    analyticsWidget: analyticsWidgetRelationships,
-    benefitEnrollment: benefitEnrollmentRelationships,
-    benefitPlan: benefitPlanRelationships,
-    billingInvoiceLine: billingInvoiceLineRelationships,
-    billingInvoice: billingInvoiceRelationships,
-    budgetLine: budgetLineRelationships,
-    budget: budgetRelationships,
-    crmAccount: crmAccountRelationships,
-    crmActivity: crmActivityRelationships,
-    crmActivityType: crmActivityTypeRelationships,
-    crmContact: crmContactRelationships,
-    crmNote: crmNoteRelationships,
-    crmOpportunity: crmOpportunityRelationships,
-    crmOpportunityStageHistory: crmOpportunityStageHistoryRelationships,
-    crmPipelineStage: crmPipelineStageRelationships,
-    department: departmentRelationships,
-    documentFile: documentFileRelationships,
-    documentFileVersion: documentFileVersionRelationships,
-    documentFolder: documentFolderRelationships,
-    documentLibrary: documentLibraryRelationships,
-    documentSharing: documentSharingRelationships,
-    employeeDocument: employeeDocumentRelationships,
-    employeeProfile: employeeProfileRelationships,
-    employmentHistory: employmentHistoryRelationships,
-    expenseItem: expenseItemRelationships,
-    expenseReport: expenseReportRelationships,
-    featureFlag: featureFlagRelationships,
-    filters: filtersRelationships,
-    integrationCredential: integrationCredentialRelationships,
-    integrationEvent: integrationEventRelationships,
-    integrationWebhook: integrationWebhookRelationships,
-    inventoryItem: inventoryItemRelationships,
-    inventoryLevel: inventoryLevelRelationships,
-    inventoryLocation: inventoryLocationRelationships,
-    ledgerAccount: ledgerAccountRelationships,
-    ledgerEntry: ledgerEntryRelationships,
-    ledgerTransaction: ledgerTransactionRelationships,
-    marketingAudience: marketingAudienceRelationships,
-    marketingCampaignAudience: marketingCampaignAudienceRelationships,
-    marketingCampaignChannel: marketingCampaignChannelRelationships,
-    marketingCampaign: marketingCampaignRelationships,
-    marketingChannel: marketingChannelRelationships,
+    user: userRelationships,
     medium: mediumRelationships,
     message: messageRelationships,
-    orderItem: orderItemRelationships,
-    orderPayment: orderPaymentRelationships,
-    orderTable: orderTableRelationships,
+    filters: filtersRelationships,
+    projectTag: projectTagRelationships,
+    project: projectRelationships,
+    projectPhase: projectPhaseRelationships,
+    projectTask: projectTaskRelationships,
+    projectAssignment: projectAssignmentRelationships,
+    projectComment: projectCommentRelationships,
+    projectAttachment: projectAttachmentRelationships,
+    projectTaskTag: projectTaskTagRelationships,
+    projectNote: projectNoteRelationships,
+    projectAudit: projectAuditRelationships,
+    featureFlag: featureFlagRelationships,
+    telemetryRollup: telemetryRollupRelationships,
+    webhookSubscription: webhookSubscriptionRelationships,
+    crmAccount: crmAccountRelationships,
+    crmContact: crmContactRelationships,
+    crmPipelineStage: crmPipelineStageRelationships,
+    crmOpportunity: crmOpportunityRelationships,
+    crmOpportunityStageHistory: crmOpportunityStageHistoryRelationships,
+    crmActivityType: crmActivityTypeRelationships,
+    crmActivity: crmActivityRelationships,
+    crmNote: crmNoteRelationships,
     productCategory: productCategoryRelationships,
-    productMedia: productMediaRelationships,
     product: productRelationships,
     productVariant: productVariantRelationships,
-    projectAssignment: projectAssignmentRelationships,
-    projectAttachment: projectAttachmentRelationships,
-    projectAudit: projectAuditRelationships,
-    projectComment: projectCommentRelationships,
-    projectNote: projectNoteRelationships,
-    projectPhase: projectPhaseRelationships,
-    project: projectRelationships,
-    projectTag: projectTagRelationships,
-    projectTask: projectTaskRelationships,
-    projectTaskTag: projectTaskTagRelationships,
-    shipmentItem: shipmentItemRelationships,
+    productMedia: productMediaRelationships,
+    inventoryLocation: inventoryLocationRelationships,
+    inventoryItem: inventoryItemRelationships,
+    inventoryLevel: inventoryLevelRelationships,
+    orderTable: orderTableRelationships,
+    orderItem: orderItemRelationships,
+    orderPayment: orderPaymentRelationships,
     shipment: shipmentRelationships,
+    shipmentItem: shipmentItemRelationships,
+    department: departmentRelationships,
+    team: teamRelationships,
+    employeeProfile: employeeProfileRelationships,
+    employmentHistory: employmentHistoryRelationships,
+    employeeDocument: employeeDocumentRelationships,
+    timesheet: timesheetRelationships,
+    timeEntry: timeEntryRelationships,
+    benefitPlan: benefitPlanRelationships,
+    benefitEnrollment: benefitEnrollmentRelationships,
+    supportTicket: supportTicketRelationships,
+    supportTicketMessage: supportTicketMessageRelationships,
+    supportTicketTag: supportTicketTagRelationships,
+    supportTicketTagLink: supportTicketTagLinkRelationships,
     supportTicketAssignment: supportTicketAssignmentRelationships,
     supportTicketAudit: supportTicketAuditRelationships,
-    supportTicketMessage: supportTicketMessageRelationships,
-    supportTicket: supportTicketRelationships,
-    supportTicketTagLink: supportTicketTagLinkRelationships,
-    supportTicketTag: supportTicketTagRelationships,
-    team: teamRelationships,
-    telemetryRollup: telemetryRollupRelationships,
-    timeEntry: timeEntryRelationships,
-    timesheet: timesheetRelationships,
-    user: userRelationships,
-    webhookSubscription: webhookSubscriptionRelationships,
+    billingInvoice: billingInvoiceRelationships,
+    billingInvoiceLine: billingInvoiceLineRelationships,
+    expenseReport: expenseReportRelationships,
+    expenseItem: expenseItemRelationships,
+    ledgerAccount: ledgerAccountRelationships,
+    ledgerTransaction: ledgerTransactionRelationships,
+    ledgerEntry: ledgerEntryRelationships,
+    budget: budgetRelationships,
+    budgetLine: budgetLineRelationships,
+    marketingCampaign: marketingCampaignRelationships,
+    marketingChannel: marketingChannelRelationships,
+    marketingCampaignChannel: marketingCampaignChannelRelationships,
+    marketingAudience: marketingAudienceRelationships,
+    marketingCampaignAudience: marketingCampaignAudienceRelationships,
+    analyticsDashboard: analyticsDashboardRelationships,
+    analyticsWidget: analyticsWidgetRelationships,
+    analyticsWidgetQuery: analyticsWidgetQueryRelationships,
+    integrationWebhook: integrationWebhookRelationships,
+    integrationEvent: integrationEventRelationships,
+    integrationCredential: integrationCredentialRelationships,
+    documentLibrary: documentLibraryRelationships,
+    documentFolder: documentFolderRelationships,
+    documentFile: documentFileRelationships,
+    documentFileVersion: documentFileVersionRelationships,
+    documentSharing: documentSharingRelationships,
   },
   enableLegacyQueries: false,
   enableLegacyMutators: false,
