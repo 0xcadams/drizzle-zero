@@ -1582,6 +1582,13 @@ describe('tables', () => {
   test('pg - array type', () => {
     const enumType = pgEnum('status', ['active', 'inactive', 'pending']);
 
+    // Note: When using $type<T>() on array columns, pass the ELEMENT type, not the array type.
+    // Drizzle's .array() already wraps the type. So $type<{id: string}>() becomes {id: string}[].
+    // Using $type<T[]>() would result in double-wrapping: T[][] (incorrect).
+    //
+    // Note: Drizzle 1.0 doesn't track nested array dimensions at the type level.
+    // integer().array().array() produces number[] at the type level (not number[][]).
+    // At runtime, Zero will receive the correct 2D array data.
     const testTable = pgTable('test', {
       id: text().primaryKey(),
       textArray: text().array(),
@@ -1589,8 +1596,10 @@ describe('tables', () => {
       boolArray: pgBoolean().array(),
       numericArray: numeric().array(),
       uuidArray: uuid().array(),
-      jsonbArray: jsonb().array().$type<{id: string; name: string}[]>(),
+      // Use element type, not array type - Drizzle wraps it
+      jsonbArray: jsonb().array().$type<{id: string; name: string}>(),
       enumArray: enumType().array(),
+      // Nested arrays: Drizzle 1.0 limitation - only tracks as number[] at type level
       matrix: integer().array().array(),
     });
 
@@ -1606,7 +1615,8 @@ describe('tables', () => {
         uuidArray: json<string[]>().optional(),
         jsonbArray: json<{id: string; name: string}[]>().optional(),
         enumArray: json<('active' | 'inactive' | 'pending')[]>().optional(),
-        matrix: json<number[][]>().optional(),
+        // Note: Drizzle 1.0 limitation - nested arrays only track single dimension at type level
+        matrix: json<number[]>().optional(),
       })
       .primaryKey('id');
 
@@ -1647,10 +1657,14 @@ describe('tables', () => {
   });
 
   test('pg - array types with custom types', () => {
+    // When using $type<T>() on array columns, pass the ELEMENT type only.
+    // Drizzle's .array() wraps it automatically.
     const testTable = pgTable('test', {
       id: text().primaryKey(),
-      emails: text().array().$type<`${string}@${string}`[]>().notNull(),
-      customNumbers: integer().array().$type<1 | 2 | 3[]>(),
+      // Element type is the branded string, Drizzle wraps to make it an array
+      emails: text().array().$type<`${string}@${string}`>().notNull(),
+      // Element type is the union, Drizzle wraps to make it an array
+      customNumbers: integer().array().$type<1 | 2 | 3>(),
     });
 
     const result = createZeroTableBuilder('test', testTable, {
@@ -1663,7 +1677,7 @@ describe('tables', () => {
       .columns({
         id: string(),
         emails: json<`${string}@${string}`[]>(),
-        customNumbers: json<1 | 2 | 3[]>().optional(),
+        customNumbers: json<(1 | 2 | 3)[]>().optional(),
       })
       .primaryKey('id');
 

@@ -341,22 +341,28 @@ const createZeroTableBuilder = <
         }
       }
 
-      const type =
-        // 1. Try Drizzle 0.x columnType (e.g., 'PgText', 'PgUUID')
-        drizzleColumnTypeToZeroType[
-          column.columnType as keyof typeof drizzleColumnTypeToZeroType
-        ] ??
-        // 2. Try Drizzle 0.x simple dataType (e.g., 'string', 'number')
-        drizzleDataTypeToZeroType[
-          column.dataType as keyof typeof drizzleDataTypeToZeroType
-        ] ??
-        // 3. Try Drizzle 1.0 compound dataType (e.g., 'string uuid', 'number int32')
-        mapDrizzle1DataTypeToZero(column.dataType) ??
-        // 4. Fallback to SQL type from getSQLType()
-        postgresTypeToZeroType[
-          column.getSQLType() as keyof typeof postgresTypeToZeroType
-        ] ??
-        null;
+      // Check if this is an array column (Drizzle 1.0 uses dimensions property)
+      const isArrayColumn =
+        typeof (column as { dimensions?: number }).dimensions === 'number' &&
+        (column as { dimensions?: number }).dimensions! > 0;
+
+      const type = isArrayColumn
+        ? 'json' // Arrays always map to json in Zero
+        : // 1. Try Drizzle 0.x columnType (e.g., 'PgText', 'PgUUID')
+          drizzleColumnTypeToZeroType[
+            column.columnType as keyof typeof drizzleColumnTypeToZeroType
+          ] ??
+            // 2. Try Drizzle 0.x simple dataType (e.g., 'string', 'number')
+            drizzleDataTypeToZeroType[
+              column.dataType as keyof typeof drizzleDataTypeToZeroType
+            ] ??
+            // 3. Try Drizzle 1.0 compound dataType (e.g., 'string uuid', 'number int32')
+            mapDrizzle1DataTypeToZero(column.dataType) ??
+            // 4. Fallback to SQL type from getSQLType()
+            postgresTypeToZeroType[
+              column.getSQLType() as keyof typeof postgresTypeToZeroType
+            ] ??
+            null;
 
       if (type === null && !isColumnConfigOverride) {
         console.warn(
@@ -399,9 +405,10 @@ const createZeroTableBuilder = <
         };
       }
 
-      const schemaValue = column.enumValues
-        ? zeroEnumeration<typeof column.enumValues>()
-        : type === 'string'
+      const schemaValue =
+        column.enumValues && !isArrayColumn
+          ? zeroEnumeration<typeof column.enumValues>()
+          : type === 'string'
           ? zeroString()
           : type === 'number'
             ? zeroNumber()
