@@ -9,7 +9,7 @@ Update drizzle-zero to fully support Drizzle ORM 1.0, which introduced significa
 - **Branch**: `drizzle-1.0` (based on `upstream/0xcadams/drizzle-beta`)
 - **Drizzle Version**: `^1.0.0-beta.10` (beta.11 has broken TypeScript types)
 - **Status**: ✅ Ready for Review
-- **Tests**: 633/633 passing
+- **Tests**: 647/647 passing
 
 ### Known Limitations
 
@@ -61,9 +61,42 @@ Removed `custom: 'json'` from the runtime mapping so custom types fall through t
 
 **Result**: User's `$type<RecordData>()` IS preserved - just via the helper, not by emitting the type name directly.
 
+#### 5. ReadonlyJSONObject and Complex Type Resolution
+**Files**: `src/cli/type-resolution.ts`, `src/cli/shared.ts`
+
+Types that resolve to `ReadonlyJSONObject` (including through alias chains like `RecordData -> JsonObject -> ReadonlyJSONObject`) now work correctly:
+
+1. **Known safe type aliases**: `ReadonlyJSONValue` and `ReadonlyJSONObject` from `@rocicorp/zero` are recognized as safe and can appear in resolved types
+2. **`readonly` modifier support**: The `readonly` keyword is allowed in object type contexts (index signatures like `{ readonly [key: string]: ReadonlyJSONValue | undefined; }`)
+3. **Auto-import**: When these types are used, they're automatically imported from `@rocicorp/zero`
+
+**Example type chain that now works**:
+```typescript
+// In user's Drizzle schema
+type JsonObject = ReadonlyJSONObject;
+type RecordData = JsonObject;
+data: jsonb().$type<RecordData>().notNull()
+
+// Resolves correctly to:
+// { readonly [key: string]: ReadonlyJSONValue | undefined; }
+```
+
+#### 6. Reserved TypeScript Type Names
+**File**: `src/cli/shared.ts`
+
+Generated row types now avoid shadowing TypeScript built-in types:
+
+| Table Name | Old Generated Type | New Generated Type |
+|------------|-------------------|-------------------|
+| `records` | `type Record = ...` ❌ | `type RecordRow = ...` ✅ |
+| `arrays` | `type Array = ...` ❌ | `type ArrayRow = ...` ✅ |
+| `promises` | `type Promise = ...` ❌ | `type PromiseRow = ...` ✅ |
+
+**Reserved names**: `Array`, `Boolean`, `Date`, `Error`, `Function`, `Map`, `Number`, `Object`, `Promise`, `Record`, `Set`, `String`, `Symbol`, `WeakMap`, `WeakSet`, `Partial`, `Required`, `Readonly`, `Pick`, `Omit`, `Exclude`, `Extract`, `NonNullable`, `Parameters`, `ReturnType`, `InstanceType`
+
 ### API Changes
 
-#### 5. Drizzle 1.0 Query Builder
+#### 7. Drizzle 1.0 Query Builder
 **File**: `db/test-utils.ts`
 
 Drizzle 1.0 requires `relations` passed separately:
@@ -72,7 +105,7 @@ Drizzle 1.0 requires `relations` passed separately:
 const db = drizzle({ client, schema: tables, relations });
 ```
 
-#### 6. Where Clause Syntax
+#### 8. Where Clause Syntax
 **Files**: `integration/tests/integration.test.ts`, `no-config-integration/tests/integration.test.ts`
 
 Changed to object-based filters:
@@ -84,7 +117,7 @@ db.query.users.findFirst({ where: { id: '123' } });
 
 ### Test Updates
 
-#### 7. Previously Unsupported Types Now Supported
+#### 9. Previously Unsupported Types Now Supported
 
 In Drizzle 1.0, these types have valid compound dataTypes:
 - `interval`, `cidr`, `macaddr`, `inet` → `'string <constraint>'` → `string`
@@ -93,7 +126,7 @@ In Drizzle 1.0, these types have valid compound dataTypes:
 
 Updated tests to verify correct schema generation instead of expecting warnings.
 
-#### 8. Simplified isSafeResolvedType Tests
+#### 10. Simplified isSafeResolvedType Tests
 
 Rewrote `tests/type-resolution.test.ts` to match new blocklist philosophy:
 - Removed 400+ lines of allowlist-based tests
@@ -185,15 +218,19 @@ column.columnType = 'PgUUID'  // Direct property (not in _)
 |------|---------|
 | `src/drizzle-to-zero.ts` | Type predicates, runtime mapping fixes |
 | `src/relations.ts` | `CustomType` updated for Drizzle 1.0 |
-| `src/tables.ts` | `ZeroMappedCustomType` updated for Drizzle 1.0 |
-| `src/cli/type-resolution.ts` | Blocklist approach, removed string literal scanning |
+| `src/tables.ts` | `ZeroMappedCustomType` updated for Drizzle 1.0, array detection |
+| `src/cli/shared.ts` | Reserved type names, JSON type imports |
+| `src/cli/type-resolution.ts` | Blocklist approach, `knownSafeTypeAliases`, `readonly` handling |
 | `db/test-utils.ts` | Added `relations` to drizzle() config |
 | `integration/tests/integration.test.ts` | Where clause syntax |
 | `no-config-integration/tests/integration.test.ts` | Where clause syntax |
 | `tests/tables.test.ts` | Updated tests for now-supported types |
-| `tests/type-resolution.test.ts` | Simplified to blocklist philosophy |
+| `tests/type-resolution.test.ts` | Simplified to blocklist philosophy, JSON type tests |
 | `tests/drizzle-1.0.test.ts` | New tests for compound dataType utilities |
 | `tests/types.test.ts` | Type-level tests for Drizzle 1.0 mappings |
+| `tests/cli.test.ts` | Reserved type names tests, complex custom types tests |
+| `tests/schemas/complex-custom-types.schema.ts` | Test schema with complex `$type<>` structures |
+| `tests/schemas/complex-custom-types.zero.ts` | Zero config for complex types test |
 
 ---
 
