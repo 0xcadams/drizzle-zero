@@ -8,16 +8,20 @@ Update drizzle-zero to fully support Drizzle ORM 1.0, which introduced significa
 
 - **Branch**: `drizzle-1.0` (based on `upstream/0xcadams/drizzle-beta`)
 - **Drizzle Version**: `^1.0.0-beta.10` (beta.11 has broken TypeScript types)
-- **Status**: 🟡 In Progress
-- **Tests**: 629/633 passing (4 failing array type tests - pre-existing)
+- **Status**: ✅ Ready for Review
+- **Tests**: 633/633 passing
 
-### Remaining Issues
+### Known Limitations
 
-**Array type tests (4 failures)**: Pre-existing issue in drizzle-1.0 branch. Array type mapping produces incorrect nesting:
-- `jsonb().array().$type<{id: string; name: string}[]>()` produces `{id: string; name: string}[][]` instead of `{id: string; name: string}[]`
-- `integer().array().array()` produces `number[]` instead of `number[][]`
+**Nested array dimensions**: Drizzle 1.0 has a limitation where `integer().array().array()` only tracks single dimension at the type level (`number[]` instead of `number[][]`). Runtime behavior is correct - Zero receives the proper 2D array data.
+
+**$type<T>() on array columns**: When using `$type<T>()` on array columns, specify the **element type**, not the array type. Drizzle's `.array()` automatically wraps the type:
+- ✅ Correct: `jsonb().array().$type<{id: string}>()`  → `{id: string}[]`
+- ❌ Wrong: `jsonb().array().$type<{id: string}[]>()` → `{id: string}[][]` (double-wrapped)
 
 **Note on beta.11**: Drizzle ORM 1.0.0-beta.11 has numerous TypeScript type errors in its own declaration files (missing `config` property, `getSQL` not implemented, etc.). Staying on beta.10 until fixed.
+
+**Pre-existing issue**: `db/test-utils.ts:1563` has a type error related to `allTypes` table insert. This is a schema mismatch issue in the test utilities, not in drizzle-zero itself.
 
 ---
 
