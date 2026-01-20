@@ -272,6 +272,15 @@ const allowedTypeIdentifiers = new Set<string>([
 ]);
 
 /**
+ * Known safe type aliases from @rocicorp/zero that can appear in type expressions.
+ * These are auto-imported by the schema generator when used.
+ */
+const knownSafeTypeAliases = new Set<string>([
+  'ReadonlyJSONValue',
+  'ReadonlyJSONObject',
+]);
+
+/**
  * Check if a resolved type is safe to include in the generated schema.
  *
  * This function uses an ALLOWLIST approach - only primitive types and
@@ -290,9 +299,8 @@ export const isSafeResolvedType = (typeText: string | undefined): boolean => {
     return false;
   }
 
-  // Special case: ReadonlyJSONValue is safe (auto-imported by the generator)
-  // ReadonlyJSONObject falls back to ZeroCustomType since it's not auto-imported
-  if (typeText === 'ReadonlyJSONValue') {
+  // Special case: Known safe type aliases are safe when used directly
+  if (knownSafeTypeAliases.has(typeText)) {
     return true;
   }
 
@@ -364,9 +372,23 @@ export const isSafeResolvedType = (typeText: string | undefined): boolean => {
       continue;
     }
 
+    // Allow 'readonly' modifier ONLY in object type context (inside { })
+    // This handles index signatures: { readonly [key: string]: ... }
+    // and readonly properties: { readonly propName: ... }
+    // But NOT: readonly string[] or readonly [tuple] which are complex types
+    // Note: Object types can use either ; or , as separators
+    if (identifier === 'readonly' && (prevChar === '{' || prevChar === ';' || prevChar === ',')) {
+      continue;
+    }
+
     // Check if identifier is in allowlist (must be lowercase and allowed)
     const normalized = identifier.toLowerCase();
     if (identifier === normalized && allowedTypeIdentifiers.has(normalized)) {
+      continue;
+    }
+
+    // Allow known safe type aliases from @rocicorp/zero
+    if (knownSafeTypeAliases.has(identifier)) {
       continue;
     }
 

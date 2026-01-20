@@ -246,7 +246,8 @@ export function getGeneratedSchema({
   const usedIdentifiers = new Set<string>([schemaObjectName]);
   const tableConstNames = new Map<string, string>();
   const relationshipConstNames = new Map<string, string>();
-  let readonlyJSONValueImported = false;
+  // Track which JSON types from @rocicorp/zero need to be imported
+  const jsonTypesToImport = new Set<string>();
 
   const sanitizeIdentifier = (value: string, fallback: string) => {
     const baseCandidate =
@@ -388,8 +389,12 @@ export function getGeneratedSchema({
             if (resolvedType) {
               writer.write(`null as unknown as ${resolvedType}`);
 
-              if (resolvedType === 'ReadonlyJSONValue') {
-                readonlyJSONValueImported = true;
+              // Track @rocicorp/zero JSON types that need importing
+              if (resolvedType.includes('ReadonlyJSONValue')) {
+                jsonTypesToImport.add('ReadonlyJSONValue');
+              }
+              if (resolvedType.includes('ReadonlyJSONObject')) {
+                jsonTypesToImport.add('ReadonlyJSONObject');
               }
             } else {
               writer.write(
@@ -618,10 +623,11 @@ export function getGeneratedSchema({
     });
   }
 
-  if (readonlyJSONValueImported) {
+  // Import any @rocicorp/zero JSON types that were used
+  if (jsonTypesToImport.size > 0) {
     zeroSchemaGenerated.addImportDeclaration({
       moduleSpecifier: '@rocicorp/zero',
-      namedImports: [{name: 'ReadonlyJSONValue'}],
+      namedImports: Array.from(jsonTypesToImport).map(name => ({name})),
       isTypeOnly: true,
     });
   }

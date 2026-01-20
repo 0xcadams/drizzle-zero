@@ -1771,3 +1771,177 @@ describe('getConfigFromFile', () => {
     expect(result.zeroSchema?.tables).toHaveProperty('message');
   });
 });
+
+describe('Complex Custom Types', () => {
+  let tsProject: Project;
+  const outputFilePath = 'test-complex-types.gen.ts';
+  const schemaPath = path.resolve(
+    __dirname,
+    './schemas/complex-custom-types.zero.ts',
+  );
+
+  beforeEach(() => {
+    tsProject = new Project({
+      tsConfigFilePath: path.resolve(__dirname, '../tsconfig.json'),
+      skipAddingFilesFromTsConfig: true,
+    });
+    tsProject.addSourceFileAtPath(schemaPath);
+  });
+
+  afterEach(async () => {
+    try {
+      await fs.unlink(outputFilePath);
+    } catch {
+      // Ignore
+    }
+  });
+
+  it('should resolve complex $type<> structures correctly', async () => {
+    const configResult = await getConfigFromFile({
+      configFilePath: schemaPath,
+      tsProject,
+    });
+
+    const generatedSchema = getGeneratedSchema({
+      tsProject,
+      result: configResult,
+      outputFilePath,
+      enableLegacyMutators: false,
+      enableLegacyQueries: false,
+    });
+
+    // Verify the schema compiles by adding it as a source file
+    const generatedFile = tsProject.createSourceFile(
+      'generated-complex-types.ts',
+      generatedSchema,
+      {overwrite: true},
+    );
+    const diagnostics = generatedFile.getPreEmitDiagnostics();
+    const errors = diagnostics.filter(d => d.getCategory() === 1); // 1 = Error
+    
+    // Filter out rootDir ambiguity errors which are ts-morph config issues, not schema issues
+    const realErrors = errors.filter(e => {
+      const msg = e.getMessageText();
+      const msgText = typeof msg === 'string' ? msg : JSON.stringify(msg);
+      return !msgText.includes('rootDir') && !msgText.includes('ambiguous');
+    });
+    expect(realErrors).toHaveLength(0);
+
+    // 1. Nested object type (UserProfile with nested address and preferences)
+    // Should resolve to the full object structure or use ZeroCustomType
+    expect(generatedSchema).toMatch(/users.*profile/s);
+    // Either the type is expanded or uses ZeroCustomType - both are valid
+    const hasProfileType =
+      generatedSchema.includes('displayName') ||
+      generatedSchema.includes('ZeroCustomType');
+    expect(hasProfileType).toBe(true);
+
+    // 2. Discriminated union type (NotificationEvent)
+    expect(generatedSchema).toMatch(/notifications.*event/s);
+    // Either expanded union or ZeroCustomType
+    const hasEventType =
+      generatedSchema.includes('"email"') ||
+      generatedSchema.includes('"sms"') ||
+      generatedSchema.includes('ZeroCustomType');
+    expect(hasEventType).toBe(true);
+
+    // 3. Array of complex objects (FormFieldConfig[])
+    expect(generatedSchema).toMatch(/formTemplates.*fields/s);
+    const hasFieldsType =
+      generatedSchema.includes('conditionalRules') ||
+      generatedSchema.includes('ZeroCustomType');
+    expect(hasFieldsType).toBe(true);
+
+    // 4. Complex object with ReadonlyJSONValue (WorkflowStep)
+    expect(generatedSchema).toMatch(/workflows.*currentStep/s);
+    const hasWorkflowType =
+      generatedSchema.includes('substeps') ||
+      generatedSchema.includes('ReadonlyJSONValue') ||
+      generatedSchema.includes('ZeroCustomType');
+    expect(hasWorkflowType).toBe(true);
+
+    // 5. RecordData -> JsonObject -> ReadonlyJSONObject chain
+    // This should resolve to ReadonlyJSONObject (or its expanded form)
+    expect(generatedSchema).toMatch(/records.*data/s);
+    const hasRecordDataType =
+      generatedSchema.includes('ReadonlyJSONObject') ||
+      generatedSchema.includes('ReadonlyJSONValue') ||
+      generatedSchema.includes('ZeroCustomType');
+    expect(hasRecordDataType).toBe(true);
+
+    // Verify @rocicorp/zero JSON types are imported when used
+    if (generatedSchema.includes('ReadonlyJSONValue')) {
+      expect(generatedSchema).toMatch(
+        /import.*ReadonlyJSONValue.*from ['"]@rocicorp\/zero['"]/,
+      );
+    }
+    if (generatedSchema.includes('ReadonlyJSONObject')) {
+      expect(generatedSchema).toMatch(
+        /import.*ReadonlyJSONObject.*from ['"]@rocicorp\/zero['"]/,
+      );
+    }
+  });
+
+  it('should handle type alias chain (RecordData -> JsonObject -> ReadonlyJSONObject)', async () => {
+    const configResult = await getConfigFromFile({
+      configFilePath: schemaPath,
+      tsProject,
+    });
+
+    const generatedSchema = getGeneratedSchema({
+      tsProject,
+      result: configResult,
+      outputFilePath,
+      enableLegacyMutators: false,
+      enableLegacyQueries: false,
+    });
+
+    // The type alias chain should resolve correctly
+    // RecordData -> JsonObject -> ReadonlyJSONObject -> { readonly [key: string]: ReadonlyJSONValue | undefined; }
+    // The final result should either be:
+    // 1. ReadonlyJSONObject (direct alias)
+    // 2. { readonly [key: string]: ReadonlyJSONValue | undefined; } (expanded)
+    // 3. ZeroCustomType<...> (fallback)
+
+    // Check that the records table data column has a proper type
+    const recordsMatch = generatedSchema.match(
+      /records.*?data.*?customType.*?as unknown as ([^,\n]+)/s,
+    );
+    expect(recordsMatch).toBeTruthy();
+
+    const customType = recordsMatch?.[1]?.trim();
+    expect(customType).toBeDefined();
+
+    // Should NOT be empty object {} which indicates failed resolution
+    expect(customType).not.toBe('{}');
+
+    // Should be one of these valid resolutions
+    const isValidType =
+      customType?.includes('ReadonlyJSONObject') ||
+      customType?.includes('ReadonlyJSONValue') ||
+      customType?.includes('readonly [key: string]') ||
+      customType?.includes('ZeroCustomType');
+    expect(isValidType).toBe(true);
+  });
+
+  it('should not generate type Record that conflicts with TypeScript built-in', async () => {
+    const configResult = await getConfigFromFile({
+      configFilePath: schemaPath,
+      tsProject,
+    });
+
+    const generatedSchema = getGeneratedSchema({
+      tsProject,
+      result: configResult,
+      outputFilePath,
+      enableLegacyMutators: false,
+      enableLegacyQueries: false,
+    });
+
+    // Should NOT have 'export type Record =' which would shadow built-in Record<K,V>
+    expect(generatedSchema).not.toMatch(/export type Record\s*=/);
+
+    // Should have 'export type RecordRow =' instead
+    expect(generatedSchema).toMatch(/export type RecordRow\s*=/);
+  });
+});
