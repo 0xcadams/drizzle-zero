@@ -1582,6 +1582,13 @@ describe('tables', () => {
   test('pg - array type', () => {
     const enumType = pgEnum('status', ['active', 'inactive', 'pending']);
 
+    // Note: When using $type<T>() on array columns, pass the ELEMENT type, not the array type.
+    // Drizzle's .array() already wraps the type. So $type<{id: string}>() becomes {id: string}[].
+    // Using $type<T[]>() would result in double-wrapping: T[][] (incorrect).
+    //
+    // Note: Drizzle 1.0 doesn't track nested array dimensions at the type level.
+    // integer().array().array() produces number[] at the type level (not number[][]).
+    // At runtime, Zero will receive the correct 2D array data.
     const testTable = pgTable('test', {
       id: text().primaryKey(),
       textArray: text().array(),
@@ -1589,8 +1596,10 @@ describe('tables', () => {
       boolArray: pgBoolean().array(),
       numericArray: numeric().array(),
       uuidArray: uuid().array(),
-      jsonbArray: jsonb().array().$type<{id: string; name: string}[]>(),
+      // Use element type, not array type - Drizzle wraps it
+      jsonbArray: jsonb().array().$type<{id: string; name: string}>(),
       enumArray: enumType().array(),
+      // Nested arrays: Drizzle 1.0 limitation - only tracks as number[] at type level
       matrix: integer().array().array(),
     });
 
@@ -1606,7 +1615,8 @@ describe('tables', () => {
         uuidArray: json<string[]>().optional(),
         jsonbArray: json<{id: string; name: string}[]>().optional(),
         enumArray: json<('active' | 'inactive' | 'pending')[]>().optional(),
-        matrix: json<number[][]>().optional(),
+        // Note: Drizzle 1.0 limitation - nested arrays only track single dimension at type level
+        matrix: json<number[]>().optional(),
       })
       .primaryKey('id');
 
@@ -1647,10 +1657,14 @@ describe('tables', () => {
   });
 
   test('pg - array types with custom types', () => {
+    // When using $type<T>() on array columns, pass the ELEMENT type only.
+    // Drizzle's .array() wraps it automatically.
     const testTable = pgTable('test', {
       id: text().primaryKey(),
-      emails: text().array().$type<`${string}@${string}`[]>().notNull(),
-      customNumbers: integer().array().$type<1 | 2 | 3[]>(),
+      // Element type is the branded string, Drizzle wraps to make it an array
+      emails: text().array().$type<`${string}@${string}`>().notNull(),
+      // Element type is the union, Drizzle wraps to make it an array
+      customNumbers: integer().array().$type<1 | 2 | 3>(),
     });
 
     const result = createZeroTableBuilder('test', testTable, {
@@ -1663,7 +1677,7 @@ describe('tables', () => {
       .columns({
         id: string(),
         emails: json<`${string}@${string}`[]>(),
-        customNumbers: json<1 | 2 | 3[]>().optional(),
+        customNumbers: json<(1 | 2 | 3)[]>().optional(),
       })
       .primaryKey('id');
 
@@ -1679,147 +1693,144 @@ describe('tables', () => {
     );
   });
 
-  test('pg - interval types', ({expect}) => {
-    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+  // Note: In Drizzle 1.0, these types are now supported via compound dataTypes:
+  // - interval, cidr, macaddr, inet → 'string <constraint>' → string
+  // - point, line → 'array <constraint>' → json
+  // - geometry → 'object <constraint>' → json
 
+  test('pg - interval types', () => {
     const testTable = pgTable('test', {
       id: text().primaryKey(),
       interval: interval().notNull(),
     });
 
-    createZeroTableBuilder('test', testTable, {
+    const result = createZeroTableBuilder('test', testTable, {
       id: true,
       interval: true,
     });
 
-    // Should warn about unsupported interval types but not throw
-    expect(consoleSpy).toHaveBeenCalledWith(
-      expect.stringContaining(
-        '🚨  drizzle-zero: Unsupported column type: interval - PgInterval (string)',
-      ),
-    );
+    // In Drizzle 1.0, interval has dataType 'string interval' which maps to string
+    const expected = table('test')
+      .columns({
+        id: string(),
+        interval: string(),
+      })
+      .primaryKey('id');
 
-    consoleSpy.mockRestore();
+    expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
   });
 
-  test('pg - cidr types', ({expect}) => {
-    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-
+  test('pg - cidr types', () => {
     const testTable = pgTable('test', {
       id: text().primaryKey(),
       cidr: cidr().notNull(),
     });
 
-    createZeroTableBuilder('test', testTable, {
+    const result = createZeroTableBuilder('test', testTable, {
       id: true,
       cidr: true,
     });
 
-    // Should warn about unsupported cidr types but not throw
-    expect(consoleSpy).toHaveBeenCalledWith(
-      expect.stringContaining(
-        '🚨  drizzle-zero: Unsupported column type: cidr - PgCidr (string)',
-      ),
-    );
+    // In Drizzle 1.0, cidr has dataType 'string cidr' which maps to string
+    const expected = table('test')
+      .columns({
+        id: string(),
+        cidr: string(),
+      })
+      .primaryKey('id');
 
-    consoleSpy.mockRestore();
+    expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
   });
 
-  test('pg - macaddr types', ({expect}) => {
-    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-
+  test('pg - macaddr types', () => {
     const testTable = pgTable('test', {
       id: text().primaryKey(),
       macaddr: macaddr().notNull(),
     });
 
-    createZeroTableBuilder('test', testTable, {
+    const result = createZeroTableBuilder('test', testTable, {
       id: true,
       macaddr: true,
     });
 
-    // Should warn about unsupported macaddr types but not throw
-    expect(consoleSpy).toHaveBeenCalledWith(
-      expect.stringContaining(
-        '🚨  drizzle-zero: Unsupported column type: macaddr - PgMacaddr (string)',
-      ),
-    );
+    // In Drizzle 1.0, macaddr has dataType 'string macaddr' which maps to string
+    const expected = table('test')
+      .columns({
+        id: string(),
+        macaddr: string(),
+      })
+      .primaryKey('id');
 
-    consoleSpy.mockRestore();
+    expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
   });
 
-  test('pg - inet types', ({expect}) => {
-    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-
+  test('pg - inet types', () => {
     const testTable = pgTable('test', {
       id: text().primaryKey(),
       inet: inet().notNull(),
     });
 
-    createZeroTableBuilder('test', testTable, {
+    const result = createZeroTableBuilder('test', testTable, {
       id: true,
       inet: true,
     });
 
-    // Should warn about unsupported inet types but not throw
-    expect(consoleSpy).toHaveBeenCalledWith(
-      expect.stringContaining(
-        '🚨  drizzle-zero: Unsupported column type: inet - PgInet (string)',
-      ),
-    );
+    // In Drizzle 1.0, inet has dataType 'string inet' which maps to string
+    const expected = table('test')
+      .columns({
+        id: string(),
+        inet: string(),
+      })
+      .primaryKey('id');
 
-    consoleSpy.mockRestore();
+    expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
   });
 
-  test('pg - point types', ({expect}) => {
-    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-
+  test('pg - point types', () => {
     const testTable = pgTable('test', {
       id: text().primaryKey(),
       point: point().notNull(),
     });
 
-    createZeroTableBuilder('test', testTable, {
+    const result = createZeroTableBuilder('test', testTable, {
       id: true,
       point: true,
     });
 
-    // Should warn about unsupported point types but not throw
-    expect(consoleSpy).toHaveBeenCalledWith(
-      expect.stringContaining(
-        '🚨  drizzle-zero: Unsupported column type: point - PgPointTuple (array)',
-      ),
-    );
+    // In Drizzle 1.0, point has dataType 'array point' which maps to json
+    const expected = table('test')
+      .columns({
+        id: string(),
+        point: json<[number, number]>(),
+      })
+      .primaryKey('id');
 
-    consoleSpy.mockRestore();
+    expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
   });
 
-  test('pg - line types', ({expect}) => {
-    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-
+  test('pg - line types', () => {
     const testTable = pgTable('test', {
       id: text().primaryKey(),
       line: line().notNull(),
     });
 
-    createZeroTableBuilder('test', testTable, {
+    const result = createZeroTableBuilder('test', testTable, {
       id: true,
       line: true,
     });
 
-    // Should warn about unsupported line types but not throw
-    expect(consoleSpy).toHaveBeenCalledWith(
-      expect.stringContaining(
-        '🚨  drizzle-zero: Unsupported column type: line - PgLine (array)',
-      ),
-    );
+    // In Drizzle 1.0, line has dataType 'array line' which maps to json
+    const expected = table('test')
+      .columns({
+        id: string(),
+        line: json<[number, number, number]>(),
+      })
+      .primaryKey('id');
 
-    consoleSpy.mockRestore();
+    expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
   });
 
-  test('pg - geometry types', ({expect}) => {
-    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
-
+  test('pg - geometry types', () => {
     const testTable = pgTable('test', {
       id: text().primaryKey(),
       location: geometry('location', {
@@ -1829,18 +1840,20 @@ describe('tables', () => {
       }).notNull(),
     });
 
-    createZeroTableBuilder('test', testTable, {
+    const result = createZeroTableBuilder('test', testTable, {
       id: true,
       location: true,
     });
 
-    expect(consoleSpy).toHaveBeenCalledWith(
-      expect.stringContaining(
-        '🚨  drizzle-zero: Unsupported column type: location - PgGeometryObject (json)',
-      ),
-    );
+    // In Drizzle 1.0, geometry has dataType 'object geometry' which maps to json
+    const expected = table('test')
+      .columns({
+        id: string(),
+        location: json<{x: number; y: number}>(),
+      })
+      .primaryKey('id');
 
-    consoleSpy.mockRestore();
+    expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
   });
 
   test('pg - primary key with serial default should not be optional', () => {
@@ -1955,6 +1968,59 @@ describe('tables', () => {
       .primaryKey('id');
 
     expectTableSchemaDeepEqual(result.build()).toEqual(expected.build());
+  });
+
+  describe('default value warnings', () => {
+    test('pg - should warn for columns with database defaults when suppressDefaultsWarning is not set', ({
+      expect,
+    }) => {
+      const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      const testTable = pgTable('test_defaults_warn', {
+        id: text().primaryKey(),
+        name: text().notNull().default('unnamed'),
+      });
+
+      createZeroTableBuilder('test_defaults_warn', testTable, {
+        id: true,
+        name: true,
+      });
+
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining(
+          '⚠️ drizzle-zero: Column test_defaults_warn.name uses a database default',
+        ),
+      );
+
+      consoleSpy.mockRestore();
+    });
+
+    test('pg - should not warn for columns with database defaults when suppressDefaultsWarning is true', ({
+      expect,
+    }) => {
+      const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      const testTable = pgTable('test_defaults_suppressed', {
+        id: text().primaryKey(),
+        name: text().notNull().default('unnamed'),
+      });
+
+      createZeroTableBuilder(
+        'test_defaults_suppressed',
+        testTable,
+        {
+          id: true,
+          name: true,
+        },
+        undefined, // debug
+        undefined, // casing
+        true, // suppressDefaultsWarning
+      );
+
+      expect(consoleSpy).not.toHaveBeenCalled();
+
+      consoleSpy.mockRestore();
+    });
   });
 
   test('pg - no primary key', ({expect}) => {

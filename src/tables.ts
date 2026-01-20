@@ -19,6 +19,12 @@ import {
   drizzleColumnTypeToZeroType,
   type DrizzleDataTypeToZeroType,
   drizzleDataTypeToZeroType,
+  type IsBigIntDataType,
+  type IsExactType,
+  type IsStringNumericDataType,
+  type IsTimestampDataType,
+  type MapDrizzle1DataTypeToZero,
+  mapDrizzle1DataTypeToZero,
   postgresTypeToZeroType,
   type ZeroTypeToTypescriptType,
 } from './drizzle-to-zero';
@@ -77,6 +83,7 @@ export type ColumnsConfig<TTable extends Table> =
 
 /**
  * Maps a Drizzle column type to its corresponding Zero type.
+ * Supports both Drizzle 0.x (with columnType in _) and Drizzle 1.0 (compound dataType).
  */
 type ZeroMappedColumnType<
   TTable extends Table,
@@ -85,15 +92,23 @@ type ZeroMappedColumnType<
     TTable,
     KColumn
   >['_'],
-> = CD extends {
-  columnType: keyof DrizzleColumnTypeToZeroType;
-}
-  ? DrizzleColumnTypeToZeroType[CD['columnType']]
-  : DrizzleDataTypeToZeroType[CD['dataType']];
+> =
+  // First, try Drizzle 0.x style columnType (in _ object)
+  CD extends {columnType: keyof DrizzleColumnTypeToZeroType}
+    ? DrizzleColumnTypeToZeroType[CD['columnType']]
+    : // Then try Drizzle 0.x style simple dataType
+      CD['dataType'] extends keyof DrizzleDataTypeToZeroType
+      ? DrizzleDataTypeToZeroType[CD['dataType']]
+      : // Finally, handle Drizzle 1.0 compound dataType (e.g., "string uuid", "number int32")
+        MapDrizzle1DataTypeToZero<CD['dataType'] & string>;
 
 /**
  * Maps a Drizzle column to its corresponding TypeScript type in Zero.
- * Handles special cases like enums and custom types.
+ * Handles special cases like enums, custom types, and $type overrides.
+ * Supports both Drizzle 0.x and 1.0 column structures.
+ *
+ * In Drizzle 1.0, $type<T>() sets data: T directly (no $type property).
+ * In Drizzle 0.x, $type<T>() adds $type: T to the _ object.
  */
 type ZeroMappedCustomType<
   TTable extends Table,
@@ -102,27 +117,63 @@ type ZeroMappedCustomType<
     TTable,
     KColumn
   >['_'],
-> = CD extends {
-  columnType: 'PgCustomColumn';
-}
-  ? CD['data']
-  : CD extends {
-        columnType: 'PgEnumColumn';
-      }
-    ? CD['data']
-    : CD extends {
-          columnType: 'PgText';
-          data: string;
-        }
+> =
+  // Drizzle 0.x: Check for $type override in _ object
+  CD extends {$type: infer TType}
+    ? TType
+    : // Drizzle 0.x: PgCustomColumn
+      CD extends {columnType: 'PgCustomColumn'}
       ? CD['data']
-      : CD extends {
-            columnType: 'PgArray';
-            data: infer TArrayData;
-          }
-        ? TArrayData
-        : CD extends {$type: any}
-          ? CD['$type']
-          : ZeroTypeToTypescriptType[ZeroMappedColumnType<TTable, KColumn>];
+      : // Drizzle 0.x: PgEnumColumn
+        CD extends {columnType: 'PgEnumColumn'}
+        ? CD['data']
+        : // Drizzle 0.x: PgText with string literal type
+          CD extends {columnType: 'PgText'; data: string}
+          ? CD['data']
+          : // Drizzle 0.x: PgArray
+            CD extends {columnType: 'PgArray'; data: infer TArrayData}
+            ? TArrayData
+            : // Drizzle 1.0: Handle special data types
+              CD extends {dataType: infer DT extends string; data: infer TData}
+              ? // Timestamps: return number unless $type<T>() override with non-default type
+                IsTimestampDataType<DT> extends true
+                ? // If data is exactly Date or string (defaults), convert to number for Zero
+                  // If data is a branded/custom type (explicit $type override), preserve it
+                  unknown extends TData
+                  ? number
+                  : IsExactType<TData, Date> extends true
+                    ? number
+                    : IsExactType<TData, string> extends true
+                      ? number
+                      : TData
+                : // Bigints: return number unless $type<T>() override with non-default type
+                  IsBigIntDataType<DT> extends true
+                  ? // If data is exactly bigint (default), convert to number for Zero
+                    unknown extends TData
+                    ? number
+                    : IsExactType<TData, bigint> extends true
+                      ? number
+                      : TData
+                  : // Numerics: return number unless $type<T>() override with non-default type
+                    IsStringNumericDataType<DT> extends true
+                    ? // If data is exactly string (default numeric mode), convert to number for Zero
+                      unknown extends TData
+                      ? number
+                      : IsExactType<TData, string> extends true
+                        ? number
+                        : TData
+                    : // Other types: use data if known, otherwise default
+                      unknown extends TData
+                      ? ZeroMappedColumnType<TTable, KColumn> extends keyof ZeroTypeToTypescriptType
+                        ? ZeroTypeToTypescriptType[ZeroMappedColumnType<TTable, KColumn>]
+                        : unknown
+                      : TData
+              : // No dataType - fallback
+                unknown extends CD['data']
+                ? ZeroMappedColumnType<TTable, KColumn> extends keyof ZeroTypeToTypescriptType
+                  ? ZeroTypeToTypescriptType[ZeroMappedColumnType<TTable, KColumn>]
+                  : unknown
+                : CD['data'];
 
 /**
  * Defines the structure of a column in the Zero schema.
@@ -214,6 +265,10 @@ const createZeroTableBuilder = <
    * The casing to use for the table name.
    */
   casing?: TCasing,
+  /**
+   * Whether to hide warnings for columns with default values.
+   */
+  suppressDefaultsWarning?: boolean,
 ): ZeroTableBuilder<TTableName, TTable, TColumnConfig> => {
   const actualTableName = getTableName(table);
   const tableColumns = getTableColumns(table);
@@ -286,17 +341,28 @@ const createZeroTableBuilder = <
         }
       }
 
-      const type =
-        drizzleColumnTypeToZeroType[
-          column.columnType as keyof typeof drizzleColumnTypeToZeroType
-        ] ??
-        drizzleDataTypeToZeroType[
-          column.dataType as keyof typeof drizzleDataTypeToZeroType
-        ] ??
-        postgresTypeToZeroType[
-          column.getSQLType() as keyof typeof postgresTypeToZeroType
-        ] ??
-        null;
+      // Check if this is an array column (Drizzle 1.0 uses dimensions property)
+      const isArrayColumn =
+        typeof (column as { dimensions?: number }).dimensions === 'number' &&
+        (column as { dimensions?: number }).dimensions! > 0;
+
+      const type = isArrayColumn
+        ? 'json' // Arrays always map to json in Zero
+        : // 1. Try Drizzle 0.x columnType (e.g., 'PgText', 'PgUUID')
+          drizzleColumnTypeToZeroType[
+            column.columnType as keyof typeof drizzleColumnTypeToZeroType
+          ] ??
+            // 2. Try Drizzle 0.x simple dataType (e.g., 'string', 'number')
+            drizzleDataTypeToZeroType[
+              column.dataType as keyof typeof drizzleDataTypeToZeroType
+            ] ??
+            // 3. Try Drizzle 1.0 compound dataType (e.g., 'string uuid', 'number int32')
+            mapDrizzle1DataTypeToZero(column.dataType) ??
+            // 4. Fallback to SQL type from getSQLType()
+            postgresTypeToZeroType[
+              column.getSQLType() as keyof typeof postgresTypeToZeroType
+            ] ??
+            null;
 
       if (type === null && !isColumnConfigOverride) {
         console.warn(
@@ -310,13 +376,13 @@ const createZeroTableBuilder = <
       const hasServerDefault =
         column.hasDefault || typeof column.defaultFn !== 'undefined';
 
-      if (hasServerDefault) {
+      if (hasServerDefault && !suppressDefaultsWarning) {
         const warningKey = `${actualTableName}.${resolvedColumnName}`;
         if (!warnedServerDefaults.has(warningKey)) {
           warnedServerDefaults.add(warningKey);
 
           console.warn(
-            `⚠️ drizzle-zero: Column ${actualTableName}.${resolvedColumnName} uses a database default that the Zero client will not be able to use. This probably won't work the way you expect. Set the value with mutators instead. See: https://github.com/rocicorp/drizzle-zero/issues/197`,
+            `⚠️ drizzle-zero: Column ${actualTableName}.${resolvedColumnName} uses a database default that the Zero client will not be able to use. This probably won't work the way you expect. Set the value with mutators instead. See: https://bugs.rocicorp.dev/p/zero/issue/3465`,
           );
         }
       }
@@ -339,9 +405,10 @@ const createZeroTableBuilder = <
         };
       }
 
-      const schemaValue = column.enumValues
-        ? zeroEnumeration<typeof column.enumValues>()
-        : type === 'string'
+      const schemaValue =
+        column.enumValues && !isArrayColumn
+          ? zeroEnumeration<typeof column.enumValues>()
+          : type === 'string'
           ? zeroString()
           : type === 'number'
             ? zeroNumber()

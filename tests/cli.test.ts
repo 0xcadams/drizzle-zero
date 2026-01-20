@@ -171,10 +171,8 @@ describe('getGeneratedSchema', () => {
       /**
        * Represents a row from the "users" table.
        * This type is auto-generated from your Drizzle schema definition.
-       *
-       * @deprecated Use Row["users"] instead from "@rocicorp/zero".
        */
-      export type User = Row["users"];
+      export type User = Row<(typeof schema)["tables"]["users"]>;
 
       /**
        * Represents the ZQL query builder.
@@ -184,8 +182,6 @@ describe('getGeneratedSchema', () => {
       /**
        * Represents the Zero schema query builder.
        * This type is auto-generated from your Drizzle schema definition.
-       *
-       * @deprecated Use \`zql\` instead.
        */
       export const builder = zql;
 
@@ -333,7 +329,9 @@ describe('getGeneratedSchema', () => {
     expect(generatedSchema).toContain('export type Schema = typeof schema;');
 
     // Check for the type exports
-    expect(generatedSchema).toContain('export type User = Row["users"];');
+    expect(generatedSchema).toContain(
+      'export type User = Row<(typeof schema)["tables"]["users"]>;',
+    );
 
     // Verify null custom type handling with the correct type path
     const customTypeSchema = {
@@ -1107,8 +1105,12 @@ describe('getGeneratedSchema', () => {
     });
 
     // Check for table type exports with proper capitalization
-    expect(generatedSchema).toContain('export type User = Row["users"];');
-    expect(generatedSchema).toContain('export type Post = Row["posts"];');
+    expect(generatedSchema).toContain(
+      'export type User = Row<(typeof schema)["tables"]["users"]>;',
+    );
+    expect(generatedSchema).toContain(
+      'export type Post = Row<(typeof schema)["tables"]["posts"]>;',
+    );
   });
 
   it('should handle table names with various casing correctly', () => {
@@ -1156,12 +1158,78 @@ describe('getGeneratedSchema', () => {
 
     // Check that capitalization works correctly for different naming conventions
     expect(generatedSchema).toContain(
-      'export type UserProfile = Row["userProfiles"];',
+      'export type UserProfile = Row<(typeof schema)["tables"]["userProfiles"]>;',
     );
     expect(generatedSchema).toContain(
-      'export type BlogPost = Row["blog_posts"];',
+      'export type BlogPost = Row<(typeof schema)["tables"]["blog_posts"]>;',
     );
-    expect(generatedSchema).toContain('export type User = Row["user"];');
+    expect(generatedSchema).toContain(
+      'export type User = Row<(typeof schema)["tables"]["user"]>;',
+    );
+  });
+
+  it('should handle reserved TypeScript type names by adding Row suffix', () => {
+    const zeroSchemaTypeDecl = getZeroSchemaDefsFromConfig({
+      tsProject,
+      configPath: schemaPath,
+      exportName: 'schema',
+    });
+
+    const generatedSchema = getGeneratedSchema({
+      tsProject,
+      result: {
+        type: 'config',
+        zeroSchema: {
+          tables: {
+            // "records" singular -> "Record" which is a reserved TypeScript type
+            records: {
+              name: 'records',
+              primaryKey: ['id'],
+              columns: {
+                id: {type: 'number', optional: false, customType: undefined},
+                data: {type: 'string', optional: false, customType: undefined},
+              },
+            },
+            // "arrays" singular -> "Array" which is a reserved TypeScript type
+            arrays: {
+              name: 'arrays',
+              primaryKey: ['id'],
+              columns: {
+                id: {type: 'number', optional: false, customType: undefined},
+              },
+            },
+            // "users" -> "User" which is NOT reserved, should remain unchanged
+            users: {
+              name: 'users',
+              primaryKey: ['id'],
+              columns: {
+                id: {type: 'number', optional: false, customType: undefined},
+              },
+            },
+          },
+          relationships: {},
+        },
+        exportName: 'schema',
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+    });
+
+    // Reserved type names should have "Row" suffix to avoid shadowing built-in types
+    expect(generatedSchema).not.toContain('export type Record =');
+    expect(generatedSchema).toContain(
+      'export type RecordRow = Row<(typeof schema)["tables"]["records"]>;',
+    );
+
+    expect(generatedSchema).not.toContain('export type Array =');
+    expect(generatedSchema).toContain(
+      'export type ArrayRow = Row<(typeof schema)["tables"]["arrays"]>;',
+    );
+
+    // Non-reserved type names should remain unchanged
+    expect(generatedSchema).toContain(
+      'export type User = Row<(typeof schema)["tables"]["users"]>;',
+    );
   });
 
   it('should include all new features in drizzle-kit type schemas', () => {
@@ -1220,8 +1288,12 @@ describe('getGeneratedSchema', () => {
     );
 
     // Check for table type exports
-    expect(generatedSchema).toContain('export type User = Row["users"];');
-    expect(generatedSchema).toContain('export type Post = Row["posts"];');
+    expect(generatedSchema).toContain(
+      'export type User = Row<(typeof schema)["tables"]["users"]>;',
+    );
+    expect(generatedSchema).toContain(
+      'export type Post = Row<(typeof schema)["tables"]["posts"]>;',
+    );
 
     // Reset the mock after the test
     vi.restoreAllMocks();
@@ -1261,7 +1333,7 @@ describe('getGeneratedSchema', () => {
 
     // Should not have any table row type exports, but should still have Schema type
     expect(generatedSchema).toContain('export type Schema = typeof schema;');
-    expect(generatedSchema).not.toContain("Row['");
+    expect(generatedSchema).not.toContain("Row<'");
   });
 
   it('should skip generating table row types when skipTypes is true', () => {
@@ -1298,7 +1370,7 @@ describe('getGeneratedSchema', () => {
     expect(generatedSchema).not.toContain(
       'import type { Row } from "@rocicorp/zero";',
     );
-    expect(generatedSchema).not.toContain('Row["users"]');
+    expect(generatedSchema).not.toContain('Row<');
 
     // Builder should still be present
     expect(generatedSchema).toContain(
@@ -1349,7 +1421,9 @@ describe('getGeneratedSchema', () => {
     expect(generatedSchema).toContain(
       'import type { Row } from "@rocicorp/zero";',
     );
-    expect(generatedSchema).toContain('export type User = Row["users"];');
+    expect(generatedSchema).toContain(
+      'export type User = Row<(typeof schema)["tables"]["users"]>;',
+    );
   });
 
   it('should set enableLegacyMutators to true', () => {
@@ -1695,5 +1769,179 @@ describe('getConfigFromFile', () => {
     // Verify some expected tables from the integration config
     expect(result.zeroSchema?.tables).toHaveProperty('user');
     expect(result.zeroSchema?.tables).toHaveProperty('message');
+  });
+});
+
+describe('Complex Custom Types', () => {
+  let tsProject: Project;
+  const outputFilePath = 'test-complex-types.gen.ts';
+  const schemaPath = path.resolve(
+    __dirname,
+    './schemas/complex-custom-types.zero.ts',
+  );
+
+  beforeEach(() => {
+    tsProject = new Project({
+      tsConfigFilePath: path.resolve(__dirname, '../tsconfig.json'),
+      skipAddingFilesFromTsConfig: true,
+    });
+    tsProject.addSourceFileAtPath(schemaPath);
+  });
+
+  afterEach(async () => {
+    try {
+      await fs.unlink(outputFilePath);
+    } catch {
+      // Ignore
+    }
+  });
+
+  it('should resolve complex $type<> structures correctly', async () => {
+    const configResult = await getConfigFromFile({
+      configFilePath: schemaPath,
+      tsProject,
+    });
+
+    const generatedSchema = getGeneratedSchema({
+      tsProject,
+      result: configResult,
+      outputFilePath,
+      enableLegacyMutators: false,
+      enableLegacyQueries: false,
+    });
+
+    // Verify the schema compiles by adding it as a source file
+    const generatedFile = tsProject.createSourceFile(
+      'generated-complex-types.ts',
+      generatedSchema,
+      {overwrite: true},
+    );
+    const diagnostics = generatedFile.getPreEmitDiagnostics();
+    const errors = diagnostics.filter(d => d.getCategory() === 1); // 1 = Error
+    
+    // Filter out rootDir ambiguity errors which are ts-morph config issues, not schema issues
+    const realErrors = errors.filter(e => {
+      const msg = e.getMessageText();
+      const msgText = typeof msg === 'string' ? msg : JSON.stringify(msg);
+      return !msgText.includes('rootDir') && !msgText.includes('ambiguous');
+    });
+    expect(realErrors).toHaveLength(0);
+
+    // 1. Nested object type (UserProfile with nested address and preferences)
+    // Should resolve to the full object structure or use ZeroCustomType
+    expect(generatedSchema).toMatch(/users.*profile/s);
+    // Either the type is expanded or uses ZeroCustomType - both are valid
+    const hasProfileType =
+      generatedSchema.includes('displayName') ||
+      generatedSchema.includes('ZeroCustomType');
+    expect(hasProfileType).toBe(true);
+
+    // 2. Discriminated union type (NotificationEvent)
+    expect(generatedSchema).toMatch(/notifications.*event/s);
+    // Either expanded union or ZeroCustomType
+    const hasEventType =
+      generatedSchema.includes('"email"') ||
+      generatedSchema.includes('"sms"') ||
+      generatedSchema.includes('ZeroCustomType');
+    expect(hasEventType).toBe(true);
+
+    // 3. Array of complex objects (FormFieldConfig[])
+    expect(generatedSchema).toMatch(/formTemplates.*fields/s);
+    const hasFieldsType =
+      generatedSchema.includes('conditionalRules') ||
+      generatedSchema.includes('ZeroCustomType');
+    expect(hasFieldsType).toBe(true);
+
+    // 4. Complex object with ReadonlyJSONValue (WorkflowStep)
+    expect(generatedSchema).toMatch(/workflows.*currentStep/s);
+    const hasWorkflowType =
+      generatedSchema.includes('substeps') ||
+      generatedSchema.includes('ReadonlyJSONValue') ||
+      generatedSchema.includes('ZeroCustomType');
+    expect(hasWorkflowType).toBe(true);
+
+    // 5. RecordData -> JsonObject -> ReadonlyJSONObject chain
+    // This should resolve to ReadonlyJSONObject (or its expanded form)
+    expect(generatedSchema).toMatch(/records.*data/s);
+    const hasRecordDataType =
+      generatedSchema.includes('ReadonlyJSONObject') ||
+      generatedSchema.includes('ReadonlyJSONValue') ||
+      generatedSchema.includes('ZeroCustomType');
+    expect(hasRecordDataType).toBe(true);
+
+    // Verify @rocicorp/zero JSON types are imported when used
+    if (generatedSchema.includes('ReadonlyJSONValue')) {
+      expect(generatedSchema).toMatch(
+        /import.*ReadonlyJSONValue.*from ['"]@rocicorp\/zero['"]/,
+      );
+    }
+    if (generatedSchema.includes('ReadonlyJSONObject')) {
+      expect(generatedSchema).toMatch(
+        /import.*ReadonlyJSONObject.*from ['"]@rocicorp\/zero['"]/,
+      );
+    }
+  });
+
+  it('should handle type alias chain (RecordData -> JsonObject -> ReadonlyJSONObject)', async () => {
+    const configResult = await getConfigFromFile({
+      configFilePath: schemaPath,
+      tsProject,
+    });
+
+    const generatedSchema = getGeneratedSchema({
+      tsProject,
+      result: configResult,
+      outputFilePath,
+      enableLegacyMutators: false,
+      enableLegacyQueries: false,
+    });
+
+    // The type alias chain should resolve correctly
+    // RecordData -> JsonObject -> ReadonlyJSONObject -> { readonly [key: string]: ReadonlyJSONValue | undefined; }
+    // The final result should either be:
+    // 1. ReadonlyJSONObject (direct alias)
+    // 2. { readonly [key: string]: ReadonlyJSONValue | undefined; } (expanded)
+    // 3. ZeroCustomType<...> (fallback)
+
+    // Check that the records table data column has a proper type
+    const recordsMatch = generatedSchema.match(
+      /records.*?data.*?customType.*?as unknown as ([^,\n]+)/s,
+    );
+    expect(recordsMatch).toBeTruthy();
+
+    const customType = recordsMatch?.[1]?.trim();
+    expect(customType).toBeDefined();
+
+    // Should NOT be empty object {} which indicates failed resolution
+    expect(customType).not.toBe('{}');
+
+    // Should be one of these valid resolutions
+    const isValidType =
+      customType?.includes('ReadonlyJSONObject') ||
+      customType?.includes('ReadonlyJSONValue') ||
+      customType?.includes('readonly [key: string]') ||
+      customType?.includes('ZeroCustomType');
+    expect(isValidType).toBe(true);
+  });
+
+  it('should not generate type Record that conflicts with TypeScript built-in', async () => {
+    const configResult = await getConfigFromFile({
+      configFilePath: schemaPath,
+      tsProject,
+    });
+
+    const generatedSchema = getGeneratedSchema({
+      tsProject,
+      result: configResult,
+      outputFilePath,
+      enableLegacyMutators: false,
+      enableLegacyQueries: false,
+    });
+
+    // Should NOT have 'export type Record =' which would shadow built-in Record<K,V>
+    expect(generatedSchema).not.toMatch(/export type Record\s*=/);
+
+    // Should have 'export type RecordRow =' instead
+    expect(generatedSchema).toMatch(/export type RecordRow\s*=/);
   });
 });

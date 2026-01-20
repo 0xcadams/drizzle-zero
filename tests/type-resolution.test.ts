@@ -70,6 +70,10 @@ describe('resolveCustomTypes', () => {
           "string",
         ],
         [
+          "user::|::customTypeJson",
+          "ReadonlyJSONValue",
+        ],
+        [
           "user::|::enumField",
           ""a" | "b" | "c"",
         ],
@@ -197,8 +201,17 @@ describe('isSafeResolvedType', () => {
     'null',
     'undefined',
 
-    // JSON types
+    // JSON types from @rocicorp/zero
     'ReadonlyJSONValue',
+    'ReadonlyJSONObject',
+    // Resolved form of ReadonlyJSONObject
+    '{ readonly [key: string]: ReadonlyJSONValue | undefined; }',
+    // Object with ReadonlyJSONValue property
+    '{ data: ReadonlyJSONValue; }',
+    '{ data: ReadonlyJSONObject | null; }',
+    // Readonly properties with both semicolon and comma separators
+    '{ readonly a: string; readonly b: number; }',
+    '{ readonly a: string, readonly b: number }',
 
     // Numeric literals
     '1 | 2 | 3',

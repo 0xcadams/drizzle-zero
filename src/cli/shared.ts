@@ -10,6 +10,41 @@ import type {getConfigFromFile} from './config';
 import type {getDefaultConfig} from './drizzle-kit';
 import {COLUMN_SEPARATOR, resolveCustomTypes} from './type-resolution';
 
+/**
+ * Reserved TypeScript type names that should not be used for generated row types.
+ * These would shadow built-in types and cause conflicts.
+ */
+const RESERVED_TYPE_NAMES = new Set([
+  // Built-in global types
+  'Array',
+  'Boolean',
+  'Date',
+  'Error',
+  'Function',
+  'Map',
+  'Number',
+  'Object',
+  'Promise',
+  'Record',
+  'Set',
+  'String',
+  'Symbol',
+  'WeakMap',
+  'WeakSet',
+  // Common utility types
+  'Partial',
+  'Required',
+  'Readonly',
+  'Pick',
+  'Omit',
+  'Exclude',
+  'Extract',
+  'NonNullable',
+  'Parameters',
+  'ReturnType',
+  'InstanceType',
+]);
+
 export function getGeneratedSchema({
   tsProject,
   result,
@@ -211,7 +246,8 @@ export function getGeneratedSchema({
   const usedIdentifiers = new Set<string>([schemaObjectName]);
   const tableConstNames = new Map<string, string>();
   const relationshipConstNames = new Map<string, string>();
-  let readonlyJSONValueImported = false;
+  // Track which JSON types from @rocicorp/zero need to be imported
+  const jsonTypesToImport = new Set<string>();
 
   const sanitizeIdentifier = (value: string, fallback: string) => {
     const baseCandidate =
@@ -353,8 +389,12 @@ export function getGeneratedSchema({
             if (resolvedType) {
               writer.write(`null as unknown as ${resolvedType}`);
 
-              if (resolvedType === 'ReadonlyJSONValue') {
-                readonlyJSONValueImported = true;
+              // Track @rocicorp/zero JSON types that need importing
+              if (resolvedType.includes('ReadonlyJSONValue')) {
+                jsonTypesToImport.add('ReadonlyJSONValue');
+              }
+              if (resolvedType.includes('ReadonlyJSONObject')) {
+                jsonTypesToImport.add('ReadonlyJSONObject');
               }
             } else {
               writer.write(
@@ -514,14 +554,19 @@ export function getGeneratedSchema({
         pascalCase: true,
       });
 
+      // Avoid shadowing built-in TypeScript types
+      const safeTypeName = RESERVED_TYPE_NAMES.has(typeName)
+        ? `${typeName}Row`
+        : typeName;
+
       const tableTypeAlias = zeroSchemaGenerated.addTypeAlias({
-        name: typeName,
+        name: safeTypeName,
         isExported: true,
-        type: `Row["${tableName}"]`,
+        type: `Row<(typeof ${schemaObjectName})["tables"]["${tableName}"]>`,
       });
 
       tableTypeAlias.addJsDoc({
-        description: `\nRepresents a row from the "${tableName}" table.\nThis type is auto-generated from your Drizzle schema definition.\n\n@deprecated Use Row["${tableName}"] instead from "@rocicorp/zero".`,
+        description: `\nRepresents a row from the "${tableName}" table.\nThis type is auto-generated from your Drizzle schema definition.`,
       });
     }
   }
@@ -562,7 +607,7 @@ export function getGeneratedSchema({
 
     builderVariable.addJsDoc({
       description:
-        '\nRepresents the Zero schema query builder.\nThis type is auto-generated from your Drizzle schema definition.\n\n@deprecated Use `zql` instead.',
+        '\nRepresents the Zero schema query builder.\nThis type is auto-generated from your Drizzle schema definition.',
     });
   }
 
@@ -578,10 +623,11 @@ export function getGeneratedSchema({
     });
   }
 
-  if (readonlyJSONValueImported) {
+  // Import any @rocicorp/zero JSON types that were used
+  if (jsonTypesToImport.size > 0) {
     zeroSchemaGenerated.addImportDeclaration({
       moduleSpecifier: '@rocicorp/zero',
-      namedImports: [{name: 'ReadonlyJSONValue'}],
+      namedImports: Array.from(jsonTypesToImport).map(name => ({name})),
       isTypeOnly: true,
     });
   }
