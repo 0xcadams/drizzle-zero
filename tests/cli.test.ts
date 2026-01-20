@@ -1168,6 +1168,70 @@ describe('getGeneratedSchema', () => {
     );
   });
 
+  it('should handle reserved TypeScript type names by adding Row suffix', () => {
+    const zeroSchemaTypeDecl = getZeroSchemaDefsFromConfig({
+      tsProject,
+      configPath: schemaPath,
+      exportName: 'schema',
+    });
+
+    const generatedSchema = getGeneratedSchema({
+      tsProject,
+      result: {
+        type: 'config',
+        zeroSchema: {
+          tables: {
+            // "records" singular -> "Record" which is a reserved TypeScript type
+            records: {
+              name: 'records',
+              primaryKey: ['id'],
+              columns: {
+                id: {type: 'number', optional: false, customType: undefined},
+                data: {type: 'string', optional: false, customType: undefined},
+              },
+            },
+            // "arrays" singular -> "Array" which is a reserved TypeScript type
+            arrays: {
+              name: 'arrays',
+              primaryKey: ['id'],
+              columns: {
+                id: {type: 'number', optional: false, customType: undefined},
+              },
+            },
+            // "users" -> "User" which is NOT reserved, should remain unchanged
+            users: {
+              name: 'users',
+              primaryKey: ['id'],
+              columns: {
+                id: {type: 'number', optional: false, customType: undefined},
+              },
+            },
+          },
+          relationships: {},
+        },
+        exportName: 'schema',
+        zeroSchemaTypeDeclarations: zeroSchemaTypeDecl,
+      },
+      outputFilePath,
+    });
+
+    // Reserved type names should have "Row" suffix to avoid shadowing built-in types
+    expect(generatedSchema).not.toContain('export type Record =');
+    expect(generatedSchema).toContain(
+      'export type RecordRow = Row<(typeof schema)["tables"]["records"]>;',
+    );
+
+    expect(generatedSchema).not.toContain('export type Array =');
+    expect(generatedSchema).toContain(
+      'export type ArrayRow = Row<(typeof schema)["tables"]["arrays"]>;',
+    );
+
+    // Non-reserved type names should remain unchanged
+    expect(generatedSchema).toContain(
+      'export type User = Row<(typeof schema)["tables"]["users"]>;',
+    );
+  });
+
   it('should include all new features in drizzle-kit type schemas', () => {
     // Mock the DrizzleToZeroSchema type
     vi.mock('drizzle-zero', () => ({

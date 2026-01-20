@@ -10,6 +10,41 @@ import type {getConfigFromFile} from './config';
 import type {getDefaultConfig} from './drizzle-kit';
 import {COLUMN_SEPARATOR, resolveCustomTypes} from './type-resolution';
 
+/**
+ * Reserved TypeScript type names that should not be used for generated row types.
+ * These would shadow built-in types and cause conflicts.
+ */
+const RESERVED_TYPE_NAMES = new Set([
+  // Built-in global types
+  'Array',
+  'Boolean',
+  'Date',
+  'Error',
+  'Function',
+  'Map',
+  'Number',
+  'Object',
+  'Promise',
+  'Record',
+  'Set',
+  'String',
+  'Symbol',
+  'WeakMap',
+  'WeakSet',
+  // Common utility types
+  'Partial',
+  'Required',
+  'Readonly',
+  'Pick',
+  'Omit',
+  'Exclude',
+  'Extract',
+  'NonNullable',
+  'Parameters',
+  'ReturnType',
+  'InstanceType',
+]);
+
 export function getGeneratedSchema({
   tsProject,
   result,
@@ -514,8 +549,13 @@ export function getGeneratedSchema({
         pascalCase: true,
       });
 
+      // Avoid shadowing built-in TypeScript types
+      const safeTypeName = RESERVED_TYPE_NAMES.has(typeName)
+        ? `${typeName}Row`
+        : typeName;
+
       const tableTypeAlias = zeroSchemaGenerated.addTypeAlias({
-        name: typeName,
+        name: safeTypeName,
         isExported: true,
         type: `Row<(typeof ${schemaObjectName})["tables"]["${tableName}"]>`,
       });

@@ -290,8 +290,9 @@ export const isSafeResolvedType = (typeText: string | undefined): boolean => {
     return false;
   }
 
-  // Special case: ReadonlyJSONValue and ReadonlyJSONObject are safe
-  if (typeText === 'ReadonlyJSONValue' || typeText === 'ReadonlyJSONObject') {
+  // Special case: ReadonlyJSONValue is safe (auto-imported by the generator)
+  // ReadonlyJSONObject falls back to ZeroCustomType since it's not auto-imported
+  if (typeText === 'ReadonlyJSONValue') {
     return true;
   }
 
