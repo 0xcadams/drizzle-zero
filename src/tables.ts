@@ -11,7 +11,7 @@ import {
   table as zeroTable,
 } from '@rocicorp/zero';
 import type {Table} from 'drizzle-orm';
-import {getTableColumns, getTableName} from 'drizzle-orm';
+import {getColumns, getTableName} from 'drizzle-orm';
 import {toCamelCase, toSnakeCase} from 'drizzle-orm/casing';
 import {getTableConfigForDatabase} from './db';
 import {
@@ -220,7 +220,7 @@ const createZeroTableBuilder = <
   suppressDefaultsWarning?: boolean,
 ): ZeroTableBuilder<TTableName, TTable, TColumnConfig> => {
   const actualTableName = getTableName(table);
-  const tableColumns = getTableColumns(table);
+  const tableColumns = getColumns(table);
   const tableConfig = getTableConfigForDatabase(table);
 
   const columnNameToStableKey = new Map<string, string>(
@@ -407,7 +407,7 @@ const getDrizzleColumnKeyFromColumnName = ({
   columnName: string;
   table: Table;
 }) => {
-  const tableColumns = getTableColumns(table);
+  const tableColumns = getColumns(table);
 
   return typedEntries(tableColumns).find(
     ([_name, column]) => column.name === columnName,
