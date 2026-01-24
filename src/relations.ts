@@ -1,14 +1,13 @@
 import {createSchema} from '@rocicorp/zero';
 import type {Many} from 'drizzle-orm';
 import {
-  createTableRelationsHelpers,
   getTableName,
   getTableUniqueName,
   is,
   One,
-  Relations,
   Table,
 } from 'drizzle-orm';
+import { createTableRelationsHelpers, Relations } from "drizzle-orm/_relations";
 import type {
   DrizzleColumnTypeToZeroType,
   DrizzleDataTypeToZeroType,
